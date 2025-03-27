@@ -23,6 +23,7 @@ Partial Class formTabeliVaade
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.dgvTabeliVaade = New System.Windows.Forms.DataGridView()
+        Me.Label1 = New System.Windows.Forms.Label()
         CType(Me.dgvTabeliVaade, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -31,21 +32,33 @@ Partial Class formTabeliVaade
         Me.dgvTabeliVaade.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dgvTabeliVaade.Location = New System.Drawing.Point(12, 12)
         Me.dgvTabeliVaade.Name = "dgvTabeliVaade"
-        Me.dgvTabeliVaade.Size = New System.Drawing.Size(776, 426)
+        Me.dgvTabeliVaade.Size = New System.Drawing.Size(776, 385)
         Me.dgvTabeliVaade.TabIndex = 0
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(373, 404)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(34, 13)
+        Me.Label1.TabIndex = 1
+        Me.Label1.Text = "Tabel"
         '
         'formTabeliVaade
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(800, 450)
+        Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.dgvTabeliVaade)
         Me.Name = "formTabeliVaade"
         Me.Text = "Form1"
         CType(Me.dgvTabeliVaade, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
 
     Friend WithEvents dgvTabeliVaade As DataGridView
+    Friend WithEvents Label1 As Label
 End Class
