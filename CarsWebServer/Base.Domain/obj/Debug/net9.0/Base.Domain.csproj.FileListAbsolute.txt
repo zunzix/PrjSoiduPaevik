@@ -1,0 +1,11 @@
+C:\Users\rallu\Dev\temp\WebServer\CarsWebServer\Base.Domain\bin\Debug\net9.0\Base.Domain.deps.json
+C:\Users\rallu\Dev\temp\WebServer\CarsWebServer\Base.Domain\bin\Debug\net9.0\Base.Domain.dll
+C:\Users\rallu\Dev\temp\WebServer\CarsWebServer\Base.Domain\bin\Debug\net9.0\Base.Domain.pdb
+C:\Users\rallu\Dev\temp\WebServer\CarsWebServer\Base.Domain\obj\Debug\net9.0\Base.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\rallu\Dev\temp\WebServer\CarsWebServer\Base.Domain\obj\Debug\net9.0\Base.Domain.AssemblyInfoInputs.cache
+C:\Users\rallu\Dev\temp\WebServer\CarsWebServer\Base.Domain\obj\Debug\net9.0\Base.Domain.AssemblyInfo.cs
+C:\Users\rallu\Dev\temp\WebServer\CarsWebServer\Base.Domain\obj\Debug\net9.0\Base.Domain.csproj.CoreCompileInputs.cache
+C:\Users\rallu\Dev\temp\WebServer\CarsWebServer\Base.Domain\obj\Debug\net9.0\Base.Domain.dll
+C:\Users\rallu\Dev\temp\WebServer\CarsWebServer\Base.Domain\obj\Debug\net9.0\refint\Base.Domain.dll
+C:\Users\rallu\Dev\temp\WebServer\CarsWebServer\Base.Domain\obj\Debug\net9.0\Base.Domain.pdb
+C:\Users\rallu\Dev\temp\WebServer\CarsWebServer\Base.Domain\obj\Debug\net9.0\ref\Base.Domain.dll
