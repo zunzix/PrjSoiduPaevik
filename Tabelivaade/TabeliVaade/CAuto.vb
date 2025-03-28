@@ -2,6 +2,7 @@
     Implements IAuto
 
     ' Shared laseb muutujat jagada kõigi CAuto objektide vahel
+    ' Integeri asemel GUID.
     Private Shared nextID As Integer = 0
 
     Public Property ID As Integer Implements IAuto.ID
