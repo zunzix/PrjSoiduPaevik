@@ -1,7 +1,7 @@
 ﻿Imports System.ComponentModel
 
 Public Class formTabeliVaade
-    Private autodList As New BindingList(Of CAuto)()
+    Public autodList As New BindingList(Of CAuto)()
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ' Manuaalne autode lisamine, asendme hiljem JSON faili lugemisega
