@@ -2,7 +2,7 @@
 
 Public Class formTabeliVaade
     Public autodList As New BindingList(Of CAuto)()
-
+    Private carAddSub As CCarAddSub
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ' Manuaalne autode lisamine, asendme hiljem JSON faili lugemisega
         autodList.Add(New CAuto(1, "Peugot 206", 178989, 11.2, True, False))
@@ -10,5 +10,6 @@ Public Class formTabeliVaade
         autodList.Add(New CAuto(1, "Ford Focus", 9999, 7.5, True, False))
 
         dgvTabeliVaade.DataSource = autodList
+        carAddSub = New CCarAddSub(autodList)
     End Sub
 End Class
