@@ -20,19 +20,22 @@ Public Class CCarAddSub
         End Set
     End Property
 
-    Public Function ArchiveData(ChosenCarID As Guid) _
+    Public Function ArchiveData(ChosenCarID As Integer) _
         As Boolean Implements ICarAddSub.ArchiveData
-        If _list.Contains(ChosenCarID) Then
-            _list(_list.IndexOf(ChosenCarID)).IsArchived = False
-            Return True
-
+        If _list.Count > 0 Then
+            For i As Integer = 0 To _list.Count - 1
+                If _list(i).ID = ChosenCarID Then
+                    _list(i).IsArchived = True
+                    Return True
+                End If
+            Next
         ElseIf _list.Count = 0 Then
-            Return False
+                Return False
         End If
         Return False
     End Function
 
-    Public Function UnarchiveData(ChosenCarID As Guid) _
+    Public Function UnarchiveData(ChosenCarID As Integer) _
         As Boolean Implements ICarAddSub.UnarchiveData
         If _list.Contains(ChosenCarID) Then
             _list(_list.IndexOf(ChosenCarID)).IsArchived = False
@@ -44,7 +47,7 @@ Public Class CCarAddSub
         Return False
     End Function
 
-    Public Function DeleteCar(ChosenCarID As Guid) _
+    Public Function DeleteCar(ChosenCarID As Integer) _
         As Boolean Implements ICarAddSub.DeleteCar
         If _list.Count = 0 Then
             Return False
@@ -55,13 +58,13 @@ Public Class CCarAddSub
         Return False
     End Function
 
-    Public Function AddCar(carID As Guid, groupID As Guid, carName As String,
+    Public Function AddCar(groupID As Integer, carName As String,
                            mileage As Double, avgFuelCons As Double,
                            isAvailable As Boolean, isArchived As Boolean) _
                            As Boolean Implements ICarAddSub.AddCar
         Try 'üks muutuja liialt praegu, arvan, et peaks CAuto klassi lisama ka auto ID muutuja.
 
-            _list.Add(New CAuto(carID, groupID, carName, mileage,
+            _list.Add(New CAuto(groupID, carName, mileage,
                                avgFuelCons, isAvailable, isArchived))
 
         Catch ex As Exception
