@@ -23,6 +23,10 @@ Public Class formTabeliVaade
     'Description: React to the changes in the DataGridView
     Private Sub dgvTabeliVaade_CellValueChanged(sender As Object, e As DataGridViewCellEventArgs) _
         Handles dgvTabeliVaade.CellValueChanged
+        ' Check if the clicked cell is in the button column not the header
+        If e.RowIndex < 0 Then
+            Return
+        End If
         'Define the reference to the ICarAddSub interface
         Dim Change As ICarAddSub
         Change = New CCarAddSub
@@ -75,7 +79,11 @@ Public Class formTabeliVaade
 
     Private Sub dgvTabeliVaade_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) _
         Handles dgvTabeliVaade.CellContentClick
-        ' Get the ID of the car that was klicked
+        ' Check if the clicked cell is in the button column not the header
+        If e.RowIndex < 0 Then
+            Return
+        End If
+        ' Get the ID of the car that was clicked
         Dim carID = CType(dgvTabeliVaade.Rows(e.RowIndex).DataBoundItem, CAuto).ID
         'Define the reference to the ICarAddSub interface
         Dim Change As ICarAddSub
@@ -84,6 +92,9 @@ Public Class formTabeliVaade
         If e.ColumnIndex = dgvTabeliVaade.Columns("DeleteButton").Index Then
             done = Change.DeleteCar(carID)
             If done Then
+                ' Force garbage collection
+                GC.Collect()
+                GC.WaitForPendingFinalizers()
                 If DEBUG Then
                     MessageBox.Show("Operation successful")
                 End If
