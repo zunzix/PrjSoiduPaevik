@@ -74,6 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CAuto.vb" />
+    <Compile Include="CTabelReader.vb" />
     <Compile Include="formTabeliVaade.vb">
       <SubType>Form</SubType>
     </Compile>
