@@ -40,6 +40,7 @@ Public Class formTabeliVaade
             If dgvTabeliVaade.Rows(e.RowIndex).Cells("IsArchived").Value = True Then
                 done = Change.ArchiveData(carID)
             Else
+                ''Siin küsida ka põhjus, miks unarchive ja lisada see andmebaasi
                 done = Change.UnarchiveData(carID)
             End If
             If done Then
@@ -101,6 +102,25 @@ Public Class formTabeliVaade
             Else
                 MessageBox.Show("Operation failed")
             End If
+        End If
+    End Sub
+
+    Private Sub btnAdd_MouseClick(sender As Object, e As MouseEventArgs) _
+        Handles btnAdd.MouseClick
+        'Define the reference to the ICarAddSub interface
+        Dim Change As ICarAddSub
+        Change = New CCarAddSub
+        Dim done As Boolean
+        done = Change.AddCar(4, "1955 Mercedes-Benz 300 SLR Uhlenhaut Coupe", 80085, 35, True, False)
+        If done Then
+            ' Force garbage collection
+            GC.Collect()
+            GC.WaitForPendingFinalizers()
+            If DEBUG Then
+                MessageBox.Show("Operation successful")
+            End If
+        Else
+            MessageBox.Show("Operation failed")
         End If
     End Sub
 End Class
