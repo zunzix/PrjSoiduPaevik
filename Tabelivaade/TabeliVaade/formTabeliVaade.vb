@@ -21,6 +21,7 @@ Public Class formTabeliVaade
         dgvTabeliVaade.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
     End Sub
     'Description: React to the changes in the DataGridView
+    'Debug return: Operation successful or Operation failed
     Private Sub dgvTabeliVaade_CellValueChanged(sender As Object, e As DataGridViewCellEventArgs) _
         Handles dgvTabeliVaade.CellValueChanged
         ' Check if the clicked cell is in the button column not the header
@@ -71,6 +72,7 @@ Public Class formTabeliVaade
     'End Sub
 
     'Description: Commits uncommited changes in the DataGridView
+    'Debug return: Operation successful or Operation failed
     ''(võibolla peaks määrama selle ainult boolean veergudele, ei tea veel)
     Private Sub dgvTabeliVaade_CurrentCellDirtyStateChanged(sender As Object, e As EventArgs) Handles dgvTabeliVaade.CurrentCellDirtyStateChanged
         If dgvTabeliVaade.IsCurrentCellDirty Then
@@ -78,6 +80,11 @@ Public Class formTabeliVaade
         End If
     End Sub
 
+    'Description: Checks if the clicked cell is in the button column,
+    '             If click is in the - column, then deletes the car from the list.
+    '             Uses garbage collection to free up memory.
+    ''saab lisada veerge, kus on nupp, et saaks ka teisi asju teha
+    'Debug return: Operation successful or Operation failed
     Private Sub dgvTabeliVaade_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) _
         Handles dgvTabeliVaade.CellContentClick
         ' Check if the clicked cell is in the button column not the header
@@ -105,13 +112,114 @@ Public Class formTabeliVaade
         End If
     End Sub
 
+    'Description: Add new car to the list
+    '             Uses garbage collection to free up memory.
+    'Returns: MessageBox if the operation failed
+    'Debug returns: MessageBox if the operation was successful
     Private Sub btnAdd_MouseClick(sender As Object, e As MouseEventArgs) _
         Handles btnAdd.MouseClick
-        'Define the reference to the ICarAddSub interface
+        ''gpt poolt tehtud popup, parem teha ise uus form mis küsib andmeid
+        '' Create a new form to ask for car input data
+        'Dim inputForm As New Form With {
+        '    .Text = "Car Input",
+        '    .Size = New Size(300, 300)
+        '}
+
+        '' Create labels and textboxes for each input field
+        'Dim lblDescription As New Label With {.Text = "Description", .Location = New Point(10, 10)}
+        'Dim txtDescription As New TextBox With {.Location = New Point(100, 10), .Width = 150}
+        'Dim lblID As New Label With {.Text = "ID", .Location = New Point(10, 40)}
+        'Dim txtID As New TextBox With {.Location = New Point(100, 40), .Width = 150}
+        'Dim lblPrice As New Label With {.Text = "Price", .Location = New Point(10, 70)}
+        'Dim txtPrice As New TextBox With {.Location = New Point(100, 70), .Width = 150}
+        'Dim lblQuantity As New Label With {.Text = "Quantity", .Location = New Point(10, 100)}
+        'Dim txtQuantity As New TextBox With {.Location = New Point(100, 100), .Width = 150}
+        'Dim lblIsNew As New Label With {.Text = "Is New", .Location = New Point(10, 130)}
+        'Dim txtIsNew As New TextBox With {.Location = New Point(100, 130), .Width = 150}
+        'Dim lblIsArchived As New Label With {.Text = "Is Archived", .Location = New Point(10, 160)}
+        'Dim txtIsArchived As New TextBox With {.Location = New Point(100, 160), .Width = 150}
+
+        '' Create OK and Cancel buttons
+        'Dim btnOK As New Button With {.Text = "OK", .Location = New Point(50, 200)}
+        'Dim btnCancel As New Button With {.Text = "Cancel", .Location = New Point(150, 200)}
+
+        '' Add controls to the form
+        'inputForm.Controls.Add(lblDescription)
+        'inputForm.Controls.Add(txtDescription)
+        'inputForm.Controls.Add(lblID)
+        'inputForm.Controls.Add(txtID)
+        'inputForm.Controls.Add(lblPrice)
+        'inputForm.Controls.Add(txtPrice)
+        'inputForm.Controls.Add(lblQuantity)
+        'inputForm.Controls.Add(txtQuantity)
+        'inputForm.Controls.Add(lblIsNew)
+        'inputForm.Controls.Add(txtIsNew)
+        'inputForm.Controls.Add(lblIsArchived)
+        'inputForm.Controls.Add(txtIsArchived)
+        'inputForm.Controls.Add(btnOK)
+        'inputForm.Controls.Add(btnCancel)
+
+        '' Show the form as a dialog
+        'Dim result As DialogResult = inputForm.ShowDialog()
+
+        '' Check if the user clicked OK
+        'If result = DialogResult.OK Then
+        '    ' Get the input values
+        '    Dim carDescription As String = txtDescription.Text
+        '    Dim carID As String = txtID.Text
+        '    Dim carPrice As String = txtPrice.Text
+        '    Dim carQuantity As String = txtQuantity.Text
+        '    Dim carIsNew As String = txtIsNew.Text
+        '    Dim carIsArchived As String = txtIsArchived.Text
+
+        '    ' Check if the user provided all necessary inputs
+        '    If String.IsNullOrWhiteSpace(carDescription) OrElse
+        '       String.IsNullOrWhiteSpace(carID) OrElse
+        '       String.IsNullOrWhiteSpace(carPrice) OrElse
+        '       String.IsNullOrWhiteSpace(carQuantity) OrElse
+        '       String.IsNullOrWhiteSpace(carIsNew) OrElse
+        '       String.IsNullOrWhiteSpace(carIsArchived) Then
+        '        MessageBox.Show("All fields must be filled.")
+        '        Return
+        '    End If
+
+        '    ' Validate numeric inputs
+        '    Dim carIDValue As Integer
+        '    Dim carPriceValue As Decimal
+        '    Dim carQuantityValue As Integer
+        '    Dim carIsNewValue As Boolean
+        '    Dim carIsArchivedValue As Boolean
+
+        '    If Not Integer.TryParse(carID, carIDValue) Then
+        '        MessageBox.Show("Car ID must be a valid integer.")
+        '        Return
+        '    End If
+
+        '    If Not Decimal.TryParse(carPrice, carPriceValue) Then
+        '        MessageBox.Show("Car price must be a valid decimal number.")
+        '        Return
+        '    End If
+
+        '    If Not Integer.TryParse(carQuantity, carQuantityValue) Then
+        '        MessageBox.Show("Car quantity must be a valid integer.")
+        '        Return
+        '    End If
+
+        '    If Not Boolean.TryParse(carIsNew, carIsNewValue) Then
+        '        MessageBox.Show("Car Is New must be a valid boolean (True/False).")
+        '        Return
+        '    End If
+
+        '    If Not Boolean.TryParse(carIsArchived, carIsArchivedValue) Then
+        '        MessageBox.Show("Car Is Archived must be a valid boolean (True/False).")
+        '        Return
+        '    End If
+
+        ' Define the reference to the ICarAddSub interface
         Dim Change As ICarAddSub
         Change = New CCarAddSub
         Dim done As Boolean
-        done = Change.AddCar(4, "1955 Mercedes-Benz 300 SLR Uhlenhaut Coupe", 80085, 35, True, False)
+        done = Change.AddCar(4, "1955 Mercedes-Benz 300 SLR Uhlenhaut Coupe", 80085, 35, False, True)
         If done Then
             ' Force garbage collection
             GC.Collect()
@@ -122,5 +230,6 @@ Public Class formTabeliVaade
         Else
             MessageBox.Show("Operation failed")
         End If
+        'End If
     End Sub
 End Class
