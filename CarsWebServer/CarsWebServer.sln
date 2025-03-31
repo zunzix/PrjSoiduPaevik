@@ -5,7 +5,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "!Solution Items", "!Solution Items", "{0135D863-2896-4114-9DA4-05A5347EBCF2}"
 	ProjectSection(SolutionItems) = preProject
 		readme.txt = readme.txt
-		Directory.Build.props = Directory.Build.props
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "APP", "APP", "{E7275683-D110-4735-BC2E-CB02D551A974}"

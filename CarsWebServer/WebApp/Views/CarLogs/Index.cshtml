@@ -16,7 +16,7 @@
                 @Html.DisplayNameFor(model => model.Car)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AuthorId)
+                @Html.DisplayNameFor(model => model.Person)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.StartDate)
@@ -43,10 +43,10 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Car!.Name)
+                @Html.DisplayFor(modelItem => item.Car.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.AuthorId)
+                @Html.DisplayFor(modelItem => item.Person.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.StartDate)

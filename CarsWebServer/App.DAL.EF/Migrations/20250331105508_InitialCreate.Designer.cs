@@ -12,7 +12,7 @@ using WebApp.Data;
 namespace App.DAL.EF.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250331085419_InitialCreate")]
+    [Migration("20250331105508_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -115,9 +115,6 @@ namespace App.DAL.EF.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("AuthorId")
-                        .HasColumnType("uuid");
-
                     b.Property<Guid>("CarId")
                         .HasColumnType("uuid");
 
@@ -137,7 +134,7 @@ namespace App.DAL.EF.Migrations
                         .HasMaxLength(64)
                         .HasColumnType("character varying(64)");
 
-                    b.Property<Guid?>("PersonId")
+                    b.Property<Guid>("PersonId")
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("StartDate")
@@ -185,10 +182,7 @@ namespace App.DAL.EF.Migrations
                     b.Property<bool>("IsAdmin")
                         .HasColumnType("boolean");
 
-                    b.Property<Guid?>("PersonId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid>("PersonId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
@@ -459,7 +453,9 @@ namespace App.DAL.EF.Migrations
 
                     b.HasOne("App.Domain.Person", "Person")
                         .WithMany("CarLogs")
-                        .HasForeignKey("PersonId");
+                        .HasForeignKey("PersonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Car");
 
@@ -476,7 +472,9 @@ namespace App.DAL.EF.Migrations
 
                     b.HasOne("App.Domain.Person", "Person")
                         .WithMany("GroupMembers")
-                        .HasForeignKey("PersonId");
+                        .HasForeignKey("PersonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Group");
 

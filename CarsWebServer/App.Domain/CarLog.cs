@@ -8,7 +8,7 @@ public class CarLog : BaseEntity
     public Guid CarId { get; set; }
     public Car? Car { get; set; }
     
-    public Guid AuthorId { get; set; }
+    public Guid PersonId { get; set; }
     public Person? Person { get; set; }
     
     public DateTime StartDate { get; set; }

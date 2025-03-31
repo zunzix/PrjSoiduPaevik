@@ -22,7 +22,7 @@ namespace WebApp.Controllers
         // GET: CarLogs
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.CarLogs.Include(c => c.Car);
+            var appDbContext = _context.CarLogs.Include(c => c.Car).Include(c => c.Person);
             return View(await appDbContext.ToListAsync());
         }
 
@@ -36,6 +36,7 @@ namespace WebApp.Controllers
 
             var carLog = await _context.CarLogs
                 .Include(c => c.Car)
+                .Include(c => c.Person)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (carLog == null)
             {
@@ -49,6 +50,7 @@ namespace WebApp.Controllers
         public IActionResult Create()
         {
             ViewData["CarId"] = new SelectList(_context.Cars, "Id", "Name");
+            ViewData["PersonId"] = new SelectList(_context.People, "Id", "Name");
             return View();
         }
 
@@ -57,12 +59,12 @@ namespace WebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CarId,AuthorId,StartDate,EndDate,StartPoint,EndPoint,Distance,Comment,Id")] CarLog carLog)
+        public async Task<IActionResult> Create([Bind("CarId,PersonId,StartDate,EndDate,StartPoint,EndPoint,Distance,Comment,Id")] CarLog carLog)
         {
             if (ModelState.IsValid)
             {
-                carLog.EndDate = DateTime.SpecifyKind(carLog.EndDate, DateTimeKind.Utc);
                 carLog.StartDate = DateTime.SpecifyKind(carLog.StartDate, DateTimeKind.Utc);
+                carLog.EndDate = DateTime.SpecifyKind(carLog.EndDate, DateTimeKind.Utc);
                 
                 carLog.Id = Guid.NewGuid();
                 _context.Add(carLog);
@@ -70,6 +72,7 @@ namespace WebApp.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CarId"] = new SelectList(_context.Cars, "Id", "Name", carLog.CarId);
+            ViewData["PersonId"] = new SelectList(_context.People, "Id", "Name", carLog.PersonId);
             return View(carLog);
         }
 
@@ -87,6 +90,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
             ViewData["CarId"] = new SelectList(_context.Cars, "Id", "Name", carLog.CarId);
+            ViewData["PersonId"] = new SelectList(_context.People, "Id", "Name", carLog.PersonId);
             return View(carLog);
         }
 
@@ -95,7 +99,7 @@ namespace WebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("CarId,AuthorId,StartDate,EndDate,StartPoint,EndPoint,Distance,Comment,Id")] CarLog carLog)
+        public async Task<IActionResult> Edit(Guid id, [Bind("CarId,PersonId,StartDate,EndDate,StartPoint,EndPoint,Distance,Comment,Id")] CarLog carLog)
         {
             if (id != carLog.Id)
             {
@@ -123,6 +127,7 @@ namespace WebApp.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CarId"] = new SelectList(_context.Cars, "Id", "Name", carLog.CarId);
+            ViewData["PersonId"] = new SelectList(_context.People, "Id", "Name", carLog.PersonId);
             return View(carLog);
         }
 
@@ -136,6 +141,7 @@ namespace WebApp.Controllers
 
             var carLog = await _context.CarLogs
                 .Include(c => c.Car)
+                .Include(c => c.Person)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (carLog == null)
             {

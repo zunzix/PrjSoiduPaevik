@@ -210,8 +210,7 @@ namespace App.DAL.EF.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     GroupId = table.Column<Guid>(type: "uuid", nullable: false),
-                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
-                    PersonId = table.Column<Guid>(type: "uuid", nullable: true),
+                    PersonId = table.Column<Guid>(type: "uuid", nullable: false),
                     IsAdmin = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
@@ -227,7 +226,8 @@ namespace App.DAL.EF.Migrations
                         name: "FK_GroupMembers_People_PersonId",
                         column: x => x.PersonId,
                         principalTable: "People",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -277,8 +277,7 @@ namespace App.DAL.EF.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     CarId = table.Column<Guid>(type: "uuid", nullable: false),
-                    AuthorId = table.Column<Guid>(type: "uuid", nullable: false),
-                    PersonId = table.Column<Guid>(type: "uuid", nullable: true),
+                    PersonId = table.Column<Guid>(type: "uuid", nullable: false),
                     StartDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     EndDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     StartPoint = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: false),
@@ -299,7 +298,8 @@ namespace App.DAL.EF.Migrations
                         name: "FK_CarLogs_People_PersonId",
                         column: x => x.PersonId,
                         principalTable: "People",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

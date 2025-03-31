@@ -28,4 +28,17 @@
       <ProjectReference Include="..\Base.Resources\Base.Resources.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Views\CarLogs\Create.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\CarLogs\Delete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\CarLogs\Details.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\CarLogs\Edit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\CarLogs\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\GroupMembers\Create.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\GroupMembers\Delete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\GroupMembers\Details.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\GroupMembers\Edit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\GroupMembers\Index.cshtml" />
+    </ItemGroup>
+
 </Project>
