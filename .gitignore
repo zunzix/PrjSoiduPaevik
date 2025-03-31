@@ -4,3 +4,7 @@
 
 /.vs
 /Tabelivaade/.vs/Tabelivaade
+bin/
+obj/
+*.suo
+*.user
