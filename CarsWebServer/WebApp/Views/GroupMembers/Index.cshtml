@@ -28,7 +28,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Group.Name)
+                @Html.DisplayFor(modelItem => item.Group!.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.UserId)

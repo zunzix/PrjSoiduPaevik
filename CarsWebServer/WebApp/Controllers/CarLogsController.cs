@@ -61,6 +61,9 @@ namespace WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
+                carLog.EndDate = DateTime.SpecifyKind(carLog.EndDate, DateTimeKind.Utc);
+                carLog.StartDate = DateTime.SpecifyKind(carLog.StartDate, DateTimeKind.Utc);
+                
                 carLog.Id = Guid.NewGuid();
                 _context.Add(carLog);
                 await _context.SaveChangesAsync();
