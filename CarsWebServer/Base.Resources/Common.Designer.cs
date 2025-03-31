@@ -60,6 +60,15 @@ namespace Base.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Väli {0} peab olema sõne või massiiv miinimum pikkusega &apos;{1}&apos;..
+        /// </summary>
+        public static string MaxLength {
+            get {
+                return ResourceManager.GetString("MaxLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Privaatsus.
         /// </summary>
         public static string Privacy {

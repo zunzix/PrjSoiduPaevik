@@ -29,4 +29,7 @@
     <data name="Name" xml:space="preserve">
         <value>Name</value>
     </data>
+    <data name="Cars" xml:space="preserve">
+        <value>Cars</value>
+    </data>
 </root>

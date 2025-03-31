@@ -16,3 +16,15 @@ C:\Users\rallu\Dev\temp\PrjSoiduPaevik\CarsWebServer\App.Resources\obj\Debug\net
 C:\Users\rallu\Dev\temp\PrjSoiduPaevik\CarsWebServer\App.Resources\obj\Debug\net9.0\App.Resources.csproj.GenerateResource.cache
 C:\Users\rallu\Dev\temp\PrjSoiduPaevik\CarsWebServer\App.Resources\obj\Debug\net9.0\en\App.Resources.resources.cs
 C:\Users\rallu\Dev\temp\PrjSoiduPaevik\CarsWebServer\App.Resources\obj\Debug\net9.0\en\App.Resources.resources.dll
+C:\Users\rallu\Dev\temp\PrjSoiduPaevik\CarsWebServer\App.Resources\obj\Debug\net9.0\App.Resources.Domain.CarInsurance.resources
+C:\Users\rallu\Dev\temp\PrjSoiduPaevik\CarsWebServer\App.Resources\obj\Debug\net9.0\App.Resources.Domain.CarIssue.resources
+C:\Users\rallu\Dev\temp\PrjSoiduPaevik\CarsWebServer\App.Resources\obj\Debug\net9.0\App.Resources.Domain.CarLog.resources
+C:\Users\rallu\Dev\temp\PrjSoiduPaevik\CarsWebServer\App.Resources\obj\Debug\net9.0\App.Resources.Domain.Group.resources
+C:\Users\rallu\Dev\temp\PrjSoiduPaevik\CarsWebServer\App.Resources\obj\Debug\net9.0\App.Resources.Domain.GroupMember.resources
+C:\Users\rallu\Dev\temp\PrjSoiduPaevik\CarsWebServer\App.Resources\obj\Debug\net9.0\App.Resources.Domain.Person.resources
+C:\Users\rallu\Dev\temp\PrjSoiduPaevik\CarsWebServer\App.Resources\obj\Debug\net9.0\App.Resources.Domain.CarInsurance.en.resources
+C:\Users\rallu\Dev\temp\PrjSoiduPaevik\CarsWebServer\App.Resources\obj\Debug\net9.0\App.Resources.Domain.CarIssue.en.resources
+C:\Users\rallu\Dev\temp\PrjSoiduPaevik\CarsWebServer\App.Resources\obj\Debug\net9.0\App.Resources.Domain.CarLog.en.resources
+C:\Users\rallu\Dev\temp\PrjSoiduPaevik\CarsWebServer\App.Resources\obj\Debug\net9.0\App.Resources.Domain.Group.en.resources
+C:\Users\rallu\Dev\temp\PrjSoiduPaevik\CarsWebServer\App.Resources\obj\Debug\net9.0\App.Resources.Domain.GroupMember.en.resources
+C:\Users\rallu\Dev\temp\PrjSoiduPaevik\CarsWebServer\App.Resources\obj\Debug\net9.0\App.Resources.Domain.Person.en.resources

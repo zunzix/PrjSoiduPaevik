@@ -11,7 +11,7 @@ public class Car : BaseEntity
     public Group? Group { get; set; }
     
     
-    [MaxLength(64)]
+    [MaxLength(64, ErrorMessageResourceType = typeof(Base.Resources.Common), ErrorMessageResourceName = "MaxLength")]
     [Display(Name = nameof(Name), Prompt = nameof(Name), ResourceType = typeof(App.Resources.Domain.Car))]
     public string Name { get; set; } = null!;
     
