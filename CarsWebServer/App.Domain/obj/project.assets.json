@@ -2,6 +2,16 @@
   "version": 3,
   "targets": {
     "net9.0": {
+      "App.Resources/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v9.0",
+        "compile": {
+          "bin/placeholder/App.Resources.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/App.Resources.dll": {}
+        }
+      },
       "Base.Domain/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v9.0",
@@ -11,19 +21,41 @@
         "runtime": {
           "bin/placeholder/Base.Domain.dll": {}
         }
+      },
+      "Base.Resources/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v9.0",
+        "compile": {
+          "bin/placeholder/Base.Resources.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Base.Resources.dll": {}
+        }
       }
     }
   },
   "libraries": {
+    "App.Resources/1.0.0": {
+      "type": "project",
+      "path": "../App.Resources/App.Resources.csproj",
+      "msbuildProject": "../App.Resources/App.Resources.csproj"
+    },
     "Base.Domain/1.0.0": {
       "type": "project",
       "path": "../Base.Domain/Base.Domain.csproj",
       "msbuildProject": "../Base.Domain/Base.Domain.csproj"
+    },
+    "Base.Resources/1.0.0": {
+      "type": "project",
+      "path": "../Base.Resources/Base.Resources.csproj",
+      "msbuildProject": "../Base.Resources/Base.Resources.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net9.0": [
-      "Base.Domain >= 1.0.0"
+      "App.Resources >= 1.0.0",
+      "Base.Domain >= 1.0.0",
+      "Base.Resources >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -58,8 +90,14 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
+            "C:\\Users\\rallu\\Dev\\temp\\PrjSoiduPaevik\\CarsWebServer\\App.Resources\\App.Resources.csproj": {
+              "projectPath": "C:\\Users\\rallu\\Dev\\temp\\PrjSoiduPaevik\\CarsWebServer\\App.Resources\\App.Resources.csproj"
+            },
             "C:\\Users\\rallu\\Dev\\temp\\PrjSoiduPaevik\\CarsWebServer\\Base.Domain\\Base.Domain.csproj": {
               "projectPath": "C:\\Users\\rallu\\Dev\\temp\\PrjSoiduPaevik\\CarsWebServer\\Base.Domain\\Base.Domain.csproj"
+            },
+            "C:\\Users\\rallu\\Dev\\temp\\PrjSoiduPaevik\\CarsWebServer\\Base.Resources\\Base.Resources.csproj": {
+              "projectPath": "C:\\Users\\rallu\\Dev\\temp\\PrjSoiduPaevik\\CarsWebServer\\Base.Resources\\Base.Resources.csproj"
             }
           }
         }

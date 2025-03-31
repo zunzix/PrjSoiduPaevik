@@ -854,3 +854,9 @@ C:\Users\rallu\Dev\temp\PrjSoiduPaevik\CarsWebServer\WebApp\obj\Debug\net9.0\Web
 C:\Users\rallu\Dev\temp\PrjSoiduPaevik\CarsWebServer\WebApp\obj\Debug\net9.0\ref\WebApp.dll
 C:\Users\rallu\Dev\temp\PrjSoiduPaevik\CarsWebServer\WebApp\bin\Debug\net9.0\Npgsql.dll
 C:\Users\rallu\Dev\temp\PrjSoiduPaevik\CarsWebServer\WebApp\bin\Debug\net9.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll
+C:\Users\rallu\Dev\temp\PrjSoiduPaevik\CarsWebServer\WebApp\bin\Debug\net9.0\App.Resources.dll
+C:\Users\rallu\Dev\temp\PrjSoiduPaevik\CarsWebServer\WebApp\bin\Debug\net9.0\Base.Resources.dll
+C:\Users\rallu\Dev\temp\PrjSoiduPaevik\CarsWebServer\WebApp\bin\Debug\net9.0\App.Resources.pdb
+C:\Users\rallu\Dev\temp\PrjSoiduPaevik\CarsWebServer\WebApp\bin\Debug\net9.0\Base.Resources.pdb
+C:\Users\rallu\Dev\temp\PrjSoiduPaevik\CarsWebServer\WebApp\bin\Debug\net9.0\en\Base.Resources.resources.dll
+C:\Users\rallu\Dev\temp\PrjSoiduPaevik\CarsWebServer\WebApp\bin\Debug\net9.0\en\App.Resources.resources.dll

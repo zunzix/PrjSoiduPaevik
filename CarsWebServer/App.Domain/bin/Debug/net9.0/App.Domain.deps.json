@@ -8,10 +8,25 @@
     ".NETCoreApp,Version=v9.0": {
       "App.Domain/1.0.0": {
         "dependencies": {
-          "Base.Domain": "1.0.0"
+          "App.Resources": "1.0.0",
+          "Base.Domain": "1.0.0",
+          "Base.Resources": "1.0.0"
         },
         "runtime": {
           "App.Domain.dll": {}
+        }
+      },
+      "App.Resources/1.0.0": {
+        "runtime": {
+          "App.Resources.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        },
+        "resources": {
+          "en/App.Resources.resources.dll": {
+            "locale": "en"
+          }
         }
       },
       "Base.Domain/1.0.0": {
@@ -19,6 +34,19 @@
           "Base.Domain.dll": {
             "assemblyVersion": "1.0.0.0",
             "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "Base.Resources/1.0.0": {
+        "runtime": {
+          "Base.Resources.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        },
+        "resources": {
+          "en/Base.Resources.resources.dll": {
+            "locale": "en"
           }
         }
       }
@@ -30,7 +58,17 @@
       "serviceable": false,
       "sha512": ""
     },
+    "App.Resources/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
     "Base.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Base.Resources/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

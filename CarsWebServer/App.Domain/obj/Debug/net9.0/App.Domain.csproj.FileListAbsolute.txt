@@ -29,3 +29,9 @@ C:\Users\rallu\Dev\temp\PrjSoiduPaevik\CarsWebServer\App.Domain\obj\Debug\net9.0
 C:\Users\rallu\Dev\temp\PrjSoiduPaevik\CarsWebServer\App.Domain\obj\Debug\net9.0\refint\App.Domain.dll
 C:\Users\rallu\Dev\temp\PrjSoiduPaevik\CarsWebServer\App.Domain\obj\Debug\net9.0\App.Domain.pdb
 C:\Users\rallu\Dev\temp\PrjSoiduPaevik\CarsWebServer\App.Domain\obj\Debug\net9.0\ref\App.Domain.dll
+C:\Users\rallu\Dev\temp\PrjSoiduPaevik\CarsWebServer\App.Domain\bin\Debug\net9.0\App.Resources.dll
+C:\Users\rallu\Dev\temp\PrjSoiduPaevik\CarsWebServer\App.Domain\bin\Debug\net9.0\Base.Resources.dll
+C:\Users\rallu\Dev\temp\PrjSoiduPaevik\CarsWebServer\App.Domain\bin\Debug\net9.0\App.Resources.pdb
+C:\Users\rallu\Dev\temp\PrjSoiduPaevik\CarsWebServer\App.Domain\bin\Debug\net9.0\Base.Resources.pdb
+C:\Users\rallu\Dev\temp\PrjSoiduPaevik\CarsWebServer\App.Domain\bin\Debug\net9.0\en\App.Resources.resources.dll
+C:\Users\rallu\Dev\temp\PrjSoiduPaevik\CarsWebServer\App.Domain\bin\Debug\net9.0\en\Base.Resources.resources.dll
