@@ -8,10 +8,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <None Update="app.db" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true"/>
-    </ItemGroup>
-
-    <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="9.0.2"/>
         <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.2"/>
         <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="9.0.2"/>
@@ -19,6 +15,7 @@
         <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.0" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.2"/>
         <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="9.0.0" />
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.3" />
     </ItemGroup>
 
     <ItemGroup>
@@ -27,6 +24,21 @@
 
     <ItemGroup>
       <ProjectReference Include="..\App.DAL.EF\App.DAL.EF.csproj" />
+      <ProjectReference Include="..\App.Resources\App.Resources.csproj" />
+      <ProjectReference Include="..\Base.Resources\Base.Resources.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Views\CarLogs\Create.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\CarLogs\Delete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\CarLogs\Details.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\CarLogs\Edit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\CarLogs\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\GroupMembers\Create.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\GroupMembers\Delete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\GroupMembers\Details.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\GroupMembers\Edit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\GroupMembers\Index.cshtml" />
     </ItemGroup>
 
 </Project>
