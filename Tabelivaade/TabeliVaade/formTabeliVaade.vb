@@ -1,4 +1,5 @@
 ﻿Imports System.ComponentModel
+Imports System.Reflection
 Imports System.Security.Policy
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox
 Public Class formTabeliVaade
@@ -6,7 +7,46 @@ Public Class formTabeliVaade
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
+        ' Hide the "tabs" so that the user can't manually switch between them
+        tcTabs.Appearance = TabAppearance.FlatButtons
+        tcTabs.ItemSize = New Size(0, 1)
+        tcTabs.SizeMode = TabSizeMode.Fixed
+
         dgvTabeliVaade.DataSource = CTabelReader.GetInstance().autodList
+        Dim probleemid = CTabelReader.GetInstance().probleemidList
+
+        ' Add a section that shows whether a car has a problem or not
+        Dim problemIndicatorColumn As New DataGridViewTextBoxColumn()
+        problemIndicatorColumn.Name = "Problems"
+        problemIndicatorColumn.HeaderText = "Problems"
+        dgvTabeliVaade.Columns.Add(problemIndicatorColumn)
+
+        ' Goes through each row of data in dgvTabeliVaate to look for which cars have problems
+        For Each row As DataGridViewRow In dgvTabeliVaade.Rows
+            If Not row.IsNewRow Then
+
+                ' Gets a list of problems that the car with a certain ID has and keeps it as a list (in case there are more than 1)
+                Dim foundProblem As List(Of CAutoProbleem) = probleemid.Where(Function(c) c.CarID = row.Cells("ID").Value).ToList()
+
+                ' In case there are problems, we go through and mark out whether they're critical or not
+                If foundProblem.Any() Then
+                    For Each prob In foundProblem
+                        If Not prob.IsResolved Then
+                            If prob.IsCritical Then
+                                'Red for critical problems
+                                row.Cells("Problems").Style.BackColor = Color.Red
+
+                                ' If one critical problem has already been found, no need to look for any more
+                                Exit For
+                            Else
+                                ' Yellow for non critical problems
+                                row.Cells("Problems").Style.BackColor = Color.Yellow
+                            End If
+                        End If
+                    Next
+                End If
+            End If
+        Next
 
         ' Add remove ( - ) button after every column
         Dim subtractButtonColumn As New DataGridViewButtonColumn()
@@ -109,6 +149,27 @@ Public Class formTabeliVaade
             Else
                 MessageBox.Show("Operation failed")
             End If
+        End If
+    End Sub
+
+    'Description:   Switches view of the form to show the problems of the car that was clicked
+    'Returns:       None
+    Private Sub dgvTabeliVaade_CellClick(sender As Object, e As DataGridViewCellEventArgs) _
+        Handles dgvTabeliVaade.CellClick
+        If e.RowIndex < 0 Then
+            Return
+        End If
+
+        ' Bring in new instance of the list of problems
+        Dim probleemid = CTabelReader.GetInstance().probleemidList
+
+        ' Check to see if the problems field was clicked
+        If e.ColumnIndex = dgvTabeliVaade.Columns("Problems").Index Then
+            ' Find a list of problems of the specified car
+            dgvProbleemid.DataSource = probleemid.Where(Function(c) c.CarID = dgvTabeliVaade.Rows(e.RowIndex).Cells("ID").Value).ToList()
+
+            ' Switch tabs to the problems view
+            tcTabs.SelectedTab = tbProbleemid
         End If
     End Sub
 
@@ -231,5 +292,13 @@ Public Class formTabeliVaade
             MessageBox.Show("Operation failed")
         End If
         'End If
+    End Sub
+
+    'Description:  Allows the view to go back to the cars tab
+    'Returns:      None
+    Private Sub btnBack_Click(sender As Object, e As EventArgs) Handles btnBack.Click
+        tcTabs.SelectedTab = tpAutod
+        GC.Collect()
+        GC.WaitForPendingFinalizers()
     End Sub
 End Class
