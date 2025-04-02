@@ -85,6 +85,7 @@
     </Compile>
     <Compile Include="IAuto.vb" />
     <Compile Include="ICarAddSub.vb" />
+    <Compile Include="ITabelReader.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
