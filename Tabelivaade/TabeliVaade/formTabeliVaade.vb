@@ -14,12 +14,19 @@ Public Class formTabeliVaade
 
         dgvTabeliVaade.DataSource = CTabelReader.GetInstance().autodList
         Dim probleemid = CTabelReader.GetInstance().probleemidList
+        Dim insurance = CTabelReader.GetInstance().kindlustusList
 
         ' Add a section that shows whether a car has a problem or not
         Dim problemIndicatorColumn As New DataGridViewTextBoxColumn()
         problemIndicatorColumn.Name = "Problems"
         problemIndicatorColumn.HeaderText = "Problems"
         dgvTabeliVaade.Columns.Add(problemIndicatorColumn)
+
+        ' Add a section that shows insurance status
+        Dim insuranceColumn As New DataGridViewTextBoxColumn()
+        insuranceColumn.Name = "Insurance"
+        insuranceColumn.HeaderText = "Insurance"
+        dgvTabeliVaade.Columns.Add(insuranceColumn)
 
         ' Goes through each row of data in dgvTabeliVaate to look for which cars have problems
         For Each row As DataGridViewRow In dgvTabeliVaade.Rows
@@ -296,7 +303,7 @@ Public Class formTabeliVaade
 
     'Description:  Allows the view to go back to the cars tab
     'Returns:      None
-    Private Sub btnBack_Click(sender As Object, e As EventArgs) Handles btnBack.Click
+    Private Sub btnBackProb_Click(sender As Object, e As EventArgs) Handles btnBackProb.Click
         tcTabs.SelectedTab = tpAutod
         GC.Collect()
         GC.WaitForPendingFinalizers()

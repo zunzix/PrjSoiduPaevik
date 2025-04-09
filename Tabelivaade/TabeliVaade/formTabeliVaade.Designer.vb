@@ -28,19 +28,23 @@ Partial Class formTabeliVaade
         Me.tcTabs = New System.Windows.Forms.TabControl()
         Me.tpAutod = New System.Windows.Forms.TabPage()
         Me.tbProbleemid = New System.Windows.Forms.TabPage()
+        Me.btnBackProb = New System.Windows.Forms.Button()
         Me.dgvProbleemid = New System.Windows.Forms.DataGridView()
-        Me.btnBack = New System.Windows.Forms.Button()
+        Me.tpKindlustus = New System.Windows.Forms.TabPage()
+        Me.dgvKindlustus = New System.Windows.Forms.DataGridView()
         CType(Me.dgvTabeliVaade, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tcTabs.SuspendLayout()
         Me.tpAutod.SuspendLayout()
         Me.tbProbleemid.SuspendLayout()
         CType(Me.dgvProbleemid, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.tpKindlustus.SuspendLayout()
+        CType(Me.dgvKindlustus, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'dgvTabeliVaade
         '
         Me.dgvTabeliVaade.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dgvTabeliVaade.Location = New System.Drawing.Point(3, 37)
+        Me.dgvTabeliVaade.Location = New System.Drawing.Point(7, 46)
         Me.dgvTabeliVaade.Margin = New System.Windows.Forms.Padding(4)
         Me.dgvTabeliVaade.Name = "dgvTabeliVaade"
         Me.dgvTabeliVaade.RowHeadersWidth = 62
@@ -73,6 +77,7 @@ Partial Class formTabeliVaade
         '
         Me.tcTabs.Controls.Add(Me.tpAutod)
         Me.tcTabs.Controls.Add(Me.tbProbleemid)
+        Me.tcTabs.Controls.Add(Me.tpKindlustus)
         Me.tcTabs.Location = New System.Drawing.Point(1, 1)
         Me.tcTabs.Name = "tcTabs"
         Me.tcTabs.SelectedIndex = 0
@@ -93,7 +98,7 @@ Partial Class formTabeliVaade
         '
         'tbProbleemid
         '
-        Me.tbProbleemid.Controls.Add(Me.btnBack)
+        Me.tbProbleemid.Controls.Add(Me.btnBackProb)
         Me.tbProbleemid.Controls.Add(Me.dgvProbleemid)
         Me.tbProbleemid.Location = New System.Drawing.Point(4, 25)
         Me.tbProbleemid.Name = "tbProbleemid"
@@ -103,24 +108,44 @@ Partial Class formTabeliVaade
         Me.tbProbleemid.Text = "Problem View"
         Me.tbProbleemid.UseVisualStyleBackColor = True
         '
+        'btnBackProb
+        '
+        Me.btnBackProb.Location = New System.Drawing.Point(6, 6)
+        Me.btnBackProb.Name = "btnBackProb"
+        Me.btnBackProb.Size = New System.Drawing.Size(75, 23)
+        Me.btnBackProb.TabIndex = 1
+        Me.btnBackProb.Text = "Back"
+        Me.btnBackProb.UseVisualStyleBackColor = True
+        '
         'dgvProbleemid
         '
         Me.dgvProbleemid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dgvProbleemid.Location = New System.Drawing.Point(6, 35)
+        Me.dgvProbleemid.Location = New System.Drawing.Point(6, 40)
         Me.dgvProbleemid.Name = "dgvProbleemid"
         Me.dgvProbleemid.RowHeadersWidth = 51
         Me.dgvProbleemid.RowTemplate.Height = 24
         Me.dgvProbleemid.Size = New System.Drawing.Size(1043, 429)
         Me.dgvProbleemid.TabIndex = 0
         '
-        'btnBack
+        'tpKindlustus
         '
-        Me.btnBack.Location = New System.Drawing.Point(6, 6)
-        Me.btnBack.Name = "btnBack"
-        Me.btnBack.Size = New System.Drawing.Size(75, 23)
-        Me.btnBack.TabIndex = 1
-        Me.btnBack.Text = "Back"
-        Me.btnBack.UseVisualStyleBackColor = True
+        Me.tpKindlustus.Controls.Add(Me.dgvKindlustus)
+        Me.tpKindlustus.Location = New System.Drawing.Point(4, 25)
+        Me.tpKindlustus.Name = "tpKindlustus"
+        Me.tpKindlustus.Size = New System.Drawing.Size(1057, 512)
+        Me.tpKindlustus.TabIndex = 2
+        Me.tpKindlustus.Text = "Kindlustus"
+        Me.tpKindlustus.UseVisualStyleBackColor = True
+        '
+        'dgvKindlustus
+        '
+        Me.dgvKindlustus.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.dgvKindlustus.Location = New System.Drawing.Point(7, 40)
+        Me.dgvKindlustus.Name = "dgvKindlustus"
+        Me.dgvKindlustus.RowHeadersWidth = 51
+        Me.dgvKindlustus.RowTemplate.Height = 24
+        Me.dgvKindlustus.Size = New System.Drawing.Size(1043, 429)
+        Me.dgvKindlustus.TabIndex = 0
         '
         'formTabeliVaade
         '
@@ -137,6 +162,8 @@ Partial Class formTabeliVaade
         Me.tpAutod.ResumeLayout(False)
         Me.tbProbleemid.ResumeLayout(False)
         CType(Me.dgvProbleemid, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.tpKindlustus.ResumeLayout(False)
+        CType(Me.dgvKindlustus, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -149,5 +176,7 @@ Partial Class formTabeliVaade
     Friend WithEvents tpAutod As TabPage
     Friend WithEvents tbProbleemid As TabPage
     Friend WithEvents dgvProbleemid As DataGridView
-    Friend WithEvents btnBack As Button
+    Friend WithEvents btnBackProb As Button
+    Friend WithEvents tpKindlustus As TabPage
+    Friend WithEvents dgvKindlustus As DataGridView
 End Class
