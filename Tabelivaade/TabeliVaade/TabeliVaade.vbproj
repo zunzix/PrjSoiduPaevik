@@ -74,14 +74,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CAuto.vb" />
+    <Compile Include="CAutoProbleem.vb" />
     <Compile Include="CCarAddSub.vb" />
     <Compile Include="CTabelReader.vb" />
-    <Compile Include="formDetailedCarView.Designer.vb">
-      <DependentUpon>formDetailedCarView.vb</DependentUpon>
-    </Compile>
-    <Compile Include="formDetailedCarView.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="formTabeliVaade.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -90,8 +85,8 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="IAuto.vb" />
+    <Compile Include="IAutoProbleem.vb" />
     <Compile Include="ICarAddSub.vb" />
-    <Compile Include="ITabelReader.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -109,9 +104,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="formDetailedCarView.resx">
-      <DependentUpon>formDetailedCarView.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="formTabeliVaade.resx">
       <DependentUpon>formTabeliVaade.vb</DependentUpon>
     </EmbeddedResource>

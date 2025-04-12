@@ -1,4 +1,5 @@
 ﻿Imports System.ComponentModel
+Imports System.Reflection
 Imports System.Security.Policy
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox
 Public Class formTabeliVaade
@@ -8,7 +9,6 @@ Public Class formTabeliVaade
 
         Dim reader As ICTabelReader = CTabelReader.GetInstance()
         dgvTabeliVaade.DataSource = New BindingList(Of CAuto)(reader.GetTabel())
-
         ' Add remove ( - ) button after every column
         Dim subtractButtonColumn As New DataGridViewButtonColumn()
         subtractButtonColumn.Name = "DeleteButton"
@@ -110,6 +110,27 @@ Public Class formTabeliVaade
             Else
                 MessageBox.Show("Operation failed")
             End If
+        End If
+    End Sub
+
+    'Description:   Switches view of the form to show the problems of the car that was clicked
+    'Returns:       None
+    Private Sub dgvTabeliVaade_CellClick(sender As Object, e As DataGridViewCellEventArgs) _
+        Handles dgvTabeliVaade.CellClick
+        If e.RowIndex < 0 Then
+            Return
+        End If
+
+        ' Bring in new instance of the list of problems
+        Dim probleemid = CTabelReader.GetInstance().probleemidList
+
+        ' Check to see if the problems field was clicked
+        If e.ColumnIndex = dgvTabeliVaade.Columns("Problems").Index Then
+            ' Find a list of problems of the specified car
+            dgvProbleemid.DataSource = probleemid.Where(Function(c) c.CarID = dgvTabeliVaade.Rows(e.RowIndex).Cells("ID").Value).ToList()
+
+            ' Switch tabs to the problems view
+            tcTabs.SelectedTab = tbProbleemid
         End If
     End Sub
 
@@ -243,5 +264,11 @@ Public Class formTabeliVaade
             Dim detailVorm As New formDetailedCarView(valitudAuto)
             detailVorm.ShowDialog()
         End If
+    'Description:  Allows the view to go back to the cars tab
+    'Returns:      None
+    Private Sub btnBack_Click(sender As Object, e As EventArgs) Handles btnBack.Click
+        tcTabs.SelectedTab = tpAutod
+        GC.Collect()
+        GC.WaitForPendingFinalizers()
     End Sub
 End Class

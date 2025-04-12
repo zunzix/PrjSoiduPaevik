@@ -1,0 +1,18 @@
+FROM mcr.microsoft.com/dotnet/sdk:latest AS build
+WORKDIR /app
+
+# Copy solution and restore dependencies
+COPY . .
+RUN dotnet restore
+
+# Build and publish the WebApp project
+WORKDIR /app/WebApp
+RUN dotnet publish -c Release -o /app/out
+
+# Runtime Stage
+FROM mcr.microsoft.com/dotnet/aspnet:latest AS runtime
+WORKDIR /app
+COPY --from=build /app/out ./
+EXPOSE 80
+ENV ConnectionStrings__SqlServerConnection="Server=localhost,5432;User Id=postgres;Password=postgres;Database=carsdb;MultipleActiveResultSets=true"
+ENTRYPOINT ["dotnet", "WebApp.dll"]

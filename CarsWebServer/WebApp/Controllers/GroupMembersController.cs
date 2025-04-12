@@ -22,7 +22,7 @@ namespace WebApp.Controllers
         // GET: GroupMembers
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.GroupMembers.Include(g => g.Group);
+            var appDbContext = _context.GroupMembers.Include(g => g.Group).Include(g => g.Person);
             return View(await appDbContext.ToListAsync());
         }
 
@@ -36,6 +36,7 @@ namespace WebApp.Controllers
 
             var groupMember = await _context.GroupMembers
                 .Include(g => g.Group)
+                .Include(g => g.Person)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (groupMember == null)
             {
@@ -49,6 +50,7 @@ namespace WebApp.Controllers
         public IActionResult Create()
         {
             ViewData["GroupId"] = new SelectList(_context.Groups, "Id", "Name");
+            ViewData["PersonId"] = new SelectList(_context.People, "Id", "Name");
             return View();
         }
 
@@ -57,7 +59,7 @@ namespace WebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("GroupId,UserId,IsAdmin,Id")] GroupMember groupMember)
+        public async Task<IActionResult> Create([Bind("GroupId,PersonId,IsAdmin,Id")] GroupMember groupMember)
         {
             if (ModelState.IsValid)
             {
@@ -67,6 +69,7 @@ namespace WebApp.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["GroupId"] = new SelectList(_context.Groups, "Id", "Name", groupMember.GroupId);
+            ViewData["PersonId"] = new SelectList(_context.People, "Id", "Name", groupMember.PersonId);
             return View(groupMember);
         }
 
@@ -84,6 +87,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
             ViewData["GroupId"] = new SelectList(_context.Groups, "Id", "Name", groupMember.GroupId);
+            ViewData["PersonId"] = new SelectList(_context.People, "Id", "Name", groupMember.PersonId);
             return View(groupMember);
         }
 
@@ -92,7 +96,7 @@ namespace WebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("GroupId,UserId,IsAdmin,Id")] GroupMember groupMember)
+        public async Task<IActionResult> Edit(Guid id, [Bind("GroupId,PersonId,IsAdmin,Id")] GroupMember groupMember)
         {
             if (id != groupMember.Id)
             {
@@ -120,6 +124,7 @@ namespace WebApp.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["GroupId"] = new SelectList(_context.Groups, "Id", "Name", groupMember.GroupId);
+            ViewData["PersonId"] = new SelectList(_context.People, "Id", "Name", groupMember.PersonId);
             return View(groupMember);
         }
 
@@ -133,6 +138,7 @@ namespace WebApp.Controllers
 
             var groupMember = await _context.GroupMembers
                 .Include(g => g.Group)
+                .Include(g => g.Person)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (groupMember == null)
             {

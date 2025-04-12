@@ -61,6 +61,8 @@ namespace WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
+                carInsurance.EndDate = DateTime.SpecifyKind(carInsurance.EndDate, DateTimeKind.Utc);
+                
                 carInsurance.Id = Guid.NewGuid();
                 _context.Add(carInsurance);
                 await _context.SaveChangesAsync();
