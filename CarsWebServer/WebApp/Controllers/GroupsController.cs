@@ -116,6 +116,7 @@ public class GroupsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(Guid id, [Bind("Name,Id")] Group @group)
     {
+        
         if (id != @group.Id)
         {
             return NotFound();

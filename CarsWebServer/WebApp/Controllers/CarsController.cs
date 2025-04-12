@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -24,8 +25,19 @@ public class CarsController : Controller
     // GET: Cars
     public async Task<IActionResult> Index()
     {
-        var appDbContext = _context.Cars.Include(c => c.Group);
-        return View(await appDbContext.ToListAsync());
+        //Ask only data for current user
+        var userIdStr = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+        var userId = Guid.Parse(userIdStr);
+        
+        var res = await _context
+            .Cars
+            .Include(c => c.Group)
+            .Where(c => _context
+                .GroupMembers
+                .Any(gm => gm.GroupId == c.GroupId && gm.AppUserId == userId))
+            .ToListAsync();
+        
+        return View(res);
     }
 
     // GET: Cars/Details/5
@@ -50,7 +62,16 @@ public class CarsController : Controller
     // GET: Cars/Create
     public IActionResult Create()
     {
-        ViewData["GroupId"] = new SelectList(_context.Groups, "Id", "Name");
+        var userIdStr = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+        var userId = Guid.Parse(userIdStr);
+    
+        // Get only groups where current user is an admin
+        var adminGroups = _context.GroupMembers
+            .Where(gm => gm.AppUserId == userId && gm.IsAdmin)
+            .Select(gm => gm.Group)
+            .ToList();
+        
+        ViewData["GroupId"] = new SelectList(adminGroups, "Id", "Name");
         return View();
     }
 
@@ -61,6 +82,9 @@ public class CarsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create([Bind("GroupId,Name,Mileage,AvgFuelCons,IsAvailable,IsArchived,Id")] Car car)
     {
+        var userIdStr = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+        var userId = Guid.Parse(userIdStr);
+        
         if (ModelState.IsValid)
         {
             car.Id = Guid.NewGuid();
@@ -68,7 +92,14 @@ public class CarsController : Controller
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        ViewData["GroupId"] = new SelectList(_context.Groups, "Id", "Name", car.GroupId);
+        
+        // Repopulate dropdowns if model is invalid
+        var adminGroups = _context.GroupMembers
+            .Where(gm => gm.AppUserId == userId && gm.IsAdmin)
+            .Select(gm => gm.Group)
+            .ToList();
+        
+        ViewData["GroupId"] = new SelectList(adminGroups, "Id", "Name", car.GroupId);
         return View(car);
     }
 
@@ -85,7 +116,16 @@ public class CarsController : Controller
         {
             return NotFound();
         }
-        ViewData["GroupId"] = new SelectList(_context.Groups, "Id", "Name", car.GroupId);
+        var userIdStr = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+        var userId = Guid.Parse(userIdStr);
+    
+        // Get only groups where current user is an admin
+        var adminGroups = _context.GroupMembers
+            .Where(gm => gm.AppUserId == userId && gm.IsAdmin)
+            .Select(gm => gm.Group)
+            .ToList();
+        
+        ViewData["GroupId"] = new SelectList(adminGroups, "Id", "Name");
         return View(car);
     }
 
@@ -96,6 +136,9 @@ public class CarsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(Guid id, [Bind("GroupId,Name,Mileage,AvgFuelCons,IsAvailable,IsArchived,Id")] Car car)
     {
+        var userIdStr = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+        var userId = Guid.Parse(userIdStr);
+        
         if (id != car.Id)
         {
             return NotFound();
@@ -121,7 +164,13 @@ public class CarsController : Controller
             }
             return RedirectToAction(nameof(Index));
         }
-        ViewData["GroupId"] = new SelectList(_context.Groups, "Id", "Name", car.GroupId);
+        // Repopulate dropdowns if model is invalid
+        var adminGroups = _context.GroupMembers
+            .Where(gm => gm.AppUserId == userId && gm.IsAdmin)
+            .Select(gm => gm.Group)
+            .ToList();
+        
+        ViewData["GroupId"] = new SelectList(adminGroups, "Id", "Name", car.GroupId);
         return View(car);
     }
 

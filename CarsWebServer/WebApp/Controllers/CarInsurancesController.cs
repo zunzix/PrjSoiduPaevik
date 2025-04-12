@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -24,8 +25,19 @@ public class CarInsurancesController : Controller
     // GET: CarInsurances
     public async Task<IActionResult> Index()
     {
-        var appDbContext = _context.CarInsurances.Include(c => c.Car);
-        return View(await appDbContext.ToListAsync());
+        //Ask only data for current user
+        var userIdStr = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+        var userId = Guid.Parse(userIdStr);
+        
+        var res = await _context
+            .CarInsurances
+            .Include(c => c.Car)
+            .ThenInclude(car => car!.Group)
+            .Where(cl => cl.Car!.Group!.GroupMembers!
+                .Any(gm => gm.AppUserId == userId))
+            .ToListAsync();
+        
+        return View(res);
     }
 
     // GET: CarInsurances/Details/5
@@ -50,7 +62,16 @@ public class CarInsurancesController : Controller
     // GET: CarInsurances/Create
     public IActionResult Create()
     {
-        ViewData["CarId"] = new SelectList(_context.Cars, "Id", "Name");
+        var userIdStr = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+        var userId = Guid.Parse(userIdStr);
+        
+        // Get cars that belong to groups where the user is a member
+        var userCars = _context.Cars
+            .Where(c => _context.GroupMembers
+                .Any(gm => gm.GroupId == c.GroupId && gm.AppUserId == userId))
+            .ToList();
+
+        ViewData["CarId"] = new SelectList(userCars, "Id", "Name");
         return View();
     }
 
@@ -61,6 +82,9 @@ public class CarInsurancesController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create([Bind("CarId,Name,EndDate,Id")] CarInsurance carInsurance)
     {
+        var userIdStr = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+        var userId = Guid.Parse(userIdStr);
+        
         if (ModelState.IsValid)
         {
             carInsurance.EndDate = DateTime.SpecifyKind(carInsurance.EndDate, DateTimeKind.Utc);
@@ -70,7 +94,13 @@ public class CarInsurancesController : Controller
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        ViewData["CarId"] = new SelectList(_context.Cars, "Id", "Name", carInsurance.CarId);
+        // If model is invalid, repopulate the filtered car list
+        var userCars = _context.Cars
+            .Where(c => _context.GroupMembers
+                .Any(gm => gm.GroupId == c.GroupId && gm.AppUserId == userId))
+            .ToList();
+
+        ViewData["CarId"] = new SelectList(userCars, "Id", "Name", carInsurance.CarId);
         return View(carInsurance);
     }
 
@@ -87,7 +117,16 @@ public class CarInsurancesController : Controller
         {
             return NotFound();
         }
-        ViewData["CarId"] = new SelectList(_context.Cars, "Id", "Name", carInsurance.CarId);
+        var userIdStr = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+        var userId = Guid.Parse(userIdStr);
+        
+        // Get cars that belong to groups where the user is a member
+        var userCars = _context.Cars
+            .Where(c => _context.GroupMembers
+                .Any(gm => gm.GroupId == c.GroupId && gm.AppUserId == userId))
+            .ToList();
+
+        ViewData["CarId"] = new SelectList(userCars, "Id", "Name");
         return View(carInsurance);
     }
 
@@ -98,6 +137,9 @@ public class CarInsurancesController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(Guid id, [Bind("CarId,Name,EndDate,Id")] CarInsurance carInsurance)
     {
+        var userIdStr = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+        var userId = Guid.Parse(userIdStr);
+        
         if (id != carInsurance.Id)
         {
             return NotFound();
@@ -123,7 +165,13 @@ public class CarInsurancesController : Controller
             }
             return RedirectToAction(nameof(Index));
         }
-        ViewData["CarId"] = new SelectList(_context.Cars, "Id", "Name", carInsurance.CarId);
+        // If model is invalid, repopulate the filtered car list
+        var userCars = _context.Cars
+            .Where(c => _context.GroupMembers
+                .Any(gm => gm.GroupId == c.GroupId && gm.AppUserId == userId))
+            .ToList();
+
+        ViewData["CarId"] = new SelectList(userCars, "Id", "Name", carInsurance.CarId);
         return View(carInsurance);
     }
 

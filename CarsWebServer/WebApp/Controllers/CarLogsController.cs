@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -24,8 +25,20 @@ public class CarLogsController : Controller
     // GET: CarLogs
     public async Task<IActionResult> Index()
     {
-        var appDbContext = _context.CarLogs.Include(c => c.AppUser).Include(c => c.Car);
-        return View(await appDbContext.ToListAsync());
+        //Ask only data for current user
+        var userIdStr = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+        var userId = Guid.Parse(userIdStr);
+        
+        var res = await _context
+            .CarLogs
+            .Include(c => c.AppUser)
+            .Include(c => c.Car)
+            .ThenInclude(car => car!.Group)
+            .Where(cl => cl.Car!.Group!.GroupMembers!
+                .Any(gm => gm.AppUserId == userId))
+            .ToListAsync();
+        
+        return View(res);
     }
 
     // GET: CarLogs/Details/5
@@ -51,8 +64,16 @@ public class CarLogsController : Controller
     // GET: CarLogs/Create
     public IActionResult Create()
     {
-        ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id");
-        ViewData["CarId"] = new SelectList(_context.Cars, "Id", "Name");
+        var userIdStr = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+        var userId = Guid.Parse(userIdStr);
+        
+        // Get cars that belong to groups where the user is a member
+        var userCars = _context.Cars
+            .Where(c => _context.GroupMembers
+                .Any(gm => gm.GroupId == c.GroupId && gm.AppUserId == userId))
+            .ToList();
+
+        ViewData["CarId"] = new SelectList(userCars, "Id", "Name");
         return View();
     }
 
@@ -63,6 +84,10 @@ public class CarLogsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create([Bind("CarId,AppUserId,StartDate,EndDate,StartPoint,EndPoint,Distance,Comment,Id")] CarLog carLog)
     {
+        var userIdStr = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+        var userId = Guid.Parse(userIdStr);
+        carLog.AppUserId = userId;
+        
         if (ModelState.IsValid)
         {
             carLog.EndDate = DateTime.SpecifyKind(carLog.EndDate, DateTimeKind.Utc);
@@ -73,8 +98,14 @@ public class CarLogsController : Controller
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id", carLog.AppUserId);
-        ViewData["CarId"] = new SelectList(_context.Cars, "Id", "Name", carLog.CarId);
+        
+        // If model is invalid, repopulate the filtered car list
+        var userCars = _context.Cars
+            .Where(c => _context.GroupMembers
+                .Any(gm => gm.GroupId == c.GroupId && gm.AppUserId == userId))
+            .ToList();
+
+        ViewData["CarId"] = new SelectList(userCars, "Id", "Name", carLog.CarId);
         return View(carLog);
     }
 
@@ -91,8 +122,17 @@ public class CarLogsController : Controller
         {
             return NotFound();
         }
-        ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id", carLog.AppUserId);
-        ViewData["CarId"] = new SelectList(_context.Cars, "Id", "Name", carLog.CarId);
+        
+        var userIdStr = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+        var userId = Guid.Parse(userIdStr);
+        
+        // Get cars that belong to groups where the user is a member
+        var userCars = _context.Cars
+            .Where(c => _context.GroupMembers
+                .Any(gm => gm.GroupId == c.GroupId && gm.AppUserId == userId))
+            .ToList();
+
+        ViewData["CarId"] = new SelectList(userCars, "Id", "Name");
         return View(carLog);
     }
 
@@ -103,6 +143,9 @@ public class CarLogsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(Guid id, [Bind("CarId,AppUserId,StartDate,EndDate,StartPoint,EndPoint,Distance,Comment,Id")] CarLog carLog)
     {
+        var userIdStr = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+        var userId = Guid.Parse(userIdStr);
+        
         if (id != carLog.Id)
         {
             return NotFound();
@@ -128,8 +171,13 @@ public class CarLogsController : Controller
             }
             return RedirectToAction(nameof(Index));
         }
-        ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id", carLog.AppUserId);
-        ViewData["CarId"] = new SelectList(_context.Cars, "Id", "Name", carLog.CarId);
+        // If model is invalid, repopulate the filtered car list
+        var userCars = _context.Cars
+            .Where(c => _context.GroupMembers
+                .Any(gm => gm.GroupId == c.GroupId && gm.AppUserId == userId))
+            .ToList();
+
+        ViewData["CarId"] = new SelectList(userCars, "Id", "Name", carLog.CarId);
         return View(carLog);
     }
 

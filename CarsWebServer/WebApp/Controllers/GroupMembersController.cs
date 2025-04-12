@@ -33,7 +33,8 @@ public class GroupMembersController : Controller
                 .GroupMembers
                 .Include(g => g.AppUser)
                 .Include(g => g.Group)
-                .Where(g => g.AppUserId == userId)
+                .Where(gm => _context.GroupMembers
+                    .Any(ugm => ugm.AppUserId == userId && ugm.GroupId == gm.GroupId))
                 .ToListAsync();
         
         return View(res);
@@ -120,8 +121,17 @@ public class GroupMembersController : Controller
         {
             return NotFound();
         }
-        ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id", groupMember.AppUserId);
-        ViewData["GroupId"] = new SelectList(_context.Groups, "Id", "Name", groupMember.GroupId);
+        var userIdStr = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+        var userId = Guid.Parse(userIdStr);
+    
+        // Get only groups where current user is an admin
+        var adminGroups = _context.GroupMembers
+            .Where(gm => gm.AppUserId == userId && gm.IsAdmin)
+            .Select(gm => gm.Group)
+            .ToList();
+        
+        ViewData["GroupId"] = new SelectList(adminGroups, "Id", "Name");
+        ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id");
         return View(groupMember);
     }
 
@@ -132,6 +142,9 @@ public class GroupMembersController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(Guid id, [Bind("GroupId,AppUserId,IsAdmin,Id")] GroupMember groupMember)
     {
+        var userIdStr = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+        var userId = Guid.Parse(userIdStr);
+        
         if (id != groupMember.Id)
         {
             return NotFound();
@@ -157,8 +170,14 @@ public class GroupMembersController : Controller
             }
             return RedirectToAction(nameof(Index));
         }
+        // Repopulate dropdowns if model is invalid
+        var adminGroups = _context.GroupMembers
+            .Where(gm => gm.AppUserId == userId && gm.IsAdmin)
+            .Select(gm => gm.Group)
+            .ToList();
+        
         ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id", groupMember.AppUserId);
-        ViewData["GroupId"] = new SelectList(_context.Groups, "Id", "Name", groupMember.GroupId);
+        ViewData["GroupId"] = new SelectList(adminGroups, "Id", "Name", groupMember.GroupId);
         return View(groupMember);
     }
 
