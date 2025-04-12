@@ -6,7 +6,7 @@ Public Class CTabelReader
 
     Public autodList As New BindingList(Of CAuto)()
 
-    ' siin toimub autode lisamine tabelisse
+
     Private Sub New()
         autodList.Add(New CAuto(1, "Peugeot 206", 178989, 11.2, True, False))
         autodList.Add(New CAuto(2, "Honda Civic", 15003.2, 6.8, False, False))
