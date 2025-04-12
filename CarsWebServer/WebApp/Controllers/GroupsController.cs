@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -24,7 +25,17 @@ public class GroupsController : Controller
     // GET: Groups
     public async Task<IActionResult> Index()
     {
-        return View(await _context.Groups.ToListAsync());
+        //Ask only data for where current user is in groups
+        var userIdStr = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+        var userId = Guid.Parse(userIdStr);
+        
+        
+        var res = await _context
+            .Groups
+            .Where(g => g.GroupMembers!.Any(gm => gm.AppUserId == userId))
+            .ToListAsync();
+        
+        return View(res);
     }
 
     // GET: Groups/Details/5
@@ -58,10 +69,24 @@ public class GroupsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create([Bind("Name,Id")] Group @group)
     {
+        var userIdStr = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+        var userId = Guid.Parse(userIdStr);
+        
         if (ModelState.IsValid)
         {
             @group.Id = Guid.NewGuid();
             _context.Add(@group);
+
+            var groupMember = new GroupMember
+            {
+                Id = Guid.NewGuid(),
+                GroupId = @group.Id,
+                AppUserId = userId,
+                IsAdmin = true
+            };
+                
+            _context.Add(groupMember);
+            
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

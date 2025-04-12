@@ -62,7 +62,17 @@ public class GroupMembersController : Controller
     // GET: GroupMembers/Create
     public IActionResult Create()
     {
-        ViewData["GroupId"] = new SelectList(_context.Groups, "Id", "Name");
+        var userIdStr = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+        var userId = Guid.Parse(userIdStr);
+    
+        // Get only groups where current user is an admin
+        var adminGroups = _context.GroupMembers
+            .Where(gm => gm.AppUserId == userId && gm.IsAdmin)
+            .Select(gm => gm.Group)
+            .ToList();
+        
+        ViewData["GroupId"] = new SelectList(adminGroups, "Id", "Name");
+        ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id");
         return View();
     }
 
@@ -75,7 +85,7 @@ public class GroupMembersController : Controller
     {
         var userIdStr = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
         var userId = Guid.Parse(userIdStr);
-        groupMember.AppUserId = userId;
+        
         
         if (ModelState.IsValid)
         {
@@ -86,7 +96,14 @@ public class GroupMembersController : Controller
             return RedirectToAction(nameof(Index));
         }
         
-        ViewData["GroupId"] = new SelectList(_context.Groups, "Id", "Name", groupMember.GroupId);
+        // Repopulate dropdowns if model is invalid
+        var adminGroups = _context.GroupMembers
+            .Where(gm => gm.AppUserId == userId && gm.IsAdmin)
+            .Select(gm => gm.Group)
+            .ToList();
+        
+        ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id", groupMember.AppUserId);
+        ViewData["GroupId"] = new SelectList(adminGroups, "Id", "Name", groupMember.GroupId);
         return View(groupMember);
     }
 
