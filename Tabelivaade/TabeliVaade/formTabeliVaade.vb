@@ -5,7 +5,7 @@ Imports System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox
 Public Class formTabeliVaade
     Const DEBUG = True
 
-    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub formTabeliVaade_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         ' Hide the "tabs" so that the user can't manually switch between them
         tcTabs.Appearance = TabAppearance.FlatButtons
@@ -294,6 +294,15 @@ Public Class formTabeliVaade
         'End If
     End Sub
 
+    ' Description: Open detailed car view form when double-clicking on a car in the DataGridView
+    ' Parameters: sender as Object, e as DataGridViewCellEventArgs
+    ' Return: none
+    Private Sub dgvTabeliVaade_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvTabeliVaade.CellDoubleClick
+        If e.RowIndex >= 0 Then
+            Dim valitudAuto As CAuto = CType(dgvTabeliVaade.Rows(e.RowIndex).DataBoundItem, CAuto)
+            Dim detailVorm As New formDetailedCarView(valitudAuto)
+            detailVorm.ShowDialog()
+        End If
     'Description:  Allows the view to go back to the cars tab
     'Returns:      None
     Private Sub btnBack_Click(sender As Object, e As EventArgs) Handles btnBack.Click
