@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using App.Domain.Identity;
 using Base.Domain;
 
 namespace App.Domain;
@@ -11,10 +12,10 @@ public class GroupMember : BaseEntity
     public Group? Group { get; set; }
     
     
-    [Display(Name = nameof(Person), Prompt = nameof(Person), ResourceType = typeof(App.Resources.Domain.GroupMember))]
-    public Guid PersonId { get; set; }
-    [Display(Name = nameof(Person), Prompt = nameof(Person), ResourceType = typeof(App.Resources.Domain.GroupMember))]
-    public Person? Person { get; set; }
+    [Display(Name = nameof(AppUser), Prompt = nameof(AppUser), ResourceType = typeof(App.Resources.Domain.GroupMember))]
+    public Guid AppUserId { get; set; }
+    [Display(Name = nameof(AppUser), Prompt = nameof(AppUser), ResourceType = typeof(App.Resources.Domain.GroupMember))]
+    public AppUser? AppUser { get; set; }
     
     
     [Display(Name = nameof(IsAdmin), Prompt = nameof(IsAdmin), ResourceType = typeof(App.Resources.Domain.GroupMember))]

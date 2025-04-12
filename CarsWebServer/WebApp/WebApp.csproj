@@ -39,6 +39,19 @@
       <_ContentIncludedByDefault Remove="Views\GroupMembers\Details.cshtml" />
       <_ContentIncludedByDefault Remove="Views\GroupMembers\Edit.cshtml" />
       <_ContentIncludedByDefault Remove="Views\GroupMembers\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Persons\Create.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Persons\Delete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Persons\Details.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Persons\Edit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Persons\Index.cshtml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <UpToDateCheckInput Remove="Views\GroupMembers\Create.cshtml" />
+      <UpToDateCheckInput Remove="Views\GroupMembers\Delete.cshtml" />
+      <UpToDateCheckInput Remove="Views\GroupMembers\Details.cshtml" />
+      <UpToDateCheckInput Remove="Views\GroupMembers\Edit.cshtml" />
+      <UpToDateCheckInput Remove="Views\GroupMembers\Index.cshtml" />
     </ItemGroup>
 
 </Project>

@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using App.Domain.Identity;
 using Base.Domain;
 
 namespace App.Domain;
@@ -11,10 +12,10 @@ public class CarLog : BaseEntity
     public Car? Car { get; set; }
     
     
-    [Display(Name = nameof(Person), Prompt = nameof(Person), ResourceType = typeof(App.Resources.Domain.CarLog))]
-    public Guid PersonId { get; set; }
-    [Display(Name = nameof(Person), Prompt = nameof(Person), ResourceType = typeof(App.Resources.Domain.CarLog))]
-    public Person? Person { get; set; }
+    [Display(Name = nameof(AppUser), Prompt = nameof(AppUser), ResourceType = typeof(App.Resources.Domain.CarLog))]
+    public Guid AppUserId { get; set; }
+    [Display(Name = nameof(AppUser), Prompt = nameof(AppUser), ResourceType = typeof(App.Resources.Domain.CarLog))]
+    public AppUser? AppUser { get; set; }
     
     
     [Display(Name = nameof(StartDate), Prompt = nameof(StartDate), ResourceType = typeof(App.Resources.Domain.CarLog))]
@@ -44,5 +45,5 @@ public class CarLog : BaseEntity
     
     [MaxLength(320)]
     [Display(Name = nameof(Comment), Prompt = nameof(Comment), ResourceType = typeof(App.Resources.Domain.CarLog))]
-    public string Comment { get; set; } = null!;
+    public string? Comment { get; set; }
 }

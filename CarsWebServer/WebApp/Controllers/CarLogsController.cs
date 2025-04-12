@@ -5,170 +5,171 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using App.DAL.EF;
 using App.Domain;
-using WebApp.Data;
+using Microsoft.AspNetCore.Authorization;
 
-namespace WebApp.Controllers
+namespace WebApp.Controllers;
+
+[Authorize]
+public class CarLogsController : Controller
 {
-    public class CarLogsController : Controller
+    private readonly AppDbContext _context;
+
+    public CarLogsController(AppDbContext context)
     {
-        private readonly AppDbContext _context;
+        _context = context;
+    }
 
-        public CarLogsController(AppDbContext context)
+    // GET: CarLogs
+    public async Task<IActionResult> Index()
+    {
+        var appDbContext = _context.CarLogs.Include(c => c.AppUser).Include(c => c.Car);
+        return View(await appDbContext.ToListAsync());
+    }
+
+    // GET: CarLogs/Details/5
+    public async Task<IActionResult> Details(Guid? id)
+    {
+        if (id == null)
         {
-            _context = context;
+            return NotFound();
         }
 
-        // GET: CarLogs
-        public async Task<IActionResult> Index()
+        var carLog = await _context.CarLogs
+            .Include(c => c.AppUser)
+            .Include(c => c.Car)
+            .FirstOrDefaultAsync(m => m.Id == id);
+        if (carLog == null)
         {
-            var appDbContext = _context.CarLogs.Include(c => c.Car).Include(c => c.Person);
-            return View(await appDbContext.ToListAsync());
+            return NotFound();
         }
 
-        // GET: CarLogs/Details/5
-        public async Task<IActionResult> Details(Guid? id)
+        return View(carLog);
+    }
+
+    // GET: CarLogs/Create
+    public IActionResult Create()
+    {
+        ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id");
+        ViewData["CarId"] = new SelectList(_context.Cars, "Id", "Name");
+        return View();
+    }
+
+    // POST: CarLogs/Create
+    // To protect from overposting attacks, enable the specific properties you want to bind to.
+    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Create([Bind("CarId,AppUserId,StartDate,EndDate,StartPoint,EndPoint,Distance,Comment,Id")] CarLog carLog)
+    {
+        if (ModelState.IsValid)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var carLog = await _context.CarLogs
-                .Include(c => c.Car)
-                .Include(c => c.Person)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (carLog == null)
-            {
-                return NotFound();
-            }
-
-            return View(carLog);
-        }
-
-        // GET: CarLogs/Create
-        public IActionResult Create()
-        {
-            ViewData["CarId"] = new SelectList(_context.Cars, "Id", "Name");
-            ViewData["PersonId"] = new SelectList(_context.People, "Id", "Name");
-            return View();
-        }
-
-        // POST: CarLogs/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CarId,PersonId,StartDate,EndDate,StartPoint,EndPoint,Distance,Comment,Id")] CarLog carLog)
-        {
-            if (ModelState.IsValid)
-            {
-                carLog.StartDate = DateTime.SpecifyKind(carLog.StartDate, DateTimeKind.Utc);
-                carLog.EndDate = DateTime.SpecifyKind(carLog.EndDate, DateTimeKind.Utc);
+            carLog.EndDate = DateTime.SpecifyKind(carLog.EndDate, DateTimeKind.Utc);
+            carLog.StartDate = DateTime.SpecifyKind(carLog.StartDate, DateTimeKind.Utc);
                 
-                carLog.Id = Guid.NewGuid();
-                _context.Add(carLog);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["CarId"] = new SelectList(_context.Cars, "Id", "Name", carLog.CarId);
-            ViewData["PersonId"] = new SelectList(_context.People, "Id", "Name", carLog.PersonId);
-            return View(carLog);
-        }
-
-        // GET: CarLogs/Edit/5
-        public async Task<IActionResult> Edit(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var carLog = await _context.CarLogs.FindAsync(id);
-            if (carLog == null)
-            {
-                return NotFound();
-            }
-            ViewData["CarId"] = new SelectList(_context.Cars, "Id", "Name", carLog.CarId);
-            ViewData["PersonId"] = new SelectList(_context.People, "Id", "Name", carLog.PersonId);
-            return View(carLog);
-        }
-
-        // POST: CarLogs/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("CarId,PersonId,StartDate,EndDate,StartPoint,EndPoint,Distance,Comment,Id")] CarLog carLog)
-        {
-            if (id != carLog.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(carLog);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CarLogExists(carLog.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["CarId"] = new SelectList(_context.Cars, "Id", "Name", carLog.CarId);
-            ViewData["PersonId"] = new SelectList(_context.People, "Id", "Name", carLog.PersonId);
-            return View(carLog);
-        }
-
-        // GET: CarLogs/Delete/5
-        public async Task<IActionResult> Delete(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var carLog = await _context.CarLogs
-                .Include(c => c.Car)
-                .Include(c => c.Person)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (carLog == null)
-            {
-                return NotFound();
-            }
-
-            return View(carLog);
-        }
-
-        // POST: CarLogs/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
-        {
-            var carLog = await _context.CarLogs.FindAsync(id);
-            if (carLog != null)
-            {
-                _context.CarLogs.Remove(carLog);
-            }
-
+            carLog.Id = Guid.NewGuid();
+            _context.Add(carLog);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+        ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id", carLog.AppUserId);
+        ViewData["CarId"] = new SelectList(_context.Cars, "Id", "Name", carLog.CarId);
+        return View(carLog);
+    }
 
-        private bool CarLogExists(Guid id)
+    // GET: CarLogs/Edit/5
+    public async Task<IActionResult> Edit(Guid? id)
+    {
+        if (id == null)
         {
-            return _context.CarLogs.Any(e => e.Id == id);
+            return NotFound();
         }
+
+        var carLog = await _context.CarLogs.FindAsync(id);
+        if (carLog == null)
+        {
+            return NotFound();
+        }
+        ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id", carLog.AppUserId);
+        ViewData["CarId"] = new SelectList(_context.Cars, "Id", "Name", carLog.CarId);
+        return View(carLog);
+    }
+
+    // POST: CarLogs/Edit/5
+    // To protect from overposting attacks, enable the specific properties you want to bind to.
+    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Edit(Guid id, [Bind("CarId,AppUserId,StartDate,EndDate,StartPoint,EndPoint,Distance,Comment,Id")] CarLog carLog)
+    {
+        if (id != carLog.Id)
+        {
+            return NotFound();
+        }
+
+        if (ModelState.IsValid)
+        {
+            try
+            {
+                _context.Update(carLog);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!CarLogExists(carLog.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction(nameof(Index));
+        }
+        ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id", carLog.AppUserId);
+        ViewData["CarId"] = new SelectList(_context.Cars, "Id", "Name", carLog.CarId);
+        return View(carLog);
+    }
+
+    // GET: CarLogs/Delete/5
+    public async Task<IActionResult> Delete(Guid? id)
+    {
+        if (id == null)
+        {
+            return NotFound();
+        }
+
+        var carLog = await _context.CarLogs
+            .Include(c => c.AppUser)
+            .Include(c => c.Car)
+            .FirstOrDefaultAsync(m => m.Id == id);
+        if (carLog == null)
+        {
+            return NotFound();
+        }
+
+        return View(carLog);
+    }
+
+    // POST: CarLogs/Delete/5
+    [HttpPost, ActionName("Delete")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeleteConfirmed(Guid id)
+    {
+        var carLog = await _context.CarLogs.FindAsync(id);
+        if (carLog != null)
+        {
+            _context.CarLogs.Remove(carLog);
+        }
+
+        await _context.SaveChangesAsync();
+        return RedirectToAction(nameof(Index));
+    }
+
+    private bool CarLogExists(Guid id)
+    {
+        return _context.CarLogs.Any(e => e.Id == id);
     }
 }

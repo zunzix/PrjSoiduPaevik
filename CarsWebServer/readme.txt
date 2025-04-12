@@ -14,7 +14,6 @@ MVC controllers
 
 cd WebApp
 
-dotnet aspnet-codegenerator controller -name PersonsController -actions -m App.Domain.Person -dc AppDbContext -outDir Controllers --useDefaultLayout --useAsyncActions --referenceScriptLibraries -f
 dotnet aspnet-codegenerator controller -name GroupsController -actions -m App.Domain.Group -dc AppDbContext -outDir Controllers --useDefaultLayout --useAsyncActions --referenceScriptLibraries -f
 dotnet aspnet-codegenerator controller -name GroupMembersController -actions -m App.Domain.GroupMember -dc AppDbContext -outDir Controllers --useDefaultLayout --useAsyncActions --referenceScriptLibraries -f
 dotnet aspnet-codegenerator controller -name CarsController -actions -m App.Domain.Car -dc AppDbContext -outDir Controllers --useDefaultLayout --useAsyncActions --referenceScriptLibraries -f
@@ -23,11 +22,8 @@ dotnet aspnet-codegenerator controller -name CarIssuesController -actions -m App
 dotnet aspnet-codegenerator controller -name CarInsurancesController -actions -m App.Domain.CarInsurance -dc AppDbContext -outDir Controllers --useDefaultLayout --useAsyncActions --referenceScriptLibraries -f
 
 
-
 Api controllers
 
-
-dotnet aspnet-codegenerator controller -name PersonsController -m App.Domain.Person -dc AppDbContext -outDir ApiControllers -api --useAsyncActions -f
 dotnet aspnet-codegenerator controller -name GroupsController -m App.Domain.Group -dc AppDbContext -outDir ApiControllers -api --useAsyncActions -f
 dotnet aspnet-codegenerator controller -name GroupMembersController -m App.Domain.GroupMember -dc AppDbContext -outDir ApiControllers -api --useAsyncActions -f
 dotnet aspnet-codegenerator controller -name CarsController -m App.Domain.Car -dc AppDbContext -outDir ApiControllers -api --useAsyncActions -f
@@ -35,3 +31,8 @@ dotnet aspnet-codegenerator controller -name CarLogsController -m App.Domain.Car
 dotnet aspnet-codegenerator controller -name CarIssuesController -m App.Domain.CarIssue -dc AppDbContext -outDir ApiControllers -api --useAsyncActions -f
 dotnet aspnet-codegenerator controller -name CarInsurancesController -m App.Domain.CarInsurance -dc AppDbContext -outDir ApiControllers -api --useAsyncActions -f
 
+
+
+Postgre convert to UTC in create
+carLog.EndDate = DateTime.SpecifyKind(carLog.EndDate, DateTimeKind.Utc);
+carLog.StartDate = DateTime.SpecifyKind(carLog.StartDate, DateTimeKind.Utc);

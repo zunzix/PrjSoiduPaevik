@@ -1,12 +1,12 @@
 ﻿using App.Domain;
+using App.Domain.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace WebApp.Data;
+namespace App.DAL.EF;
 
-public class AppDbContext : IdentityDbContext
+public class AppDbContext : IdentityDbContext<AppUser, AppRole, Guid>
 {
-    public DbSet<Person> People { get; set; } = null!;
     public DbSet<Car> Cars { get; set; } = null!;
     public DbSet<Group> Groups { get; set; } = null!;
     public DbSet<GroupMember> GroupMembers { get; set; } = null!;

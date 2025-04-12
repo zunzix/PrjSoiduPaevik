@@ -21,7 +21,7 @@
     <data name="Group" xml:space="preserve">
         <value>Grupp</value>
     </data>
-    <data name="Person" xml:space="preserve">
+    <data name="AppUser" xml:space="preserve">
         <value>Kasutaja</value>
     </data>
     <data name="IsAdmin" xml:space="preserve">
