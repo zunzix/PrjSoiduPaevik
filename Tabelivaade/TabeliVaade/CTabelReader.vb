@@ -1,7 +1,7 @@
 ﻿Imports System.ComponentModel
 
 Public Class CTabelReader
-    Implements ICTabelReader
+    Implements ITabelReader
 
     Private Shared _instance As New CTabelReader()
 
@@ -23,7 +23,7 @@ Public Class CTabelReader
     'Description: Get a copy of table data (not access to the original list)
     'Parameters: none
     'Return: copy of autodList as List(Of cAuto)
-    Public Function GetTable() As List(Of CAuto) Implements ICTabelReader.GetTabel
+    Public Function GetTable() As List(Of CAuto) Implements ITabelReader.GetTabel
         Return autodList.ToList()
     End Function
 
@@ -31,14 +31,14 @@ Public Class CTabelReader
     'Parameters: groupID As Integer, Name As String, Mileage As Double, AvgFuelConsumption As Double, IsAvaivable As Boolean, isArchived As Boolean
     'Return: copy of autodList as List(Of cAuto)
     Public Sub AddCar(groupID As Integer, Name As String, Mileage As Double, AvgFuelConsumption As Double, IsAvaivable As Boolean, isArchived As Boolean) _
-        Implements ICTabelReader.AddCar
+        Implements ITabelReader.AddCar
         autodList.Add(New CAuto(groupID, Name, Mileage, AvgFuelConsumption, IsAvaivable, isArchived))
     End Sub
 
     'Description: Remove a car from the list by ID
     'Parameters: ID as Integer
     'Return: returns nothing
-    Public Sub RemoveCar(ID As Integer) Implements ICTabelReader.RemoveCar
+    Public Sub RemoveCar(ID As Integer) Implements ITabelReader.RemoveCar
         Dim autoToRemove As CAuto = autodList.FirstOrDefault(Function(a) a.ID = ID)
         If autoToRemove IsNot Nothing Then
             autodList.Remove(autoToRemove)

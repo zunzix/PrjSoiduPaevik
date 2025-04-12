@@ -7,7 +7,7 @@ Public Class formTabeliVaade
 
     Private Sub formTabeliVaade_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
-        Dim reader As ICTabelReader = CTabelReader.GetInstance()
+        Dim reader As ITabelReader = CTabelReader.GetInstance()
         dgvTabeliVaade.DataSource = New BindingList(Of CAuto)(reader.GetTabel())
         ' Add remove ( - ) button after every column
         Dim subtractButtonColumn As New DataGridViewButtonColumn()
@@ -264,6 +264,7 @@ Public Class formTabeliVaade
             Dim detailVorm As New formDetailedCarView(valitudAuto)
             detailVorm.ShowDialog()
         End If
+    End Sub
     'Description:  Allows the view to go back to the cars tab
     'Returns:      None
     Private Sub btnBack_Click(sender As Object, e As EventArgs) Handles btnBack.Click
