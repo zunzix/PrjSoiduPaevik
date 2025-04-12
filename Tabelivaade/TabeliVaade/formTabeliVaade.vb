@@ -6,7 +6,8 @@ Public Class formTabeliVaade
 
     Private Sub formTabeliVaade_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
-        dgvTabeliVaade.DataSource = CTabelReader.GetInstance().autodList
+        Dim reader As ICTabelReader = CTabelReader.GetInstance()
+        dgvTabeliVaade.DataSource = New BindingList(Of CAuto)(reader.GetTabel())
 
         ' Add remove ( - ) button after every column
         Dim subtractButtonColumn As New DataGridViewButtonColumn()
