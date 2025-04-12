@@ -1,0 +1,78 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Update="Domain\Car.resx">
+        <Generator>PublicResXFileCodeGenerator</Generator>
+        <LastGenOutput>Car.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Domain\CarInsurance.resx">
+        <Generator>PublicResXFileCodeGenerator</Generator>
+        <LastGenOutput>CarInsurance.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Domain\CarIssue.resx">
+        <Generator>PublicResXFileCodeGenerator</Generator>
+        <LastGenOutput>CarIssue.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Domain\CarLog.resx">
+        <Generator>PublicResXFileCodeGenerator</Generator>
+        <LastGenOutput>CarLog.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Domain\Group.resx">
+        <Generator>PublicResXFileCodeGenerator</Generator>
+        <LastGenOutput>Group.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Domain\GroupMember.resx">
+        <Generator>PublicResXFileCodeGenerator</Generator>
+        <LastGenOutput>GroupMember.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Domain\Person.resx">
+        <Generator>PublicResXFileCodeGenerator</Generator>
+        <LastGenOutput>Person.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Domain\Car.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Car.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Domain\CarInsurance.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>CarInsurance.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Domain\CarIssue.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>CarIssue.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Domain\CarLog.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>CarLog.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Domain\Group.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Group.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Domain\GroupMember.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>GroupMember.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Domain\Person.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Person.resx</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
+</Project>
