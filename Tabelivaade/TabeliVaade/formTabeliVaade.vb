@@ -5,56 +5,10 @@ Imports System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox
 Public Class formTabeliVaade
     Const DEBUG = True
 
-    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub formTabeliVaade_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
-        ' Hide the "tabs" so that the user can't manually switch between them
-        tcTabs.Appearance = TabAppearance.FlatButtons
-        tcTabs.ItemSize = New Size(0, 1)
-        tcTabs.SizeMode = TabSizeMode.Fixed
-
-        dgvTabeliVaade.DataSource = CTabelReader.GetInstance().autodList
-        Dim probleemid = CTabelReader.GetInstance().probleemidList
-        Dim insurance = CTabelReader.GetInstance().kindlustusList
-
-        ' Add a section that shows whether a car has a problem or not
-        Dim problemIndicatorColumn As New DataGridViewTextBoxColumn()
-        problemIndicatorColumn.Name = "Problems"
-        problemIndicatorColumn.HeaderText = "Problems"
-        dgvTabeliVaade.Columns.Add(problemIndicatorColumn)
-
-        ' Add a section that shows insurance status
-        Dim insuranceColumn As New DataGridViewTextBoxColumn()
-        insuranceColumn.Name = "Insurance"
-        insuranceColumn.HeaderText = "Insurance"
-        dgvTabeliVaade.Columns.Add(insuranceColumn)
-
-        ' Goes through each row of data in dgvTabeliVaate to look for which cars have problems
-        For Each row As DataGridViewRow In dgvTabeliVaade.Rows
-            If Not row.IsNewRow Then
-
-                ' Gets a list of problems that the car with a certain ID has and keeps it as a list (in case there are more than 1)
-                Dim foundProblem As List(Of CAutoProbleem) = probleemid.Where(Function(c) c.CarID = row.Cells("ID").Value).ToList()
-
-                ' In case there are problems, we go through and mark out whether they're critical or not
-                If foundProblem.Any() Then
-                    For Each prob In foundProblem
-                        If Not prob.IsResolved Then
-                            If prob.IsCritical Then
-                                'Red for critical problems
-                                row.Cells("Problems").Style.BackColor = Color.Red
-
-                                ' If one critical problem has already been found, no need to look for any more
-                                Exit For
-                            Else
-                                ' Yellow for non critical problems
-                                row.Cells("Problems").Style.BackColor = Color.Yellow
-                            End If
-                        End If
-                    Next
-                End If
-            End If
-        Next
-
+        Dim reader As ITabelReader = CTabelReader.GetInstance()
+        dgvTabeliVaade.DataSource = New BindingList(Of CAuto)(reader.GetTabel())
         ' Add remove ( - ) button after every column
         Dim subtractButtonColumn As New DataGridViewButtonColumn()
         subtractButtonColumn.Name = "DeleteButton"
@@ -301,9 +255,19 @@ Public Class formTabeliVaade
         'End If
     End Sub
 
+    ' Description: Open detailed car view form when double-clicking on a car in the DataGridView
+    ' Parameters: sender as Object, e as DataGridViewCellEventArgs
+    ' Return: none
+    Private Sub dgvTabeliVaade_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvTabeliVaade.CellDoubleClick
+        If e.RowIndex >= 0 Then
+            Dim valitudAuto As CAuto = CType(dgvTabeliVaade.Rows(e.RowIndex).DataBoundItem, CAuto)
+            Dim detailVorm As New formDetailedCarView(valitudAuto)
+            detailVorm.ShowDialog()
+        End If
+    End Sub
     'Description:  Allows the view to go back to the cars tab
     'Returns:      None
-    Private Sub btnBackProb_Click(sender As Object, e As EventArgs) Handles btnBackProb.Click
+    Private Sub btnBack_Click(sender As Object, e As EventArgs) Handles btnBack.Click
         tcTabs.SelectedTab = tpAutod
         GC.Collect()
         GC.WaitForPendingFinalizers()
