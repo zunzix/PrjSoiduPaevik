@@ -23,5 +23,9 @@ public interface IRepository<TEntity, TKey> where TKey : IEquatable<TKey>
     void Remove(TEntity entity, TKey? userId);
 
     void Remove(TKey id, TKey? userId);
-    void RemoveAsync(TKey id, TKey? userId);
+    Task RemoveAsync(TKey id, TKey? userId);
+    
+    bool Exists(Guid id, TKey? userId = default!);
+    Task<bool> ExistsAsync(Guid id, TKey? userId = default!);
+
 }

@@ -29,13 +29,16 @@ public class GroupMembersController : Controller
         var userIdStr = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
         var userId = Guid.Parse(userIdStr);
         
-        var res = await _context
-                .GroupMembers
-                .Include(g => g.User)
-                .Include(g => g.Group)
-                .Where(gm => _context.GroupMembers
-                    .Any(ugm => ugm.UserId == userId && ugm.GroupId == gm.GroupId))
-                .ToListAsync();
+        var userGroups = await _context.GroupMembers
+            .Where(gm => gm.UserId == userId)
+            .Select(gm => gm.GroupId)
+            .ToListAsync();
+
+        var res = await _context.GroupMembers
+            .Include(g => g.User)
+            .Include(g => g.Group)
+            .Where(gm => userGroups.Contains(gm.GroupId))
+            .ToListAsync();
         
         return View(res);
     }
