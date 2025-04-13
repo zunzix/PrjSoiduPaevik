@@ -44,12 +44,12 @@ else
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddScoped<IGroupRepository, GroupRepository>();
-builder.Services.AddScoped<IGroupMemberRepository, GroupMemberRepository>();
-builder.Services.AddScoped<ICarRepository, CarRepository>();
-builder.Services.AddScoped<ICarIssueRepository, CarIssueRepository>();
-builder.Services.AddScoped<ICarLogRepository, CarLogRepository>();
-builder.Services.AddScoped<ICarInsuranceRepository, CarInsuranceRepository>();
+//builder.Services.AddScoped<IGroupRepository, GroupRepository>();
+//builder.Services.AddScoped<IGroupMemberRepository, GroupMemberRepository>();
+//builder.Services.AddScoped<ICarRepository, CarRepository>();
+//builder.Services.AddScoped<ICarIssueRepository, CarIssueRepository>();
+//builder.Services.AddScoped<ICarLogRepository, CarLogRepository>();
+//builder.Services.AddScoped<ICarInsuranceRepository, CarInsuranceRepository>();
 
 builder.Services.AddIdentity<AppUser, AppRole>(o => 
     o.SignIn.RequireConfirmedAccount = false)

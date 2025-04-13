@@ -1,11 +1,14 @@
 ﻿using App.Domain;
 using App.Domain.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace App.DAL.EF;
 
-public class AppDbContext : IdentityDbContext<AppUser, AppRole, Guid>
+public class AppDbContext : IdentityDbContext<AppUser, AppRole, Guid, IdentityUserClaim<Guid>, IdentityUserRole<Guid>,
+    IdentityUserLogin<Guid>, IdentityRoleClaim<Guid>, IdentityUserToken<Guid>>
+
 {
     public DbSet<Car> Cars { get; set; } = null!;
     public DbSet<Group> Groups { get; set; } = null!;
@@ -18,4 +21,6 @@ public class AppDbContext : IdentityDbContext<AppUser, AppRole, Guid>
         : base(options)
     {
     }
+    
+
 }
