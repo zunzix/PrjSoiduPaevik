@@ -1,8 +1,10 @@
+using Base.Contracts;
+using Base.Domain.Identity;
 using Microsoft.AspNetCore.Identity;
 
 namespace App.Domain.Identity;
 
-public class AppUser : IdentityUser<Guid>
+public class AppUser : BaseUser<AppUserRole>, IDomainId
 {
     
     public ICollection<GroupMember>? GroupMembers { get; set; }

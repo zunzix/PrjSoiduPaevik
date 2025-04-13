@@ -23,6 +23,8 @@ if (builder.Environment.IsProduction())
                 connectionString,
                 o => o.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)
             )
+            // disable tracking, allow id based shared entity creation
+            .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTrackingWithIdentityResolution)
     );
 }
 else
@@ -36,6 +38,8 @@ else
             .ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))
             .EnableDetailedErrors()
             .EnableSensitiveDataLogging()
+            // disable tracking, allow id based shared entity creation
+            .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTrackingWithIdentityResolution)
     );
 }
 
@@ -44,12 +48,13 @@ else
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-//builder.Services.AddScoped<IGroupRepository, GroupRepository>();
-//builder.Services.AddScoped<IGroupMemberRepository, GroupMemberRepository>();
-//builder.Services.AddScoped<ICarRepository, CarRepository>();
-//builder.Services.AddScoped<ICarIssueRepository, CarIssueRepository>();
-//builder.Services.AddScoped<ICarLogRepository, CarLogRepository>();
-//builder.Services.AddScoped<ICarInsuranceRepository, CarInsuranceRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IGroupRepository, GroupRepository>();
+builder.Services.AddScoped<IGroupMemberRepository, GroupMemberRepository>();
+builder.Services.AddScoped<ICarRepository, CarRepository>();
+builder.Services.AddScoped<ICarIssueRepository, CarIssueRepository>();
+builder.Services.AddScoped<ICarLogRepository, CarLogRepository>();
+builder.Services.AddScoped<ICarInsuranceRepository, CarInsuranceRepository>();
 
 builder.Services.AddIdentity<AppUser, AppRole>(o => 
     o.SignIn.RequireConfirmedAccount = false)
@@ -108,6 +113,7 @@ else
 app.UseHttpsRedirection();
 
 app.UseRequestLocalization(options: app.Services.GetService<IOptions<RequestLocalizationOptions>>()!.Value!);
+
 app.UseRouting();
 
 app.UseAuthorization();

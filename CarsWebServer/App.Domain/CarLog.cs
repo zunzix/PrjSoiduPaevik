@@ -1,24 +1,15 @@
 using System.ComponentModel.DataAnnotations;
 using App.Domain.Identity;
-using Base.Contracts;
 using Base.Domain;
 
 namespace App.Domain;
 
-public class CarLog : BaseEntity, IDomainUser<Guid, AppUser>
+public class CarLog : BaseEntityUser<AppUser, AppRole>
 {
     [Display(Name = nameof(Car), Prompt = nameof(Car), ResourceType = typeof(App.Resources.Domain.CarLog))]
     public Guid CarId { get; set; }
     [Display(Name = nameof(Car), Prompt = nameof(Car), ResourceType = typeof(App.Resources.Domain.CarLog))]
     public Car? Car { get; set; }
-    
-    
-    [Display(Name = nameof(AppUser), Prompt = nameof(AppUser), ResourceType = typeof(App.Resources.Domain.CarLog))]
-    public Guid UserId { get; set; }
-    //public Guid AppUserId { get; set; }
-    [Display(Name = nameof(AppUser), Prompt = nameof(AppUser), ResourceType = typeof(App.Resources.Domain.CarLog))]
-    public AppUser? User { get; set; }
-    //public AppUser? AppUser { get; set; }
     
     
     [Display(Name = nameof(StartDate), Prompt = nameof(StartDate), ResourceType = typeof(App.Resources.Domain.CarLog))]

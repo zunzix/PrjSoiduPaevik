@@ -7,36 +7,33 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using App.DAL.EF;
+using App.DAL.EF.Repositories;
 using App.Domain;
+using Base.Helpers;
 using Microsoft.AspNetCore.Authorization;
 
 namespace WebApp.Controllers;
-
+// todo remove _context and figure out _context.Users
 [Authorize]
 public class GroupMembersController : Controller
 {
-    private readonly AppDbContext _context;
+    //private readonly AppDbContext _context;
+    private readonly GroupRepository _groupRepository;
+    private readonly GroupMemberRepository _groupMemberRepository;
+    private readonly UserRepository _userRepository;
 
-    public GroupMembersController(AppDbContext context)
+    public GroupMembersController(AppDbContext context, GroupMemberRepository groupMemberRepository, GroupRepository groupRepository, UserRepository userRepository)
     {
-        _context = context;
+        //_context = context;
+        _groupMemberRepository = groupMemberRepository;
+        _groupRepository = groupRepository;
+        _userRepository = userRepository;
     }
 
     // GET: GroupMembers
     public async Task<IActionResult> Index()
     {
-        //Ask only data for current user
-        var userIdStr = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
-        var userId = Guid.Parse(userIdStr);
-        
-        var res = await _context
-                .GroupMembers
-                .Include(g => g.User)
-                .Include(g => g.Group)
-                .Where(gm => _context.GroupMembers
-                    .Any(ugm => ugm.UserId == userId && ugm.GroupId == gm.GroupId))
-                .ToListAsync();
-        
+        var res = await _groupMemberRepository.AllAsync(User.GetUserId());
         return View(res);
     }
 
@@ -48,32 +45,20 @@ public class GroupMembersController : Controller
             return NotFound();
         }
 
-        var groupMember = await _context.GroupMembers
-            .Include(g => g.User)
-            .Include(g => g.Group)
-            .FirstOrDefaultAsync(m => m.Id == id);
-        if (groupMember == null)
+        var entity = await _groupMemberRepository.FindAsync(id.Value, User.GetUserId());
+        if (entity == null)
         {
             return NotFound();
         }
 
-        return View(groupMember);
+        return View(entity);
     }
 
     // GET: GroupMembers/Create
     public IActionResult Create()
     {
-        var userIdStr = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
-        var userId = Guid.Parse(userIdStr);
-    
-        // Get only groups where current user is an admin
-        var adminGroups = _context.GroupMembers
-            .Where(gm => gm.UserId == userId && gm.IsAdmin)
-            .Select(gm => gm.Group)
-            .ToList();
-        
-        ViewData["GroupId"] = new SelectList(adminGroups, "Id", "Name");
-        ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id");
+        ViewData["GroupId"] = new SelectList(_groupRepository.AllAdmins(User.GetUserId()), "Id", "Name");
+        ViewData["AppUserId"] = new SelectList(_userRepository.All(), "Id", "Id");
         return View();
     }
 
@@ -84,27 +69,17 @@ public class GroupMembersController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(GroupMember groupMember)
     {
-        var userIdStr = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
-        var userId = Guid.Parse(userIdStr);
-        
-        
         if (ModelState.IsValid)
         {
             groupMember.Id = Guid.NewGuid();
             
-            _context.Add(groupMember);
-            await _context.SaveChangesAsync();
+            _groupMemberRepository.Add(groupMember);
+            await _groupMemberRepository.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        
-        // Repopulate dropdowns if model is invalid
-        var adminGroups = _context.GroupMembers
-            .Where(gm => gm.UserId == userId && gm.IsAdmin)
-            .Select(gm => gm.Group)
-            .ToList();
-        
-        ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id", groupMember.UserId);
-        ViewData["GroupId"] = new SelectList(adminGroups, "Id", "Name", groupMember.GroupId);
+
+        ViewData["AppUserId"] = new SelectList(_userRepository.All(), "Id", "Id", groupMember.UserId);
+        ViewData["GroupId"] = new SelectList(_groupRepository.AllAdmins(User.GetUserId()), "Id", "Name", groupMember.GroupId);
         return View(groupMember);
     }
 
@@ -116,23 +91,15 @@ public class GroupMembersController : Controller
             return NotFound();
         }
 
-        var groupMember = await _context.GroupMembers.FindAsync(id);
-        if (groupMember == null)
+        var entity = await _groupMemberRepository.FindAsync(id.Value, User.GetUserId());
+        if (entity == null)
         {
             return NotFound();
         }
-        var userIdStr = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
-        var userId = Guid.Parse(userIdStr);
-    
-        // Get only groups where current user is an admin
-        var adminGroups = _context.GroupMembers
-            .Where(gm => gm.UserId == userId && gm.IsAdmin)
-            .Select(gm => gm.Group)
-            .ToList();
-        
-        ViewData["GroupId"] = new SelectList(adminGroups, "Id", "Name");
-        ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id");
-        return View(groupMember);
+
+        ViewData["GroupId"] = new SelectList(_groupRepository.AllAdmins(User.GetUserId()), "Id", "Name");
+        ViewData["AppUserId"] = new SelectList(_userRepository.All(), "Id", "Id");
+        return View(entity);
     }
 
     // POST: GroupMembers/Edit/5
@@ -140,11 +107,8 @@ public class GroupMembersController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(Guid id, [Bind("GroupId,AppUserId,IsAdmin,Id")] GroupMember groupMember)
+    public async Task<IActionResult> Edit(Guid id, GroupMember groupMember)
     {
-        var userIdStr = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
-        var userId = Guid.Parse(userIdStr);
-        
         if (id != groupMember.Id)
         {
             return NotFound();
@@ -152,32 +116,12 @@ public class GroupMembersController : Controller
 
         if (ModelState.IsValid)
         {
-            try
-            {
-                _context.Update(groupMember);
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!GroupMemberExists(groupMember.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            _groupMemberRepository.Update(groupMember);
+            await _groupMemberRepository.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        // Repopulate dropdowns if model is invalid
-        var adminGroups = _context.GroupMembers
-            .Where(gm => gm.UserId == userId && gm.IsAdmin)
-            .Select(gm => gm.Group)
-            .ToList();
-        
-        ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id", groupMember.UserId);
-        ViewData["GroupId"] = new SelectList(adminGroups, "Id", "Name", groupMember.GroupId);
+        ViewData["AppUserId"] = new SelectList(_userRepository.All(), "Id", "Id", groupMember.UserId);
+        ViewData["GroupId"] = new SelectList(_groupRepository.AllAdmins(User.GetUserId()), "Id", "Name", groupMember.GroupId);
         return View(groupMember);
     }
 
@@ -189,16 +133,13 @@ public class GroupMembersController : Controller
             return NotFound();
         }
 
-        var groupMember = await _context.GroupMembers
-            .Include(g => g.User)
-            .Include(g => g.Group)
-            .FirstOrDefaultAsync(m => m.Id == id);
-        if (groupMember == null)
+        var entity = await _groupMemberRepository.FindAsync(id.Value, User.GetUserId());
+        if (entity == null)
         {
             return NotFound();
         }
 
-        return View(groupMember);
+        return View(entity);
     }
 
     // POST: GroupMembers/Delete/5
@@ -206,18 +147,9 @@ public class GroupMembersController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(Guid id)
     {
-        var groupMember = await _context.GroupMembers.FindAsync(id);
-        if (groupMember != null)
-        {
-            _context.GroupMembers.Remove(groupMember);
-        }
-
-        await _context.SaveChangesAsync();
+        await _groupMemberRepository.RemoveAsync(id);
+        await _groupMemberRepository.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
     }
 
-    private bool GroupMemberExists(Guid id)
-    {
-        return _context.GroupMembers.Any(e => e.Id == id);
-    }
 }
