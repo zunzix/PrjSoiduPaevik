@@ -10,4 +10,12 @@ public class GroupRepository : BaseRepository<Group>, IGroupRepository
     public GroupRepository(DbContext repositoryDbContext) : base(repositoryDbContext)
     {
     }
+    
+    public override async Task<IEnumerable<Group>> AllAsync(Guid userId = default)
+    {
+        return await RepositoryDbSet
+            .Where(g => g.GroupMembers!.Any(gm => gm.UserId == userId))
+            .ToListAsync();
+    }
+
 }

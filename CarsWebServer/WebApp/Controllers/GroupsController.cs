@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace WebApp.Controllers;
 
+// todo remove _context
 [Authorize]
 public class GroupsController : Controller
 {
@@ -29,12 +30,7 @@ public class GroupsController : Controller
     // GET: Groups
     public async Task<IActionResult> Index()
     {
-        //Ask only data for where current user is in groups
-        var res = await _context
-            .Groups
-            .Where(g => g.GroupMembers!.Any(gm => gm.UserId == User.GetUserId()))
-            .ToListAsync();
-        
+        var res = await _groupRepository.AllAsync(User.GetUserId());
         return View(res);
     }
 
@@ -45,15 +41,13 @@ public class GroupsController : Controller
         {
             return NotFound();
         }
-
-        var @group = await _context.Groups
-            .FirstOrDefaultAsync(m => m.Id == id);
-        if (@group == null)
+        var entity = await _groupRepository.FindAsync(id.Value, User.GetUserId());
+        if (entity == null)
         {
             return NotFound();
         }
 
-        return View(@group);
+        return View(entity);
     }
 
     // GET: Groups/Create
@@ -69,23 +63,21 @@ public class GroupsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create([Bind("Name,Id")] Group @group)
     {
-        var userIdStr = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
-        var userId = Guid.Parse(userIdStr);
-        
         if (ModelState.IsValid)
         {
             @group.Id = Guid.NewGuid();
-            _context.Add(@group);
+            _groupRepository.Add(@group);
 
             var groupMember = new GroupMember
             {
                 Id = Guid.NewGuid(),
                 GroupId = @group.Id,
-                UserId = userId,
+                UserId = User.GetUserId(),
                 IsAdmin = true
             };
-                
-            _context.Add(groupMember);
+            
+            // todo add groupmember repo
+            _groupMemberRepository.Add(groupMember);
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -100,13 +92,13 @@ public class GroupsController : Controller
         {
             return NotFound();
         }
-
-        var @group = await _context.Groups.FindAsync(id);
-        if (@group == null)
+        
+        var entity = await _groupRepository.FindAsync(id.Value, User.GetUserId());
+        if (entity == null)
         {
             return NotFound();
         }
-        return View(@group);
+        return View(entity);
     }
 
     // POST: Groups/Edit/5
@@ -126,7 +118,7 @@ public class GroupsController : Controller
         {
             try
             {
-                _context.Update(@group);
+                _groupRepository.Update(@group);
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
@@ -153,14 +145,13 @@ public class GroupsController : Controller
             return NotFound();
         }
 
-        var @group = await _context.Groups
-            .FirstOrDefaultAsync(m => m.Id == id);
-        if (@group == null)
+        var entity = await _groupRepository.FindAsync(id.Value, User.GetUserId());
+        if (entity == null)
         {
             return NotFound();
         }
 
-        return View(@group);
+        return View(entity);
     }
 
     // POST: Groups/Delete/5
@@ -168,11 +159,7 @@ public class GroupsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(Guid id)
     {
-        var @group = await _context.Groups.FindAsync(id);
-        if (@group != null)
-        {
-            _context.Groups.Remove(@group);
-        }
+        await _groupRepository.RemoveAsync(id);
 
         await _context.SaveChangesAsync();
         return RedirectToAction(nameof(Index));

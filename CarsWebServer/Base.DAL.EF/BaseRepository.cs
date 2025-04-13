@@ -56,13 +56,13 @@ public class BaseRepository<TEntity, TKey> : IRepository<TEntity, TKey>
             .ToListAsync();
     }
 
-    public virtual TEntity? Find(TKey id, TKey? userId)
+    public virtual TEntity? Find(TKey id, TKey? userId = default!)
     {
         var query = GetQuery(userId);
         return query.FirstOrDefault(e => e.Id.Equals(id));
     }
 
-    public virtual async Task<TEntity?> FindAsync(TKey id, TKey? userId)
+    public virtual async Task<TEntity?> FindAsync(TKey id, TKey? userId = default!)
     {
         var query = GetQuery(userId);
         return await query.FirstOrDefaultAsync(e => e.Id.Equals(id));
