@@ -4,7 +4,8 @@
 	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=APP_002FApp_002EResources_002FDomain_002FCarIssue/@EntryIndexedValue">False</s:Boolean>
 	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=APP_002FApp_002EResources_002FDomain_002FCarLog/@EntryIndexedValue">False</s:Boolean>
 	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=APP_002FApp_002EResources_002FDomain_002FGroup/@EntryIndexedValue">False</s:Boolean>
-	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=APP_002FApp_002EResources_002FDomain_002FGroupMember/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=APP_002FApp_002EResources_002FDomain_002FGroupMember/@EntryIndexedValue">False</s:Boolean>
 	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=APP_002FApp_002EResources_002FDomain_002FPerson/@EntryIndexedValue">False</s:Boolean>
+	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=APP_002FApp_002EResources_002FDomain_002FPerson/@EntryIndexRemoved">True</s:Boolean>
 	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=BASE_002FBase_002EResources_002FCommon/@EntryIndexedValue">False</s:Boolean>
 	<s:Boolean x:Key="/Default/ResxEditorPersonal/Initialized/@EntryValue">True</s:Boolean></wpf:ResourceDictionary>

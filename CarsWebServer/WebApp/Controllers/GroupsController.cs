@@ -7,7 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using App.DAL.EF;
+using App.DAL.EF.Repositories;
 using App.Domain;
+using Base.Helpers;
 using Microsoft.AspNetCore.Authorization;
 
 namespace WebApp.Controllers;
@@ -16,23 +18,21 @@ namespace WebApp.Controllers;
 public class GroupsController : Controller
 {
     private readonly AppDbContext _context;
+    private readonly GroupRepository _groupRepository;
 
-    public GroupsController(AppDbContext context)
+    public GroupsController(AppDbContext context, GroupRepository groupRepository)
     {
         _context = context;
+        _groupRepository = groupRepository;
     }
 
     // GET: Groups
     public async Task<IActionResult> Index()
     {
         //Ask only data for where current user is in groups
-        var userIdStr = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
-        var userId = Guid.Parse(userIdStr);
-        
-        
         var res = await _context
             .Groups
-            .Where(g => g.GroupMembers!.Any(gm => gm.AppUserId == userId))
+            .Where(g => g.GroupMembers!.Any(gm => gm.UserId == User.GetUserId()))
             .ToListAsync();
         
         return View(res);
@@ -81,7 +81,7 @@ public class GroupsController : Controller
             {
                 Id = Guid.NewGuid(),
                 GroupId = @group.Id,
-                AppUserId = userId,
+                UserId = userId,
                 IsAdmin = true
             };
                 

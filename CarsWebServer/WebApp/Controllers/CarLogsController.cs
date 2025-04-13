@@ -31,11 +31,11 @@ public class CarLogsController : Controller
         
         var res = await _context
             .CarLogs
-            .Include(c => c.AppUser)
+            .Include(c => c.User)
             .Include(c => c.Car)
             .ThenInclude(car => car!.Group)
             .Where(cl => cl.Car!.Group!.GroupMembers!
-                .Any(gm => gm.AppUserId == userId))
+                .Any(gm => gm.UserId == userId))
             .ToListAsync();
         
         return View(res);
@@ -50,7 +50,7 @@ public class CarLogsController : Controller
         }
 
         var carLog = await _context.CarLogs
-            .Include(c => c.AppUser)
+            .Include(c => c.User)
             .Include(c => c.Car)
             .FirstOrDefaultAsync(m => m.Id == id);
         if (carLog == null)
@@ -70,7 +70,7 @@ public class CarLogsController : Controller
         // Get cars that belong to groups where the user is a member
         var userCars = _context.Cars
             .Where(c => _context.GroupMembers
-                .Any(gm => gm.GroupId == c.GroupId && gm.AppUserId == userId))
+                .Any(gm => gm.GroupId == c.GroupId && gm.UserId == userId))
             .ToList();
 
         ViewData["CarId"] = new SelectList(userCars, "Id", "Name");
@@ -86,7 +86,7 @@ public class CarLogsController : Controller
     {
         var userIdStr = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
         var userId = Guid.Parse(userIdStr);
-        carLog.AppUserId = userId;
+        carLog.UserId = userId;
         
         if (ModelState.IsValid)
         {
@@ -102,7 +102,7 @@ public class CarLogsController : Controller
         // If model is invalid, repopulate the filtered car list
         var userCars = _context.Cars
             .Where(c => _context.GroupMembers
-                .Any(gm => gm.GroupId == c.GroupId && gm.AppUserId == userId))
+                .Any(gm => gm.GroupId == c.GroupId && gm.UserId == userId))
             .ToList();
 
         ViewData["CarId"] = new SelectList(userCars, "Id", "Name", carLog.CarId);
@@ -129,7 +129,7 @@ public class CarLogsController : Controller
         // Get cars that belong to groups where the user is a member
         var userCars = _context.Cars
             .Where(c => _context.GroupMembers
-                .Any(gm => gm.GroupId == c.GroupId && gm.AppUserId == userId))
+                .Any(gm => gm.GroupId == c.GroupId && gm.UserId == userId))
             .ToList();
 
         ViewData["CarId"] = new SelectList(userCars, "Id", "Name");
@@ -174,7 +174,7 @@ public class CarLogsController : Controller
         // If model is invalid, repopulate the filtered car list
         var userCars = _context.Cars
             .Where(c => _context.GroupMembers
-                .Any(gm => gm.GroupId == c.GroupId && gm.AppUserId == userId))
+                .Any(gm => gm.GroupId == c.GroupId && gm.UserId == userId))
             .ToList();
 
         ViewData["CarId"] = new SelectList(userCars, "Id", "Name", carLog.CarId);
@@ -190,7 +190,7 @@ public class CarLogsController : Controller
         }
 
         var carLog = await _context.CarLogs
-            .Include(c => c.AppUser)
+            .Include(c => c.User)
             .Include(c => c.Car)
             .FirstOrDefaultAsync(m => m.Id == id);
         if (carLog == null)

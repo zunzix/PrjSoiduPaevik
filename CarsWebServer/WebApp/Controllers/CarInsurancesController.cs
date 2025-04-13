@@ -34,7 +34,7 @@ public class CarInsurancesController : Controller
             .Include(c => c.Car)
             .ThenInclude(car => car!.Group)
             .Where(cl => cl.Car!.Group!.GroupMembers!
-                .Any(gm => gm.AppUserId == userId))
+                .Any(gm => gm.UserId == userId))
             .ToListAsync();
         
         return View(res);
@@ -68,7 +68,7 @@ public class CarInsurancesController : Controller
         // Get cars that belong to groups where the user is a member
         var userCars = _context.Cars
             .Where(c => _context.GroupMembers
-                .Any(gm => gm.GroupId == c.GroupId && gm.AppUserId == userId))
+                .Any(gm => gm.GroupId == c.GroupId && gm.UserId == userId))
             .ToList();
 
         ViewData["CarId"] = new SelectList(userCars, "Id", "Name");
@@ -97,7 +97,7 @@ public class CarInsurancesController : Controller
         // If model is invalid, repopulate the filtered car list
         var userCars = _context.Cars
             .Where(c => _context.GroupMembers
-                .Any(gm => gm.GroupId == c.GroupId && gm.AppUserId == userId))
+                .Any(gm => gm.GroupId == c.GroupId && gm.UserId == userId))
             .ToList();
 
         ViewData["CarId"] = new SelectList(userCars, "Id", "Name", carInsurance.CarId);
@@ -123,7 +123,7 @@ public class CarInsurancesController : Controller
         // Get cars that belong to groups where the user is a member
         var userCars = _context.Cars
             .Where(c => _context.GroupMembers
-                .Any(gm => gm.GroupId == c.GroupId && gm.AppUserId == userId))
+                .Any(gm => gm.GroupId == c.GroupId && gm.UserId == userId))
             .ToList();
 
         ViewData["CarId"] = new SelectList(userCars, "Id", "Name");
@@ -168,7 +168,7 @@ public class CarInsurancesController : Controller
         // If model is invalid, repopulate the filtered car list
         var userCars = _context.Cars
             .Where(c => _context.GroupMembers
-                .Any(gm => gm.GroupId == c.GroupId && gm.AppUserId == userId))
+                .Any(gm => gm.GroupId == c.GroupId && gm.UserId == userId))
             .ToList();
 
         ViewData["CarId"] = new SelectList(userCars, "Id", "Name", carInsurance.CarId);

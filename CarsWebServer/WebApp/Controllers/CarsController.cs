@@ -34,7 +34,7 @@ public class CarsController : Controller
             .Include(c => c.Group)
             .Where(c => _context
                 .GroupMembers
-                .Any(gm => gm.GroupId == c.GroupId && gm.AppUserId == userId))
+                .Any(gm => gm.GroupId == c.GroupId && gm.UserId == userId))
             .ToListAsync();
         
         return View(res);
@@ -67,7 +67,7 @@ public class CarsController : Controller
     
         // Get only groups where current user is an admin
         var adminGroups = _context.GroupMembers
-            .Where(gm => gm.AppUserId == userId && gm.IsAdmin)
+            .Where(gm => gm.UserId == userId && gm.IsAdmin)
             .Select(gm => gm.Group)
             .ToList();
         
@@ -95,7 +95,7 @@ public class CarsController : Controller
         
         // Repopulate dropdowns if model is invalid
         var adminGroups = _context.GroupMembers
-            .Where(gm => gm.AppUserId == userId && gm.IsAdmin)
+            .Where(gm => gm.UserId == userId && gm.IsAdmin)
             .Select(gm => gm.Group)
             .ToList();
         
@@ -121,7 +121,7 @@ public class CarsController : Controller
     
         // Get only groups where current user is an admin
         var adminGroups = _context.GroupMembers
-            .Where(gm => gm.AppUserId == userId && gm.IsAdmin)
+            .Where(gm => gm.UserId == userId && gm.IsAdmin)
             .Select(gm => gm.Group)
             .ToList();
         
@@ -166,7 +166,7 @@ public class CarsController : Controller
         }
         // Repopulate dropdowns if model is invalid
         var adminGroups = _context.GroupMembers
-            .Where(gm => gm.AppUserId == userId && gm.IsAdmin)
+            .Where(gm => gm.UserId == userId && gm.IsAdmin)
             .Select(gm => gm.Group)
             .ToList();
         

@@ -31,10 +31,10 @@ public class GroupMembersController : Controller
         
         var res = await _context
                 .GroupMembers
-                .Include(g => g.AppUser)
+                .Include(g => g.User)
                 .Include(g => g.Group)
                 .Where(gm => _context.GroupMembers
-                    .Any(ugm => ugm.AppUserId == userId && ugm.GroupId == gm.GroupId))
+                    .Any(ugm => ugm.UserId == userId && ugm.GroupId == gm.GroupId))
                 .ToListAsync();
         
         return View(res);
@@ -49,7 +49,7 @@ public class GroupMembersController : Controller
         }
 
         var groupMember = await _context.GroupMembers
-            .Include(g => g.AppUser)
+            .Include(g => g.User)
             .Include(g => g.Group)
             .FirstOrDefaultAsync(m => m.Id == id);
         if (groupMember == null)
@@ -68,7 +68,7 @@ public class GroupMembersController : Controller
     
         // Get only groups where current user is an admin
         var adminGroups = _context.GroupMembers
-            .Where(gm => gm.AppUserId == userId && gm.IsAdmin)
+            .Where(gm => gm.UserId == userId && gm.IsAdmin)
             .Select(gm => gm.Group)
             .ToList();
         
@@ -99,11 +99,11 @@ public class GroupMembersController : Controller
         
         // Repopulate dropdowns if model is invalid
         var adminGroups = _context.GroupMembers
-            .Where(gm => gm.AppUserId == userId && gm.IsAdmin)
+            .Where(gm => gm.UserId == userId && gm.IsAdmin)
             .Select(gm => gm.Group)
             .ToList();
         
-        ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id", groupMember.AppUserId);
+        ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id", groupMember.UserId);
         ViewData["GroupId"] = new SelectList(adminGroups, "Id", "Name", groupMember.GroupId);
         return View(groupMember);
     }
@@ -126,7 +126,7 @@ public class GroupMembersController : Controller
     
         // Get only groups where current user is an admin
         var adminGroups = _context.GroupMembers
-            .Where(gm => gm.AppUserId == userId && gm.IsAdmin)
+            .Where(gm => gm.UserId == userId && gm.IsAdmin)
             .Select(gm => gm.Group)
             .ToList();
         
@@ -172,11 +172,11 @@ public class GroupMembersController : Controller
         }
         // Repopulate dropdowns if model is invalid
         var adminGroups = _context.GroupMembers
-            .Where(gm => gm.AppUserId == userId && gm.IsAdmin)
+            .Where(gm => gm.UserId == userId && gm.IsAdmin)
             .Select(gm => gm.Group)
             .ToList();
         
-        ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id", groupMember.AppUserId);
+        ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id", groupMember.UserId);
         ViewData["GroupId"] = new SelectList(adminGroups, "Id", "Name", groupMember.GroupId);
         return View(groupMember);
     }
@@ -190,7 +190,7 @@ public class GroupMembersController : Controller
         }
 
         var groupMember = await _context.GroupMembers
-            .Include(g => g.AppUser)
+            .Include(g => g.User)
             .Include(g => g.Group)
             .FirstOrDefaultAsync(m => m.Id == id);
         if (groupMember == null)
