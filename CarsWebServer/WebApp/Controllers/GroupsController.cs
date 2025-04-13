@@ -20,11 +20,13 @@ public class GroupsController : Controller
 {
     private readonly AppDbContext _context;
     private readonly GroupRepository _groupRepository;
+    private readonly GroupMemberRepository _groupMemberRepository;
 
-    public GroupsController(AppDbContext context, GroupRepository groupRepository)
+    public GroupsController(AppDbContext context, GroupRepository groupRepository, GroupMemberRepository groupMemberRepository)
     {
         _context = context;
         _groupRepository = groupRepository;
+        _groupMemberRepository = groupMemberRepository;
     }
 
     // GET: Groups

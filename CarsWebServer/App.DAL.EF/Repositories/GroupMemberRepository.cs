@@ -34,5 +34,5 @@ public class GroupMemberRepository : BaseRepository<GroupMember>, IGroupMemberRe
             .Where(gm => gm.Id == id && gm.UserId == userId)
             .FirstOrDefaultAsync();
     }
-
+    
 }

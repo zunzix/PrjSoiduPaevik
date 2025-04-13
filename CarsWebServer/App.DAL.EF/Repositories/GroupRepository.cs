@@ -18,4 +18,11 @@ public class GroupRepository : BaseRepository<Group>, IGroupRepository
             .ToListAsync();
     }
 
+    public IEnumerable<Group> AllAdmins(Guid userId)
+    {
+        return RepositoryDbSet
+            .Where(g => g.GroupMembers!
+                .Any(gm => gm.UserId == userId && gm.IsAdmin))
+            .ToList();
+    }
 }
