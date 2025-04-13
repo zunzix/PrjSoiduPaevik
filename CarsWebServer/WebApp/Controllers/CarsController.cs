@@ -7,7 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using App.DAL.EF;
+using App.DAL.EF.Repositories;
 using App.Domain;
+using Base.Helpers;
 using Microsoft.AspNetCore.Authorization;
 
 namespace WebApp.Controllers;
@@ -15,27 +17,22 @@ namespace WebApp.Controllers;
 [Authorize]
 public class CarsController : Controller
 {
-    private readonly AppDbContext _context;
+    //private readonly AppDbContext _context;
+    private readonly CarRepository _carRepository;
+    private readonly GroupRepository _groupRepository;
 
-    public CarsController(AppDbContext context)
+    public CarsController(AppDbContext context, CarRepository carRepository, GroupRepository groupRepository)
     {
-        _context = context;
+        //_context = context;
+        _carRepository = carRepository;
+        _groupRepository = groupRepository;
     }
 
     // GET: Cars
     public async Task<IActionResult> Index()
     {
-        //Ask only data for current user
-        var userIdStr = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
-        var userId = Guid.Parse(userIdStr);
-        
-        var res = await _context
-            .Cars
-            .Include(c => c.Group)
-            .Where(c => _context
-                .GroupMembers
-                .Any(gm => gm.GroupId == c.GroupId && gm.UserId == userId))
-            .ToListAsync();
+        var userGroups = await _groupRepository.AllAsync(User.GetUserId());
+        var res = await _carRepository.AllCars(userGroups, User.GetUserId());
         
         return View(res);
     }
@@ -48,30 +45,19 @@ public class CarsController : Controller
             return NotFound();
         }
 
-        var car = await _context.Cars
-            .Include(c => c.Group)
-            .FirstOrDefaultAsync(m => m.Id == id);
-        if (car == null)
+        var entity = await _carRepository.FindAsync(id.Value, User.GetUserId());
+        if (entity == null)
         {
             return NotFound();
         }
 
-        return View(car);
+        return View(entity);
     }
 
     // GET: Cars/Create
     public IActionResult Create()
     {
-        var userIdStr = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
-        var userId = Guid.Parse(userIdStr);
-    
-        // Get only groups where current user is an admin
-        var adminGroups = _context.GroupMembers
-            .Where(gm => gm.UserId == userId && gm.IsAdmin)
-            .Select(gm => gm.Group)
-            .ToList();
-        
-        ViewData["GroupId"] = new SelectList(adminGroups, "Id", "Name");
+        ViewData["GroupId"] = new SelectList(_groupRepository.AllAdmins(User.GetUserId()), "Id", "Name");
         return View();
     }
 
@@ -80,26 +66,16 @@ public class CarsController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("GroupId,Name,Mileage,AvgFuelCons,IsAvailable,IsArchived,Id")] Car car)
+    public async Task<IActionResult> Create(Car car)
     {
-        var userIdStr = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
-        var userId = Guid.Parse(userIdStr);
-        
         if (ModelState.IsValid)
         {
             car.Id = Guid.NewGuid();
-            _context.Add(car);
-            await _context.SaveChangesAsync();
+            _carRepository.Add(car);
+            await _carRepository.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        
-        // Repopulate dropdowns if model is invalid
-        var adminGroups = _context.GroupMembers
-            .Where(gm => gm.UserId == userId && gm.IsAdmin)
-            .Select(gm => gm.Group)
-            .ToList();
-        
-        ViewData["GroupId"] = new SelectList(adminGroups, "Id", "Name", car.GroupId);
+        ViewData["GroupId"] = new SelectList(_groupRepository.AllAdmins(User.GetUserId()), "Id", "Name", car.GroupId);
         return View(car);
     }
 
@@ -111,22 +87,14 @@ public class CarsController : Controller
             return NotFound();
         }
 
-        var car = await _context.Cars.FindAsync(id);
-        if (car == null)
+        var entity = await _carRepository.FindAsync(id.Value, User.GetUserId());
+        if (entity == null)
         {
             return NotFound();
         }
-        var userIdStr = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
-        var userId = Guid.Parse(userIdStr);
-    
-        // Get only groups where current user is an admin
-        var adminGroups = _context.GroupMembers
-            .Where(gm => gm.UserId == userId && gm.IsAdmin)
-            .Select(gm => gm.Group)
-            .ToList();
         
-        ViewData["GroupId"] = new SelectList(adminGroups, "Id", "Name");
-        return View(car);
+        ViewData["GroupId"] = new SelectList(_groupRepository.AllAdmins(User.GetUserId()), "Id", "Name");
+        return View(entity);
     }
 
     // POST: Cars/Edit/5
@@ -134,11 +102,8 @@ public class CarsController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(Guid id, [Bind("GroupId,Name,Mileage,AvgFuelCons,IsAvailable,IsArchived,Id")] Car car)
+    public async Task<IActionResult> Edit(Guid id, Car car)
     {
-        var userIdStr = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
-        var userId = Guid.Parse(userIdStr);
-        
         if (id != car.Id)
         {
             return NotFound();
@@ -146,31 +111,11 @@ public class CarsController : Controller
 
         if (ModelState.IsValid)
         {
-            try
-            {
-                _context.Update(car);
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CarExists(car.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            _carRepository.Update(car);
+            await _carRepository.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        // Repopulate dropdowns if model is invalid
-        var adminGroups = _context.GroupMembers
-            .Where(gm => gm.UserId == userId && gm.IsAdmin)
-            .Select(gm => gm.Group)
-            .ToList();
-        
-        ViewData["GroupId"] = new SelectList(adminGroups, "Id", "Name", car.GroupId);
+        ViewData["GroupId"] = new SelectList(_groupRepository.AllAdmins(User.GetUserId()), "Id", "Name", car.GroupId);
         return View(car);
     }
 
@@ -182,15 +127,13 @@ public class CarsController : Controller
             return NotFound();
         }
 
-        var car = await _context.Cars
-            .Include(c => c.Group)
-            .FirstOrDefaultAsync(m => m.Id == id);
-        if (car == null)
+        var entity = await _carRepository.FindAsync(id.Value, User.GetUserId());
+        if (entity == null)
         {
             return NotFound();
         }
 
-        return View(car);
+        return View(entity);
     }
 
     // POST: Cars/Delete/5
@@ -198,18 +141,9 @@ public class CarsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(Guid id)
     {
-        var car = await _context.Cars.FindAsync(id);
-        if (car != null)
-        {
-            _context.Cars.Remove(car);
-        }
-
-        await _context.SaveChangesAsync();
+        await _carRepository.RemoveAsync(id);
+        await _carRepository.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
     }
 
-    private bool CarExists(Guid id)
-    {
-        return _context.Cars.Any(e => e.Id == id);
-    }
 }
