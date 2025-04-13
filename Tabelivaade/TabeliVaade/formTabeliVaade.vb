@@ -5,7 +5,7 @@ Imports System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox
 Public Class formTabeliVaade
     Const DEBUG = True
 
-    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub formTabeliVaade_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         ' Hide the "tabs" so that the user can't manually switch between them
         tcTabs.Appearance = TabAppearance.FlatButtons
