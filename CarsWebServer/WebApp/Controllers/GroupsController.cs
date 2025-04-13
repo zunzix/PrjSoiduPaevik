@@ -7,32 +7,34 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using App.DAL.EF;
-using App.DAL.EF.Repositories;
 using App.Domain;
-using Base.Helpers;
 using Microsoft.AspNetCore.Authorization;
 
 namespace WebApp.Controllers;
 
-// todo remove _context
 [Authorize]
 public class GroupsController : Controller
 {
     private readonly AppDbContext _context;
-    private readonly GroupRepository _groupRepository;
-    private readonly GroupMemberRepository _groupMemberRepository;
 
-    public GroupsController(AppDbContext context, GroupRepository groupRepository, GroupMemberRepository groupMemberRepository)
+    public GroupsController(AppDbContext context)
     {
         _context = context;
-        _groupRepository = groupRepository;
-        _groupMemberRepository = groupMemberRepository;
     }
 
     // GET: Groups
     public async Task<IActionResult> Index()
     {
-        var res = await _groupRepository.AllAsync(User.GetUserId());
+        //Ask only data for where current user is in groups
+        var userIdStr = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+        var userId = Guid.Parse(userIdStr);
+        
+        
+        var res = await _context
+            .Groups
+            .Where(g => g.GroupMembers!.Any(gm => gm.UserId == userId))
+            .ToListAsync();
+        
         return View(res);
     }
 
@@ -43,13 +45,15 @@ public class GroupsController : Controller
         {
             return NotFound();
         }
-        var entity = await _groupRepository.FindAsync(id.Value, User.GetUserId());
-        if (entity == null)
+
+        var @group = await _context.Groups
+            .FirstOrDefaultAsync(m => m.Id == id);
+        if (@group == null)
         {
             return NotFound();
         }
 
-        return View(entity);
+        return View(@group);
     }
 
     // GET: Groups/Create
@@ -65,21 +69,23 @@ public class GroupsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create([Bind("Name,Id")] Group @group)
     {
+        var userIdStr = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+        var userId = Guid.Parse(userIdStr);
+        
         if (ModelState.IsValid)
         {
             @group.Id = Guid.NewGuid();
-            _groupRepository.Add(@group);
+            _context.Add(@group);
 
             var groupMember = new GroupMember
             {
                 Id = Guid.NewGuid(),
                 GroupId = @group.Id,
-                UserId = User.GetUserId(),
+                UserId = userId,
                 IsAdmin = true
             };
-            
-            // todo add groupmember repo
-            _groupMemberRepository.Add(groupMember);
+                
+            _context.Add(groupMember);
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -94,13 +100,13 @@ public class GroupsController : Controller
         {
             return NotFound();
         }
-        
-        var entity = await _groupRepository.FindAsync(id.Value, User.GetUserId());
-        if (entity == null)
+
+        var @group = await _context.Groups.FindAsync(id);
+        if (@group == null)
         {
             return NotFound();
         }
-        return View(entity);
+        return View(@group);
     }
 
     // POST: Groups/Edit/5
@@ -120,7 +126,7 @@ public class GroupsController : Controller
         {
             try
             {
-                _groupRepository.Update(@group);
+                _context.Update(@group);
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
@@ -147,13 +153,14 @@ public class GroupsController : Controller
             return NotFound();
         }
 
-        var entity = await _groupRepository.FindAsync(id.Value, User.GetUserId());
-        if (entity == null)
+        var @group = await _context.Groups
+            .FirstOrDefaultAsync(m => m.Id == id);
+        if (@group == null)
         {
             return NotFound();
         }
 
-        return View(entity);
+        return View(@group);
     }
 
     // POST: Groups/Delete/5
@@ -161,7 +168,11 @@ public class GroupsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(Guid id)
     {
-        await _groupRepository.RemoveAsync(id);
+        var @group = await _context.Groups.FindAsync(id);
+        if (@group != null)
+        {
+            _context.Groups.Remove(@group);
+        }
 
         await _context.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
