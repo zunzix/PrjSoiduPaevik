@@ -36,11 +36,25 @@ Partial Class formTableViewer
         Me.tpHistory = New System.Windows.Forms.TabPage()
         Me.tpHistoryDetails = New System.Windows.Forms.TabPage()
         Me.tpAddCar = New System.Windows.Forms.TabPage()
+        Me.lblHeader = New System.Windows.Forms.Label()
+        Me.lblArchive = New System.Windows.Forms.Label()
+        Me.lblReady = New System.Windows.Forms.Label()
+        Me.lblAvgFuel = New System.Windows.Forms.Label()
+        Me.lblMileage = New System.Windows.Forms.Label()
+        Me.lblName = New System.Windows.Forms.Label()
+        Me.txtName = New System.Windows.Forms.TextBox()
+        Me.txtAvgFuel = New System.Windows.Forms.TextBox()
+        Me.txtMileage = New System.Windows.Forms.TextBox()
+        Me.cboxReady = New System.Windows.Forms.CheckBox()
+        Me.cboxArchive = New System.Windows.Forms.CheckBox()
+        Me.btnCancel = New System.Windows.Forms.Button()
+        Me.btnEnter = New System.Windows.Forms.Button()
         Me.tcTabs.SuspendLayout()
         Me.tpCarsList.SuspendLayout()
         CType(Me.dgvCarsList, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tpProblems.SuspendLayout()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.tpAddCar.SuspendLayout()
         Me.SuspendLayout()
         '
         'tcTabs
@@ -192,12 +206,149 @@ Partial Class formTableViewer
         '
         'tpAddCar
         '
+        Me.tpAddCar.Controls.Add(Me.btnEnter)
+        Me.tpAddCar.Controls.Add(Me.btnCancel)
+        Me.tpAddCar.Controls.Add(Me.cboxArchive)
+        Me.tpAddCar.Controls.Add(Me.cboxReady)
+        Me.tpAddCar.Controls.Add(Me.txtMileage)
+        Me.tpAddCar.Controls.Add(Me.txtAvgFuel)
+        Me.tpAddCar.Controls.Add(Me.txtName)
+        Me.tpAddCar.Controls.Add(Me.lblName)
+        Me.tpAddCar.Controls.Add(Me.lblMileage)
+        Me.tpAddCar.Controls.Add(Me.lblAvgFuel)
+        Me.tpAddCar.Controls.Add(Me.lblReady)
+        Me.tpAddCar.Controls.Add(Me.lblArchive)
+        Me.tpAddCar.Controls.Add(Me.lblHeader)
         Me.tpAddCar.Location = New System.Drawing.Point(4, 32)
         Me.tpAddCar.Name = "tpAddCar"
         Me.tpAddCar.Size = New System.Drawing.Size(889, 520)
         Me.tpAddCar.TabIndex = 7
-        Me.tpAddCar.Text = "tpAddCar"
+        Me.tpAddCar.Text = "AddCar"
         Me.tpAddCar.UseVisualStyleBackColor = True
+        '
+        'lblHeader
+        '
+        Me.lblHeader.AutoSize = True
+        Me.lblHeader.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblHeader.Location = New System.Drawing.Point(340, 20)
+        Me.lblHeader.Name = "lblHeader"
+        Me.lblHeader.Size = New System.Drawing.Size(208, 32)
+        Me.lblHeader.TabIndex = 0
+        Me.lblHeader.Text = "Add a car to list"
+        '
+        'lblArchive
+        '
+        Me.lblArchive.AutoSize = True
+        Me.lblArchive.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblArchive.Location = New System.Drawing.Point(53, 365)
+        Me.lblArchive.Name = "lblArchive"
+        Me.lblArchive.Size = New System.Drawing.Size(429, 26)
+        Me.lblArchive.TabIndex = 1
+        Me.lblArchive.Text = "Should the car be added to the archive list?"
+        '
+        'lblReady
+        '
+        Me.lblReady.AutoSize = True
+        Me.lblReady.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblReady.Location = New System.Drawing.Point(53, 295)
+        Me.lblReady.Name = "lblReady"
+        Me.lblReady.Size = New System.Drawing.Size(296, 26)
+        Me.lblReady.TabIndex = 2
+        Me.lblReady.Text = "Is the car ready to drive now?"
+        '
+        'lblAvgFuel
+        '
+        Me.lblAvgFuel.AutoSize = True
+        Me.lblAvgFuel.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblAvgFuel.Location = New System.Drawing.Point(53, 225)
+        Me.lblAvgFuel.Name = "lblAvgFuel"
+        Me.lblAvgFuel.Size = New System.Drawing.Size(349, 26)
+        Me.lblAvgFuel.TabIndex = 3
+        Me.lblAvgFuel.Text = "Car average fuel consumtion [l/km]"
+        '
+        'lblMileage
+        '
+        Me.lblMileage.AutoSize = True
+        Me.lblMileage.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblMileage.Location = New System.Drawing.Point(53, 155)
+        Me.lblMileage.Name = "lblMileage"
+        Me.lblMileage.Size = New System.Drawing.Size(178, 26)
+        Me.lblMileage.TabIndex = 4
+        Me.lblMileage.Text = "Car mileage [km]"
+        '
+        'lblName
+        '
+        Me.lblName.AutoSize = True
+        Me.lblName.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblName.Location = New System.Drawing.Point(53, 85)
+        Me.lblName.Name = "lblName"
+        Me.lblName.Size = New System.Drawing.Size(108, 26)
+        Me.lblName.TabIndex = 5
+        Me.lblName.Text = "Car name"
+        '
+        'txtName
+        '
+        Me.txtName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtName.Location = New System.Drawing.Point(167, 88)
+        Me.txtName.Name = "txtName"
+        Me.txtName.Size = New System.Drawing.Size(686, 26)
+        Me.txtName.TabIndex = 6
+        '
+        'txtAvgFuel
+        '
+        Me.txtAvgFuel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtAvgFuel.Location = New System.Drawing.Point(408, 225)
+        Me.txtAvgFuel.Name = "txtAvgFuel"
+        Me.txtAvgFuel.Size = New System.Drawing.Size(445, 26)
+        Me.txtAvgFuel.TabIndex = 7
+        '
+        'txtMileage
+        '
+        Me.txtMileage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtMileage.Location = New System.Drawing.Point(237, 155)
+        Me.txtMileage.Name = "txtMileage"
+        Me.txtMileage.Size = New System.Drawing.Size(616, 26)
+        Me.txtMileage.TabIndex = 8
+        '
+        'cboxReady
+        '
+        Me.cboxReady.AutoSize = True
+        Me.cboxReady.Location = New System.Drawing.Point(355, 299)
+        Me.cboxReady.Name = "cboxReady"
+        Me.cboxReady.Size = New System.Drawing.Size(118, 24)
+        Me.cboxReady.TabIndex = 9
+        Me.cboxReady.Text = "Car is ready"
+        Me.cboxReady.UseVisualStyleBackColor = True
+        '
+        'cboxArchive
+        '
+        Me.cboxArchive.AutoSize = True
+        Me.cboxArchive.Location = New System.Drawing.Point(488, 369)
+        Me.cboxArchive.Name = "cboxArchive"
+        Me.cboxArchive.Size = New System.Drawing.Size(113, 24)
+        Me.cboxArchive.TabIndex = 10
+        Me.cboxArchive.Text = "Archive car"
+        Me.cboxArchive.UseVisualStyleBackColor = True
+        '
+        'btnCancel
+        '
+        Me.btnCancel.BackColor = System.Drawing.SystemColors.ActiveBorder
+        Me.btnCancel.Location = New System.Drawing.Point(80, 434)
+        Me.btnCancel.Name = "btnCancel"
+        Me.btnCancel.Size = New System.Drawing.Size(366, 66)
+        Me.btnCancel.TabIndex = 11
+        Me.btnCancel.Text = "Cancel"
+        Me.btnCancel.UseVisualStyleBackColor = False
+        '
+        'btnEnter
+        '
+        Me.btnEnter.BackColor = System.Drawing.SystemColors.ActiveCaption
+        Me.btnEnter.Location = New System.Drawing.Point(487, 434)
+        Me.btnEnter.Name = "btnEnter"
+        Me.btnEnter.Size = New System.Drawing.Size(366, 66)
+        Me.btnEnter.TabIndex = 12
+        Me.btnEnter.Text = "Enter"
+        Me.btnEnter.UseVisualStyleBackColor = False
         '
         'formTableViewer
         '
@@ -213,6 +364,8 @@ Partial Class formTableViewer
         CType(Me.dgvCarsList, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tpProblems.ResumeLayout(False)
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.tpAddCar.ResumeLayout(False)
+        Me.tpAddCar.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -231,4 +384,17 @@ Partial Class formTableViewer
     Friend WithEvents btnCarBack As Button
     Friend WithEvents btnProblemBack As Button
     Friend WithEvents tpAddCar As TabPage
+    Friend WithEvents txtMileage As TextBox
+    Friend WithEvents txtAvgFuel As TextBox
+    Friend WithEvents txtName As TextBox
+    Friend WithEvents lblName As Label
+    Friend WithEvents lblMileage As Label
+    Friend WithEvents lblAvgFuel As Label
+    Friend WithEvents lblReady As Label
+    Friend WithEvents lblArchive As Label
+    Friend WithEvents lblHeader As Label
+    Friend WithEvents btnEnter As Button
+    Friend WithEvents btnCancel As Button
+    Friend WithEvents cboxArchive As CheckBox
+    Friend WithEvents cboxReady As CheckBox
 End Class
