@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8AA955A8-F367-4313-B71F-D24B974C6027}</ProjectGuid>
+    <ProjectGuid>{27356865-F228-4EE8-9D43-4FB39CC5C268}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <StartupObject>TabeliVaade.My.MyApplication</StartupObject>
     <RootNamespace>TabeliVaade</RootNamespace>
@@ -73,29 +73,13 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CAuto.vb" />
-    <Compile Include="CAutoProbleem.vb" />
-    <Compile Include="CCarAddSub.vb" />
-    <Compile Include="CKindlustus.vb" />
-    <Compile Include="CTabelReader.vb" />
-    <Compile Include="formDetailedCarView.Designer.vb">
-      <DependentUpon>formDetailedCarView.vb</DependentUpon>
-    </Compile>
-    <Compile Include="formDetailedCarView.vb">
+    <Compile Include="formTableViewer.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="formTabeliVaade.vb">
+    <Compile Include="formTableViewer.Designer.vb">
+      <DependentUpon>formTableViewer.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="formTabeliVaade.Designer.vb">
-      <DependentUpon>formTabeliVaade.vb</DependentUpon>
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="IAuto.vb" />
-    <Compile Include="IAutoProbleem.vb" />
-    <Compile Include="ICarAddSub.vb" />
-    <Compile Include="IKindlustus.vb" />
-    <Compile Include="ITabelReader.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -113,12 +97,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="formDetailedCarView.resx">
-      <DependentUpon>formDetailedCarView.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="formTabeliVaade.resx">
-      <DependentUpon>formTabeliVaade.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
