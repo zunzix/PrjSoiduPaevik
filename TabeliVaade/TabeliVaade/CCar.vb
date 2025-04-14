@@ -74,5 +74,17 @@
 
     ' To Add: Functions/Subs for adding, removing and updating database through TableReader
 
-    ' To Add: Functions/Subs for accessing properties
+    ' Function for getting the values of the private properties
+    ' Get the chosen type by writing the name of the property in quotes ("...")
+    Public Function GetProperty(ByVal type As String) Implements ICar.GetProperty
+        ' Get the info of the required property and store it
+        Dim propertyInfo = Me.GetType().GetProperty(type)
+
+        ' Check whether it exists or not
+        If type IsNot Nothing Then
+            Return propertyInfo.GetValue(Me, Nothing)
+        Else
+            Throw New ArgumentException($"Property '{type}' doesn't exist!")
+        End If
+    End Function
 End Class

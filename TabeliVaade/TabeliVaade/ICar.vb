@@ -7,4 +7,5 @@
     Property IsAvailable As Boolean
     Property IsArchived As Boolean
     Property IsInCriticalState As Boolean
+    Function GetProperty(ByVal type As String)
 End Interface

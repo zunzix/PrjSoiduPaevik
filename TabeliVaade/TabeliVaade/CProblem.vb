@@ -4,10 +4,10 @@
     ' For testing purposes without the database intigrated
     Private Shared NextID As Integer = 0
 
-    Public Property ID As Integer Implements IProblem.ID
-    Public Property CarID As Integer Implements IProblem.CarID
-    Public Property Issue As String Implements IProblem.Issue
-    Public Property IsResolved As Boolean Implements IProblem.IsResolved
+    Private Property ID As Integer Implements IProblem.ID
+    Private Property CarID As Integer Implements IProblem.CarID
+    Private Property Issue As String Implements IProblem.Issue
+    Private Property IsResolved As Boolean Implements IProblem.IsResolved
 
     ' Problem object constructer
     ' Includes validation in case of wrong datatypes
@@ -40,5 +40,17 @@
 
     ' To Add: Functions/Subs for adding, removing and updating database through TableReader
 
-    ' To Add: Functions/Subs for accessing properties
+    ' Function for getting the values of the private properties
+    ' Get the chosen type by writing the name of the property in quotes ("...")
+    Public Function GetProperty(ByVal type As String) Implements IProblem.GetProperty
+        ' Get the info of the required property and store it
+        Dim propertyInfo = Me.GetType().GetProperty(type)
+
+        ' Check whether it exists or not
+        If type IsNot Nothing Then
+            Return propertyInfo.GetValue(Me, Nothing)
+        Else
+            Throw New ArgumentException($"Property '{type}' doesn't exist!")
+        End If
+    End Function
 End Class

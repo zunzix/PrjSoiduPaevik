@@ -4,10 +4,10 @@
     ' For testing purposes without the database intigrated
     Private Shared NextID As Integer = 0
 
-    Public Property ID As Integer Implements IInsurance.ID
-    Public Property CarID As Integer Implements IInsurance.CarID
-    Public Property Name As String Implements IInsurance.Name
-    Public Property EndDate As Date Implements IInsurance.EndDate
+    Private Property ID As Integer Implements IInsurance.ID
+    Private Property CarID As Integer Implements IInsurance.CarID
+    Private Property Name As String Implements IInsurance.Name
+    Private Property EndDate As Date Implements IInsurance.EndDate
 
     ' Insurance object constructer
     ' Includes validation in case of wrong datatypes
@@ -39,5 +39,17 @@
 
     ' To Add: Functions/Subs for adding, removing and updating database through TableReader
 
-    ' To Add: Functions/Subs for accessing properties
+    ' Function for getting the values of the private properties
+    ' Get the chosen type by writing the name of the property in quotes ("...")
+    Public Function GetProperty(ByVal type As String) Implements IInsurance.GetProperty
+        ' Get the info of the required property and store it
+        Dim propertyInfo = Me.GetType().GetProperty(type)
+
+        ' Check whether it exists or not
+        If type IsNot Nothing Then
+            Return propertyInfo.GetValue(Me, Nothing)
+        Else
+            Throw New ArgumentException($"Property '{type}' doesn't exist!")
+        End If
+    End Function
 End Class
