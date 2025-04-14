@@ -17,7 +17,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace WebApp.ApiControllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class CarInsurancesController : ControllerBase
@@ -37,7 +37,14 @@ namespace WebApp.ApiControllers
         {
             var userGroups = await _uow.GroupRepository.AllAsync(User.GetUserId());
             var userCars = await _uow.CarRepository.AllCarsAsync(userGroups);
-            return (await _uow.CarInsuranceRepository.AllCarInsurancesAsync(userCars)).ToList();
+            var carInsurances = await _uow.CarInsuranceRepository.AllCarInsurancesAsync(userCars);
+            return Ok(carInsurances.Select(c => new 
+            {
+                c.Id,
+                c.CarId,
+                c.Name,
+                c.EndDate
+            }).ToList());
         }
 
         // GET: api/CarInsurances/5

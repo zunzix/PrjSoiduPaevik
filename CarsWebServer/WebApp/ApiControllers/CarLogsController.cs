@@ -18,7 +18,7 @@ using Microsoft.CodeAnalysis;
 
 namespace WebApp.ApiControllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class CarLogsController : ControllerBase
@@ -38,7 +38,19 @@ namespace WebApp.ApiControllers
         {
             var userGroups = await _uow.GroupRepository.AllAsync(User.GetUserId());
             var userCars = await _uow.CarRepository.AllCarsAsync(userGroups);
-            return (await _uow.CarLogRepository.AllCarLogsAsync(userCars)).ToList();
+            var carLogs = await _uow.CarLogRepository.AllCarLogsAsync(userCars);
+            return Ok(carLogs.Select(c => new 
+            {
+                c.Id,
+                c.UserId,
+                c.CarId,
+                c.StartDate,
+                c.EndDate,
+                c.StartPoint,
+                c.EndPoint,
+                c.Distance,
+                c.Comment
+            }).ToList());
         }
 
         // GET: api/CarLogs/5

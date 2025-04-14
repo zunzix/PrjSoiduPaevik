@@ -17,7 +17,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace WebApp.ApiControllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class GroupMembersController : ControllerBase
@@ -35,7 +35,16 @@ namespace WebApp.ApiControllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GroupMember>>> GetGroupMembers()
         {
-            return (await _uow.GroupMemberRepository.AllAsync(User.GetUserId())).ToList();
+            var groupMembers = await _uow.GroupMemberRepository.AllAsync(User.GetUserId());
+            return Ok(groupMembers.Select(c => new 
+            {
+                c.Id,
+                c.Group!.Name,
+                c.GroupId,
+                c.UserId,
+                c.User!.Email,
+                c.IsAdmin
+            }).ToList());
         }
 
         // GET: api/GroupMembers/5
