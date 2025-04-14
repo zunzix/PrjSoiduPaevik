@@ -28,11 +28,10 @@ Partial Class formTabeliVaade
         Me.tcTabs = New System.Windows.Forms.TabControl()
         Me.tpAutod = New System.Windows.Forms.TabPage()
         Me.tbProbleemid = New System.Windows.Forms.TabPage()
-        Me.dgvProbleemid = New System.Windows.Forms.DataGridView()
         Me.btnBack = New System.Windows.Forms.Button()
+        Me.dgvProbleemid = New System.Windows.Forms.DataGridView()
         CType(Me.dgvTabeliVaade, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tcTabs.SuspendLayout()
-        Me.tpAutod.SuspendLayout()
         Me.tbProbleemid.SuspendLayout()
         CType(Me.dgvProbleemid, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -40,18 +39,20 @@ Partial Class formTabeliVaade
         'dgvTabeliVaade
         '
         Me.dgvTabeliVaade.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dgvTabeliVaade.Location = New System.Drawing.Point(12, 83)
+        Me.dgvTabeliVaade.Location = New System.Drawing.Point(16, 102)
+        Me.dgvTabeliVaade.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.dgvTabeliVaade.Name = "dgvTabeliVaade"
         Me.dgvTabeliVaade.RowHeadersWidth = 62
-        Me.dgvTabeliVaade.Size = New System.Drawing.Size(776, 314)
+        Me.dgvTabeliVaade.Size = New System.Drawing.Size(1035, 386)
         Me.dgvTabeliVaade.TabIndex = 0
         '
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(373, 404)
+        Me.Label1.Location = New System.Drawing.Point(497, 497)
+        Me.Label1.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(34, 13)
+        Me.Label1.Size = New System.Drawing.Size(43, 16)
         Me.Label1.TabIndex = 1
         Me.Label1.Text = "Tabel"
         '
@@ -59,10 +60,10 @@ Partial Class formTabeliVaade
         '
         Me.btnAdd.BackColor = System.Drawing.SystemColors.Control
         Me.btnAdd.Cursor = System.Windows.Forms.Cursors.Cross
-        Me.btnAdd.Location = New System.Drawing.Point(12, 44)
-        Me.btnAdd.Margin = New System.Windows.Forms.Padding(2)
+        Me.btnAdd.Location = New System.Drawing.Point(16, 54)
+        Me.btnAdd.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.btnAdd.Name = "btnAdd"
-        Me.btnAdd.Size = New System.Drawing.Size(89, 21)
+        Me.btnAdd.Size = New System.Drawing.Size(119, 26)
         Me.btnAdd.TabIndex = 2
         Me.btnAdd.Text = "Add Car"
         Me.btnAdd.UseVisualStyleBackColor = False
@@ -79,8 +80,6 @@ Partial Class formTabeliVaade
         '
         'tpAutod
         '
-        Me.tpAutod.Controls.Add(Me.btnAdd)
-        Me.tpAutod.Controls.Add(Me.dgvTabeliVaade)
         Me.tpAutod.Location = New System.Drawing.Point(4, 25)
         Me.tpAutod.Name = "tpAutod"
         Me.tpAutod.Padding = New System.Windows.Forms.Padding(3)
@@ -101,6 +100,15 @@ Partial Class formTabeliVaade
         Me.tbProbleemid.Text = "Problem View"
         Me.tbProbleemid.UseVisualStyleBackColor = True
         '
+        'btnBack
+        '
+        Me.btnBack.Location = New System.Drawing.Point(6, 6)
+        Me.btnBack.Name = "btnBack"
+        Me.btnBack.Size = New System.Drawing.Size(75, 23)
+        Me.btnBack.TabIndex = 1
+        Me.btnBack.Text = "Back"
+        Me.btnBack.UseVisualStyleBackColor = True
+        '
         'dgvProbleemid
         '
         Me.dgvProbleemid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
@@ -111,29 +119,19 @@ Partial Class formTabeliVaade
         Me.dgvProbleemid.Size = New System.Drawing.Size(1043, 429)
         Me.dgvProbleemid.TabIndex = 0
         '
-        'btnBack
-        '
-        Me.btnBack.Location = New System.Drawing.Point(6, 6)
-        Me.btnBack.Name = "btnBack"
-        Me.btnBack.Size = New System.Drawing.Size(75, 23)
-        Me.btnBack.TabIndex = 1
-        Me.btnBack.Text = "Back"
-        Me.btnBack.UseVisualStyleBackColor = True
-        '
         'formTabeliVaade
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(800, 450)
+        Me.ClientSize = New System.Drawing.Size(1067, 554)
         Me.Controls.Add(Me.btnAdd)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.dgvTabeliVaade)
-
+        Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.Name = "formTabeliVaade"
         Me.Text = "Form1"
         CType(Me.dgvTabeliVaade, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tcTabs.ResumeLayout(False)
-        Me.tpAutod.ResumeLayout(False)
         Me.tbProbleemid.ResumeLayout(False)
         CType(Me.dgvProbleemid, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)

@@ -7,9 +7,9 @@ Public Class CTabelReader
 
     Private autodList As New BindingList(Of CAuto)()
 
-    Public probleemidList As New BindingList(Of CAutoProbleem)()
+    Private probleemidList As New BindingList(Of CAutoProbleem)()
 
-    Public kindlustusList As New BindingList(Of CKindlustus)()
+    Private kindlustusList As New BindingList(Of CKindlustus)()
 
     ' siin toimub autode lisamine tabelisse
     Private Sub New()
@@ -29,8 +29,17 @@ Public Class CTabelReader
     'Description: Get a copy of table data (not access to the original list)
     'Parameters: none
     'Return: copy of autodList as List(Of cAuto)
-    Public Function GetTable() As List(Of CAuto) Implements ITabelReader.GetTabel
-        Return autodList.ToList()
+    Public Function GetTable(ByVal type As Integer) Implements ITabelReader.GetTable
+        Select Case type
+            Case 0
+                Return autodList.ToList()
+            Case 1
+                Return probleemidList.ToList()
+            Case 2
+                Return kindlustusList.ToList()
+            Case Else
+                Return New List(Of Integer)
+        End Select
     End Function
 
     'Description: Add a car to the list
@@ -57,5 +66,4 @@ Public Class CTabelReader
     Public Shared Function GetInstance() As CTabelReader
         Return _instance
     End Function
-
 End Class

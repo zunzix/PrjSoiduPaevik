@@ -76,6 +76,7 @@
     <Compile Include="CAuto.vb" />
     <Compile Include="CAutoProbleem.vb" />
     <Compile Include="CCarAddSub.vb" />
+    <Compile Include="CKindlustus.vb" />
     <Compile Include="CTabelReader.vb" />
     <Compile Include="formDetailedCarView.Designer.vb">
       <DependentUpon>formDetailedCarView.vb</DependentUpon>
@@ -93,6 +94,7 @@
     <Compile Include="IAuto.vb" />
     <Compile Include="IAutoProbleem.vb" />
     <Compile Include="ICarAddSub.vb" />
+    <Compile Include="IKindlustus.vb" />
     <Compile Include="ITabelReader.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">

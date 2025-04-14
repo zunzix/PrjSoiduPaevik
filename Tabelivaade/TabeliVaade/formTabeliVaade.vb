@@ -2,6 +2,7 @@
 Imports System.Reflection
 Imports System.Security.Policy
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox
+
 Public Class formTabeliVaade
     Const DEBUG = True
 
@@ -12,9 +13,10 @@ Public Class formTabeliVaade
         tcTabs.SizeMode = TabSizeMode.Fixed
 
         ' Bring in lists
-        dgvTabeliVaade.DataSource = CTabelReader.GetInstance().autodList
-        Dim probleemid = CTabelReader.GetInstance().probleemidList
-        Dim insurance = CTabelReader.GetInstance().kindlustusList
+        Dim reader As ITabelReader = CTabelReader.GetInstance()
+        dgvTabeliVaade.DataSource = New BindingList(Of CAuto)(reader.GetTable(0))
+        Dim probleemid = New BindingList(Of CAutoProbleem)(reader.GetTable(1))
+        Dim insurance = New BindingList(Of CAuto)(reader.GetTable(2))
 
         ' Add a section that shows whether a car has a problem or not
         Dim problemIndicatorColumn As New DataGridViewTextBoxColumn()
@@ -55,8 +57,6 @@ Public Class formTabeliVaade
             End If
         Next
 
-        Dim reader As ITabelReader = CTabelReader.GetInstance()
-        dgvTabeliVaade.DataSource = New BindingList(Of CAuto)(reader.GetTabel())
         ' Add remove ( - ) button after every column
         Dim subtractButtonColumn As New DataGridViewButtonColumn()
         subtractButtonColumn.Name = "DeleteButton"
@@ -170,7 +170,8 @@ Public Class formTabeliVaade
         End If
 
         ' Bring in new instance of the list of problems
-        Dim probleemid = CTabelReader.GetInstance().probleemidList
+        Dim reader As ITabelReader = CTabelReader.GetInstance()
+        Dim probleemid = New BindingList(Of CAutoProbleem)(reader.GetTable(1))
 
         ' Check to see if the problems field was clicked
         If e.ColumnIndex = dgvTabeliVaade.Columns("Problems").Index Then
