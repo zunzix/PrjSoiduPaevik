@@ -103,23 +103,17 @@ public class CarLogsController : Controller
             return NotFound();
         }
 
-        var carLog = await _context.CarLogs.FindAsync(id);
-        if (carLog == null)
+        var entity = await _carLogRepository.FindAsync(id.Value, User.GetUserId());
+        if (entity == null)
         {
             return NotFound();
         }
         
-        var userIdStr = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
-        var userId = Guid.Parse(userIdStr);
-        
-        // Get cars that belong to groups where the user is a member
-        var userCars = _context.Cars
-            .Where(c => _context.GroupMembers
-                .Any(gm => gm.GroupId == c.GroupId && gm.UserId == userId))
-            .ToList();
+        var userGroups = await _groupRepository.AllAsync(User.GetUserId());
+        var userCars = await _carRepository.AllCarsAsync(userGroups);
 
         ViewData["CarId"] = new SelectList(userCars, "Id", "Name");
-        return View(carLog);
+        return View(entity);
     }
 
     // POST: CarLogs/Edit/5
@@ -127,10 +121,8 @@ public class CarLogsController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(Guid id, [Bind("CarId,AppUserId,StartDate,EndDate,StartPoint,EndPoint,Distance,Comment,Id")] CarLog carLog)
+    public async Task<IActionResult> Edit(Guid id, CarLog carLog)
     {
-        var userIdStr = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
-        var userId = Guid.Parse(userIdStr);
         
         if (id != carLog.Id)
         {
@@ -139,29 +131,12 @@ public class CarLogsController : Controller
 
         if (ModelState.IsValid)
         {
-            try
-            {
-                _context.Update(carLog);
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CarLogExists(carLog.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            _carLogRepository.Update(carLog);
+            await _carLogRepository.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        // If model is invalid, repopulate the filtered car list
-        var userCars = _context.Cars
-            .Where(c => _context.GroupMembers
-                .Any(gm => gm.GroupId == c.GroupId && gm.UserId == userId))
-            .ToList();
+        var userGroups = await _groupRepository.AllAsync(User.GetUserId());
+        var userCars = await _carRepository.AllCarsAsync(userGroups);
 
         ViewData["CarId"] = new SelectList(userCars, "Id", "Name", carLog.CarId);
         return View(carLog);
@@ -175,16 +150,13 @@ public class CarLogsController : Controller
             return NotFound();
         }
 
-        var carLog = await _context.CarLogs
-            .Include(c => c.User)
-            .Include(c => c.Car)
-            .FirstOrDefaultAsync(m => m.Id == id);
-        if (carLog == null)
+        var entity = await _carLogRepository.FindAsync(id.Value, User.GetUserId());
+        if (entity == null)
         {
             return NotFound();
         }
 
-        return View(carLog);
+        return View(entity);
     }
 
     // POST: CarLogs/Delete/5
@@ -192,18 +164,9 @@ public class CarLogsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(Guid id)
     {
-        var carLog = await _context.CarLogs.FindAsync(id);
-        if (carLog != null)
-        {
-            _context.CarLogs.Remove(carLog);
-        }
-
-        await _context.SaveChangesAsync();
+        await _carLogRepository.RemoveAsync(id);
+        await _carLogRepository.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
     }
 
-    private bool CarLogExists(Guid id)
-    {
-        return _context.CarLogs.Any(e => e.Id == id);
-    }
 }

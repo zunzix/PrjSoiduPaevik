@@ -78,8 +78,8 @@ public class GroupMembersController : Controller
             return RedirectToAction(nameof(Index));
         }
 
-        ViewData["AppUserId"] = new SelectList(_userRepository.All(), "Id", "Id", groupMember.UserId);
-        ViewData["GroupId"] = new SelectList(_groupRepository.AllAdmins(User.GetUserId()), "Id", "Name", groupMember.GroupId);
+        ViewData["AppUserId"] = new SelectList(await _userRepository.AllAsync(), "Id", "Id", groupMember.UserId);
+        ViewData["GroupId"] = new SelectList(await _groupRepository.AllAdminsAsync(User.GetUserId()), "Id", "Name", groupMember.GroupId);
         return View(groupMember);
     }
 
@@ -97,8 +97,8 @@ public class GroupMembersController : Controller
             return NotFound();
         }
 
-        ViewData["GroupId"] = new SelectList(_groupRepository.AllAdmins(User.GetUserId()), "Id", "Name");
-        ViewData["AppUserId"] = new SelectList(_userRepository.All(), "Id", "Id");
+        ViewData["GroupId"] = new SelectList(await _groupRepository.AllAdminsAsync(User.GetUserId()), "Id", "Name");
+        ViewData["AppUserId"] = new SelectList(await _userRepository.AllAsync(), "Id", "Id");
         return View(entity);
     }
 
@@ -120,8 +120,8 @@ public class GroupMembersController : Controller
             await _groupMemberRepository.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        ViewData["AppUserId"] = new SelectList(_userRepository.All(), "Id", "Id", groupMember.UserId);
-        ViewData["GroupId"] = new SelectList(_groupRepository.AllAdmins(User.GetUserId()), "Id", "Name", groupMember.GroupId);
+        ViewData["AppUserId"] = new SelectList(await _userRepository.AllAsync(), "Id", "Id", groupMember.UserId);
+        ViewData["GroupId"] = new SelectList(await _groupRepository.AllAdminsAsync(User.GetUserId()), "Id", "Name", groupMember.GroupId);
         return View(groupMember);
     }
 

@@ -8,4 +8,6 @@ namespace App.DAL.Contracts;
 public interface IGroupRepository : IRepository<Group>
 {
     IEnumerable<Group> AllAdmins(Guid userId);
+    
+    Task<IEnumerable<Group>> AllAdminsAsync(Guid userId);
 }

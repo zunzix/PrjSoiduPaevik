@@ -32,4 +32,12 @@ public class GroupRepository : BaseRepository<Group>, IGroupRepository
                 .Any(gm => gm.UserId == userId && gm.IsAdmin))
             .ToList();
     }
+
+    public async Task<IEnumerable<Group>> AllAdminsAsync(Guid userId)
+    {
+        return await RepositoryDbSet
+            .Where(g => g.GroupMembers!
+                .Any(gm => gm.UserId == userId && gm.IsAdmin))
+            .ToListAsync();
+    }
 }
