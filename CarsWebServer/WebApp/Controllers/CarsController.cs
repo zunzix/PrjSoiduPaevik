@@ -32,7 +32,7 @@ public class CarsController : Controller
     public async Task<IActionResult> Index()
     {
         var userGroups = await _groupRepository.AllAsync(User.GetUserId());
-        var res = await _carRepository.AllCars(userGroups, User.GetUserId());
+        var res = await _carRepository.AllCarsAsync(userGroups);
         
         return View(res);
     }

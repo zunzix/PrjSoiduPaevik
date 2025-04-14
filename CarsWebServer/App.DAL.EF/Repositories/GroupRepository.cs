@@ -17,6 +17,13 @@ public class GroupRepository : BaseRepository<Group>, IGroupRepository
             .Where(g => g.GroupMembers!.Any(gm => gm.UserId == userId))
             .ToListAsync();
     }
+    
+    public override IEnumerable<Group> All(Guid userId = default)
+    {
+        return RepositoryDbSet
+            .Where(g => g.GroupMembers!.Any(gm => gm.UserId == userId))
+            .ToList();
+    }
 
     public IEnumerable<Group> AllAdmins(Guid userId)
     {

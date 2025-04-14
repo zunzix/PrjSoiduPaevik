@@ -31,6 +31,9 @@ public class Car : BaseEntity
     [Display(Name = nameof(IsArchived), Prompt = nameof(IsArchived), ResourceType = typeof(App.Resources.Domain.Car))]
     public bool IsArchived { get; set; }
     
+    [Display(Name = nameof(IsCritical), Prompt = nameof(IsCritical), ResourceType = typeof(App.Resources.Domain.Car))]
+    public bool IsCritical { get; set; }
+    
     
     public ICollection<CarIssue>? CarIssues { get; set; }
     public ICollection<CarInsurance>? CarInsurances { get; set; }

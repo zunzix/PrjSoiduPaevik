@@ -7,7 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using App.DAL.EF;
+using App.DAL.EF.Repositories;
 using App.Domain;
+using Base.Helpers;
 using Microsoft.AspNetCore.Authorization;
 
 namespace WebApp.Controllers;
@@ -15,28 +17,25 @@ namespace WebApp.Controllers;
 [Authorize]
 public class CarLogsController : Controller
 {
-    private readonly AppDbContext _context;
+    //private readonly AppDbContext _context;
+    private readonly CarLogRepository _carLogRepository;
+    private readonly CarRepository _carRepository;
+    private readonly GroupRepository _groupRepository;
 
-    public CarLogsController(AppDbContext context)
+    public CarLogsController(AppDbContext context, CarLogRepository carLogRepository, CarRepository carRepository, GroupRepository groupRepository)
     {
-        _context = context;
+        //_context = context;
+        _carLogRepository = carLogRepository;
+        _carRepository = carRepository;
+        _groupRepository = groupRepository;
     }
 
     // GET: CarLogs
     public async Task<IActionResult> Index()
     {
-        //Ask only data for current user
-        var userIdStr = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
-        var userId = Guid.Parse(userIdStr);
-        
-        var res = await _context
-            .CarLogs
-            .Include(c => c.User)
-            .Include(c => c.Car)
-            .ThenInclude(car => car!.Group)
-            .Where(cl => cl.Car!.Group!.GroupMembers!
-                .Any(gm => gm.UserId == userId))
-            .ToListAsync();
+        var userGroups = await _groupRepository.AllAsync(User.GetUserId());
+        var userCars = await _carRepository.AllCarsAsync(userGroups);
+        var res = await _carLogRepository.AllCarLogsAsync(userCars);
         
         return View(res);
     }
@@ -49,29 +48,20 @@ public class CarLogsController : Controller
             return NotFound();
         }
 
-        var carLog = await _context.CarLogs
-            .Include(c => c.User)
-            .Include(c => c.Car)
-            .FirstOrDefaultAsync(m => m.Id == id);
-        if (carLog == null)
+        var entity = await _carLogRepository.FindAsync(id.Value, User.GetUserId());
+        if (entity == null)
         {
             return NotFound();
         }
 
-        return View(carLog);
+        return View(entity);
     }
 
     // GET: CarLogs/Create
     public IActionResult Create()
     {
-        var userIdStr = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
-        var userId = Guid.Parse(userIdStr);
-        
-        // Get cars that belong to groups where the user is a member
-        var userCars = _context.Cars
-            .Where(c => _context.GroupMembers
-                .Any(gm => gm.GroupId == c.GroupId && gm.UserId == userId))
-            .ToList();
+        var userGroups = _groupRepository.All(User.GetUserId());
+        var userCars = _carRepository.AllCars(userGroups);
 
         ViewData["CarId"] = new SelectList(userCars, "Id", "Name");
         return View();
@@ -82,11 +72,10 @@ public class CarLogsController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("CarId,AppUserId,StartDate,EndDate,StartPoint,EndPoint,Distance,Comment,Id")] CarLog carLog)
+    public async Task<IActionResult> Create(CarLog carLog)
     {
-        var userIdStr = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
-        var userId = Guid.Parse(userIdStr);
-        carLog.UserId = userId;
+        
+        carLog.UserId = User.GetUserId();
         
         if (ModelState.IsValid)
         {
@@ -94,16 +83,13 @@ public class CarLogsController : Controller
             carLog.StartDate = DateTime.SpecifyKind(carLog.StartDate, DateTimeKind.Utc);
                 
             carLog.Id = Guid.NewGuid();
-            _context.Add(carLog);
-            await _context.SaveChangesAsync();
+            _carLogRepository.Add(carLog);
+            await _carLogRepository.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
         
-        // If model is invalid, repopulate the filtered car list
-        var userCars = _context.Cars
-            .Where(c => _context.GroupMembers
-                .Any(gm => gm.GroupId == c.GroupId && gm.UserId == userId))
-            .ToList();
+        var userGroups = await _groupRepository.AllAsync(User.GetUserId());
+        var userCars = await _carRepository.AllCarsAsync(userGroups);
 
         ViewData["CarId"] = new SelectList(userCars, "Id", "Name", carLog.CarId);
         return View(carLog);

@@ -11,9 +11,8 @@ public class CarRepository : BaseRepository<Car>, ICarRepository
     {
     }
     
-    public async Task<IEnumerable<Car>> AllCars(
-        IEnumerable<Group> userGroups,
-        Guid userId = default) 
+    public async Task<IEnumerable<Car>> AllCarsAsync(
+        IEnumerable<Group> userGroups) 
     {
         var groupIds = userGroups.Select(g => g.Id).ToList();
         return await RepositoryDbSet
@@ -21,7 +20,16 @@ public class CarRepository : BaseRepository<Car>, ICarRepository
             .Where(c => groupIds.Contains(c.GroupId))
             .ToListAsync();
     }
-    
+
+    public IEnumerable<Car> AllCars(IEnumerable<Group> userGroups)
+    {
+        var groupIds = userGroups.Select(g => g.Id).ToList();
+        return RepositoryDbSet
+            .Include(c => c.Group)
+            .Where(c => groupIds.Contains(c.GroupId))
+            .ToList();
+    }
+
     public override async Task<Car?> FindAsync(Guid id, Guid userId = default)
     {
         return await RepositoryDbSet
