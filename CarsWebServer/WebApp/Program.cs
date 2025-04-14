@@ -51,6 +51,14 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddScoped<IAppUOW, AppUOW>();
 
+
+
+builder.Services.AddIdentity<AppUser, AppRole>(o => 
+    o.SignIn.RequireConfirmedAccount = false)
+    .AddDefaultUI()
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddDefaultTokenProviders();
+
 // Remove default claim mapping
 JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
@@ -72,12 +80,6 @@ builder.Services
         };
     });
 
-builder.Services.AddIdentity<AppUser, AppRole>(o => 
-    o.SignIn.RequireConfirmedAccount = false)
-    .AddDefaultUI()
-    .AddEntityFrameworkStores<AppDbContext>()
-    .AddDefaultTokenProviders();
-    
 /*
 builder.Services.AddDefaultIdentity<IdentityUser>(
         options => options.SignIn.RequireConfirmedAccount = false)
@@ -110,6 +112,19 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
     };
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "CorsAllowAll", configurePolicy: policy =>
+    {
+        policy.AllowAnyHeader();
+        policy.AllowAnyMethod();
+        policy.AllowAnyOrigin();
+        policy.SetIsOriginAllowed((host) => true);
+    });
+});
+    
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -129,6 +144,8 @@ app.UseHttpsRedirection();
 app.UseRequestLocalization(options: app.Services.GetService<IOptions<RequestLocalizationOptions>>()!.Value!);
 
 app.UseRouting();
+
+app.UseCors("CorsAllowAll");
 
 app.UseAuthorization();
 
