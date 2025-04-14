@@ -7,7 +7,7 @@ namespace App.DAL.EF.Repositories;
 
 public class GroupRepository : BaseRepository<Group>, IGroupRepository
 {
-    public GroupRepository(DbContext repositoryDbContext) : base(repositoryDbContext)
+    public GroupRepository(AppDbContext repositoryDbContext) : base(repositoryDbContext)
     {
     }
     

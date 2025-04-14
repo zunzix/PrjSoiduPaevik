@@ -8,7 +8,7 @@ namespace App.DAL.EF.Repositories;
 
 public class CarInsuranceRepository : BaseRepository<CarInsurance>, ICarInsuranceRepository
 {
-    public CarInsuranceRepository(DbContext repositoryDbContext) : base(repositoryDbContext)
+    public CarInsuranceRepository(AppDbContext repositoryDbContext) : base(repositoryDbContext)
     {
     }
 

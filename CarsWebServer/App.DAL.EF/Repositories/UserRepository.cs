@@ -7,7 +7,7 @@ namespace App.DAL.EF.Repositories;
 
 public class UserRepository : BaseRepository<AppUser>, IUserRepository
 {
-    public UserRepository(DbContext repositoryDbContext) : base(repositoryDbContext)
+    public UserRepository(AppDbContext repositoryDbContext) : base(repositoryDbContext)
     {
     }
 }
