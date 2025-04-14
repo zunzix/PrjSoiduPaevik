@@ -2,7 +2,8 @@
 Public Class CCarAddSub
     Implements ICarAddSub
     'Use the same list as in CTabelReader
-    Private _list As BindingList(Of CAuto) = CTabelReader.GetInstance().autodList
+    Private _reader As ITabelReader = CTabelReader.GetInstance()
+    Private _list As BindingList(Of CAuto) = New BindingList(Of CAuto)(_reader.GetTabel())
 
     'Description: Archive data (change list component IsArchived to True) by user chosen Car ID
     'Parameters: ChosenCarID as Integer

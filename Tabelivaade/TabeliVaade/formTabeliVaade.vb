@@ -6,7 +6,6 @@ Public Class formTabeliVaade
     Const DEBUG = True
 
     Private Sub formTabeliVaade_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
         ' Hide the "tabs" so that the user can't manually switch between them
         tcTabs.Appearance = TabAppearance.FlatButtons
         tcTabs.ItemSize = New Size(0, 1)
@@ -56,6 +55,8 @@ Public Class formTabeliVaade
             End If
         Next
 
+        Dim reader As ITabelReader = CTabelReader.GetInstance()
+        dgvTabeliVaade.DataSource = New BindingList(Of CAuto)(reader.GetTabel())
         ' Add remove ( - ) button after every column
         Dim subtractButtonColumn As New DataGridViewButtonColumn()
         subtractButtonColumn.Name = "DeleteButton"
@@ -302,9 +303,19 @@ Public Class formTabeliVaade
         'End If
     End Sub
 
+    ' Description: Open detailed car view form when double-clicking on a car in the DataGridView
+    ' Parameters: sender as Object, e as DataGridViewCellEventArgs
+    ' Return: none
+    Private Sub dgvTabeliVaade_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvTabeliVaade.CellDoubleClick
+        If e.RowIndex >= 0 Then
+            Dim valitudAuto As CAuto = CType(dgvTabeliVaade.Rows(e.RowIndex).DataBoundItem, CAuto)
+            Dim detailVorm As New formDetailedCarView(valitudAuto)
+            detailVorm.ShowDialog()
+        End If
+    End Sub
     'Description:  Allows the view to go back to the cars tab
     'Returns:      None
-    Private Sub btnBackProb_Click(sender As Object, e As EventArgs) Handles btnBackProb.Click
+    Private Sub btnBack_Click(sender As Object, e As EventArgs) Handles btnBack.Click
         tcTabs.SelectedTab = tpAutod
         GC.Collect()
         GC.WaitForPendingFinalizers()
