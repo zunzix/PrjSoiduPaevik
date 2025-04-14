@@ -18,20 +18,18 @@ namespace WebApp.Controllers;
 [Authorize]
 public class CarsController : Controller
 {
-    private readonly ICarRepository _carRepository;
-    private readonly IGroupRepository _groupRepository;
-
-    public CarsController(ICarRepository carRepository, IGroupRepository groupRepository)
+    private readonly IAppUOW _uow;
+    
+    public CarsController(IAppUOW uow)
     {
-        _carRepository = carRepository;
-        _groupRepository = groupRepository;
+        _uow = uow;
     }
 
     // GET: Cars
     public async Task<IActionResult> Index()
     {
-        var userGroups = await _groupRepository.AllAsync(User.GetUserId());
-        var res = await _carRepository.AllCarsAsync(userGroups);
+        var userGroups = await _uow.GroupRepository.AllAsync(User.GetUserId());
+        var res = await _uow.CarRepository.AllCarsAsync(userGroups);
         
         return View(res);
     }
@@ -44,7 +42,7 @@ public class CarsController : Controller
             return NotFound();
         }
 
-        var entity = await _carRepository.FindAsync(id.Value, User.GetUserId());
+        var entity = await _uow.CarRepository.FindAsync(id.Value, User.GetUserId());
         if (entity == null)
         {
             return NotFound();
@@ -56,7 +54,7 @@ public class CarsController : Controller
     // GET: Cars/Create
     public IActionResult Create()
     {
-        ViewData["GroupId"] = new SelectList(_groupRepository.AllAdmins(User.GetUserId()), "Id", "Name");
+        ViewData["GroupId"] = new SelectList(_uow.GroupRepository.AllAdmins(User.GetUserId()), "Id", "Name");
         return View();
     }
 
@@ -70,11 +68,11 @@ public class CarsController : Controller
         if (ModelState.IsValid)
         {
             car.Id = Guid.NewGuid();
-            _carRepository.Add(car);
-            await _carRepository.SaveChangesAsync();
+            _uow.CarRepository.Add(car);
+            await _uow.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        ViewData["GroupId"] = new SelectList(await _groupRepository.AllAdminsAsync(User.GetUserId()), "Id", "Name", car.GroupId);
+        ViewData["GroupId"] = new SelectList(await _uow.GroupRepository.AllAdminsAsync(User.GetUserId()), "Id", "Name", car.GroupId);
         return View(car);
     }
 
@@ -86,13 +84,13 @@ public class CarsController : Controller
             return NotFound();
         }
 
-        var entity = await _carRepository.FindAsync(id.Value, User.GetUserId());
+        var entity = await _uow.CarRepository.FindAsync(id.Value, User.GetUserId());
         if (entity == null)
         {
             return NotFound();
         }
         
-        ViewData["GroupId"] = new SelectList(await _groupRepository.AllAdminsAsync(User.GetUserId()), "Id", "Name");
+        ViewData["GroupId"] = new SelectList(await _uow.GroupRepository.AllAdminsAsync(User.GetUserId()), "Id", "Name");
         return View(entity);
     }
 
@@ -110,11 +108,11 @@ public class CarsController : Controller
 
         if (ModelState.IsValid)
         {
-            _carRepository.Update(car);
-            await _carRepository.SaveChangesAsync();
+            _uow.CarRepository.Update(car);
+            await _uow.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        ViewData["GroupId"] = new SelectList(await _groupRepository.AllAdminsAsync(User.GetUserId()), "Id", "Name", car.GroupId);
+        ViewData["GroupId"] = new SelectList(await _uow.GroupRepository.AllAdminsAsync(User.GetUserId()), "Id", "Name", car.GroupId);
         return View(car);
     }
 
@@ -126,7 +124,7 @@ public class CarsController : Controller
             return NotFound();
         }
 
-        var entity = await _carRepository.FindAsync(id.Value, User.GetUserId());
+        var entity = await _uow.CarRepository.FindAsync(id.Value, User.GetUserId());
         if (entity == null)
         {
             return NotFound();
@@ -140,8 +138,8 @@ public class CarsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(Guid id)
     {
-        await _carRepository.RemoveAsync(id);
-        await _carRepository.SaveChangesAsync();
+        await _uow.CarRepository.RemoveAsync(id);
+        await _uow.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
     }
 

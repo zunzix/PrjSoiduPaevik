@@ -3,7 +3,7 @@ using Base.DAL.Contracts;
 
 namespace App.DAL.Contracts;
 
-public interface ICarInsuranceRepository : IRepository<CarInsurance>
+public interface ICarInsuranceRepository : IBaseRepository<CarInsurance>
 {
     Task<IEnumerable<CarInsurance>> AllCarInsurancesAsync(IEnumerable<Car> userCars);
 }

@@ -18,21 +18,17 @@ namespace WebApp.Controllers;
 [Authorize]
 public class GroupMembersController : Controller
 {
-    private readonly IGroupRepository _groupRepository;
-    private readonly IGroupMemberRepository _groupMemberRepository;
-    private readonly IUserRepository _userRepository;
-
-    public GroupMembersController(IGroupMemberRepository groupMemberRepository, IGroupRepository groupRepository, IUserRepository userRepository)
+    private readonly IAppUOW _uow;
+    
+    public GroupMembersController(IAppUOW uow)
     {
-        _groupMemberRepository = groupMemberRepository;
-        _groupRepository = groupRepository;
-        _userRepository = userRepository;
+        _uow = uow;
     }
 
     // GET: GroupMembers
     public async Task<IActionResult> Index()
     {
-        var res = await _groupMemberRepository.AllAsync(User.GetUserId());
+        var res = await _uow.GroupMemberRepository.AllAsync(User.GetUserId());
         return View(res);
     }
 
@@ -44,7 +40,7 @@ public class GroupMembersController : Controller
             return NotFound();
         }
 
-        var entity = await _groupMemberRepository.FindAsync(id.Value, User.GetUserId());
+        var entity = await _uow.GroupMemberRepository.FindAsync(id.Value, User.GetUserId());
         if (entity == null)
         {
             return NotFound();
@@ -56,8 +52,8 @@ public class GroupMembersController : Controller
     // GET: GroupMembers/Create
     public IActionResult Create()
     {
-        ViewData["GroupId"] = new SelectList(_groupRepository.AllAdmins(User.GetUserId()), "Id", "Name");
-        ViewData["AppUserId"] = new SelectList(_userRepository.All(), "Id", "Id");
+        ViewData["GroupId"] = new SelectList(_uow.GroupRepository.AllAdmins(User.GetUserId()), "Id", "Name");
+        ViewData["AppUserId"] = new SelectList(_uow.UserRepository.All(), "Id", "Id");
         return View();
     }
 
@@ -72,13 +68,13 @@ public class GroupMembersController : Controller
         {
             groupMember.Id = Guid.NewGuid();
             
-            _groupMemberRepository.Add(groupMember);
-            await _groupMemberRepository.SaveChangesAsync();
+            _uow.GroupMemberRepository.Add(groupMember);
+            await _uow.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        ViewData["AppUserId"] = new SelectList(await _userRepository.AllAsync(), "Id", "Id", groupMember.UserId);
-        ViewData["GroupId"] = new SelectList(await _groupRepository.AllAdminsAsync(User.GetUserId()), "Id", "Name", groupMember.GroupId);
+        ViewData["AppUserId"] = new SelectList(await _uow.UserRepository.AllAsync(), "Id", "Id", groupMember.UserId);
+        ViewData["GroupId"] = new SelectList(await _uow.GroupRepository.AllAdminsAsync(User.GetUserId()), "Id", "Name", groupMember.GroupId);
         return View(groupMember);
     }
 
@@ -90,14 +86,14 @@ public class GroupMembersController : Controller
             return NotFound();
         }
 
-        var entity = await _groupMemberRepository.FindAsync(id.Value, User.GetUserId());
+        var entity = await _uow.GroupMemberRepository.FindAsync(id.Value, User.GetUserId());
         if (entity == null)
         {
             return NotFound();
         }
 
-        ViewData["GroupId"] = new SelectList(await _groupRepository.AllAdminsAsync(User.GetUserId()), "Id", "Name");
-        ViewData["AppUserId"] = new SelectList(await _userRepository.AllAsync(), "Id", "Id");
+        ViewData["GroupId"] = new SelectList(await _uow.GroupRepository.AllAdminsAsync(User.GetUserId()), "Id", "Name");
+        ViewData["AppUserId"] = new SelectList(await _uow.UserRepository.AllAsync(), "Id", "Id");
         return View(entity);
     }
 
@@ -115,12 +111,12 @@ public class GroupMembersController : Controller
 
         if (ModelState.IsValid)
         {
-            _groupMemberRepository.Update(groupMember);
-            await _groupMemberRepository.SaveChangesAsync();
+            _uow.GroupMemberRepository.Update(groupMember);
+            await _uow.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        ViewData["AppUserId"] = new SelectList(await _userRepository.AllAsync(), "Id", "Id", groupMember.UserId);
-        ViewData["GroupId"] = new SelectList(await _groupRepository.AllAdminsAsync(User.GetUserId()), "Id", "Name", groupMember.GroupId);
+        ViewData["AppUserId"] = new SelectList(await _uow.UserRepository.AllAsync(), "Id", "Id", groupMember.UserId);
+        ViewData["GroupId"] = new SelectList(await _uow.GroupRepository.AllAdminsAsync(User.GetUserId()), "Id", "Name", groupMember.GroupId);
         return View(groupMember);
     }
 
@@ -132,7 +128,7 @@ public class GroupMembersController : Controller
             return NotFound();
         }
 
-        var entity = await _groupMemberRepository.FindAsync(id.Value, User.GetUserId());
+        var entity = await _uow.GroupMemberRepository.FindAsync(id.Value, User.GetUserId());
         if (entity == null)
         {
             return NotFound();
@@ -146,8 +142,8 @@ public class GroupMembersController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(Guid id)
     {
-        await _groupMemberRepository.RemoveAsync(id);
-        await _groupMemberRepository.SaveChangesAsync();
+        await _uow.GroupMemberRepository.RemoveAsync(id);
+        await _uow.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
     }
 

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 namespace App.DAL.Contracts;
 
 
-public interface IUserRepository : IRepository<AppUser>
+public interface IUserRepository : IBaseRepository<AppUser>
 {
     
 }

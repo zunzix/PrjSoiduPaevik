@@ -48,13 +48,7 @@ else
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IGroupRepository, GroupRepository>();
-builder.Services.AddScoped<IGroupMemberRepository, GroupMemberRepository>();
-builder.Services.AddScoped<ICarRepository, CarRepository>();
-builder.Services.AddScoped<ICarIssueRepository, CarIssueRepository>();
-builder.Services.AddScoped<ICarLogRepository, CarLogRepository>();
-builder.Services.AddScoped<ICarInsuranceRepository, CarInsuranceRepository>();
+builder.Services.AddScoped<IAppUOW, AppUOW>();
 
 builder.Services.AddIdentity<AppUser, AppRole>(o => 
     o.SignIn.RequireConfirmedAccount = false)
@@ -89,8 +83,6 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 
     options.RequestCultureProviders = new List<IRequestCultureProvider>
     {
-        // Order is important, its in which order they will be evaluated
-        // add support for ?culture=ru-RU
         new QueryStringRequestCultureProvider(),
         new CookieRequestCultureProvider()
     };

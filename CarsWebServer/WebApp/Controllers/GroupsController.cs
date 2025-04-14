@@ -19,19 +19,17 @@ namespace WebApp.Controllers;
 [Authorize]
 public class GroupsController : Controller
 {
-    private readonly IGroupRepository _groupRepository;
-    private readonly IGroupMemberRepository _groupMemberRepository;
-
-    public GroupsController(IGroupRepository groupRepository, IGroupMemberRepository groupMemberRepository)
+    private readonly IAppUOW _uow;
+    
+    public GroupsController(IAppUOW uow)
     {
-        _groupRepository = groupRepository;
-        _groupMemberRepository = groupMemberRepository;
+        _uow = uow;
     }
-
-    // GET: Groups
+    
+// GET: Groups
     public async Task<IActionResult> Index()
     {
-        var res = await _groupRepository.AllAsync(User.GetUserId());
+        var res = await _uow.GroupRepository.AllAsync(User.GetUserId());
         return View(res);
     }
 
@@ -42,7 +40,7 @@ public class GroupsController : Controller
         {
             return NotFound();
         }
-        var entity = await _groupRepository.FindAsync(id.Value, User.GetUserId());
+        var entity = await _uow.GroupRepository.FindAsync(id.Value, User.GetUserId());
         if (entity == null)
         {
             return NotFound();
@@ -67,7 +65,7 @@ public class GroupsController : Controller
         if (ModelState.IsValid)
         {
             @group.Id = Guid.NewGuid();
-            _groupRepository.Add(@group);
+            _uow.GroupRepository.Add(@group);
 
             var groupMember = new GroupMember
             {
@@ -77,9 +75,9 @@ public class GroupsController : Controller
                 IsAdmin = true
             };
             
-            _groupMemberRepository.Add(groupMember);
+            _uow.GroupMemberRepository.Add(groupMember);
             
-            await _groupRepository.SaveChangesAsync();
+            await _uow.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
         return View(@group);
@@ -93,7 +91,7 @@ public class GroupsController : Controller
             return NotFound();
         }
         
-        var entity = await _groupRepository.FindAsync(id.Value, User.GetUserId());
+        var entity = await _uow.GroupRepository.FindAsync(id.Value, User.GetUserId());
         if (entity == null)
         {
             return NotFound();
@@ -116,8 +114,8 @@ public class GroupsController : Controller
 
         if (ModelState.IsValid)
         {
-            _groupRepository.Update(@group);
-            await _groupRepository.SaveChangesAsync();
+            _uow.GroupRepository.Update(@group);
+            await _uow.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
         return View(@group);
@@ -131,7 +129,7 @@ public class GroupsController : Controller
             return NotFound();
         }
 
-        var entity = await _groupRepository.FindAsync(id.Value, User.GetUserId());
+        var entity = await _uow.GroupRepository.FindAsync(id.Value, User.GetUserId());
         if (entity == null)
         {
             return NotFound();
@@ -145,9 +143,9 @@ public class GroupsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(Guid id)
     {
-        await _groupRepository.RemoveAsync(id);
+        await _uow.GroupRepository.RemoveAsync(id);
 
-        await _groupRepository.SaveChangesAsync();
+        await _uow.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
     }
 

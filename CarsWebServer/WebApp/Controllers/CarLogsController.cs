@@ -19,23 +19,19 @@ namespace WebApp.Controllers;
 public class CarLogsController : Controller
 {
     
-    private readonly ICarLogRepository _carLogRepository;
-    private readonly ICarRepository _carRepository;
-    private readonly IGroupRepository _groupRepository;
-
-    public CarLogsController(ICarLogRepository carLogRepository, ICarRepository carRepository, IGroupRepository groupRepository)
+    private readonly IAppUOW _uow;
+    
+    public CarLogsController(IAppUOW uow)
     {
-        _carLogRepository = carLogRepository;
-        _carRepository = carRepository;
-        _groupRepository = groupRepository;
+        _uow = uow;
     }
 
     // GET: CarLogs
     public async Task<IActionResult> Index()
     {
-        var userGroups = await _groupRepository.AllAsync(User.GetUserId());
-        var userCars = await _carRepository.AllCarsAsync(userGroups);
-        var res = await _carLogRepository.AllCarLogsAsync(userCars);
+        var userGroups = await _uow.GroupRepository.AllAsync(User.GetUserId());
+        var userCars = await _uow.CarRepository.AllCarsAsync(userGroups);
+        var res = await _uow.CarLogRepository.AllCarLogsAsync(userCars);
         
         return View(res);
     }
@@ -48,7 +44,7 @@ public class CarLogsController : Controller
             return NotFound();
         }
 
-        var entity = await _carLogRepository.FindAsync(id.Value, User.GetUserId());
+        var entity = await _uow.CarLogRepository.FindAsync(id.Value, User.GetUserId());
         if (entity == null)
         {
             return NotFound();
@@ -60,8 +56,8 @@ public class CarLogsController : Controller
     // GET: CarLogs/Create
     public IActionResult Create()
     {
-        var userGroups = _groupRepository.All(User.GetUserId());
-        var userCars = _carRepository.AllCars(userGroups);
+        var userGroups = _uow.GroupRepository.All(User.GetUserId());
+        var userCars = _uow.CarRepository.AllCars(userGroups);
 
         ViewData["CarId"] = new SelectList(userCars, "Id", "Name");
         return View();
@@ -83,13 +79,13 @@ public class CarLogsController : Controller
             carLog.StartDate = DateTime.SpecifyKind(carLog.StartDate, DateTimeKind.Utc);
                 
             carLog.Id = Guid.NewGuid();
-            _carLogRepository.Add(carLog);
-            await _carLogRepository.SaveChangesAsync();
+            _uow.CarLogRepository.Add(carLog);
+            await _uow.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
         
-        var userGroups = await _groupRepository.AllAsync(User.GetUserId());
-        var userCars = await _carRepository.AllCarsAsync(userGroups);
+        var userGroups = await _uow.GroupRepository.AllAsync(User.GetUserId());
+        var userCars = await _uow.CarRepository.AllCarsAsync(userGroups);
 
         ViewData["CarId"] = new SelectList(userCars, "Id", "Name", carLog.CarId);
         return View(carLog);
@@ -103,14 +99,14 @@ public class CarLogsController : Controller
             return NotFound();
         }
 
-        var entity = await _carLogRepository.FindAsync(id.Value, User.GetUserId());
+        var entity = await _uow.CarLogRepository.FindAsync(id.Value, User.GetUserId());
         if (entity == null)
         {
             return NotFound();
         }
         
-        var userGroups = await _groupRepository.AllAsync(User.GetUserId());
-        var userCars = await _carRepository.AllCarsAsync(userGroups);
+        var userGroups = await _uow.GroupRepository.AllAsync(User.GetUserId());
+        var userCars = await _uow.CarRepository.AllCarsAsync(userGroups);
 
         ViewData["CarId"] = new SelectList(userCars, "Id", "Name");
         return View(entity);
@@ -131,12 +127,12 @@ public class CarLogsController : Controller
 
         if (ModelState.IsValid)
         {
-            _carLogRepository.Update(carLog);
-            await _carLogRepository.SaveChangesAsync();
+            _uow.CarLogRepository.Update(carLog);
+            await _uow.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        var userGroups = await _groupRepository.AllAsync(User.GetUserId());
-        var userCars = await _carRepository.AllCarsAsync(userGroups);
+        var userGroups = await _uow.GroupRepository.AllAsync(User.GetUserId());
+        var userCars = await _uow.CarRepository.AllCarsAsync(userGroups);
 
         ViewData["CarId"] = new SelectList(userCars, "Id", "Name", carLog.CarId);
         return View(carLog);
@@ -150,7 +146,7 @@ public class CarLogsController : Controller
             return NotFound();
         }
 
-        var entity = await _carLogRepository.FindAsync(id.Value, User.GetUserId());
+        var entity = await _uow.CarLogRepository.FindAsync(id.Value, User.GetUserId());
         if (entity == null)
         {
             return NotFound();
@@ -164,8 +160,8 @@ public class CarLogsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(Guid id)
     {
-        await _carLogRepository.RemoveAsync(id);
-        await _carLogRepository.SaveChangesAsync();
+        await _uow.CarLogRepository.RemoveAsync(id);
+        await _uow.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
     }
 

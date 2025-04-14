@@ -18,23 +18,19 @@ namespace WebApp.Controllers;
 [Authorize]
 public class CarInsurancesController : Controller
 {
-    private readonly IGroupRepository _groupRepository;
-    private readonly ICarRepository _carRepository;
-    private readonly ICarInsuranceRepository _carInsuranceRepository;
-
-    public CarInsurancesController(IGroupRepository groupRepository, ICarRepository carRepository, ICarInsuranceRepository carInsuranceRepository)
+    private readonly IAppUOW _uow;
+    
+    public CarInsurancesController(IAppUOW uow)
     {
-        _groupRepository = groupRepository;
-        _carRepository = carRepository;
-        _carInsuranceRepository = carInsuranceRepository;
+        _uow = uow;
     }
 
     // GET: CarInsurances
     public async Task<IActionResult> Index()
     {
-        var userGroups = await _groupRepository.AllAsync(User.GetUserId());
-        var userCars = await _carRepository.AllCarsAsync(userGroups);
-        var res = await _carInsuranceRepository.AllCarInsurancesAsync(userCars);
+        var userGroups = await _uow.GroupRepository.AllAsync(User.GetUserId());
+        var userCars = await _uow.CarRepository.AllCarsAsync(userGroups);
+        var res = await _uow.CarInsuranceRepository.AllCarInsurancesAsync(userCars);
         
         return View(res);
     }
@@ -47,7 +43,7 @@ public class CarInsurancesController : Controller
             return NotFound();
         }
 
-        var entity = await _carInsuranceRepository.FindAsync(id.Value, User.GetUserId());
+        var entity = await _uow.CarInsuranceRepository.FindAsync(id.Value, User.GetUserId());
         if (entity == null)
         {
             return NotFound();
@@ -59,8 +55,8 @@ public class CarInsurancesController : Controller
     // GET: CarInsurances/Create
     public IActionResult Create()
     {
-        var userGroups = _groupRepository.All(User.GetUserId());
-        var userCars = _carRepository.AllCars(userGroups);
+        var userGroups = _uow.GroupRepository.All(User.GetUserId());
+        var userCars = _uow.CarRepository.AllCars(userGroups);
         
         ViewData["CarId"] = new SelectList(userCars, "Id", "Name");
         return View();
@@ -78,13 +74,13 @@ public class CarInsurancesController : Controller
             carInsurance.EndDate = DateTime.SpecifyKind(carInsurance.EndDate, DateTimeKind.Utc);
                 
             carInsurance.Id = Guid.NewGuid();
-            _carInsuranceRepository.Add(carInsurance);
-            await _carInsuranceRepository.SaveChangesAsync();
+            _uow.CarInsuranceRepository.Add(carInsurance);
+            await _uow.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
         
-        var userGroups = await _groupRepository.AllAsync(User.GetUserId());
-        var userCars = await _carRepository.AllCarsAsync(userGroups);
+        var userGroups = await _uow.GroupRepository.AllAsync(User.GetUserId());
+        var userCars = await _uow.CarRepository.AllCarsAsync(userGroups);
         
         ViewData["CarId"] = new SelectList(userCars, "Id", "Name", carInsurance.CarId);
         return View(carInsurance);
@@ -98,13 +94,13 @@ public class CarInsurancesController : Controller
             return NotFound();
         }
 
-        var entity = await _carInsuranceRepository.FindAsync(id.Value, User.GetUserId());
+        var entity = await _uow.CarInsuranceRepository.FindAsync(id.Value, User.GetUserId());
         if (entity == null)
         {
             return NotFound();
         }
-        var userGroups = await _groupRepository.AllAsync(User.GetUserId());
-        var userCars = await _carRepository.AllCarsAsync(userGroups);
+        var userGroups = await _uow.GroupRepository.AllAsync(User.GetUserId());
+        var userCars = await _uow.CarRepository.AllCarsAsync(userGroups);
 
         ViewData["CarId"] = new SelectList(userCars, "Id", "Name");
         return View(entity);
@@ -125,12 +121,12 @@ public class CarInsurancesController : Controller
 
         if (ModelState.IsValid)
         {
-            _carInsuranceRepository.Update(carInsurance);
-            await _carInsuranceRepository.SaveChangesAsync();
+            _uow.CarInsuranceRepository.Update(carInsurance);
+            await _uow.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        var userGroups = await _groupRepository.AllAsync(User.GetUserId());
-        var userCars = await _carRepository.AllCarsAsync(userGroups);
+        var userGroups = await _uow.GroupRepository.AllAsync(User.GetUserId());
+        var userCars = await _uow.CarRepository.AllCarsAsync(userGroups);
 
         ViewData["CarId"] = new SelectList(userCars, "Id", "Name", carInsurance.CarId);
         return View(carInsurance);
@@ -144,7 +140,7 @@ public class CarInsurancesController : Controller
             return NotFound();
         }
 
-        var entity = await _carInsuranceRepository.FindAsync(id.Value, User.GetUserId());
+        var entity = await _uow.CarInsuranceRepository.FindAsync(id.Value, User.GetUserId());
         if (entity == null)
         {
             return NotFound();
@@ -158,8 +154,8 @@ public class CarInsurancesController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(Guid id)
     {
-        await _carInsuranceRepository.RemoveAsync(id);
-        await _carInsuranceRepository.SaveChangesAsync();
+        await _uow.CarInsuranceRepository.RemoveAsync(id);
+        await _uow.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
     }
     

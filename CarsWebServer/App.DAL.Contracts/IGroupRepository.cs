@@ -5,7 +5,7 @@ using Base.DAL.Contracts;
 
 namespace App.DAL.Contracts;
 
-public interface IGroupRepository : IRepository<Group>
+public interface IGroupRepository : IBaseRepository<Group>
 {
     IEnumerable<Group> AllAdmins(Guid userId);
     
