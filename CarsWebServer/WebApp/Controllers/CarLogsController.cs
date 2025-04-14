@@ -70,6 +70,13 @@ public class CarLogsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(CarLog carLog)
     {
+        // Check if current user is admin of the group
+        var isAdmin = await _uow.GroupRepository.IsUserInGroup(User.GetUserId(), carLog.Car!.GroupId);
+        if (!isAdmin)
+        {
+            return Forbid();
+        }
+        
         
         carLog.UserId = User.GetUserId();
         
@@ -104,6 +111,12 @@ public class CarLogsController : Controller
         {
             return NotFound();
         }
+        // Check if current user is admin of the group
+        var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), entity.Car!.GroupId);
+        if (!isAdmin)
+        {
+            return Forbid();
+        }
         
         var userGroups = await _uow.GroupRepository.AllAsync(User.GetUserId());
         var userCars = await _uow.CarRepository.AllCarsAsync(userGroups);
@@ -123,6 +136,13 @@ public class CarLogsController : Controller
         if (id != carLog.Id)
         {
             return NotFound();
+        }
+        
+        // Check if current user is admin of the group
+        var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), carLog.Car!.GroupId);
+        if (!isAdmin)
+        {
+            return Forbid();
         }
 
         if (ModelState.IsValid)
@@ -151,6 +171,12 @@ public class CarLogsController : Controller
         {
             return NotFound();
         }
+        // Check if current user is admin of the group
+        var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), entity.Car!.GroupId);
+        if (!isAdmin)
+        {
+            return Forbid();
+        }
 
         return View(entity);
     }
@@ -160,6 +186,19 @@ public class CarLogsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(Guid id)
     {
+        var entity = await _uow.CarLogRepository.FindAsync(id, User.GetUserId());
+        if (entity == null)
+        {
+            return NotFound();
+        }
+
+        // Check if current user is admin of the group
+        var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), entity.Car!.GroupId);
+        if (!isAdmin)
+        {
+            return Forbid();
+        }
+        
         await _uow.CarLogRepository.RemoveAsync(id);
         await _uow.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
