@@ -140,7 +140,7 @@ Partial Class formTabeliVaade
         'dgvKindlustus
         '
         Me.dgvKindlustus.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dgvKindlustus.Location = New System.Drawing.Point(7, 40)
+        Me.dgvKindlustus.Location = New System.Drawing.Point(7, 27)
         Me.dgvKindlustus.Name = "dgvKindlustus"
         Me.dgvKindlustus.RowHeadersWidth = 51
         Me.dgvKindlustus.RowTemplate.Height = 24
