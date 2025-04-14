@@ -40,4 +40,20 @@ public class GroupRepository : BaseRepository<Group>, IGroupRepository
                 .Any(gm => gm.UserId == userId && gm.IsAdmin))
             .ToListAsync();
     }
+    
+    public async Task<bool> IsUserAdminInGroup(Guid userId, Guid groupId)
+    {
+        return await RepositoryDbSet
+            .Where(g => g.Id == groupId)
+            .AnyAsync(g => g.GroupMembers!
+                .Any(gm => gm.UserId == userId && gm.IsAdmin));
+    }
+
+    public async Task<bool> IsUserInGroup(Guid userId, Guid groupId)
+    {
+        return await RepositoryDbSet
+            .Where(g => g.Id == groupId)
+            .AnyAsync(g => g.GroupMembers!
+                .Any(gm => gm.UserId == userId));
+    }
 }

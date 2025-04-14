@@ -64,6 +64,14 @@ public class GroupMembersController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(GroupMember groupMember)
     {
+        // Check if current user is admin of the group
+        var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), groupMember.GroupId);
+        if (!isAdmin)
+        {
+            return Forbid();
+        }
+
+        
         if (ModelState.IsValid)
         {
             groupMember.Id = Guid.NewGuid();
@@ -91,6 +99,14 @@ public class GroupMembersController : Controller
         {
             return NotFound();
         }
+        
+        // Check if current user is admin of the group
+        var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), entity.GroupId);
+        if (!isAdmin)
+        {
+            return Forbid();
+        }
+
 
         ViewData["GroupId"] = new SelectList(await _uow.GroupRepository.AllAdminsAsync(User.GetUserId()), "Id", "Name");
         ViewData["AppUserId"] = new SelectList(await _uow.UserRepository.AllAsync(), "Id", "Email");
@@ -107,6 +123,13 @@ public class GroupMembersController : Controller
         if (id != groupMember.Id)
         {
             return NotFound();
+        }
+        
+        // Check if current user is admin of the group
+        var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), groupMember.GroupId);
+        if (!isAdmin)
+        {
+            return Forbid(); 
         }
 
         if (ModelState.IsValid)
@@ -133,6 +156,13 @@ public class GroupMembersController : Controller
         {
             return NotFound();
         }
+        
+        // Check if current user is admin of the group
+        var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), entity.GroupId);
+        if (!isAdmin)
+        {
+            return Forbid();
+        }
 
         return View(entity);
     }
@@ -142,6 +172,19 @@ public class GroupMembersController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(Guid id)
     {
+        var entity = await _uow.GroupMemberRepository.FindAsync(id, User.GetUserId());
+        if (entity == null)
+        {
+            return NotFound();
+        }
+
+        // Check if current user is admin of the group
+        var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), entity.GroupId);
+        if (!isAdmin)
+        {
+            return Forbid();
+        }
+        
         await _uow.GroupMemberRepository.RemoveAsync(id);
         await _uow.SaveChangesAsync();
         return RedirectToAction(nameof(Index));

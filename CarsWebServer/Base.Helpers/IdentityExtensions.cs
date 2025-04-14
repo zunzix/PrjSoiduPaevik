@@ -32,6 +32,8 @@ public static class IdentityExtensions
         return JWTSecurityTokenHandler.WriteToken(token);
     }
     
+    
+    
     public static bool ValidateJWT(string token, string key, string issuer, string audience)
     {
         try
