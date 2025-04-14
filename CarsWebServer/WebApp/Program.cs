@@ -44,8 +44,6 @@ else
 }
 
 
-
-
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddScoped<IAppUOW, AppUOW>();
