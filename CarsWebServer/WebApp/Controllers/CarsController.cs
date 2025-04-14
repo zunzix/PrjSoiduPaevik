@@ -17,13 +17,11 @@ namespace WebApp.Controllers;
 [Authorize]
 public class CarsController : Controller
 {
-    //private readonly AppDbContext _context;
     private readonly CarRepository _carRepository;
     private readonly GroupRepository _groupRepository;
 
-    public CarsController(AppDbContext context, CarRepository carRepository, GroupRepository groupRepository)
+    public CarsController(CarRepository carRepository, GroupRepository groupRepository)
     {
-        //_context = context;
         _carRepository = carRepository;
         _groupRepository = groupRepository;
     }

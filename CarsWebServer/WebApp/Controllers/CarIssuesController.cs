@@ -7,7 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using App.DAL.EF;
+using App.DAL.EF.Repositories;
 using App.Domain;
+using Base.Helpers;
 using Microsoft.AspNetCore.Authorization;
 
 namespace WebApp.Controllers;
@@ -15,27 +17,23 @@ namespace WebApp.Controllers;
 [Authorize]
 public class CarIssuesController : Controller
 {
-    private readonly AppDbContext _context;
+    private readonly GroupRepository _groupRepository;
+    private readonly CarRepository _carRepository;
+    private readonly CarIssueRepository _carIssueRepository;
 
-    public CarIssuesController(AppDbContext context)
+    public CarIssuesController(GroupRepository groupRepository, CarRepository carRepository, CarIssueRepository carIssueRepository)
     {
-        _context = context;
+        _groupRepository = groupRepository;
+        _carRepository = carRepository;
+        _carIssueRepository = carIssueRepository;
     }
 
     // GET: CarIssues
     public async Task<IActionResult> Index()
     {
-        //Ask only data for current user
-        var userIdStr = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
-        var userId = Guid.Parse(userIdStr);
-        
-        var res = await _context
-            .CarIssues
-            .Include(c => c.Car)
-            .ThenInclude(car => car!.Group)
-            .Where(cl => cl.Car!.Group!.GroupMembers!
-                .Any(gm => gm.UserId == userId))
-            .ToListAsync();
+        var userGroups = await _groupRepository.AllAsync(User.GetUserId());
+        var userCars = await _carRepository.AllCarsAsync(userGroups);
+        var res = await _carIssueRepository.AllCarIssuesAsync(userCars);
         
         return View(res);
     }
@@ -48,28 +46,20 @@ public class CarIssuesController : Controller
             return NotFound();
         }
 
-        var carIssue = await _context.CarIssues
-            .Include(c => c.Car)
-            .FirstOrDefaultAsync(m => m.Id == id);
-        if (carIssue == null)
+        var entity = await _carIssueRepository.FindAsync(id.Value, User.GetUserId());
+        if (entity == null)
         {
             return NotFound();
         }
 
-        return View(carIssue);
+        return View(entity);
     }
 
     // GET: CarIssues/Create
     public IActionResult Create()
     {
-        var userIdStr = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
-        var userId = Guid.Parse(userIdStr);
-        
-        // Get cars that belong to groups where the user is a member
-        var userCars = _context.Cars
-            .Where(c => _context.GroupMembers
-                .Any(gm => gm.GroupId == c.GroupId && gm.UserId == userId))
-            .ToList();
+        var userGroups = _groupRepository.All(User.GetUserId());
+        var userCars = _carRepository.AllCars(userGroups);
 
         ViewData["CarId"] = new SelectList(userCars, "Id", "Name");
         return View();
@@ -80,23 +70,17 @@ public class CarIssuesController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("CarId,Issue,IsCritical,IsResolved,Id")] CarIssue carIssue)
+    public async Task<IActionResult> Create(CarIssue carIssue)
     {
-        var userIdStr = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
-        var userId = Guid.Parse(userIdStr);
-        
         if (ModelState.IsValid)
         {
             carIssue.Id = Guid.NewGuid();
-            _context.Add(carIssue);
-            await _context.SaveChangesAsync();
+            _carIssueRepository.Add(carIssue);
+            await _carIssueRepository.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        // If model is invalid, repopulate the filtered car list
-        var userCars = _context.Cars
-            .Where(c => _context.GroupMembers
-                .Any(gm => gm.GroupId == c.GroupId && gm.UserId == userId))
-            .ToList();
+        var userGroups = await _groupRepository.AllAsync(User.GetUserId());
+        var userCars = await _carRepository.AllCarsAsync(userGroups);
 
         ViewData["CarId"] = new SelectList(userCars, "Id", "Name", carIssue.CarId);
         return View(carIssue);
@@ -110,22 +94,17 @@ public class CarIssuesController : Controller
             return NotFound();
         }
 
-        var carIssue = await _context.CarIssues.FindAsync(id);
-        if (carIssue == null)
+        var entity = await _carIssueRepository.FindAsync(id.Value, User.GetUserId());
+        if (entity == null)
         {
             return NotFound();
         }
-        var userIdStr = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
-        var userId = Guid.Parse(userIdStr);
         
-        // Get cars that belong to groups where the user is a member
-        var userCars = _context.Cars
-            .Where(c => _context.GroupMembers
-                .Any(gm => gm.GroupId == c.GroupId && gm.UserId == userId))
-            .ToList();
+        var userGroups = await _groupRepository.AllAsync(User.GetUserId());
+        var userCars = await _carRepository.AllCarsAsync(userGroups);
 
         ViewData["CarId"] = new SelectList(userCars, "Id", "Name");
-        return View(carIssue);
+        return View(entity);
     }
 
     // POST: CarIssues/Edit/5
@@ -133,11 +112,9 @@ public class CarIssuesController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(Guid id, [Bind("CarId,Issue,IsCritical,IsResolved,Id")] CarIssue carIssue)
+    public async Task<IActionResult> Edit(Guid id, CarIssue carIssue)
     {
-        var userIdStr = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
-        var userId = Guid.Parse(userIdStr);
-        
+
         if (id != carIssue.Id)
         {
             return NotFound();
@@ -145,29 +122,13 @@ public class CarIssuesController : Controller
 
         if (ModelState.IsValid)
         {
-            try
-            {
-                _context.Update(carIssue);
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CarIssueExists(carIssue.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            _carIssueRepository.Update(carIssue);
+            await _carIssueRepository.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        // If model is invalid, repopulate the filtered car list
-        var userCars = _context.Cars
-            .Where(c => _context.GroupMembers
-                .Any(gm => gm.GroupId == c.GroupId && gm.UserId == userId))
-            .ToList();
+        
+        var userGroups = await _groupRepository.AllAsync(User.GetUserId());
+        var userCars = await _carRepository.AllCarsAsync(userGroups);
 
         ViewData["CarId"] = new SelectList(userCars, "Id", "Name", carIssue.CarId);
         return View(carIssue);
@@ -181,15 +142,13 @@ public class CarIssuesController : Controller
             return NotFound();
         }
 
-        var carIssue = await _context.CarIssues
-            .Include(c => c.Car)
-            .FirstOrDefaultAsync(m => m.Id == id);
-        if (carIssue == null)
+        var entity = await _carIssueRepository.FindAsync(id.Value, User.GetUserId());
+        if (entity == null)
         {
             return NotFound();
         }
 
-        return View(carIssue);
+        return View(entity);
     }
 
     // POST: CarIssues/Delete/5
@@ -197,18 +156,9 @@ public class CarIssuesController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(Guid id)
     {
-        var carIssue = await _context.CarIssues.FindAsync(id);
-        if (carIssue != null)
-        {
-            _context.CarIssues.Remove(carIssue);
-        }
-
-        await _context.SaveChangesAsync();
+        await _carIssueRepository.RemoveAsync(id);
+        await _carIssueRepository.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
     }
-
-    private bool CarIssueExists(Guid id)
-    {
-        return _context.CarIssues.Any(e => e.Id == id);
-    }
+    
 }

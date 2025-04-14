@@ -13,18 +13,16 @@ using Base.Helpers;
 using Microsoft.AspNetCore.Authorization;
 
 namespace WebApp.Controllers;
-// todo remove _context and figure out _context.Users
+
 [Authorize]
 public class GroupMembersController : Controller
 {
-    //private readonly AppDbContext _context;
     private readonly GroupRepository _groupRepository;
     private readonly GroupMemberRepository _groupMemberRepository;
     private readonly UserRepository _userRepository;
 
-    public GroupMembersController(AppDbContext context, GroupMemberRepository groupMemberRepository, GroupRepository groupRepository, UserRepository userRepository)
+    public GroupMembersController(GroupMemberRepository groupMemberRepository, GroupRepository groupRepository, UserRepository userRepository)
     {
-        //_context = context;
         _groupMemberRepository = groupMemberRepository;
         _groupRepository = groupRepository;
         _userRepository = userRepository;

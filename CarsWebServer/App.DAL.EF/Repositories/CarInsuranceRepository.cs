@@ -11,4 +11,20 @@ public class CarInsuranceRepository : BaseRepository<CarInsurance>, ICarInsuranc
     public CarInsuranceRepository(DbContext repositoryDbContext) : base(repositoryDbContext)
     {
     }
+
+    public async Task<IEnumerable<CarInsurance>> AllCarInsurancesAsync(IEnumerable<Car> userCars)
+    {
+        var carIds = userCars.Select(g => g.Id).ToList();
+        return await RepositoryDbSet
+            .Include(c => c.Car)
+            .Where(c => carIds.Contains(c.CarId))
+            .ToListAsync();
+    }
+    
+    public override async Task<CarInsurance?> FindAsync(Guid id, Guid userId = default)
+    {
+        return await RepositoryDbSet
+            .Include(c => c.Car)
+            .FirstOrDefaultAsync(m => m.Id == id);
+    }
 }
