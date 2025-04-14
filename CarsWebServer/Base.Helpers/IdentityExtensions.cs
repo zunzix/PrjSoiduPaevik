@@ -31,4 +31,36 @@ public static class IdentityExtensions
         );
         return JWTSecurityTokenHandler.WriteToken(token);
     }
+    
+    public static bool ValidateJWT(string token, string key, string issuer, string audience)
+    {
+        try
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var validationParameters = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key)),
+                ValidIssuer = issuer,
+                ValidAudience = audience,
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = false, // We ignore expiration for refresh validation
+                // Important: Use the same algorithm as in GenerateJWT
+                CryptoProviderFactory = new CryptoProviderFactory()
+                {
+                    CacheSignatureProviders = false
+                }
+            };
+
+            // This will throw if the token is invalid
+            tokenHandler.ValidateToken(token, validationParameters, out _);
+        
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
 }
