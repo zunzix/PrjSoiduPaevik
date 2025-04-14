@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using App.DAL.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -17,10 +18,10 @@ namespace WebApp.Controllers;
 [Authorize]
 public class CarsController : Controller
 {
-    private readonly CarRepository _carRepository;
-    private readonly GroupRepository _groupRepository;
+    private readonly ICarRepository _carRepository;
+    private readonly IGroupRepository _groupRepository;
 
-    public CarsController(CarRepository carRepository, GroupRepository groupRepository)
+    public CarsController(ICarRepository carRepository, IGroupRepository groupRepository)
     {
         _carRepository = carRepository;
         _groupRepository = groupRepository;

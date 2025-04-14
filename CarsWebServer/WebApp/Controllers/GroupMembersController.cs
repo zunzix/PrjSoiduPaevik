@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using App.DAL.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -17,11 +18,11 @@ namespace WebApp.Controllers;
 [Authorize]
 public class GroupMembersController : Controller
 {
-    private readonly GroupRepository _groupRepository;
-    private readonly GroupMemberRepository _groupMemberRepository;
-    private readonly UserRepository _userRepository;
+    private readonly IGroupRepository _groupRepository;
+    private readonly IGroupMemberRepository _groupMemberRepository;
+    private readonly IUserRepository _userRepository;
 
-    public GroupMembersController(GroupMemberRepository groupMemberRepository, GroupRepository groupRepository, UserRepository userRepository)
+    public GroupMembersController(IGroupMemberRepository groupMemberRepository, IGroupRepository groupRepository, IUserRepository userRepository)
     {
         _groupMemberRepository = groupMemberRepository;
         _groupRepository = groupRepository;

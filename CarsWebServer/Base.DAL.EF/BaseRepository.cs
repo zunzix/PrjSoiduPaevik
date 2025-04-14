@@ -32,8 +32,7 @@ public class BaseRepository<TEntity, TKey> : IRepository<TEntity, TKey>
     protected virtual IQueryable<TEntity> GetQuery(TKey? userId = default!)
     {
         var query = RepositoryDbSet.AsQueryable();
-
-        // todo : check userId for null/default
+        
         if (typeof(IDomainUserId<TKey>).IsAssignableFrom(typeof(TEntity)) &&
             userId != null &&
             !EqualityComparer<TKey>.Default.Equals(userId, default))
