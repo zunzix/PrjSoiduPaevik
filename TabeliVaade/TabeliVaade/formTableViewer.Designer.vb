@@ -23,23 +23,23 @@ Partial Class formTableViewer
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.tcTabs = New System.Windows.Forms.TabControl()
-        Me.tpCarsList = New System.Windows.Forms.TabPage()
-        Me.tpCarDetails = New System.Windows.Forms.TabPage()
-        Me.tpProblems = New System.Windows.Forms.TabPage()
-        Me.tpHistory = New System.Windows.Forms.TabPage()
-        Me.tpHistoryDetails = New System.Windows.Forms.TabPage()
         Me.tpLogin = New System.Windows.Forms.TabPage()
         Me.tpGroups = New System.Windows.Forms.TabPage()
-        Me.dgvCarsList = New System.Windows.Forms.DataGridView()
-        Me.btnAddCar = New System.Windows.Forms.Button()
-        Me.DataGridView1 = New System.Windows.Forms.DataGridView()
-        Me.btnProblemBack = New System.Windows.Forms.Button()
+        Me.tpCarsList = New System.Windows.Forms.TabPage()
         Me.btnCarBack = New System.Windows.Forms.Button()
+        Me.btnAddCar = New System.Windows.Forms.Button()
+        Me.dgvCarsList = New System.Windows.Forms.DataGridView()
+        Me.tpCarDetails = New System.Windows.Forms.TabPage()
+        Me.tpProblems = New System.Windows.Forms.TabPage()
+        Me.btnProblemBack = New System.Windows.Forms.Button()
+        Me.dgvProblemsList = New System.Windows.Forms.DataGridView()
+        Me.tpHistory = New System.Windows.Forms.TabPage()
+        Me.tpHistoryDetails = New System.Windows.Forms.TabPage()
         Me.tcTabs.SuspendLayout()
         Me.tpCarsList.SuspendLayout()
-        Me.tpProblems.SuspendLayout()
         CType(Me.dgvCarsList, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.tpProblems.SuspendLayout()
+        CType(Me.dgvProblemsList, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'tcTabs
@@ -57,58 +57,6 @@ Partial Class formTableViewer
         Me.tcTabs.SelectedIndex = 0
         Me.tcTabs.Size = New System.Drawing.Size(797, 445)
         Me.tcTabs.TabIndex = 0
-        '
-        'tpCarsList
-        '
-        Me.tpCarsList.Controls.Add(Me.btnCarBack)
-        Me.tpCarsList.Controls.Add(Me.btnAddCar)
-        Me.tpCarsList.Controls.Add(Me.dgvCarsList)
-        Me.tpCarsList.Location = New System.Drawing.Point(4, 28)
-        Me.tpCarsList.Name = "tpCarsList"
-        Me.tpCarsList.Padding = New System.Windows.Forms.Padding(3)
-        Me.tpCarsList.Size = New System.Drawing.Size(789, 413)
-        Me.tpCarsList.TabIndex = 0
-        Me.tpCarsList.Text = "Cars"
-        Me.tpCarsList.UseVisualStyleBackColor = True
-        '
-        'tpCarDetails
-        '
-        Me.tpCarDetails.Location = New System.Drawing.Point(4, 28)
-        Me.tpCarDetails.Name = "tpCarDetails"
-        Me.tpCarDetails.Padding = New System.Windows.Forms.Padding(3)
-        Me.tpCarDetails.Size = New System.Drawing.Size(789, 413)
-        Me.tpCarDetails.TabIndex = 1
-        Me.tpCarDetails.Text = "Car Details"
-        Me.tpCarDetails.UseVisualStyleBackColor = True
-        '
-        'tpProblems
-        '
-        Me.tpProblems.Controls.Add(Me.btnProblemBack)
-        Me.tpProblems.Controls.Add(Me.DataGridView1)
-        Me.tpProblems.Location = New System.Drawing.Point(4, 28)
-        Me.tpProblems.Name = "tpProblems"
-        Me.tpProblems.Size = New System.Drawing.Size(789, 413)
-        Me.tpProblems.TabIndex = 2
-        Me.tpProblems.Text = "Car Problems"
-        Me.tpProblems.UseVisualStyleBackColor = True
-        '
-        'tpHistory
-        '
-        Me.tpHistory.Location = New System.Drawing.Point(4, 28)
-        Me.tpHistory.Name = "tpHistory"
-        Me.tpHistory.Size = New System.Drawing.Size(789, 413)
-        Me.tpHistory.TabIndex = 3
-        Me.tpHistory.Text = "Car History"
-        Me.tpHistory.UseVisualStyleBackColor = True
-        '
-        'tpHistoryDetails
-        '
-        Me.tpHistoryDetails.Location = New System.Drawing.Point(4, 28)
-        Me.tpHistoryDetails.Name = "tpHistoryDetails"
-        Me.tpHistoryDetails.Size = New System.Drawing.Size(789, 413)
-        Me.tpHistoryDetails.TabIndex = 4
-        Me.tpHistoryDetails.Text = "History Details"
-        Me.tpHistoryDetails.UseVisualStyleBackColor = True
         '
         'tpLogin
         '
@@ -128,15 +76,27 @@ Partial Class formTableViewer
         Me.tpGroups.Text = "Groups"
         Me.tpGroups.UseVisualStyleBackColor = True
         '
-        'dgvCarsList
+        'tpCarsList
         '
-        Me.dgvCarsList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dgvCarsList.Location = New System.Drawing.Point(6, 35)
-        Me.dgvCarsList.Name = "dgvCarsList"
-        Me.dgvCarsList.RowHeadersWidth = 51
-        Me.dgvCarsList.RowTemplate.Height = 24
-        Me.dgvCarsList.Size = New System.Drawing.Size(777, 375)
-        Me.dgvCarsList.TabIndex = 0
+        Me.tpCarsList.Controls.Add(Me.btnCarBack)
+        Me.tpCarsList.Controls.Add(Me.btnAddCar)
+        Me.tpCarsList.Controls.Add(Me.dgvCarsList)
+        Me.tpCarsList.Location = New System.Drawing.Point(4, 28)
+        Me.tpCarsList.Name = "tpCarsList"
+        Me.tpCarsList.Padding = New System.Windows.Forms.Padding(3)
+        Me.tpCarsList.Size = New System.Drawing.Size(789, 413)
+        Me.tpCarsList.TabIndex = 0
+        Me.tpCarsList.Text = "Cars"
+        Me.tpCarsList.UseVisualStyleBackColor = True
+        '
+        'btnCarBack
+        '
+        Me.btnCarBack.Location = New System.Drawing.Point(7, 6)
+        Me.btnCarBack.Name = "btnCarBack"
+        Me.btnCarBack.Size = New System.Drawing.Size(75, 23)
+        Me.btnCarBack.TabIndex = 2
+        Me.btnCarBack.Text = "Back"
+        Me.btnCarBack.UseVisualStyleBackColor = True
         '
         'btnAddCar
         '
@@ -147,15 +107,36 @@ Partial Class formTableViewer
         Me.btnAddCar.Text = "Add car"
         Me.btnAddCar.UseVisualStyleBackColor = True
         '
-        'DataGridView1
+        'dgvCarsList
         '
-        Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataGridView1.Location = New System.Drawing.Point(6, 36)
-        Me.DataGridView1.Name = "DataGridView1"
-        Me.DataGridView1.RowHeadersWidth = 51
-        Me.DataGridView1.RowTemplate.Height = 24
-        Me.DataGridView1.Size = New System.Drawing.Size(776, 374)
-        Me.DataGridView1.TabIndex = 0
+        Me.dgvCarsList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.dgvCarsList.Location = New System.Drawing.Point(6, 35)
+        Me.dgvCarsList.Name = "dgvCarsList"
+        Me.dgvCarsList.RowHeadersWidth = 51
+        Me.dgvCarsList.RowTemplate.Height = 24
+        Me.dgvCarsList.Size = New System.Drawing.Size(777, 375)
+        Me.dgvCarsList.TabIndex = 0
+        '
+        'tpCarDetails
+        '
+        Me.tpCarDetails.Location = New System.Drawing.Point(4, 28)
+        Me.tpCarDetails.Name = "tpCarDetails"
+        Me.tpCarDetails.Padding = New System.Windows.Forms.Padding(3)
+        Me.tpCarDetails.Size = New System.Drawing.Size(789, 413)
+        Me.tpCarDetails.TabIndex = 1
+        Me.tpCarDetails.Text = "Car Details"
+        Me.tpCarDetails.UseVisualStyleBackColor = True
+        '
+        'tpProblems
+        '
+        Me.tpProblems.Controls.Add(Me.btnProblemBack)
+        Me.tpProblems.Controls.Add(Me.dgvProblemsList)
+        Me.tpProblems.Location = New System.Drawing.Point(4, 28)
+        Me.tpProblems.Name = "tpProblems"
+        Me.tpProblems.Size = New System.Drawing.Size(789, 413)
+        Me.tpProblems.TabIndex = 2
+        Me.tpProblems.Text = "Car Problems"
+        Me.tpProblems.UseVisualStyleBackColor = True
         '
         'btnProblemBack
         '
@@ -166,14 +147,33 @@ Partial Class formTableViewer
         Me.btnProblemBack.Text = "Back"
         Me.btnProblemBack.UseVisualStyleBackColor = True
         '
-        'btnCarBack
+        'dgvProblemsList
         '
-        Me.btnCarBack.Location = New System.Drawing.Point(7, 6)
-        Me.btnCarBack.Name = "btnCarBack"
-        Me.btnCarBack.Size = New System.Drawing.Size(75, 23)
-        Me.btnCarBack.TabIndex = 2
-        Me.btnCarBack.Text = "Back"
-        Me.btnCarBack.UseVisualStyleBackColor = True
+        Me.dgvProblemsList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.dgvProblemsList.Location = New System.Drawing.Point(6, 36)
+        Me.dgvProblemsList.Name = "dgvProblemsList"
+        Me.dgvProblemsList.RowHeadersWidth = 51
+        Me.dgvProblemsList.RowTemplate.Height = 24
+        Me.dgvProblemsList.Size = New System.Drawing.Size(776, 374)
+        Me.dgvProblemsList.TabIndex = 0
+        '
+        'tpHistory
+        '
+        Me.tpHistory.Location = New System.Drawing.Point(4, 28)
+        Me.tpHistory.Name = "tpHistory"
+        Me.tpHistory.Size = New System.Drawing.Size(789, 413)
+        Me.tpHistory.TabIndex = 3
+        Me.tpHistory.Text = "Car History"
+        Me.tpHistory.UseVisualStyleBackColor = True
+        '
+        'tpHistoryDetails
+        '
+        Me.tpHistoryDetails.Location = New System.Drawing.Point(4, 28)
+        Me.tpHistoryDetails.Name = "tpHistoryDetails"
+        Me.tpHistoryDetails.Size = New System.Drawing.Size(789, 413)
+        Me.tpHistoryDetails.TabIndex = 4
+        Me.tpHistoryDetails.Text = "History Details"
+        Me.tpHistoryDetails.UseVisualStyleBackColor = True
         '
         'formTableViewer
         '
@@ -185,9 +185,9 @@ Partial Class formTableViewer
         Me.Text = "Car Logbook"
         Me.tcTabs.ResumeLayout(False)
         Me.tpCarsList.ResumeLayout(False)
-        Me.tpProblems.ResumeLayout(False)
         CType(Me.dgvCarsList, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.tpProblems.ResumeLayout(False)
+        CType(Me.dgvProblemsList, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -202,7 +202,7 @@ Partial Class formTableViewer
     Friend WithEvents tpGroups As TabPage
     Friend WithEvents btnAddCar As Button
     Friend WithEvents dgvCarsList As DataGridView
-    Friend WithEvents DataGridView1 As DataGridView
+    Friend WithEvents dgvProblemsList As DataGridView
     Friend WithEvents btnCarBack As Button
     Friend WithEvents btnProblemBack As Button
 End Class
