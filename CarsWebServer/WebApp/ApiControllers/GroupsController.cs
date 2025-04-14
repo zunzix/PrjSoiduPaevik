@@ -2,13 +2,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using App.DAL.Contracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using App.DAL.EF;
 using App.Domain;
+using Base.Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+
+// todo : add user specific Find to all repos
+// todo : remove _context
 
 namespace WebApp.ApiControllers
 {
@@ -17,10 +22,12 @@ namespace WebApp.ApiControllers
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class GroupsController : ControllerBase
     {
+        private readonly IAppUOW _uow;
         private readonly AppDbContext _context;
-
-        public GroupsController(AppDbContext context)
+    
+        public GroupsController(IAppUOW uow, AppDbContext context)
         {
+            _uow = uow;
             _context = context;
         }
 
@@ -28,14 +35,14 @@ namespace WebApp.ApiControllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Group>>> GetGroups()
         {
-            return await _context.Groups.ToListAsync();
+            return (await _uow.GroupRepository.AllAsync(User.GetUserId())).ToList();
         }
 
         // GET: api/Groups/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Group>> GetGroup(Guid id)
         {
-            var @group = await _context.Groups.FindAsync(id);
+            var @group = await _uow.GroupRepository.FindAsync(id);
 
             if (@group == null)
             {
@@ -54,24 +61,17 @@ namespace WebApp.ApiControllers
             {
                 return BadRequest();
             }
-
+            
+            // Check if current user is admin of the group
+            var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), @group.Id);
+            if (!isAdmin)
+            {
+                return Forbid();
+            }
+            
             _context.Entry(@group).State = EntityState.Modified;
+            await _uow.SaveChangesAsync();
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!GroupExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
 
             return NoContent();
         }
@@ -81,8 +81,18 @@ namespace WebApp.ApiControllers
         [HttpPost]
         public async Task<ActionResult<Group>> PostGroup(Group @group)
         {
-            _context.Groups.Add(@group);
-            await _context.SaveChangesAsync();
+            _uow.GroupRepository.Add(@group);
+            await _uow.SaveChangesAsync();
+            
+            var groupMember = new GroupMember
+            {
+                Id = Guid.NewGuid(),
+                GroupId = @group.Id,
+                UserId = User.GetUserId(),
+                IsAdmin = true
+            };
+            
+            _uow.GroupMemberRepository.Add(groupMember);
 
             return CreatedAtAction("GetGroup", new { id = @group.Id }, @group);
         }
@@ -91,21 +101,23 @@ namespace WebApp.ApiControllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteGroup(Guid id)
         {
-            var @group = await _context.Groups.FindAsync(id);
-            if (@group == null)
+            var entity = await _uow.GroupRepository.FindAsync(id);
+            if (entity == null)
             {
                 return NotFound();
             }
+            
+            // Check if current user is admin of the group
+            var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), entity.Id);
+            if (!isAdmin)
+            {
+                return Forbid();
+            }
 
-            _context.Groups.Remove(@group);
-            await _context.SaveChangesAsync();
+            _uow.GroupRepository.Remove(entity);
+            await _uow.SaveChangesAsync();
 
             return NoContent();
-        }
-
-        private bool GroupExists(Guid id)
-        {
-            return _context.Groups.Any(e => e.Id == id);
         }
     }
 }
