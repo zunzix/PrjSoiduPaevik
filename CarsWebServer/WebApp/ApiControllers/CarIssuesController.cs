@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using App.DAL.Contracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -18,10 +19,12 @@ namespace WebApp.ApiControllers
     public class CarIssuesController : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly IAppUOW _uow;
 
-        public CarIssuesController(AppDbContext context)
+        public CarIssuesController(AppDbContext context, IAppUOW uow)
         {
             _context = context;
+            _uow = uow;
         }
 
         // GET: api/CarIssues

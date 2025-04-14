@@ -12,7 +12,7 @@ using Base.Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 
-// todo : add user specific Find to all repos
+// todo : add user specific Find
 // todo : remove _context
 
 namespace WebApp.ApiControllers

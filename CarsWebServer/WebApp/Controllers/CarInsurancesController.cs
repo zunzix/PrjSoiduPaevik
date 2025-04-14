@@ -69,7 +69,14 @@ public class CarInsurancesController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(CarInsurance carInsurance)
     {
-        var isAdmin = await _uow.GroupRepository.IsUserInGroup(User.GetUserId(), carInsurance.Car!.GroupId);
+        var car = await _uow.CarRepository.FindAsync(carInsurance.CarId);
+        if (car == null)
+        {
+            return NotFound();
+        }
+        
+        // Check if current user is admin of the group
+        var isAdmin = await _uow.GroupRepository.IsUserInGroup(User.GetUserId(), car.GroupId);
         if (!isAdmin)
         {
             return Forbid();
