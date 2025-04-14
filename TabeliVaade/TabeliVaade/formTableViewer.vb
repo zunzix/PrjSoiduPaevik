@@ -14,8 +14,73 @@
 
     Private Sub btnAddCar_Click(sender As Object, e As EventArgs) Handles btnAddCar.Click
         ' To Add: Clicking it adds a car to the cars database and updates the DataGridView
+        tcTabs.SelectedTab = tpAddCar
+        Dim done As Boolean = False
+        'Algväärtustab groupID, vahetada õige grupiID peale pärast
+        Dim groupID As Integer = 0
+
+        ' Validate input fields
+        If Not ValidateInput() Then
+            Return
+        End If
+
+        ' Add the new car to the list
+        'done = add.AddCar
+
+        ' Clear input fields
+        txtName.Clear()
+        txtMileage.Clear()
+        txtAvgFuel.Clear()
+
+        If done Then
+            ' Force garbage collection
+            GC.Collect()
+            GC.WaitForPendingFinalizers()
+            If DEBUG Then
+                MessageBox.Show("Operation successful")
+            End If
+        Else
+            MessageBox.Show("Operation failed")
+        End If
     End Sub
 
+    Private Function ValidateInput() As Boolean
+        ' Validate the input fields
+        If String.IsNullOrWhiteSpace(txtName.Text) Then
+            txtName.Text = "Please enter car name"
+            Return False
+        End If
+        If String.IsNullOrWhiteSpace(txtMileage.Text) OrElse Not IsNumeric(txtMileage.Text) Then
+            txtMileage.Text = "Pelase enter valid mileage"
+            Return False
+        End If
+        If String.IsNullOrWhiteSpace(txtAvgFuel.Text) _
+            OrElse Not IsNumeric(txtAvgFuel.Text) Then
+            txtAvgFuel.Text = "Please enter valid average fuel consumption"
+            Return False
+        End If
+        'add check, if car is already in list
+
+        If DEBUG Then
+            MessageBox.Show($"Name: {txtName.Text}, Mileage: {txtMileage.Text}
+                                , Avg Fuel Consumption: {txtAvgFuel.Text}, 
+                                Ready: {cboxReady.Checked}, Archived: {cboxArchive.Checked}")
+        End If
+
+        Return True
+    End Function
+    Private Sub txtAvgFuelCon_Click(sender As Object, e As EventArgs) _
+        Handles txtAvgFuel.Click
+        txtAvgFuel.Clear()
+    End Sub
+    Private Sub txtMileage_Click(sender As Object, e As EventArgs) _
+        Handles txtMileage.Click
+        txtMileage.Clear()
+    End Sub
+    Private Sub txtName_Click(sender As Object, e As EventArgs) _
+        Handles txtName.Click
+        txtName.Clear()
+    End Sub
     Private Sub btnCarBack_Click(sender As Object, e As EventArgs) Handles btnCarBack.Click
         ' To Add: Return to Group tab when the button is pressed
     End Sub
@@ -23,4 +88,5 @@
     Private Sub btnProblemBack_Click(sender As Object, e As EventArgs) Handles btnProblemBack.Click
         ' To Add: Return to Car Detailed View when the button is pressed
     End Sub
+
 End Class
