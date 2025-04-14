@@ -113,6 +113,16 @@ Partial Class formTabeliVaade
         '
         'btnBack
         '
+        'dgvKindlustus
+        '
+        Me.dgvKindlustus.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.dgvKindlustus.Location = New System.Drawing.Point(7, 27)
+        Me.dgvKindlustus.Name = "dgvKindlustus"
+        Me.dgvKindlustus.RowHeadersWidth = 51
+        Me.dgvKindlustus.RowTemplate.Height = 24
+        Me.dgvKindlustus.Size = New System.Drawing.Size(1043, 429)
+        Me.dgvKindlustus.TabIndex = 0
+    
         Me.btnBack.Location = New System.Drawing.Point(6, 6)
         Me.btnBack.Name = "btnBack"
         Me.btnBack.Size = New System.Drawing.Size(75, 23)

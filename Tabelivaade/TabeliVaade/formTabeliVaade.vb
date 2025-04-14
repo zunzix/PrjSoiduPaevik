@@ -11,7 +11,7 @@ Public Class formTabeliVaade
         tcTabs.ItemSize = New Size(0, 1)
         tcTabs.SizeMode = TabSizeMode.Fixed
 
-        ' Bring in lists
+        ' Bring in lists (doesn't work at this very moment)
         dgvTabeliVaade.DataSource = CTabelReader.GetInstance().autodList
         Dim probleemid = CTabelReader.GetInstance().probleemidList
         Dim insurance = CTabelReader.GetInstance().kindlustusList
