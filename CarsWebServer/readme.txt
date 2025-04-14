@@ -21,6 +21,7 @@ dotnet aspnet-codegenerator controller -name CarLogsController -actions -m App.D
 dotnet aspnet-codegenerator controller -name CarIssuesController -actions -m App.Domain.CarIssue -dc AppDbContext -outDir Controllers --useDefaultLayout --useAsyncActions --referenceScriptLibraries -f
 dotnet aspnet-codegenerator controller -name CarInsurancesController -actions -m App.Domain.CarInsurance -dc AppDbContext -outDir Controllers --useDefaultLayout --useAsyncActions --referenceScriptLibraries -f
 
+dotnet aspnet-codegenerator identity -dc App.DAL.EF.AppDbContext -f
 
 Api controllers
 
