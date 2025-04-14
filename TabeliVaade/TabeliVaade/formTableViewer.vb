@@ -1,4 +1,6 @@
-﻿Public Class formTableViewer
+﻿Imports System.Security.Policy
+
+Public Class formTableViewer
     Const DEBUG = True
 
     Private Sub formTableViewer_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -15,33 +17,8 @@
     Private Sub btnAddCar_Click(sender As Object, e As EventArgs) Handles btnAddCar.Click
         ' To Add: Clicking it adds a car to the cars database and updates the DataGridView
         tcTabs.SelectedTab = tpAddCar
-        Dim done As Boolean = False
-        'Algväärtustab groupID, vahetada õige grupiID peale pärast
-        Dim groupID As Integer = 0
 
-        ' Validate input fields
-        If Not ValidateInput() Then
-            Return
-        End If
 
-        ' Add the new car to the list
-        'done = add.AddCar
-
-        ' Clear input fields
-        txtName.Clear()
-        txtMileage.Clear()
-        txtAvgFuel.Clear()
-
-        If done Then
-            ' Force garbage collection
-            GC.Collect()
-            GC.WaitForPendingFinalizers()
-            If DEBUG Then
-                MessageBox.Show("Operation successful")
-            End If
-        Else
-            MessageBox.Show("Operation failed")
-        End If
     End Sub
 
     Private Function ValidateInput() As Boolean
@@ -69,18 +46,29 @@
 
         Return True
     End Function
+
     Private Sub txtAvgFuelCon_Click(sender As Object, e As EventArgs) _
         Handles txtAvgFuel.Click
         txtAvgFuel.Clear()
+        ' Force garbage collection
+        GC.Collect()
+        GC.WaitForPendingFinalizers()
     End Sub
     Private Sub txtMileage_Click(sender As Object, e As EventArgs) _
         Handles txtMileage.Click
         txtMileage.Clear()
+        ' Force garbage collection
+        GC.Collect()
+        GC.WaitForPendingFinalizers()
     End Sub
     Private Sub txtName_Click(sender As Object, e As EventArgs) _
         Handles txtName.Click
         txtName.Clear()
+        ' Force garbage collection
+        GC.Collect()
+        GC.WaitForPendingFinalizers()
     End Sub
+
     Private Sub btnCarBack_Click(sender As Object, e As EventArgs) Handles btnCarBack.Click
         ' To Add: Return to Group tab when the button is pressed
     End Sub
@@ -89,4 +77,62 @@
         ' To Add: Return to Car Detailed View when the button is pressed
     End Sub
 
+    Private Sub btnEnter_Click(sender As Object, e As EventArgs) Handles btnAddCarEnter.Click
+
+        Dim done As Boolean = False
+        'initiate groupID, import correct ID later
+        Dim groupID As Integer = 0
+
+        ' Validate input fields
+        If Not ValidateInput() Then
+            ' Force garbage collection
+            GC.Collect()
+            GC.WaitForPendingFinalizers()
+            Return
+        End If
+
+        ' Add the new car to the list
+        done = True '' To Add: Add the car to the database
+
+        ' Clear input fields
+        txtName.Clear()
+        txtMileage.Clear()
+        txtAvgFuel.Clear()
+
+        If done Then
+            ' Force garbage collection
+            GC.Collect()
+            GC.WaitForPendingFinalizers()
+            If DEBUG Then
+                MessageBox.Show("Operation successful")
+            End If
+        Else
+            MessageBox.Show("Operation failed")
+        End If
+        tcTabs.SelectedTab = tpCarsList
+    End Sub
+
+    Private Sub btnAddCarCancel_Click(sender As Object, e As EventArgs) Handles btnAddCarCancel.Click
+
+        ' Clear input fields
+        txtName.Clear()
+        txtMileage.Clear()
+        txtAvgFuel.Clear()
+        ' Force garbage collection
+        GC.Collect()
+        GC.WaitForPendingFinalizers()
+
+        tcTabs.SelectedTab = tpCarsList
+    End Sub
+
+    Private Sub cboxArchive_CheckedChanged(sender As Object, e As EventArgs) Handles cboxArchive.CheckedChanged
+        ' Force garbage collection
+        GC.Collect()
+        GC.WaitForPendingFinalizers()
+    End Sub
+    Private Sub cboxReady_CheckedChanged(sender As Object, e As EventArgs) Handles cboxReady.CheckedChanged
+        ' Force garbage collection
+        GC.Collect()
+        GC.WaitForPendingFinalizers()
+    End Sub
 End Class
