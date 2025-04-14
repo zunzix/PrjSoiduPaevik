@@ -1,0 +1,10 @@
+﻿Public Interface ICar
+    Property ID As Integer
+    Property GroupID As Integer
+    Property Name As String
+    Property Mileage As Double
+    Property AvgFuelConsumption As Double
+    Property IsAvailable As Boolean
+    Property IsArchived As Boolean
+    Property IsInCriticalState As Boolean
+End Interface
