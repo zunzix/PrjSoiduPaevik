@@ -74,7 +74,7 @@ public class CarsController : Controller
             await _carRepository.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        ViewData["GroupId"] = new SelectList(_groupRepository.AllAdmins(User.GetUserId()), "Id", "Name", car.GroupId);
+        ViewData["GroupId"] = new SelectList(await _groupRepository.AllAdminsAsync(User.GetUserId()), "Id", "Name", car.GroupId);
         return View(car);
     }
 
@@ -92,7 +92,7 @@ public class CarsController : Controller
             return NotFound();
         }
         
-        ViewData["GroupId"] = new SelectList(_groupRepository.AllAdmins(User.GetUserId()), "Id", "Name");
+        ViewData["GroupId"] = new SelectList(await _groupRepository.AllAdminsAsync(User.GetUserId()), "Id", "Name");
         return View(entity);
     }
 
@@ -114,7 +114,7 @@ public class CarsController : Controller
             await _carRepository.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        ViewData["GroupId"] = new SelectList(_groupRepository.AllAdmins(User.GetUserId()), "Id", "Name", car.GroupId);
+        ViewData["GroupId"] = new SelectList(await _groupRepository.AllAdminsAsync(User.GetUserId()), "Id", "Name", car.GroupId);
         return View(car);
     }
 
