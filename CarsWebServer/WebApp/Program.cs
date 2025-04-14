@@ -1,4 +1,6 @@
 using System.Globalization;
+using System.IdentityModel.Tokens.Jwt;
+using System.Text;
 using App.DAL.Contracts;
 using App.DAL.EF;
 using App.DAL.EF.Repositories;
@@ -8,6 +10,7 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -47,6 +50,27 @@ else
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddScoped<IAppUOW, AppUOW>();
+
+// Remove default claim mapping
+JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
+builder.Services
+    .AddAuthentication()
+    .AddCookie(options => { options.SlidingExpiration = true; })
+    .AddJwtBearer(cfg =>
+    {
+        //https in dev?
+        cfg.RequireHttpsMetadata = false;
+        //cfg.SaveToken = false;
+        cfg.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidIssuer = builder.Configuration["JWTSecurity:Issuer"],
+            ValidAudience = builder.Configuration["JWTSecurity:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(builder.Configuration["JWTSecurity:Key"]!)),
+            ClockSkew = TimeSpan.Zero // remove delay of token when expires
+        };
+    });
 
 builder.Services.AddIdentity<AppUser, AppRole>(o => 
     o.SignIn.RequireConfirmedAccount = false)

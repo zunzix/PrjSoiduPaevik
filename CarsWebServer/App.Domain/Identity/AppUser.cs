@@ -9,5 +9,6 @@ public class AppUser : BaseUser<AppUserRole>, IDomainId
     
     public ICollection<GroupMember>? GroupMembers { get; set; }
     public ICollection<CarLog>? CarLogs { get; set; }
+    public ICollection<AppRefreshToken>? RefreshTokens { get; set; }
     
 }

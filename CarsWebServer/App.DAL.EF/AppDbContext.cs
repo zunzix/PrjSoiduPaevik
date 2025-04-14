@@ -16,6 +16,7 @@ public class AppDbContext : IdentityDbContext<AppUser, AppRole, Guid, IdentityUs
     public DbSet<CarIssue> CarIssues { get; set; } = null!;
     public DbSet<CarInsurance> CarInsurances { get; set; } = null!;
     public DbSet<CarLog> CarLogs { get; set; } = null!;
+    public DbSet<AppRefreshToken> RefreshTokens { get; set; } = null!;
     
     public AppDbContext(DbContextOptions<AppDbContext> options)
         : base(options)
