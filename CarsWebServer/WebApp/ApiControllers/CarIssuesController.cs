@@ -8,8 +8,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using App.DAL.EF;
 using App.Domain;
+using Base.Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+
+// todo : add user specific Find
+// todo : remove _context
 
 namespace WebApp.ApiControllers
 {
@@ -31,14 +35,16 @@ namespace WebApp.ApiControllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CarIssue>>> GetCarIssues()
         {
-            return await _context.CarIssues.ToListAsync();
+            var userGroups = await _uow.GroupRepository.AllAsync(User.GetUserId());
+            var userCars = await _uow.CarRepository.AllCarsAsync(userGroups);
+            return (await _uow.CarIssueRepository.AllCarIssuesAsync(userCars)).ToList();
         }
 
         // GET: api/CarIssues/5
         [HttpGet("{id}")]
         public async Task<ActionResult<CarIssue>> GetCarIssue(Guid id)
         {
-            var carIssue = await _context.CarIssues.FindAsync(id);
+            var carIssue = await _uow.CarIssueRepository.FindAsync(id);
 
             if (carIssue == null)
             {
@@ -57,24 +63,24 @@ namespace WebApp.ApiControllers
             {
                 return BadRequest();
             }
+            
+            var car = await _uow.CarRepository.FindAsync(carIssue.CarId);
+            if (car == null)
+            {
+                return NotFound();
+            }
+        
+            // Check if current user is admin of the group
+            var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), car.GroupId);
+            if (!isAdmin)
+            {
+                return Forbid();
+            }
 
             _context.Entry(carIssue).State = EntityState.Modified;
+            
+            await _uow.SaveChangesAsync();
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CarIssueExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
 
             return NoContent();
         }
@@ -84,8 +90,21 @@ namespace WebApp.ApiControllers
         [HttpPost]
         public async Task<ActionResult<CarIssue>> PostCarIssue(CarIssue carIssue)
         {
-            _context.CarIssues.Add(carIssue);
-            await _context.SaveChangesAsync();
+            var car = await _uow.CarRepository.FindAsync(carIssue.CarId);
+            if (car == null)
+            {
+                return NotFound();
+            }
+        
+            // Check if current user is admin of the group
+            var isAdmin = await _uow.GroupRepository.IsUserInGroup(User.GetUserId(), car.GroupId);
+            if (!isAdmin)
+            {
+                return Forbid();
+            }
+            
+            _uow.CarIssueRepository.Add(carIssue);
+            await _uow.SaveChangesAsync();
 
             return CreatedAtAction("GetCarIssue", new { id = carIssue.Id }, carIssue);
         }
@@ -94,21 +113,24 @@ namespace WebApp.ApiControllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCarIssue(Guid id)
         {
-            var carIssue = await _context.CarIssues.FindAsync(id);
+            var carIssue = await _uow.CarIssueRepository.FindAsync(id);
             if (carIssue == null)
             {
                 return NotFound();
             }
+            
+            // Check if current user is admin of the group
+            var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), carIssue.Car!.GroupId);
+            if (!isAdmin)
+            {
+                return Forbid();
+            }
 
-            _context.CarIssues.Remove(carIssue);
-            await _context.SaveChangesAsync();
+            _uow.CarIssueRepository.Remove(carIssue);
+            await _uow.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool CarIssueExists(Guid id)
-        {
-            return _context.CarIssues.Any(e => e.Id == id);
-        }
     }
 }

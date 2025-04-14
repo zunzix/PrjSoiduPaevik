@@ -8,8 +8,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using App.DAL.EF;
 using App.Domain;
+using Base.Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+
+// todo : add user specific Find
+// todo : remove _context
 
 namespace WebApp.ApiControllers
 {
@@ -31,14 +35,16 @@ namespace WebApp.ApiControllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CarInsurance>>> GetCarInsurances()
         {
-            return await _context.CarInsurances.ToListAsync();
+            var userGroups = await _uow.GroupRepository.AllAsync(User.GetUserId());
+            var userCars = await _uow.CarRepository.AllCarsAsync(userGroups);
+            return (await _uow.CarInsuranceRepository.AllCarInsurancesAsync(userCars)).ToList();
         }
 
         // GET: api/CarInsurances/5
         [HttpGet("{id}")]
         public async Task<ActionResult<CarInsurance>> GetCarInsurance(Guid id)
         {
-            var carInsurance = await _context.CarInsurances.FindAsync(id);
+            var carInsurance = await _uow.CarInsuranceRepository.FindAsync(id);
 
             if (carInsurance == null)
             {
@@ -57,24 +63,23 @@ namespace WebApp.ApiControllers
             {
                 return BadRequest();
             }
+            
+            var car = await _uow.CarRepository.FindAsync(carInsurance.CarId);
+            if (car == null)
+            {
+                return NotFound();
+            }
+        
+            // Check if current user is admin of the group
+            var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), car.GroupId);
+            if (!isAdmin)
+            {
+                return Forbid();
+            }
 
             _context.Entry(carInsurance).State = EntityState.Modified;
+            await _uow.SaveChangesAsync();
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CarInsuranceExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
 
             return NoContent();
         }
@@ -84,8 +89,21 @@ namespace WebApp.ApiControllers
         [HttpPost]
         public async Task<ActionResult<CarInsurance>> PostCarInsurance(CarInsurance carInsurance)
         {
-            _context.CarInsurances.Add(carInsurance);
-            await _context.SaveChangesAsync();
+            var car = await _uow.CarRepository.FindAsync(carInsurance.CarId);
+            if (car == null)
+            {
+                return NotFound();
+            }
+        
+            // Check if current user is admin of the group
+            var isAdmin = await _uow.GroupRepository.IsUserInGroup(User.GetUserId(), car.GroupId);
+            if (!isAdmin)
+            {
+                return Forbid();
+            }
+            
+            _uow.CarInsuranceRepository.Add(carInsurance);
+            await _uow.SaveChangesAsync();
 
             return CreatedAtAction("GetCarInsurance", new { id = carInsurance.Id }, carInsurance);
         }
@@ -94,21 +112,24 @@ namespace WebApp.ApiControllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCarInsurance(Guid id)
         {
-            var carInsurance = await _context.CarInsurances.FindAsync(id);
+            var carInsurance = await _uow.CarInsuranceRepository.FindAsync(id);
             if (carInsurance == null)
             {
                 return NotFound();
             }
+        
+            // Check if current user is admin of the group
+            var isAdmin = await _uow.GroupRepository.IsUserInGroup(User.GetUserId(), carInsurance.Car!.GroupId);
+            if (!isAdmin)
+            {
+                return Forbid();
+            }
 
-            _context.CarInsurances.Remove(carInsurance);
-            await _context.SaveChangesAsync();
+            _uow.CarInsuranceRepository.Remove(carInsurance);
+            await _uow.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool CarInsuranceExists(Guid id)
-        {
-            return _context.CarInsurances.Any(e => e.Id == id);
-        }
     }
 }

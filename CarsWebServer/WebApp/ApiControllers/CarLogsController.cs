@@ -8,8 +8,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using App.DAL.EF;
 using App.Domain;
+using Base.Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.CodeAnalysis;
+
+// todo : add user specific Find
+// todo : remove _context
 
 namespace WebApp.ApiControllers
 {
@@ -31,14 +36,16 @@ namespace WebApp.ApiControllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CarLog>>> GetCarLogs()
         {
-            return await _context.CarLogs.ToListAsync();
+            var userGroups = await _uow.GroupRepository.AllAsync(User.GetUserId());
+            var userCars = await _uow.CarRepository.AllCarsAsync(userGroups);
+            return (await _uow.CarLogRepository.AllCarLogsAsync(userCars)).ToList();
         }
 
         // GET: api/CarLogs/5
         [HttpGet("{id}")]
         public async Task<ActionResult<CarLog>> GetCarLog(Guid id)
         {
-            var carLog = await _context.CarLogs.FindAsync(id);
+            var carLog = await _uow.CarLogRepository.FindAsync(id);
 
             if (carLog == null)
             {
@@ -57,24 +64,22 @@ namespace WebApp.ApiControllers
             {
                 return BadRequest();
             }
+            
+            var car = await _uow.CarRepository.FindAsync(carLog.CarId);
+            if (car == null)
+            {
+                return NotFound();
+            }
+        
+            // Check if current user is admin of the group
+            var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), car.GroupId);
+            if (!isAdmin)
+            {
+                return Forbid();
+            }
 
             _context.Entry(carLog).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CarLogExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await _uow.SaveChangesAsync();
 
             return NoContent();
         }
@@ -84,8 +89,21 @@ namespace WebApp.ApiControllers
         [HttpPost]
         public async Task<ActionResult<CarLog>> PostCarLog(CarLog carLog)
         {
-            _context.CarLogs.Add(carLog);
-            await _context.SaveChangesAsync();
+            var car = await _uow.CarRepository.FindAsync(carLog.CarId);
+            if (car == null)
+            {
+                return NotFound();
+            }
+        
+            // Check if current user is admin of the group
+            var isAdmin = await _uow.GroupRepository.IsUserInGroup(User.GetUserId(), car.GroupId);
+            if (!isAdmin)
+            {
+                return Forbid();
+            }
+            
+            _uow.CarLogRepository.Add(carLog);
+            await _uow.SaveChangesAsync();
 
             return CreatedAtAction("GetCarLog", new { id = carLog.Id }, carLog);
         }
@@ -94,21 +112,24 @@ namespace WebApp.ApiControllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCarLog(Guid id)
         {
-            var carLog = await _context.CarLogs.FindAsync(id);
+            var carLog = await _uow.CarLogRepository.FindAsync(id);
             if (carLog == null)
             {
                 return NotFound();
             }
+            
+            // Check if current user is admin of the group
+            var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), carLog.Car!.GroupId);
+            if (!isAdmin)
+            {
+                return Forbid();
+            }
 
-            _context.CarLogs.Remove(carLog);
-            await _context.SaveChangesAsync();
+            _uow.CarLogRepository.Remove(carLog);
+            await _uow.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool CarLogExists(Guid id)
-        {
-            return _context.CarLogs.Any(e => e.Id == id);
-        }
     }
 }
