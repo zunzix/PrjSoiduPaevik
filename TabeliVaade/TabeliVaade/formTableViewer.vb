@@ -161,4 +161,5 @@ Public Class formTableViewer
         GC.Collect()
         GC.WaitForPendingFinalizers()
     End Sub
+
 End Class

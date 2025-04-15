@@ -24,6 +24,13 @@ Partial Class formTableViewer
     Private Sub InitializeComponent()
         Me.tcTabs = New System.Windows.Forms.TabControl()
         Me.tpLogin = New System.Windows.Forms.TabPage()
+        Me.txtLoginPassword = New System.Windows.Forms.TextBox()
+        Me.txtLoginEmail = New System.Windows.Forms.TextBox()
+        Me.lblLoginPassword = New System.Windows.Forms.Label()
+        Me.lblLoginEmail = New System.Windows.Forms.Label()
+        Me.btnLoginRegister = New System.Windows.Forms.Button()
+        Me.btnLoginLogin = New System.Windows.Forms.Button()
+        Me.lblLoginTitle = New System.Windows.Forms.Label()
         Me.tpGroups = New System.Windows.Forms.TabPage()
         Me.tpCarsList = New System.Windows.Forms.TabPage()
         Me.btnCarBack = New System.Windows.Forms.Button()
@@ -32,7 +39,6 @@ Partial Class formTableViewer
         Me.tpCarDetails = New System.Windows.Forms.TabPage()
         Me.tpProblems = New System.Windows.Forms.TabPage()
         Me.btnProblemBack = New System.Windows.Forms.Button()
-
         Me.dgvProblemsList = New System.Windows.Forms.DataGridView()
         Me.tpHistory = New System.Windows.Forms.TabPage()
         Me.tpHistoryDetails = New System.Windows.Forms.TabPage()
@@ -50,15 +56,13 @@ Partial Class formTableViewer
         Me.lblReady = New System.Windows.Forms.Label()
         Me.lblArchive = New System.Windows.Forms.Label()
         Me.lblHeader = New System.Windows.Forms.Label()
-    
         Me.tcTabs.SuspendLayout()
+        Me.tpLogin.SuspendLayout()
         Me.tpCarsList.SuspendLayout()
         CType(Me.dgvCarsList, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tpProblems.SuspendLayout()
-
         CType(Me.dgvProblemsList, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tpAddCar.SuspendLayout()
-
         Me.SuspendLayout()
         '
         'tcTabs
@@ -72,32 +76,100 @@ Partial Class formTableViewer
         Me.tcTabs.Controls.Add(Me.tpHistory)
         Me.tcTabs.Controls.Add(Me.tpHistoryDetails)
         Me.tcTabs.Controls.Add(Me.tpAddCar)
-        Me.tcTabs.Location = New System.Drawing.Point(2, 4)
-        Me.tcTabs.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
+        Me.tcTabs.Location = New System.Drawing.Point(2, 3)
         Me.tcTabs.Name = "tcTabs"
         Me.tcTabs.SelectedIndex = 0
-        Me.tcTabs.Size = New System.Drawing.Size(897, 556)
+        Me.tcTabs.Size = New System.Drawing.Size(797, 445)
         Me.tcTabs.TabIndex = 0
         '
         'tpLogin
         '
-        Me.tpLogin.Location = New System.Drawing.Point(4, 32)
-        Me.tpLogin.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
+        Me.tpLogin.Controls.Add(Me.txtLoginPassword)
+        Me.tpLogin.Controls.Add(Me.txtLoginEmail)
+        Me.tpLogin.Controls.Add(Me.lblLoginPassword)
+        Me.tpLogin.Controls.Add(Me.lblLoginEmail)
+        Me.tpLogin.Controls.Add(Me.btnLoginRegister)
+        Me.tpLogin.Controls.Add(Me.btnLoginLogin)
+        Me.tpLogin.Controls.Add(Me.lblLoginTitle)
+        Me.tpLogin.Location = New System.Drawing.Point(4, 28)
         Me.tpLogin.Name = "tpLogin"
-        Me.tpLogin.Size = New System.Drawing.Size(889, 520)
-
+        Me.tpLogin.Size = New System.Drawing.Size(789, 413)
         Me.tpLogin.TabIndex = 5
         Me.tpLogin.Text = "Login"
         Me.tpLogin.UseVisualStyleBackColor = True
         '
+        'txtLoginPassword
+        '
+        Me.txtLoginPassword.Location = New System.Drawing.Point(288, 188)
+        Me.txtLoginPassword.Name = "txtLoginPassword"
+        Me.txtLoginPassword.Size = New System.Drawing.Size(220, 22)
+        Me.txtLoginPassword.TabIndex = 18
+        Me.txtLoginPassword.UseSystemPasswordChar = True
+        '
+        'txtLoginEmail
+        '
+        Me.txtLoginEmail.Location = New System.Drawing.Point(288, 133)
+        Me.txtLoginEmail.Name = "txtLoginEmail"
+        Me.txtLoginEmail.Size = New System.Drawing.Size(220, 22)
+        Me.txtLoginEmail.TabIndex = 17
+        '
+        'lblLoginPassword
+        '
+        Me.lblLoginPassword.AutoSize = True
+        Me.lblLoginPassword.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblLoginPassword.Location = New System.Drawing.Point(194, 188)
+        Me.lblLoginPassword.Name = "lblLoginPassword"
+        Me.lblLoginPassword.Size = New System.Drawing.Size(88, 20)
+        Me.lblLoginPassword.TabIndex = 16
+        Me.lblLoginPassword.Text = "Password:"
+        '
+        'lblLoginEmail
+        '
+        Me.lblLoginEmail.AutoSize = True
+        Me.lblLoginEmail.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblLoginEmail.Location = New System.Drawing.Point(226, 133)
+        Me.lblLoginEmail.Name = "lblLoginEmail"
+        Me.lblLoginEmail.Size = New System.Drawing.Size(56, 20)
+        Me.lblLoginEmail.TabIndex = 15
+        Me.lblLoginEmail.Text = "Email:"
+        '
+        'btnLoginRegister
+        '
+        Me.btnLoginRegister.BackColor = System.Drawing.SystemColors.ActiveBorder
+        Me.btnLoginRegister.Location = New System.Drawing.Point(288, 329)
+        Me.btnLoginRegister.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
+        Me.btnLoginRegister.Name = "btnLoginRegister"
+        Me.btnLoginRegister.Size = New System.Drawing.Size(220, 53)
+        Me.btnLoginRegister.TabIndex = 14
+        Me.btnLoginRegister.Text = "Register"
+        Me.btnLoginRegister.UseVisualStyleBackColor = False
+        '
+        'btnLoginLogin
+        '
+        Me.btnLoginLogin.BackColor = System.Drawing.SystemColors.ActiveCaption
+        Me.btnLoginLogin.Location = New System.Drawing.Point(288, 261)
+        Me.btnLoginLogin.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
+        Me.btnLoginLogin.Name = "btnLoginLogin"
+        Me.btnLoginLogin.Size = New System.Drawing.Size(220, 53)
+        Me.btnLoginLogin.TabIndex = 13
+        Me.btnLoginLogin.Text = "Login"
+        Me.btnLoginLogin.UseVisualStyleBackColor = False
+        '
+        'lblLoginTitle
+        '
+        Me.lblLoginTitle.AutoSize = True
+        Me.lblLoginTitle.Font = New System.Drawing.Font("Microsoft Sans Serif", 22.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblLoginTitle.Location = New System.Drawing.Point(281, 37)
+        Me.lblLoginTitle.Name = "lblLoginTitle"
+        Me.lblLoginTitle.Size = New System.Drawing.Size(227, 42)
+        Me.lblLoginTitle.TabIndex = 0
+        Me.lblLoginTitle.Text = "CarLogBook"
+        '
         'tpGroups
         '
-
-        Me.tpGroups.Location = New System.Drawing.Point(4, 32)
-        Me.tpGroups.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
+        Me.tpGroups.Location = New System.Drawing.Point(4, 28)
         Me.tpGroups.Name = "tpGroups"
-        Me.tpGroups.Size = New System.Drawing.Size(889, 520)
-
+        Me.tpGroups.Size = New System.Drawing.Size(789, 413)
         Me.tpGroups.TabIndex = 6
         Me.tpGroups.Text = "Groups"
         Me.tpGroups.UseVisualStyleBackColor = True
@@ -107,34 +179,28 @@ Partial Class formTableViewer
         Me.tpCarsList.Controls.Add(Me.btnCarBack)
         Me.tpCarsList.Controls.Add(Me.btnAddCar)
         Me.tpCarsList.Controls.Add(Me.dgvCarsList)
-        Me.tpCarsList.Location = New System.Drawing.Point(4, 32)
-        Me.tpCarsList.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
+        Me.tpCarsList.Location = New System.Drawing.Point(4, 28)
         Me.tpCarsList.Name = "tpCarsList"
-        Me.tpCarsList.Padding = New System.Windows.Forms.Padding(3, 4, 3, 4)
-        Me.tpCarsList.Size = New System.Drawing.Size(889, 520)
+        Me.tpCarsList.Padding = New System.Windows.Forms.Padding(3)
+        Me.tpCarsList.Size = New System.Drawing.Size(789, 413)
         Me.tpCarsList.TabIndex = 0
         Me.tpCarsList.Text = "Cars"
         Me.tpCarsList.UseVisualStyleBackColor = True
         '
         'btnCarBack
         '
-
-        Me.btnCarBack.Location = New System.Drawing.Point(8, 8)
-        Me.btnCarBack.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
+        Me.btnCarBack.Location = New System.Drawing.Point(7, 6)
         Me.btnCarBack.Name = "btnCarBack"
-        Me.btnCarBack.Size = New System.Drawing.Size(84, 29)
-
+        Me.btnCarBack.Size = New System.Drawing.Size(75, 23)
         Me.btnCarBack.TabIndex = 2
         Me.btnCarBack.Text = "Back"
         Me.btnCarBack.UseVisualStyleBackColor = True
         '
         'btnAddCar
         '
-        Me.btnAddCar.Location = New System.Drawing.Point(795, 8)
-        Me.btnAddCar.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
+        Me.btnAddCar.Location = New System.Drawing.Point(707, 6)
         Me.btnAddCar.Name = "btnAddCar"
-        Me.btnAddCar.Size = New System.Drawing.Size(84, 29)
-
+        Me.btnAddCar.Size = New System.Drawing.Size(75, 23)
         Me.btnAddCar.TabIndex = 1
         Me.btnAddCar.Text = "Add car"
         Me.btnAddCar.UseVisualStyleBackColor = True
@@ -142,23 +208,19 @@ Partial Class formTableViewer
         'dgvCarsList
         '
         Me.dgvCarsList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-
-        Me.dgvCarsList.Location = New System.Drawing.Point(7, 44)
-        Me.dgvCarsList.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
+        Me.dgvCarsList.Location = New System.Drawing.Point(6, 35)
         Me.dgvCarsList.Name = "dgvCarsList"
         Me.dgvCarsList.RowHeadersWidth = 51
         Me.dgvCarsList.RowTemplate.Height = 24
-        Me.dgvCarsList.Size = New System.Drawing.Size(874, 469)
-
+        Me.dgvCarsList.Size = New System.Drawing.Size(777, 375)
         Me.dgvCarsList.TabIndex = 0
         '
         'tpCarDetails
         '
-        Me.tpCarDetails.Location = New System.Drawing.Point(4, 32)
-        Me.tpCarDetails.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
+        Me.tpCarDetails.Location = New System.Drawing.Point(4, 28)
         Me.tpCarDetails.Name = "tpCarDetails"
-        Me.tpCarDetails.Padding = New System.Windows.Forms.Padding(3, 4, 3, 4)
-        Me.tpCarDetails.Size = New System.Drawing.Size(889, 520)
+        Me.tpCarDetails.Padding = New System.Windows.Forms.Padding(3)
+        Me.tpCarDetails.Size = New System.Drawing.Size(789, 413)
         Me.tpCarDetails.TabIndex = 1
         Me.tpCarDetails.Text = "Car Details"
         Me.tpCarDetails.UseVisualStyleBackColor = True
@@ -166,24 +228,19 @@ Partial Class formTableViewer
         'tpProblems
         '
         Me.tpProblems.Controls.Add(Me.btnProblemBack)
-
         Me.tpProblems.Controls.Add(Me.dgvProblemsList)
-        Me.tpProblems.Location = New System.Drawing.Point(4, 32)
-        Me.tpProblems.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
-
+        Me.tpProblems.Location = New System.Drawing.Point(4, 28)
         Me.tpProblems.Name = "tpProblems"
-        Me.tpProblems.Size = New System.Drawing.Size(889, 520)
+        Me.tpProblems.Size = New System.Drawing.Size(789, 413)
         Me.tpProblems.TabIndex = 2
         Me.tpProblems.Text = "Car Problems"
         Me.tpProblems.UseVisualStyleBackColor = True
         '
         'btnProblemBack
         '
-        Me.btnProblemBack.Location = New System.Drawing.Point(8, 9)
-        Me.btnProblemBack.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
+        Me.btnProblemBack.Location = New System.Drawing.Point(7, 7)
         Me.btnProblemBack.Name = "btnProblemBack"
-        Me.btnProblemBack.Size = New System.Drawing.Size(84, 29)
-
+        Me.btnProblemBack.Size = New System.Drawing.Size(75, 23)
         Me.btnProblemBack.TabIndex = 1
         Me.btnProblemBack.Text = "Back"
         Me.btnProblemBack.UseVisualStyleBackColor = True
@@ -191,30 +248,27 @@ Partial Class formTableViewer
         'dgvProblemsList
         '
         Me.dgvProblemsList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dgvProblemsList.Location = New System.Drawing.Point(7, 45)
-        Me.dgvProblemsList.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
+        Me.dgvProblemsList.Location = New System.Drawing.Point(6, 36)
         Me.dgvProblemsList.Name = "dgvProblemsList"
         Me.dgvProblemsList.RowHeadersWidth = 51
         Me.dgvProblemsList.RowTemplate.Height = 24
-        Me.dgvProblemsList.Size = New System.Drawing.Size(873, 468)
+        Me.dgvProblemsList.Size = New System.Drawing.Size(776, 374)
         Me.dgvProblemsList.TabIndex = 0
         '
         'tpHistory
         '
-        Me.tpHistory.Location = New System.Drawing.Point(4, 32)
-        Me.tpHistory.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
+        Me.tpHistory.Location = New System.Drawing.Point(4, 28)
         Me.tpHistory.Name = "tpHistory"
-        Me.tpHistory.Size = New System.Drawing.Size(889, 520)
+        Me.tpHistory.Size = New System.Drawing.Size(789, 413)
         Me.tpHistory.TabIndex = 3
         Me.tpHistory.Text = "Car History"
         Me.tpHistory.UseVisualStyleBackColor = True
         '
         'tpHistoryDetails
         '
-        Me.tpHistoryDetails.Location = New System.Drawing.Point(4, 32)
-        Me.tpHistoryDetails.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
+        Me.tpHistoryDetails.Location = New System.Drawing.Point(4, 28)
         Me.tpHistoryDetails.Name = "tpHistoryDetails"
-        Me.tpHistoryDetails.Size = New System.Drawing.Size(889, 520)
+        Me.tpHistoryDetails.Size = New System.Drawing.Size(789, 413)
         Me.tpHistoryDetails.TabIndex = 4
         Me.tpHistoryDetails.Text = "History Details"
         Me.tpHistoryDetails.UseVisualStyleBackColor = True
@@ -234,9 +288,10 @@ Partial Class formTableViewer
         Me.tpAddCar.Controls.Add(Me.lblReady)
         Me.tpAddCar.Controls.Add(Me.lblArchive)
         Me.tpAddCar.Controls.Add(Me.lblHeader)
-        Me.tpAddCar.Location = New System.Drawing.Point(4, 32)
+        Me.tpAddCar.Location = New System.Drawing.Point(4, 28)
+        Me.tpAddCar.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.tpAddCar.Name = "tpAddCar"
-        Me.tpAddCar.Size = New System.Drawing.Size(889, 520)
+        Me.tpAddCar.Size = New System.Drawing.Size(789, 413)
         Me.tpAddCar.TabIndex = 7
         Me.tpAddCar.Text = "AddCar"
         Me.tpAddCar.UseVisualStyleBackColor = True
@@ -244,9 +299,10 @@ Partial Class formTableViewer
         'btnAddCarEnter
         '
         Me.btnAddCarEnter.BackColor = System.Drawing.SystemColors.ActiveCaption
-        Me.btnAddCarEnter.Location = New System.Drawing.Point(487, 434)
+        Me.btnAddCarEnter.Location = New System.Drawing.Point(433, 347)
+        Me.btnAddCarEnter.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.btnAddCarEnter.Name = "btnAddCarEnter"
-        Me.btnAddCarEnter.Size = New System.Drawing.Size(366, 66)
+        Me.btnAddCarEnter.Size = New System.Drawing.Size(325, 53)
         Me.btnAddCarEnter.TabIndex = 12
         Me.btnAddCarEnter.Text = "Enter"
         Me.btnAddCarEnter.UseVisualStyleBackColor = False
@@ -254,9 +310,10 @@ Partial Class formTableViewer
         'btnAddCarCancel
         '
         Me.btnAddCarCancel.BackColor = System.Drawing.SystemColors.ActiveBorder
-        Me.btnAddCarCancel.Location = New System.Drawing.Point(80, 434)
+        Me.btnAddCarCancel.Location = New System.Drawing.Point(71, 347)
+        Me.btnAddCarCancel.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.btnAddCarCancel.Name = "btnAddCarCancel"
-        Me.btnAddCarCancel.Size = New System.Drawing.Size(366, 66)
+        Me.btnAddCarCancel.Size = New System.Drawing.Size(325, 53)
         Me.btnAddCarCancel.TabIndex = 11
         Me.btnAddCarCancel.Text = "Cancel"
         Me.btnAddCarCancel.UseVisualStyleBackColor = False
@@ -264,9 +321,10 @@ Partial Class formTableViewer
         'cboxArchive
         '
         Me.cboxArchive.AutoSize = True
-        Me.cboxArchive.Location = New System.Drawing.Point(488, 369)
+        Me.cboxArchive.Location = New System.Drawing.Point(434, 295)
+        Me.cboxArchive.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.cboxArchive.Name = "cboxArchive"
-        Me.cboxArchive.Size = New System.Drawing.Size(113, 24)
+        Me.cboxArchive.Size = New System.Drawing.Size(96, 20)
         Me.cboxArchive.TabIndex = 10
         Me.cboxArchive.Text = "Archive car"
         Me.cboxArchive.UseVisualStyleBackColor = True
@@ -274,9 +332,10 @@ Partial Class formTableViewer
         'cboxReady
         '
         Me.cboxReady.AutoSize = True
-        Me.cboxReady.Location = New System.Drawing.Point(355, 299)
+        Me.cboxReady.Location = New System.Drawing.Point(316, 239)
+        Me.cboxReady.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.cboxReady.Name = "cboxReady"
-        Me.cboxReady.Size = New System.Drawing.Size(118, 24)
+        Me.cboxReady.Size = New System.Drawing.Size(101, 20)
         Me.cboxReady.TabIndex = 9
         Me.cboxReady.Text = "Car is ready"
         Me.cboxReady.UseVisualStyleBackColor = True
@@ -284,34 +343,37 @@ Partial Class formTableViewer
         'txtMileage
         '
         Me.txtMileage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.txtMileage.Location = New System.Drawing.Point(237, 155)
+        Me.txtMileage.Location = New System.Drawing.Point(211, 124)
+        Me.txtMileage.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.txtMileage.Name = "txtMileage"
-        Me.txtMileage.Size = New System.Drawing.Size(616, 26)
+        Me.txtMileage.Size = New System.Drawing.Size(548, 22)
         Me.txtMileage.TabIndex = 8
         '
         'txtAvgFuel
         '
         Me.txtAvgFuel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.txtAvgFuel.Location = New System.Drawing.Point(408, 225)
+        Me.txtAvgFuel.Location = New System.Drawing.Point(363, 180)
+        Me.txtAvgFuel.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.txtAvgFuel.Name = "txtAvgFuel"
-        Me.txtAvgFuel.Size = New System.Drawing.Size(445, 26)
+        Me.txtAvgFuel.Size = New System.Drawing.Size(396, 22)
         Me.txtAvgFuel.TabIndex = 7
         '
         'txtName
         '
         Me.txtName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.txtName.Location = New System.Drawing.Point(167, 88)
+        Me.txtName.Location = New System.Drawing.Point(148, 70)
+        Me.txtName.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.txtName.Name = "txtName"
-        Me.txtName.Size = New System.Drawing.Size(686, 26)
+        Me.txtName.Size = New System.Drawing.Size(610, 22)
         Me.txtName.TabIndex = 6
         '
         'lblName
         '
         Me.lblName.AutoSize = True
         Me.lblName.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblName.Location = New System.Drawing.Point(53, 85)
+        Me.lblName.Location = New System.Drawing.Point(47, 68)
         Me.lblName.Name = "lblName"
-        Me.lblName.Size = New System.Drawing.Size(108, 26)
+        Me.lblName.Size = New System.Drawing.Size(92, 24)
         Me.lblName.TabIndex = 5
         Me.lblName.Text = "Car name"
         '
@@ -319,9 +381,9 @@ Partial Class formTableViewer
         '
         Me.lblMileage.AutoSize = True
         Me.lblMileage.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblMileage.Location = New System.Drawing.Point(53, 155)
+        Me.lblMileage.Location = New System.Drawing.Point(47, 124)
         Me.lblMileage.Name = "lblMileage"
-        Me.lblMileage.Size = New System.Drawing.Size(178, 26)
+        Me.lblMileage.Size = New System.Drawing.Size(151, 24)
         Me.lblMileage.TabIndex = 4
         Me.lblMileage.Text = "Car mileage [km]"
         '
@@ -329,9 +391,9 @@ Partial Class formTableViewer
         '
         Me.lblAvgFuel.AutoSize = True
         Me.lblAvgFuel.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblAvgFuel.Location = New System.Drawing.Point(53, 225)
+        Me.lblAvgFuel.Location = New System.Drawing.Point(47, 180)
         Me.lblAvgFuel.Name = "lblAvgFuel"
-        Me.lblAvgFuel.Size = New System.Drawing.Size(349, 26)
+        Me.lblAvgFuel.Size = New System.Drawing.Size(299, 24)
         Me.lblAvgFuel.TabIndex = 3
         Me.lblAvgFuel.Text = "Car average fuel consumtion [l/km]"
         '
@@ -339,9 +401,9 @@ Partial Class formTableViewer
         '
         Me.lblReady.AutoSize = True
         Me.lblReady.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblReady.Location = New System.Drawing.Point(53, 295)
+        Me.lblReady.Location = New System.Drawing.Point(47, 236)
         Me.lblReady.Name = "lblReady"
-        Me.lblReady.Size = New System.Drawing.Size(296, 26)
+        Me.lblReady.Size = New System.Drawing.Size(254, 24)
         Me.lblReady.TabIndex = 2
         Me.lblReady.Text = "Is the car ready to drive now?"
         '
@@ -349,9 +411,9 @@ Partial Class formTableViewer
         '
         Me.lblArchive.AutoSize = True
         Me.lblArchive.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblArchive.Location = New System.Drawing.Point(53, 365)
+        Me.lblArchive.Location = New System.Drawing.Point(47, 292)
         Me.lblArchive.Name = "lblArchive"
-        Me.lblArchive.Size = New System.Drawing.Size(429, 26)
+        Me.lblArchive.Size = New System.Drawing.Size(371, 24)
         Me.lblArchive.TabIndex = 1
         Me.lblArchive.Text = "Should the car be added to the archive list?"
         '
@@ -359,26 +421,26 @@ Partial Class formTableViewer
         '
         Me.lblHeader.AutoSize = True
         Me.lblHeader.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblHeader.Location = New System.Drawing.Point(340, 20)
+        Me.lblHeader.Location = New System.Drawing.Point(302, 16)
         Me.lblHeader.Name = "lblHeader"
-        Me.lblHeader.Size = New System.Drawing.Size(208, 32)
+        Me.lblHeader.Size = New System.Drawing.Size(176, 29)
         Me.lblHeader.TabIndex = 0
         Me.lblHeader.Text = "Add a car to list"
         '
         'formTableViewer
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 20.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(900, 562)
+        Me.ClientSize = New System.Drawing.Size(800, 450)
         Me.Controls.Add(Me.tcTabs)
-        Me.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.Name = "formTableViewer"
         Me.Text = "Car Logbook"
         Me.tcTabs.ResumeLayout(False)
+        Me.tpLogin.ResumeLayout(False)
+        Me.tpLogin.PerformLayout()
         Me.tpCarsList.ResumeLayout(False)
         CType(Me.dgvCarsList, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tpProblems.ResumeLayout(False)
-
         CType(Me.dgvProblemsList, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tpAddCar.ResumeLayout(False)
         Me.tpAddCar.PerformLayout()
@@ -413,4 +475,11 @@ Partial Class formTableViewer
     Friend WithEvents btnAddCarCancel As Button
     Friend WithEvents cboxArchive As CheckBox
     Friend WithEvents cboxReady As CheckBox
+    Friend WithEvents lblLoginTitle As Label
+    Friend WithEvents btnLoginRegister As Button
+    Friend WithEvents btnLoginLogin As Button
+    Friend WithEvents lblLoginPassword As Label
+    Friend WithEvents lblLoginEmail As Label
+    Friend WithEvents txtLoginPassword As TextBox
+    Friend WithEvents txtLoginEmail As TextBox
 End Class
