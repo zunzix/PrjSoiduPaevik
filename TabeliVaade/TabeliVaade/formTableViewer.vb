@@ -51,12 +51,6 @@ Public Class formTableViewer
         subtractButton.UseColumnTextForButtonValue = True
         dgvCarsList.Columns.Add(subtractButton)
 
-
-        dgvCarsList.Columns.Remove("Mileage")
-        dgvCarsList.Columns.Remove("AvgFuelConsumption")
-        'dgvCarsList.Columns.Remove("Mileage")
-        dgvCarsList.Columns.Remove("GroupID")
-
         ' Set the AutoSizeColumnsMode to AllCells
         dgvCarsList.AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.AllCells
     End Sub
@@ -177,6 +171,7 @@ Public Class formTableViewer
 
         ' Add the new car to the list
         done = True '' To Add: Add the car to the database
+        carsList.Add(New CCar(4, txtName.Text, CType(txtMileage.Text, Double), CType(txtAvgFuel.Text, Double), cboxReady.CheckState, cboxArchive.CheckState, False))
 
         ' Clear input fields
         txtName.Clear()
