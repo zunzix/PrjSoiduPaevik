@@ -1,15 +1,35 @@
 ﻿Public Class CTableReader
     Implements ITableReader
 
-    Public Sub AddMember() Implements ITableReader.AddMember
+    Public Function AddTable() Implements ITableReader.AddTable
         Throw New NotImplementedException()
-    End Sub
+    End Function
 
-    Public Sub RemoveMember() Implements ITableReader.RemoveMember
+    Public Function RemoveTable() Implements ITableReader.RemoveTable
         Throw New NotImplementedException()
-    End Sub
+    End Function
 
     Public Function GetTable() As Object Implements ITableReader.GetTable
+        Throw New NotImplementedException()
+    End Function
+
+    Public Function UpdateTable() As Object Implements ITableReader.UpdateTable
+        Throw New NotImplementedException()
+    End Function
+
+    Public Function GetSpecificTable() As Object Implements ITableReader.GetSpecificTable
+        Throw New NotImplementedException()
+    End Function
+
+    Public Function Register() As Object Implements ITableReader.Register
+        Throw New NotImplementedException()
+    End Function
+
+    Public Function Login() As Object Implements ITableReader.Login
+        Throw New NotImplementedException()
+    End Function
+
+    Public Function Logout() As Object Implements ITableReader.Logout
         Throw New NotImplementedException()
     End Function
 End Class
