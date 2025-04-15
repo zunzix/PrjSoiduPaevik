@@ -87,4 +87,12 @@
             Throw New ArgumentException($"Property '{type}' doesn't exist!")
         End If
     End Function
+
+    Public Sub ArchiveCar() Implements ICar.ArchiveCar
+        Me.IsArchived = True
+    End Sub
+
+    Public Sub UnarchiveCar() Implements ICar.UnarchiveCar
+        Me.IsArchived = False
+    End Sub
 End Class

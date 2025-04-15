@@ -9,7 +9,24 @@
         ' Initialize the form on the "Cars list" tab until log in and/or group view has been built
         tcTabs.SelectedTab = tpCarsList
 
-        ' To Add: Bringing in lists and view them on DataGridView
+        ' >>> To Add: Bringing in lists and view them on DataGridView <<<
+
+        ' Add a section to show whether the car has a problem or not
+        Dim problemIndicator As New DataGridViewTextBoxColumn()
+        problemIndicator.Name = "Problems"
+        problemIndicator.HeaderText = "Problems"
+        dgvCarsList.Columns.Add(problemIndicator)
+
+        ' Add a remove ( - ) button after every column
+        Dim subtractButton As New DataGridViewButtonColumn()
+        subtractButton.Name = "DeleteButton"
+        subtractButton.HeaderText = ""
+        subtractButton.Text = "-"
+        subtractButton.UseColumnTextForButtonValue = True
+        dgvCarsList.Columns.Add(subtractButton)
+
+        ' Set the AutoSizeColumnsMode to AllCells
+        dgvCarsList.AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.AllCells
     End Sub
 
     Private Sub btnAddCar_Click(sender As Object, e As EventArgs) Handles btnAddCar.Click
