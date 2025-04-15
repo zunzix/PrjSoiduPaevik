@@ -51,6 +51,12 @@ Public Class formTableViewer
         subtractButton.UseColumnTextForButtonValue = True
         dgvCarsList.Columns.Add(subtractButton)
 
+
+        dgvCarsList.Columns.Remove("Mileage")
+        dgvCarsList.Columns.Remove("AvgFuelConsumption")
+        'dgvCarsList.Columns.Remove("Mileage")
+        dgvCarsList.Columns.Remove("GroupID")
+
         ' Set the AutoSizeColumnsMode to AllCells
         dgvCarsList.AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.AllCells
     End Sub
@@ -138,9 +144,9 @@ Public Class formTableViewer
         End If
 
         ' Assuming you want to get the value from a specific column (e.g., "AvgFuelConsumption") of the selected row
-        lblFuelData.Text = dgvCarsList.Rows(e.RowIndex).Cells("AvgFuelConsumption").Value.ToString()
-        lblAvailabilityData.Text = dgvCarsList.Rows(e.RowIndex).Cells("IsAvailable").Value.ToString()
-        lblMilageData.Text = dgvCarsList.Rows(e.RowIndex).Cells("Mileage").Value.ToString()
+        lblFuelData.Text = carsList(e.RowIndex).AvgFuelConsumption.ToString()
+        lblAvailabilityData.Text = carsList(e.RowIndex).IsAvailable.ToString()
+        lblMilageData.Text = carsList(e.RowIndex).Mileage.ToString()
         ' Use LINQ to find the specific insurance item with the matching CarID
         Dim selectedCarID As Integer = CInt(dgvCarsList.Rows(e.RowIndex).Cells("ID").Value)
         Dim insurance As CInsurance = insuranceList.FirstOrDefault(Function(c) c.CarID = selectedCarID)
