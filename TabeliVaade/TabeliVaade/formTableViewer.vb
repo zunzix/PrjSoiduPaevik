@@ -11,7 +11,7 @@ Public Class formTableViewer
         ' Initialize the form on the "Cars list" tab until log in and/or group view has been built
         tcTabs.SelectedTab = tpCarsList
 
-        ' To Add: Bringing in lists and viewing them on DataGridView
+        ' To Add: Bringing in lists and view them on DataGridView
     End Sub
 
     Private Sub btnAddCar_Click(sender As Object, e As EventArgs) Handles btnAddCar.Click
@@ -70,11 +70,37 @@ Public Class formTableViewer
     End Sub
 
     Private Sub btnCarBack_Click(sender As Object, e As EventArgs) Handles btnCarBack.Click
-        ' To Add: Return to Group tab when the button is pressed
+        ' Return to Group tab when the button is pressed
+        tcTabs.SelectedTab = tpGroups
     End Sub
 
     Private Sub btnProblemBack_Click(sender As Object, e As EventArgs) Handles btnProblemBack.Click
-        ' To Add: Return to Car Detailed View when the button is pressed
+        ' Return to Car Detailed View when the button is pressed
+        tcTabs.SelectedTab = tpCarDetails
+    End Sub
+
+    Private Sub dgvCarsList_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvCarsList.CellContentClick
+        ' Check if the clicked cell is in the header or not
+        If e.RowIndex < 0 Then
+            Return
+        End If
+
+        ' To Add: Once removing functionality for the Cars class has been made. Fill it out!
+    End Sub
+
+    Private Sub dgvCarsList_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvCarsList.CellClick
+        ' Check if the clicked cell is in the header or not
+        If e.RowIndex < 0 Then
+            Return
+        End If
+
+        ' Check which field of the table was clicked
+        If e.ColumnIndex = dgvCarsList.Columns("Problems").Index Then ' Problems field
+            ' To Add: Add problems data of specified car to dgvProblemsList for viewing
+
+            ' Switch tabs to the problems view
+            tcTabs.SelectedTab = tpProblems
+        End If
     End Sub
 
     Private Sub btnEnter_Click(sender As Object, e As EventArgs) Handles btnAddCarEnter.Click
