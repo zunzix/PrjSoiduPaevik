@@ -8,4 +8,6 @@
     Property IsArchived As Boolean
     Property IsInCriticalState As Boolean
     Function GetProperty(ByVal type As String)
+    Sub ArchiveCar()
+    Sub UnarchiveCar()
 End Interface

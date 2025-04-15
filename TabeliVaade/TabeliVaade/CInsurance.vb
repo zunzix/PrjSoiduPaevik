@@ -4,10 +4,10 @@
     ' For testing purposes without the database intigrated
     Private Shared NextID As Integer = 0
 
-    Private Property ID As Integer Implements IInsurance.ID
-    Private Property CarID As Integer Implements IInsurance.CarID
-    Private Property Name As String Implements IInsurance.Name
-    Private Property EndDate As Date Implements IInsurance.EndDate
+    Public Property ID As Integer Implements IInsurance.ID
+    Public Property CarID As Integer Implements IInsurance.CarID
+    Public Property Name As String Implements IInsurance.Name
+    Public Property EndDate As Date Implements IInsurance.EndDate
 
     ' Insurance object constructer
     ' Includes validation in case of wrong datatypes

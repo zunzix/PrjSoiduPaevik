@@ -4,14 +4,14 @@
     ' For testing purposes without the database intigrated
     Private Shared NextID As Integer = 0
 
-    Private Property ID As Integer Implements ICar.ID
-    Private Property GroupID As Integer Implements ICar.GroupID
-    Private Property Name As String Implements ICar.Name
-    Private Property Mileage As Double Implements ICar.Mileage
-    Private Property AvgFuelConsumption As Double Implements ICar.AvgFuelConsumption
-    Private Property IsAvailable As Boolean Implements ICar.IsAvailable
-    Private Property IsArchived As Boolean Implements ICar.IsArchived
-    Private Property IsInCriticalState As Boolean Implements ICar.IsInCriticalState
+    Public Property ID As Integer Implements ICar.ID
+    Public Property GroupID As Integer Implements ICar.GroupID
+    Public Property Name As String Implements ICar.Name
+    Public Property Mileage As Double Implements ICar.Mileage
+    Public Property AvgFuelConsumption As Double Implements ICar.AvgFuelConsumption
+    Public Property IsAvailable As Boolean Implements ICar.IsAvailable
+    Public Property IsArchived As Boolean Implements ICar.IsArchived
+    Public Property IsInCriticalState As Boolean Implements ICar.IsInCriticalState
 
     ' Car object constructer
     ' Includes validation in case of wrong datatypes
@@ -87,4 +87,12 @@
             Throw New ArgumentException($"Property '{type}' doesn't exist!")
         End If
     End Function
+
+    Public Sub ArchiveCar() Implements ICar.ArchiveCar
+        Me.IsArchived = True
+    End Sub
+
+    Public Sub UnarchiveCar() Implements ICar.UnarchiveCar
+        Me.IsArchived = False
+    End Sub
 End Class

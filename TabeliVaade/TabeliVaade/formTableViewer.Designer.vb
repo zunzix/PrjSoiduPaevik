@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class formTableViewer
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,7 +20,7 @@ Partial Class formTableViewer
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.tcTabs = New System.Windows.Forms.TabControl()
         Me.tpLogin = New System.Windows.Forms.TabPage()
@@ -37,6 +37,17 @@ Partial Class formTableViewer
         Me.btnAddCar = New System.Windows.Forms.Button()
         Me.dgvCarsList = New System.Windows.Forms.DataGridView()
         Me.tpCarDetails = New System.Windows.Forms.TabPage()
+        Me.lblInsuranceData = New System.Windows.Forms.Label()
+        Me.lblMilageData = New System.Windows.Forms.Label()
+        Me.lblAvailabilityData = New System.Windows.Forms.Label()
+        Me.btnArchiveCar = New System.Windows.Forms.Button()
+        Me.btnShowProblems = New System.Windows.Forms.Button()
+        Me.btnAddLog = New System.Windows.Forms.Button()
+        Me.lblFuelData = New System.Windows.Forms.Label()
+        Me.lblInsuranceText = New System.Windows.Forms.Label()
+        Me.lblMilageText = New System.Windows.Forms.Label()
+        Me.lblAvailableText = New System.Windows.Forms.Label()
+        Me.lblFuelText = New System.Windows.Forms.Label()
         Me.tpProblems = New System.Windows.Forms.TabPage()
         Me.btnProblemBack = New System.Windows.Forms.Button()
         Me.dgvProblemsList = New System.Windows.Forms.DataGridView()
@@ -56,10 +67,12 @@ Partial Class formTableViewer
         Me.lblReady = New System.Windows.Forms.Label()
         Me.lblArchive = New System.Windows.Forms.Label()
         Me.lblHeader = New System.Windows.Forms.Label()
+        Me.btnCarDetailsBack = New System.Windows.Forms.Button()
         Me.tcTabs.SuspendLayout()
         Me.tpLogin.SuspendLayout()
         Me.tpCarsList.SuspendLayout()
         CType(Me.dgvCarsList, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.tpCarDetails.SuspendLayout()
         Me.tpProblems.SuspendLayout()
         CType(Me.dgvProblemsList, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tpAddCar.SuspendLayout()
@@ -91,6 +104,7 @@ Partial Class formTableViewer
         Me.tpLogin.Controls.Add(Me.btnLoginRegister)
         Me.tpLogin.Controls.Add(Me.btnLoginLogin)
         Me.tpLogin.Controls.Add(Me.lblLoginTitle)
+
         Me.tpLogin.Location = New System.Drawing.Point(4, 28)
         Me.tpLogin.Name = "tpLogin"
         Me.tpLogin.Size = New System.Drawing.Size(789, 413)
@@ -217,6 +231,19 @@ Partial Class formTableViewer
         '
         'tpCarDetails
         '
+
+        Me.tpCarDetails.Controls.Add(Me.btnCarDetailsBack)
+        Me.tpCarDetails.Controls.Add(Me.lblInsuranceData)
+        Me.tpCarDetails.Controls.Add(Me.lblMilageData)
+        Me.tpCarDetails.Controls.Add(Me.lblAvailabilityData)
+        Me.tpCarDetails.Controls.Add(Me.btnArchiveCar)
+        Me.tpCarDetails.Controls.Add(Me.btnShowProblems)
+        Me.tpCarDetails.Controls.Add(Me.btnAddLog)
+        Me.tpCarDetails.Controls.Add(Me.lblFuelData)
+        Me.tpCarDetails.Controls.Add(Me.lblInsuranceText)
+        Me.tpCarDetails.Controls.Add(Me.lblMilageText)
+        Me.tpCarDetails.Controls.Add(Me.lblAvailableText)
+        Me.tpCarDetails.Controls.Add(Me.lblFuelText)
         Me.tpCarDetails.Location = New System.Drawing.Point(4, 28)
         Me.tpCarDetails.Name = "tpCarDetails"
         Me.tpCarDetails.Padding = New System.Windows.Forms.Padding(3)
@@ -224,6 +251,113 @@ Partial Class formTableViewer
         Me.tpCarDetails.TabIndex = 1
         Me.tpCarDetails.Text = "Car Details"
         Me.tpCarDetails.UseVisualStyleBackColor = True
+        '
+        'lblInsuranceData
+        '
+        Me.lblInsuranceData.AutoSize = True
+        Me.lblInsuranceData.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblInsuranceData.Location = New System.Drawing.Point(294, 169)
+        Me.lblInsuranceData.Name = "lblInsuranceData"
+        Me.lblInsuranceData.Size = New System.Drawing.Size(59, 31)
+        Me.lblInsuranceData.TabIndex = 10
+        Me.lblInsuranceData.Text = "___"
+        '
+        'lblMilageData
+        '
+        Me.lblMilageData.AutoSize = True
+        Me.lblMilageData.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblMilageData.Location = New System.Drawing.Point(294, 124)
+        Me.lblMilageData.Name = "lblMilageData"
+        Me.lblMilageData.Size = New System.Drawing.Size(59, 31)
+        Me.lblMilageData.TabIndex = 9
+        Me.lblMilageData.Text = "___"
+        '
+        'lblAvailabilityData
+        '
+        Me.lblAvailabilityData.AutoSize = True
+        Me.lblAvailabilityData.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblAvailabilityData.Location = New System.Drawing.Point(294, 84)
+        Me.lblAvailabilityData.Name = "lblAvailabilityData"
+        Me.lblAvailabilityData.Size = New System.Drawing.Size(59, 31)
+        Me.lblAvailabilityData.TabIndex = 8
+        Me.lblAvailabilityData.Text = "___"
+        '
+        'btnArchiveCar
+        '
+        Me.btnArchiveCar.Location = New System.Drawing.Point(694, 96)
+        Me.btnArchiveCar.Name = "btnArchiveCar"
+        Me.btnArchiveCar.Size = New System.Drawing.Size(75, 23)
+        Me.btnArchiveCar.TabIndex = 7
+        Me.btnArchiveCar.Text = "Archive"
+        Me.btnArchiveCar.UseVisualStyleBackColor = True
+        '
+        'btnShowProblems
+        '
+        Me.btnShowProblems.Location = New System.Drawing.Point(694, 56)
+        Me.btnShowProblems.Name = "btnShowProblems"
+        Me.btnShowProblems.Size = New System.Drawing.Size(75, 23)
+        Me.btnShowProblems.TabIndex = 6
+        Me.btnShowProblems.Text = "Problems"
+        Me.btnShowProblems.UseVisualStyleBackColor = True
+        '
+        'btnAddLog
+        '
+        Me.btnAddLog.Location = New System.Drawing.Point(694, 18)
+        Me.btnAddLog.Name = "btnAddLog"
+        Me.btnAddLog.Size = New System.Drawing.Size(75, 23)
+        Me.btnAddLog.TabIndex = 5
+        Me.btnAddLog.Text = "Add log"
+        Me.btnAddLog.UseVisualStyleBackColor = True
+        '
+        'lblFuelData
+        '
+        Me.lblFuelData.AutoSize = True
+        Me.lblFuelData.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblFuelData.Location = New System.Drawing.Point(294, 49)
+        Me.lblFuelData.Name = "lblFuelData"
+        Me.lblFuelData.Size = New System.Drawing.Size(59, 31)
+        Me.lblFuelData.TabIndex = 4
+        Me.lblFuelData.Text = "___"
+        '
+        'lblInsuranceText
+        '
+        Me.lblInsuranceText.AutoSize = True
+        Me.lblInsuranceText.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblInsuranceText.Location = New System.Drawing.Point(15, 166)
+        Me.lblInsuranceText.Name = "lblInsuranceText"
+        Me.lblInsuranceText.Size = New System.Drawing.Size(149, 31)
+        Me.lblInsuranceText.TabIndex = 3
+        Me.lblInsuranceText.Text = "Insurance :"
+        '
+        'lblMilageText
+        '
+        Me.lblMilageText.AutoSize = True
+        Me.lblMilageText.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblMilageText.Location = New System.Drawing.Point(15, 125)
+        Me.lblMilageText.Name = "lblMilageText"
+        Me.lblMilageText.Size = New System.Drawing.Size(108, 31)
+        Me.lblMilageText.TabIndex = 2
+        Me.lblMilageText.Text = "Milage :"
+        '
+        'lblAvailableText
+        '
+        Me.lblAvailableText.AutoSize = True
+        Me.lblAvailableText.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblAvailableText.Location = New System.Drawing.Point(15, 84)
+        Me.lblAvailableText.Name = "lblAvailableText"
+        Me.lblAvailableText.Size = New System.Drawing.Size(158, 31)
+        Me.lblAvailableText.TabIndex = 1
+        Me.lblAvailableText.Text = "Availability :"
+        '
+        'lblFuelText
+        '
+        Me.lblFuelText.AutoSize = True
+        Me.lblFuelText.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblFuelText.Location = New System.Drawing.Point(15, 46)
+        Me.lblFuelText.Name = "lblFuelText"
+        Me.lblFuelText.Size = New System.Drawing.Size(249, 31)
+        Me.lblFuelText.TabIndex = 0
+        Me.lblFuelText.Text = "Fuel Consumption :"
         '
         'tpProblems
         '
@@ -427,6 +561,15 @@ Partial Class formTableViewer
         Me.lblHeader.TabIndex = 0
         Me.lblHeader.Text = "Add a car to list"
         '
+        'btnCarDetailsBack
+        '
+        Me.btnCarDetailsBack.Location = New System.Drawing.Point(21, 18)
+        Me.btnCarDetailsBack.Name = "btnCarDetailsBack"
+        Me.btnCarDetailsBack.Size = New System.Drawing.Size(75, 23)
+        Me.btnCarDetailsBack.TabIndex = 11
+        Me.btnCarDetailsBack.Text = "Back"
+        Me.btnCarDetailsBack.UseVisualStyleBackColor = True
+        '
         'formTableViewer
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
@@ -440,6 +583,8 @@ Partial Class formTableViewer
         Me.tpLogin.PerformLayout()
         Me.tpCarsList.ResumeLayout(False)
         CType(Me.dgvCarsList, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.tpCarDetails.ResumeLayout(False)
+        Me.tpCarDetails.PerformLayout()
         Me.tpProblems.ResumeLayout(False)
         CType(Me.dgvProblemsList, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tpAddCar.ResumeLayout(False)
@@ -475,6 +620,7 @@ Partial Class formTableViewer
     Friend WithEvents btnAddCarCancel As Button
     Friend WithEvents cboxArchive As CheckBox
     Friend WithEvents cboxReady As CheckBox
+
     Friend WithEvents lblLoginTitle As Label
     Friend WithEvents btnLoginRegister As Button
     Friend WithEvents btnLoginLogin As Button
@@ -482,4 +628,18 @@ Partial Class formTableViewer
     Friend WithEvents lblLoginEmail As Label
     Friend WithEvents txtLoginPassword As TextBox
     Friend WithEvents txtLoginEmail As TextBox
+
+    Friend WithEvents lblAvailableText As Label
+    Friend WithEvents lblFuelText As Label
+    Friend WithEvents lblFuelData As Label
+    Friend WithEvents lblInsuranceText As Label
+    Friend WithEvents lblMilageText As Label
+    Friend WithEvents btnArchiveCar As Button
+    Friend WithEvents btnShowProblems As Button
+    Friend WithEvents btnAddLog As Button
+    Friend WithEvents lblInsuranceData As Label
+    Friend WithEvents lblMilageData As Label
+    Friend WithEvents lblAvailabilityData As Label
+    Friend WithEvents btnCarDetailsBack As Button
+
 End Class
