@@ -14,15 +14,15 @@ Public Class formTableViewer
     Private Sub formTableViewer_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         carsList.Add(New CCar(1, "Peugeot 206", 178989, 11.2, True, False, False))
         carsList.Add(New CCar(2, "Honda Civic", 15003.2, 6.8, False, False, False))
-        carsList.Add(New CCar(3, "Ford Focus", 9999, 7.5, True, False, False))
+        carsList.Add(New CCar(3, "Ford Focus", 9999, 7.5, True, False, True))
 
         problemsList.Add(New CProblem(0, "Motor vibrates", False))
         problemsList.Add(New CProblem(1, "Radio didn't work", False))
         problemsList.Add(New CProblem(2, "It's a Ford car", True))
 
-        insuranceList.Add(New CInsurance(0, "if", DateAdd("Year", 1, Today)))
-        insuranceList.Add(New CInsurance(1, "Swedbank", DateAdd("Week", 1, Today)))
-        insuranceList.Add(New CInsurance(2, "Salva", DateAdd("Week", 2.5, Today)))
+        insuranceList.Add(New CInsurance(0, "if", DateAdd(DateInterval.Year, 1, Today)))
+        insuranceList.Add(New CInsurance(1, "Swedbank", DateAdd(DateInterval.Weekday, 1, Today)))
+        insuranceList.Add(New CInsurance(2, "Salva", DateAdd(DateInterval.Weekday, 2.5, Today)))
 
         ' Hides the tabs while the program is running so that the user can't change them manually
         tcTabs.ItemSize = New Size(0, 1)
@@ -32,12 +32,16 @@ Public Class formTableViewer
         tcTabs.SelectedTab = tpCarsList
 
         ' >>> To Add: Bringing in lists and view them on DataGridView <<<
+        ' Temporary solution:
+        dgvCarsList.DataSource = carsList
 
-        ' Add a section to show whether the car has a problem or not
-        Dim problemIndicator As New DataGridViewTextBoxColumn()
-        problemIndicator.Name = "Problems"
-        problemIndicator.HeaderText = "Problems"
-        dgvCarsList.Columns.Add(problemIndicator)
+        For Each row As DataGridViewRow In dgvCarsList.Rows
+            If Not row.IsNewRow Then
+                If row.Cells("IsInCriticalState").Value Then
+                    row.Cells("IsInCriticalState").Style.BackColor = Color.Red
+                End If
+            End If
+        Next
 
         ' Add a remove ( - ) button after every column
         Dim subtractButton As New DataGridViewButtonColumn()
@@ -54,8 +58,6 @@ Public Class formTableViewer
     Private Sub btnAddCar_Click(sender As Object, e As EventArgs) Handles btnAddCar.Click
         ' To Add: Clicking it adds a car to the cars database and updates the DataGridView
         tcTabs.SelectedTab = tpAddCar
-
-
     End Sub
 
     Private Function ValidateInput() As Boolean
@@ -123,21 +125,34 @@ Public Class formTableViewer
         End If
 
         ' To Add: Once removing functionality for the Cars class has been made. Fill it out!
+        ' Temporary solution
+        If e.ColumnIndex = dgvCarsList.Columns("DeleteButton").Index Then
+            carsList.RemoveAt(e.RowIndex)
+        End If
     End Sub
 
-    Private Sub dgvCarsList_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvCarsList.CellClick
+    Private Sub dgvCarsList_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvCarsList.CellDoubleClick
         ' Check if the clicked cell is in the header or not
         If e.RowIndex < 0 Then
             Return
         End If
 
-        ' Check which field of the table was clicked
-        If e.ColumnIndex = dgvCarsList.Columns("Problems").Index Then ' Problems field
-            ' To Add: Add problems data of specified car to dgvProblemsList for viewing
+        ' Assuming you want to get the value from a specific column (e.g., "AvgFuelConsumption") of the selected row
+        lblFuelData.Text = dgvCarsList.Rows(e.RowIndex).Cells("AvgFuelConsumption").Value.ToString()
+        lblAvailabilityData.Text = dgvCarsList.Rows(e.RowIndex).Cells("IsAvailable").Value.ToString()
+        lblMilageData.Text = dgvCarsList.Rows(e.RowIndex).Cells("Mileage").Value.ToString()
+        ' Use LINQ to find the specific insurance item with the matching CarID
+        Dim selectedCarID As Integer = CInt(dgvCarsList.Rows(e.RowIndex).Cells("ID").Value)
+        Dim insurance As CInsurance = insuranceList.FirstOrDefault(Function(c) c.CarID = selectedCarID)
 
-            ' Switch tabs to the problems view
-            tcTabs.SelectedTab = tpProblems
+        ' Check if the insurance item exists
+        If insurance IsNot Nothing Then
+            lblInsuranceData.Text = insurance.EndDate.ToString()
+        Else
+            lblInsuranceData.Text = "No insurance found"
         End If
+
+        tcTabs.SelectedTab = tpCarDetails
     End Sub
 
     Private Sub btnEnter_Click(sender As Object, e As EventArgs) Handles btnAddCarEnter.Click
@@ -197,5 +212,13 @@ Public Class formTableViewer
         ' Force garbage collection
         GC.Collect()
         GC.WaitForPendingFinalizers()
+    End Sub
+
+    Private Sub btnShowProblems_Click(sender As Object, e As EventArgs) Handles btnShowProblems.Click
+        tcTabs.SelectedTab = tpProblems
+    End Sub
+
+    Private Sub btnCarDetailsBack_Click(sender As Object, e As EventArgs) Handles btnCarDetailsBack.Click
+        tcTabs.SelectedTab = tpCarsList
     End Sub
 End Class

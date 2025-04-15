@@ -4,10 +4,10 @@
     ' For testing purposes without the database intigrated
     Private Shared NextID As Integer = 0
 
-    Private Property ID As Integer Implements IProblem.ID
-    Private Property CarID As Integer Implements IProblem.CarID
-    Private Property Issue As String Implements IProblem.Issue
-    Private Property IsResolved As Boolean Implements IProblem.IsResolved
+    Public Property ID As Integer Implements IProblem.ID
+    Public Property CarID As Integer Implements IProblem.CarID
+    Public Property Issue As String Implements IProblem.Issue
+    Public Property IsResolved As Boolean Implements IProblem.IsResolved
 
     ' Problem object constructer
     ' Includes validation in case of wrong datatypes
