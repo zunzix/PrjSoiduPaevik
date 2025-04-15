@@ -29,7 +29,7 @@ Public Class formTableViewer
         tcTabs.SizeMode = TabSizeMode.Fixed
 
         ' Initialize the form on the "Cars list" tab until log in and/or group view has been built
-        tcTabs.SelectedTab = tpCarsList
+        tcTabs.SelectedTab = tpLogin
 
         ' >>> To Add: Bringing in lists and view them on DataGridView <<<
         ' Temporary solution:
@@ -218,6 +218,10 @@ Public Class formTableViewer
         ' Force garbage collection
         GC.Collect()
         GC.WaitForPendingFinalizers()
+    End Sub
+
+    Private Sub btnLoginLogin_Click(sender As Object, e As EventArgs) Handles btnLoginLogin.Click
+        tcTabs.SelectedTab = tpCarsList
     End Sub
 
     Private Sub btnShowProblems_Click(sender As Object, e As EventArgs) Handles btnShowProblems.Click
