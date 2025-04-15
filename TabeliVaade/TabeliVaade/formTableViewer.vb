@@ -1,9 +1,29 @@
-﻿Imports System.Security.Policy
+﻿Imports System.ComponentModel
+Imports System.Net
+Imports System.Security.Policy
 
 Public Class formTableViewer
     Const DEBUG = True
 
+    ' Hardcoded list for the time being
+    Public carsList As New BindingList(Of CCar)()
+    Public problemsList As New BindingList(Of CProblem)()
+    Public insuranceList As New BindingList(Of CInsurance)()
+
+
     Private Sub formTableViewer_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        carsList.Add(New CCar(1, "Peugeot 206", 178989, 11.2, True, False, False))
+        carsList.Add(New CCar(2, "Honda Civic", 15003.2, 6.8, False, False, False))
+        carsList.Add(New CCar(3, "Ford Focus", 9999, 7.5, True, False, False))
+
+        problemsList.Add(New CProblem(0, "Motor vibrates", False))
+        problemsList.Add(New CProblem(1, "Radio didn't work", False))
+        problemsList.Add(New CProblem(2, "It's a Ford car", True))
+
+        insuranceList.Add(New CInsurance(0, "if", DateAdd("Year", 1, Today)))
+        insuranceList.Add(New CInsurance(1, "Swedbank", DateAdd("Week", 1, Today)))
+        insuranceList.Add(New CInsurance(2, "Salva", DateAdd("Week", 2.5, Today)))
+
         ' Hides the tabs while the program is running so that the user can't change them manually
         tcTabs.ItemSize = New Size(0, 1)
         tcTabs.SizeMode = TabSizeMode.Fixed
