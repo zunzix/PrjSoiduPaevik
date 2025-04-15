@@ -24,6 +24,13 @@ Partial Class formTableViewer
     Private Sub InitializeComponent()
         Me.tcTabs = New System.Windows.Forms.TabControl()
         Me.tpLogin = New System.Windows.Forms.TabPage()
+        Me.txtLoginPassword = New System.Windows.Forms.TextBox()
+        Me.txtLoginEmail = New System.Windows.Forms.TextBox()
+        Me.lblLoginPassword = New System.Windows.Forms.Label()
+        Me.lblLoginEmail = New System.Windows.Forms.Label()
+        Me.btnLoginRegister = New System.Windows.Forms.Button()
+        Me.btnLoginLogin = New System.Windows.Forms.Button()
+        Me.lblLoginTitle = New System.Windows.Forms.Label()
         Me.tpGroups = New System.Windows.Forms.TabPage()
         Me.tpCarsList = New System.Windows.Forms.TabPage()
         Me.btnCarBack = New System.Windows.Forms.Button()
@@ -62,6 +69,7 @@ Partial Class formTableViewer
         Me.lblHeader = New System.Windows.Forms.Label()
         Me.btnCarDetailsBack = New System.Windows.Forms.Button()
         Me.tcTabs.SuspendLayout()
+        Me.tpLogin.SuspendLayout()
         Me.tpCarsList.SuspendLayout()
         CType(Me.dgvCarsList, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tpCarDetails.SuspendLayout()
@@ -89,12 +97,87 @@ Partial Class formTableViewer
         '
         'tpLogin
         '
+        Me.tpLogin.Controls.Add(Me.txtLoginPassword)
+        Me.tpLogin.Controls.Add(Me.txtLoginEmail)
+        Me.tpLogin.Controls.Add(Me.lblLoginPassword)
+        Me.tpLogin.Controls.Add(Me.lblLoginEmail)
+        Me.tpLogin.Controls.Add(Me.btnLoginRegister)
+        Me.tpLogin.Controls.Add(Me.btnLoginLogin)
+        Me.tpLogin.Controls.Add(Me.lblLoginTitle)
+
         Me.tpLogin.Location = New System.Drawing.Point(4, 28)
         Me.tpLogin.Name = "tpLogin"
         Me.tpLogin.Size = New System.Drawing.Size(789, 413)
         Me.tpLogin.TabIndex = 5
         Me.tpLogin.Text = "Login"
         Me.tpLogin.UseVisualStyleBackColor = True
+        '
+        'txtLoginPassword
+        '
+        Me.txtLoginPassword.Location = New System.Drawing.Point(288, 188)
+        Me.txtLoginPassword.Name = "txtLoginPassword"
+        Me.txtLoginPassword.Size = New System.Drawing.Size(220, 22)
+        Me.txtLoginPassword.TabIndex = 18
+        Me.txtLoginPassword.UseSystemPasswordChar = True
+        '
+        'txtLoginEmail
+        '
+        Me.txtLoginEmail.Location = New System.Drawing.Point(288, 133)
+        Me.txtLoginEmail.Name = "txtLoginEmail"
+        Me.txtLoginEmail.Size = New System.Drawing.Size(220, 22)
+        Me.txtLoginEmail.TabIndex = 17
+        '
+        'lblLoginPassword
+        '
+        Me.lblLoginPassword.AutoSize = True
+        Me.lblLoginPassword.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblLoginPassword.Location = New System.Drawing.Point(194, 188)
+        Me.lblLoginPassword.Name = "lblLoginPassword"
+        Me.lblLoginPassword.Size = New System.Drawing.Size(88, 20)
+        Me.lblLoginPassword.TabIndex = 16
+        Me.lblLoginPassword.Text = "Password:"
+        '
+        'lblLoginEmail
+        '
+        Me.lblLoginEmail.AutoSize = True
+        Me.lblLoginEmail.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblLoginEmail.Location = New System.Drawing.Point(226, 133)
+        Me.lblLoginEmail.Name = "lblLoginEmail"
+        Me.lblLoginEmail.Size = New System.Drawing.Size(56, 20)
+        Me.lblLoginEmail.TabIndex = 15
+        Me.lblLoginEmail.Text = "Email:"
+        '
+        'btnLoginRegister
+        '
+        Me.btnLoginRegister.BackColor = System.Drawing.SystemColors.ActiveBorder
+        Me.btnLoginRegister.Location = New System.Drawing.Point(288, 329)
+        Me.btnLoginRegister.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
+        Me.btnLoginRegister.Name = "btnLoginRegister"
+        Me.btnLoginRegister.Size = New System.Drawing.Size(220, 53)
+        Me.btnLoginRegister.TabIndex = 14
+        Me.btnLoginRegister.Text = "Register"
+        Me.btnLoginRegister.UseVisualStyleBackColor = False
+        '
+        'btnLoginLogin
+        '
+        Me.btnLoginLogin.BackColor = System.Drawing.SystemColors.ActiveCaption
+        Me.btnLoginLogin.Location = New System.Drawing.Point(288, 261)
+        Me.btnLoginLogin.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
+        Me.btnLoginLogin.Name = "btnLoginLogin"
+        Me.btnLoginLogin.Size = New System.Drawing.Size(220, 53)
+        Me.btnLoginLogin.TabIndex = 13
+        Me.btnLoginLogin.Text = "Login"
+        Me.btnLoginLogin.UseVisualStyleBackColor = False
+        '
+        'lblLoginTitle
+        '
+        Me.lblLoginTitle.AutoSize = True
+        Me.lblLoginTitle.Font = New System.Drawing.Font("Microsoft Sans Serif", 22.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblLoginTitle.Location = New System.Drawing.Point(281, 37)
+        Me.lblLoginTitle.Name = "lblLoginTitle"
+        Me.lblLoginTitle.Size = New System.Drawing.Size(227, 42)
+        Me.lblLoginTitle.TabIndex = 0
+        Me.lblLoginTitle.Text = "CarLogBook"
         '
         'tpGroups
         '
@@ -148,6 +231,7 @@ Partial Class formTableViewer
         '
         'tpCarDetails
         '
+
         Me.tpCarDetails.Controls.Add(Me.btnCarDetailsBack)
         Me.tpCarDetails.Controls.Add(Me.lblInsuranceData)
         Me.tpCarDetails.Controls.Add(Me.lblMilageData)
@@ -495,6 +579,8 @@ Partial Class formTableViewer
         Me.Name = "formTableViewer"
         Me.Text = "Car Logbook"
         Me.tcTabs.ResumeLayout(False)
+        Me.tpLogin.ResumeLayout(False)
+        Me.tpLogin.PerformLayout()
         Me.tpCarsList.ResumeLayout(False)
         CType(Me.dgvCarsList, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tpCarDetails.ResumeLayout(False)
@@ -534,6 +620,15 @@ Partial Class formTableViewer
     Friend WithEvents btnAddCarCancel As Button
     Friend WithEvents cboxArchive As CheckBox
     Friend WithEvents cboxReady As CheckBox
+
+    Friend WithEvents lblLoginTitle As Label
+    Friend WithEvents btnLoginRegister As Button
+    Friend WithEvents btnLoginLogin As Button
+    Friend WithEvents lblLoginPassword As Label
+    Friend WithEvents lblLoginEmail As Label
+    Friend WithEvents txtLoginPassword As TextBox
+    Friend WithEvents txtLoginEmail As TextBox
+
     Friend WithEvents lblAvailableText As Label
     Friend WithEvents lblFuelText As Label
     Friend WithEvents lblFuelData As Label
@@ -546,4 +641,5 @@ Partial Class formTableViewer
     Friend WithEvents lblMilageData As Label
     Friend WithEvents lblAvailabilityData As Label
     Friend WithEvents btnCarDetailsBack As Button
+
 End Class
