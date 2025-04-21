@@ -73,7 +73,6 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CTableReader.vb" />
     <Compile Include="formTableViewer.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -81,7 +80,6 @@
       <DependentUpon>formTableViewer.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ITableReader.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -133,6 +131,10 @@
     <ProjectReference Include="..\CProblem\CProblem.vbproj">
       <Project>{7b4580ff-cdcb-4f2e-87cf-2d4fbba5c1e4}</Project>
       <Name>CProblem</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CTableReader\CTableReader.vbproj">
+      <Project>{53b127e1-dcc7-4d76-8d21-0773b2a41952}</Project>
+      <Name>CTableReader</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
