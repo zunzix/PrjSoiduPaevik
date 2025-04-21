@@ -8,7 +8,7 @@ Public Class formTableViewer
     ' Hardcoded list for the time being
     Public carsList As New BindingList(Of CCar)()
     Public problemsList As New BindingList(Of CProblem)()
-    Public insuranceList As New BindingList(Of CInsurance)()
+    Public insuranceList As New BindingList(Of CInsurance)(
 
 
     Private Sub formTableViewer_Load(sender As Object, e As EventArgs) Handles MyBase.Load
