@@ -74,7 +74,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CInsurance.vb" />
-    <Compile Include="CProblem.vb" />
     <Compile Include="CTableReader.vb" />
     <Compile Include="formTableViewer.vb">
       <SubType>Form</SubType>
@@ -84,7 +83,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="IInsurance.vb" />
-    <Compile Include="IProblem.vb" />
     <Compile Include="ITableReader.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -129,6 +127,10 @@
     <ProjectReference Include="..\CCar\CCar.vbproj">
       <Project>{ff90f016-c880-410e-a5bb-8d991867774b}</Project>
       <Name>CCar</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CProblem\CProblem.vbproj">
+      <Project>{7b4580ff-cdcb-4f2e-87cf-2d4fbba5c1e4}</Project>
+      <Name>CProblem</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
