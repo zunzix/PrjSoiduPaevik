@@ -4,35 +4,31 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{27356865-F228-4EE8-9D43-4FB39CC5C268}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
-    <StartupObject>TabeliVaade.My.MyApplication</StartupObject>
-    <RootNamespace>TabeliVaade</RootNamespace>
-    <AssemblyName>TabeliVaade</AssemblyName>
+    <ProjectGuid>{A84628EE-3335-4672-BC18-A7DD3472436C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>CInsurance</RootNamespace>
+    <AssemblyName>CInsurance</AssemblyName>
     <FileAlignment>512</FileAlignment>
-    <MyType>WindowsForms</MyType>
+    <MyType>Windows</MyType>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>TabeliVaade.xml</DocumentationFile>
+    <DocumentationFile>CInsurance.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <DefineDebug>false</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>TabeliVaade.xml</DocumentationFile>
+    <DocumentationFile>CInsurance.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
@@ -50,9 +46,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -65,21 +58,14 @@
     <Import Include="System.Collections" />
     <Import Include="System.Collections.Generic" />
     <Import Include="System.Data" />
-    <Import Include="System.Drawing" />
     <Import Include="System.Diagnostics" />
-    <Import Include="System.Windows.Forms" />
     <Import Include="System.Linq" />
     <Import Include="System.Xml.Linq" />
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="formTableViewer.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="formTableViewer.Designer.vb">
-      <DependentUpon>formTableViewer.vb</DependentUpon>
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="CInsurance.vb" />
+    <Compile Include="IInsurance.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -97,9 +83,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="formTableViewer.resx">
-      <DependentUpon>formTableViewer.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
@@ -117,25 +100,6 @@
       <CustomToolNamespace>My</CustomToolNamespace>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\CCar\CCar.vbproj">
-      <Project>{ff90f016-c880-410e-a5bb-8d991867774b}</Project>
-      <Name>CCar</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CInsurance\CInsurance.vbproj">
-      <Project>{a84628ee-3335-4672-bc18-a7dd3472436c}</Project>
-      <Name>CInsurance</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CProblem\CProblem.vbproj">
-      <Project>{7b4580ff-cdcb-4f2e-87cf-2d4fbba5c1e4}</Project>
-      <Name>CProblem</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CTableReader\CTableReader.vbproj">
-      <Project>{53b127e1-dcc7-4d76-8d21-0773b2a41952}</Project>
-      <Name>CTableReader</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

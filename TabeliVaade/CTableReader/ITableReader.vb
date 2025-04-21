@@ -51,5 +51,4 @@
     ' refresh token 
     ' returns success (and redirects to login screen)/error message
     Function Logout()
-
 End Interface
