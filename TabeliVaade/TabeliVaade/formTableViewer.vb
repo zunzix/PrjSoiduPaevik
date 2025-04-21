@@ -5,24 +5,7 @@ Imports System.Security.Policy
 Public Class formTableViewer
     Const DEBUG = True
 
-    ' Hardcoded list for the time being
-    Public carsList As New BindingList(Of CCar)()
-    Public problemsList As New BindingList(Of CProblem)()
-    Public insuranceList As New BindingList(Of CInsurance)(
-
-
     Private Sub formTableViewer_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        carsList.Add(New CCar(1, "Peugeot 206", 178989, 11.2, True, False, False))
-        carsList.Add(New CCar(2, "Honda Civic", 15003.2, 6.8, False, False, False))
-        carsList.Add(New CCar(3, "Ford Focus", 9999, 7.5, True, False, True))
-
-        problemsList.Add(New CProblem(0, "Motor vibrates", False))
-        problemsList.Add(New CProblem(1, "Radio didn't work", False))
-        problemsList.Add(New CProblem(2, "It's a Ford car", True))
-
-        insuranceList.Add(New CInsurance(0, "if", DateAdd(DateInterval.Year, 1, Today)))
-        insuranceList.Add(New CInsurance(1, "Swedbank", DateAdd(DateInterval.Weekday, 1, Today)))
-        insuranceList.Add(New CInsurance(2, "Salva", DateAdd(DateInterval.Weekday, 2.5, Today)))
 
         ' Hides the tabs while the program is running so that the user can't change them manually
         tcTabs.ItemSize = New Size(0, 1)
@@ -31,9 +14,7 @@ Public Class formTableViewer
         ' Initialize the form on the "Cars list" tab until log in and/or group view has been built
         tcTabs.SelectedTab = tpLogin
 
-        ' >>> To Add: Bringing in lists and view them on DataGridView <<<
-        ' Temporary solution:
-        dgvCarsList.DataSource = carsList
+        ' TODO: Bringing in lists and view them on DataGridView
 
         For Each row As DataGridViewRow In dgvCarsList.Rows
             If Not row.IsNewRow Then
@@ -55,27 +36,30 @@ Public Class formTableViewer
         dgvCarsList.AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.AllCells
     End Sub
 
-    Private Sub btnAddCar_Click(sender As Object, e As EventArgs) Handles btnAddCar.Click
-        ' To Add: Clicking it adds a car to the cars database and updates the DataGridView
-        tcTabs.SelectedTab = tpAddCar
-    End Sub
-
+    ' Description:  Checks whether input fields for adding a car are valid or not
+    ' Parameters:   NONE
+    ' Return:       Boolean value of whether input fields are valid or not
     Private Function ValidateInput() As Boolean
         ' Validate the input fields
+
+        ' Car name cannot be empty
         If String.IsNullOrWhiteSpace(txtName.Text) Then
             txtName.Text = "Please enter car name"
             Return False
-        End If
-        If String.IsNullOrWhiteSpace(txtMileage.Text) OrElse Not IsNumeric(txtMileage.Text) Then
+
+            ' Car milage must be a numeric value
+        ElseIf String.IsNullOrWhiteSpace(txtMileage.Text) _
+            OrElse Not IsNumeric(txtMileage.Text) Then
             txtMileage.Text = "Pelase enter valid mileage"
             Return False
-        End If
-        If String.IsNullOrWhiteSpace(txtAvgFuel.Text) _
+
+            ' Average fuel consumption must be a numberic value
+        ElseIf String.IsNullOrWhiteSpace(txtAvgFuel.Text) _
             OrElse Not IsNumeric(txtAvgFuel.Text) Then
             txtAvgFuel.Text = "Please enter valid average fuel consumption"
             Return False
         End If
-        'add check, if car is already in list
+        ' TODO: Add check, if car is already in list/database
 
         If DEBUG Then
             MessageBox.Show($"Name: {txtName.Text}, Mileage: {txtMileage.Text}
@@ -86,36 +70,17 @@ Public Class formTableViewer
         Return True
     End Function
 
-    Private Sub txtAvgFuelCon_Click(sender As Object, e As EventArgs) _
-        Handles txtAvgFuel.Click
-        txtAvgFuel.Clear()
-        ' Force garbage collection
-        GC.Collect()
-        GC.WaitForPendingFinalizers()
-    End Sub
-    Private Sub txtMileage_Click(sender As Object, e As EventArgs) _
-        Handles txtMileage.Click
-        txtMileage.Clear()
-        ' Force garbage collection
-        GC.Collect()
-        GC.WaitForPendingFinalizers()
-    End Sub
-    Private Sub txtName_Click(sender As Object, e As EventArgs) _
-        Handles txtName.Click
-        txtName.Clear()
-        ' Force garbage collection
-        GC.Collect()
-        GC.WaitForPendingFinalizers()
-    End Sub
+    Private Sub txtAddCarFields_Click(sender As Object, e As EventArgs) _
+        Handles txtAvgFuel.Click, txtMileage.Click, txtName.Click
+        ' Figure out which textbox was clicked
+        Dim txt As TextBox = CType(sender, TextBox)
 
-    Private Sub btnCarBack_Click(sender As Object, e As EventArgs) Handles btnCarBack.Click
-        ' Return to Group tab when the button is pressed
-        tcTabs.SelectedTab = tpGroups
-    End Sub
+        ' Clear the field
+        txt.Clear()
 
-    Private Sub btnProblemBack_Click(sender As Object, e As EventArgs) Handles btnProblemBack.Click
-        ' Return to Car Detailed View when the button is pressed
-        tcTabs.SelectedTab = tpCarDetails
+        ' Force garbage collection
+        GC.Collect()
+        GC.WaitForPendingFinalizers()
     End Sub
 
     Private Sub dgvCarsList_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvCarsList.CellContentClick
@@ -124,10 +89,10 @@ Public Class formTableViewer
             Return
         End If
 
-        ' To Add: Once removing functionality for the Cars class has been made. Fill it out!
+        ' TODO: Once removing functionality for the database has been made. Fill it out!
         ' Temporary solution
         If e.ColumnIndex = dgvCarsList.Columns("DeleteButton").Index Then
-            carsList.RemoveAt(e.RowIndex)
+            dgvCarsList.Rows.Remove(dgvCarsList.SelectedRows(e.RowIndex))
         End If
     End Sub
 
@@ -170,8 +135,8 @@ Public Class formTableViewer
         End If
 
         ' Add the new car to the list
-        done = True '' To Add: Add the car to the database
-        carsList.Add(New CCar(4, txtName.Text, CType(txtMileage.Text, Double), CType(txtAvgFuel.Text, Double), cboxReady.CheckState, cboxArchive.CheckState, False))
+        done = True
+        ' TODO: Add the car to the database
 
         ' Clear input fields
         txtName.Clear()
@@ -188,20 +153,8 @@ Public Class formTableViewer
         Else
             MessageBox.Show("Operation failed")
         End If
-        tcTabs.SelectedTab = tpCarsList
-    End Sub
 
-    Private Sub btnAddCarCancel_Click(sender As Object, e As EventArgs) Handles btnAddCarCancel.Click
-
-        ' Clear input fields
-        txtName.Clear()
-        txtMileage.Clear()
-        txtAvgFuel.Clear()
-        ' Force garbage collection
-        GC.Collect()
-        GC.WaitForPendingFinalizers()
-
-        tcTabs.SelectedTab = tpCarsList
+        ChangeTab(CType(sender, Button))
     End Sub
 
     Private Sub cboxArchive_CheckedChanged(sender As Object, e As EventArgs) Handles cboxArchive.CheckedChanged
@@ -215,15 +168,73 @@ Public Class formTableViewer
         GC.WaitForPendingFinalizers()
     End Sub
 
-    Private Sub btnLoginLogin_Click(sender As Object, e As EventArgs) Handles btnLoginLogin.Click
-        tcTabs.SelectedTab = tpCarsList
+    ' Description:  Handler function for all the buttons that change tabs
+    ' Parameters:   The usual for an event handler
+    ' Return:       NONE
+    Private Sub Button_Click(sender As Object, e As EventArgs) _
+        Handles btnCarBack.Click, btnProblemBack.Click, btnCarDetailsBack.Click,
+        btnShowProblems.Click, btnLoginLogin.Click, btnAddCarCancel.Click, btnAddCar.Click
+
+        'Get the button that was clicked
+        Dim btn As Button = CType(sender, Button)
+
+        ChangeTab(btn)
     End Sub
 
-    Private Sub btnShowProblems_Click(sender As Object, e As EventArgs) Handles btnShowProblems.Click
-        tcTabs.SelectedTab = tpProblems
-    End Sub
+    ' Description:  Big Select case, where tab selection happens
+    ' Parameters:   btn - variable of the button that was clicked
+    ' Return:       NONE
+    Private Sub ChangeTab(ByVal btn As Button)
+        Dim tab As TabPage
 
-    Private Sub btnCarDetailsBack_Click(sender As Object, e As EventArgs) Handles btnCarDetailsBack.Click
-        tcTabs.SelectedTab = tpCarsList
+        Select Case btn.Name
+            Case "btnCarBack"
+                ' Set tab to Group
+                tab = tpGroups
+
+            Case "btnProblemBack"
+                ' Set tab to Car Details
+                tab = tpCarDetails
+
+            Case "btnCarDetailsBack"
+                ' Set tab to Cars List
+                tab = tpCarsList
+
+            Case "btnShowProblems"
+                ' Set tab to Problems
+                tab = tpProblems
+
+            Case "btnLoginLogin"
+                ' Set tab to Groups
+                ' TODO: Add tranfer from Groups to Cars page
+                tab = tpCarsList                 ' Currently goes straight to the Cars tab
+
+            Case "btnAddCar"
+                ' Set tab to Add Car
+                tab = tpAddCar
+
+            Case "btnAddCarCancel"
+                ' Set tab to Cars List
+                tab = tpCarsList
+
+                ' Clear fields
+                txtName.Clear()
+                txtMileage.Clear()
+                txtAvgFuel.Clear()
+                ' Force garbage collection
+                GC.Collect()
+                GC.WaitForPendingFinalizers()
+
+            Case "btnAddCarEnter"
+                ' Set tab to Cars List
+                tab = tpCarsList
+
+            Case Else
+                ' In case something goes wrong, it'll just stay on the same page
+                tab = tcTabs.SelectedTab
+        End Select
+
+        ' Change the tab
+        tcTabs.SelectedTab = tab
     End Sub
 End Class
