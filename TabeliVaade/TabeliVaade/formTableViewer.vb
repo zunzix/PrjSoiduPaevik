@@ -41,6 +41,7 @@ Public Class formTableViewer
         subtractButton.AutoSizeMode = DataGridViewAutoSizeColumnMode.None
         subtractButton.Width = 50
 
+        ' Add all of them to the DGV
         dgvCarsList.Columns.Add(carModel)
         dgvCarsList.Columns.Add(maintenence)
         dgvCarsList.Columns.Add(availability)
@@ -49,21 +50,25 @@ Public Class formTableViewer
         dgvCarsList.Rows.Add()
 
         ' Add fields to the problems list
+        ' Problem description
         Dim description As New DataGridViewTextBoxColumn()
         description.Name = "description"
-        description.HeaderText = "Description"
+        description.HeaderText = "Problem description"
         description.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
 
+        ' Whether it's critical or not
         Dim critical As New DataGridViewCheckBoxColumn()
         critical.Name = "critical"
         critical.HeaderText = "Critical?"
         critical.AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
 
+        ' Whether it's resolved or not
         Dim resolved As New DataGridViewCheckBoxColumn()
         resolved.Name = "resolved"
         resolved.HeaderText = "Resolved?"
         resolved.AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
 
+        ' Add all of them to the DGV
         dgvProblemsList.Columns.Add(description)
         dgvProblemsList.Columns.Add(critical)
         dgvProblemsList.Columns.Add(resolved)
@@ -149,22 +154,26 @@ Public Class formTableViewer
         End If
     End Sub
 
-    ' Description:  Double clicking one of the fields changes tabs to the problems view
+    ' Description:  Clicking one of the fields changes tabs to the problems view
     ' Parameters:   Default handler parameters
     ' Return:       NONE
     Private Sub dgvCarsList_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvCarsList.CellClick
-        ' Check if the clicked cell is in the header or not
+        ' Check if the clicked cell is in the header or delete button
         If e.RowIndex < 0 Or e.ColumnIndex = (dgvCarsList.ColumnCount - 1) Then
             Return
-        ElseIf e.RowIndex = expandedRowIndex Then
+        ElseIf e.RowIndex = expandedRowIndex Then ' Clicking the same row will close it
             pnlDetails.Visible = False
             expandedRowIndex = -1
             Return
         End If
 
+        ' Get the area of the row that was clicked
         Dim rowRect As Rectangle = dgvCarsList.GetRowDisplayRectangle(e.RowIndex, True)
 
+        ' Style it so that it looks like a "drop down panel"
         pnlDetails.Top = dgvCarsList.Top + rowRect.Bottom
+        pnlDetails.Left = dgvCarsList.Left + 2
+        pnlDetails.Width = dgvCarsList.Width - 4
         pnlDetails.Visible = True
 
         ' Assign detailed values to the data fields
@@ -177,7 +186,7 @@ Public Class formTableViewer
         ' TODO: Make it possible to search through the database for insurance
 
         ' Check if the insurance item exists
-        lblInsuranceData.Text = "No insurance found"
+        lblInsuranceData.Text = "Expired!"
 
         expandedRowIndex = e.RowIndex
     End Sub
