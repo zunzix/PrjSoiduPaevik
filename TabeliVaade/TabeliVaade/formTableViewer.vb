@@ -188,6 +188,7 @@ Public Class formTableViewer
         ' Check if the insurance item exists
         lblInsuranceData.Text = "Expired!"
 
+        ' Update the expanded row to be the current row
         expandedRowIndex = e.RowIndex
     End Sub
 
