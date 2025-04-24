@@ -11,15 +11,21 @@
     ' Some things may be wrong still, gl :)
 
 
-    ' todo add getTable parameters
+    ' todo add getTables parameters
     ' what table(group,car,groupmember,carissue,carlog,carinsurance)
     ' returns user specific table list / error message
-    Function GetTable()
+    Function GetTables()
 
-    ' todo add getSpecificTable parameters
+    ' todo add getSpecificTables parameters
     ' what table(car,groupmember,carissue,carlog,carinsurance), table id
     ' returns specific group/car table list / error message
     ' note : add 2 different private functions for group/car
+    Function GetSpecificTables()
+
+    ' todo add getSpecificTable parameters
+    ' what table(group,car,groupmember,carissue,carlog,carinsurance), table id
+    ' returns specific table / error message
+    ' note : can be used to refresh one given table
     Function GetSpecificTable()
 
     ' todo add addTable parameters
