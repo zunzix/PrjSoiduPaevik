@@ -9,11 +9,15 @@
         Throw New NotImplementedException()
     End Function
 
-    Public Function GetTable() As Object Implements ITableReader.GetTable
+    Public Function GetTables() As Object Implements ITableReader.GetTables
         Throw New NotImplementedException()
     End Function
 
     Public Function UpdateTable() As Object Implements ITableReader.UpdateTable
+        Throw New NotImplementedException()
+    End Function
+
+    Public Function GetSpecificTables() As Object Implements ITableReader.GetSpecificTables
         Throw New NotImplementedException()
     End Function
 
