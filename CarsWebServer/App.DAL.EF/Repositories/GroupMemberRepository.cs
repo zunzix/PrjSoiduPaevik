@@ -26,6 +26,11 @@ public class GroupMemberRepository : BaseRepository<GroupMember>, IGroupMemberRe
             
     }
     
+    public async Task<IEnumerable<GroupMember>> AllGroupGroupMembersAsync(IEnumerable<GroupMember> userGroupMembers, Guid groupId) 
+    {
+        return await Task.FromResult(userGroupMembers.Where(c => c.GroupId == groupId));
+    }
+    
     public override async Task<GroupMember?> FindAsync(Guid id, Guid userId = default)
     {
         return await RepositoryDbSet

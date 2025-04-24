@@ -22,6 +22,11 @@ public class CarLogRepository : BaseRepository<CarLog>, ICarLogRepository
             .ToListAsync();
     }
     
+    public async Task<IEnumerable<CarLog>> AllCarCarLogsAsync(IEnumerable<CarLog> userCarLogs, Guid carId) 
+    {
+        return await Task.FromResult(userCarLogs.Where(c => c.CarId == carId));
+    }
+    
     public override async Task<CarLog?> FindAsync(Guid id, Guid userId = default)
     {
         return await RepositoryDbSet

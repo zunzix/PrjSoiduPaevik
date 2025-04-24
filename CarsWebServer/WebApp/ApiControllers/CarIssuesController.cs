@@ -47,6 +47,25 @@ namespace WebApp.ApiControllers
                 c.IsResolved
             }).ToList());
         }
+        
+        // GET: api/CarIssues/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<CarIssue>> GetCarCarIssues(Guid id)
+        {
+            var userGroups = await _uow.GroupRepository.AllAsync(User.GetUserId());
+            var userCars = await _uow.CarRepository.AllCarsAsync(userGroups);
+            var carIssues = await _uow.CarIssueRepository.AllCarIssuesAsync(userCars);
+            var carCarIssues = await _uow.CarIssueRepository.AllCarCarIssuesAsync(carIssues, id);
+            
+            return Ok(carCarIssues.Select(c => new 
+            {
+                c.Id,
+                c.CarId,
+                c.Issue,
+                c.IsCritical,
+                c.IsResolved
+            }).ToList());
+        }
 
         // GET: api/CarIssues/5
         [HttpGet("{id}")]

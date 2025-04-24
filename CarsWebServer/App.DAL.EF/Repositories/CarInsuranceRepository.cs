@@ -21,6 +21,11 @@ public class CarInsuranceRepository : BaseRepository<CarInsurance>, ICarInsuranc
             .ToListAsync();
     }
     
+    public async Task<IEnumerable<CarInsurance>> AllCarCarInsurancesAsync(IEnumerable<CarInsurance> userCarInsurances, Guid carId) 
+    {
+        return await Task.FromResult(userCarInsurances.Where(c => c.CarId == carId));
+    }
+    
     public override async Task<CarInsurance?> FindAsync(Guid id, Guid userId = default)
     {
         return await RepositoryDbSet

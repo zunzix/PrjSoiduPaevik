@@ -46,6 +46,23 @@ namespace WebApp.ApiControllers
                 c.IsAdmin
             }).ToList());
         }
+        
+        // GET: api/GroupMembers/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<GroupMember>> GetGroupGroupMembers(Guid id)
+        {
+            var groupMembers = await _uow.GroupMemberRepository.AllAsync(User.GetUserId());
+            var groupGroupMembers = await _uow.GroupMemberRepository.AllGroupGroupMembersAsync(groupMembers, id);
+            return Ok(groupGroupMembers.Select(c => new 
+            {
+                c.Id,
+                c.Group!.Name,
+                c.GroupId,
+                c.UserId,
+                c.User!.Email,
+                c.IsAdmin
+            }).ToList());
+        }
 
         // GET: api/GroupMembers/5
         [HttpGet("{id}")]
