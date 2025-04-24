@@ -24,6 +24,14 @@ public class GroupRepository : BaseRepository<Group>, IGroupRepository
             .Where(g => g.GroupMembers!.Any(gm => gm.UserId == userId))
             .ToList();
     }
+    
+    public override async Task<Group?> FindAsync(Guid id, Guid userId = default)
+    {
+        return await RepositoryDbSet
+            .Where(g => g.Id == id)
+            .Where(g => g.GroupMembers!.Any(gm => gm.UserId == userId))
+            .FirstOrDefaultAsync();
+    }
 
     public IEnumerable<Group> AllAdmins(Guid userId)
     {

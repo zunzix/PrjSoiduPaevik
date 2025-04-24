@@ -213,10 +213,12 @@ public class AccountController : ControllerBase
         }
 
         var userEmail = jwt.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
+        
         if (userEmail == null)
         {
             return BadRequest("No email in jwt");
         }
+        
 
         var appUser = await _userManager.FindByEmailAsync(userEmail);
         if (appUser == null)
@@ -225,7 +227,7 @@ public class AccountController : ControllerBase
         }
 
         // load and compare refresh tokens
-        await _context.Entry(appUser).Collection(u => u.RefreshTokens!)
+        appUser.RefreshTokens = await _context.Entry(appUser).Collection(u => u.RefreshTokens!)
             .Query()
             .Where(x =>
                 (x.RefreshToken == tokenRefreshInfo.RefreshToken && x.Expiration > DateTime.UtcNow) ||
@@ -234,10 +236,21 @@ public class AccountController : ControllerBase
             )
             .ToListAsync();
 
+        /*
         if (appUser.RefreshTokens == null || appUser.RefreshTokens.Count == 0)
         {
             return NotFound("collection null or empty");
         }
+        */
+        if (appUser.RefreshTokens == null)
+        {
+            return NotFound("RefreshTokens collection is null");
+        }
+        if (appUser.RefreshTokens.Count == 0)
+        {
+            return NotFound("No valid refresh tokens found for this user.");
+        }
+        
 
         if (appUser.RefreshTokens.Count != 1)
         {
@@ -267,6 +280,7 @@ public class AccountController : ControllerBase
             refreshToken.RefreshToken = Guid.NewGuid().ToString();
             refreshToken.Expiration = DateTime.UtcNow.AddDays(7);
 
+            _context.Update(refreshToken); // <-- force update
             await _context.SaveChangesAsync();
         }
 
@@ -308,7 +322,7 @@ public class AccountController : ControllerBase
             return NotFound("User/Password error");
         }
 
-        await _context.Entry(appUser)
+        appUser.RefreshTokens = await _context.Entry(appUser)
             .Collection(u => u.RefreshTokens!)
             .Query()
             .Where(x =>

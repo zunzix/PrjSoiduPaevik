@@ -35,41 +35,46 @@ namespace WebApp.ApiControllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Group>>> GetGroups()
         {
-            return (await _uow.GroupRepository.AllAsync(User.GetUserId())).ToList();
+            var groups = await _uow.GroupRepository.AllAsync(User.GetUserId());
+            return Ok(groups.Select(c => new 
+            {
+                c.Id,
+                c.Name
+            }).ToList());
         }
 
         // GET: api/Groups/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Group>> GetGroup(Guid id)
         {
-            var @group = await _uow.GroupRepository.FindAsync(id);
+            var group = await _uow.GroupRepository.FindAsync(id, User.GetUserId());
 
-            if (@group == null)
+            if (group == null)
             {
                 return NotFound();
             }
 
-            return @group;
+            return group;
         }
 
         // PUT: api/Groups/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutGroup(Guid id, Group @group)
+        public async Task<IActionResult> PutGroup(Guid id, Group group)
         {
-            if (id != @group.Id)
+            if (id != group.Id)
             {
                 return BadRequest();
             }
             
             // Check if current user is admin of the group
-            var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), @group.Id);
+            var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), group.Id);
             if (!isAdmin)
             {
                 return Forbid();
             }
             
-            _context.Entry(@group).State = EntityState.Modified;
+            _context.Entry(group).State = EntityState.Modified;
             await _uow.SaveChangesAsync();
 
 
@@ -79,22 +84,23 @@ namespace WebApp.ApiControllers
         // POST: api/Groups
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Group>> PostGroup(Group @group)
+        public async Task<ActionResult<Group>> PostGroup(Group group)
         {
-            _uow.GroupRepository.Add(@group);
-            await _uow.SaveChangesAsync();
+            _uow.GroupRepository.Add(group);
+            
             
             var groupMember = new GroupMember
             {
                 Id = Guid.NewGuid(),
-                GroupId = @group.Id,
+                GroupId = group.Id,
                 UserId = User.GetUserId(),
                 IsAdmin = true
             };
             
             _uow.GroupMemberRepository.Add(groupMember);
+            await _uow.SaveChangesAsync();
 
-            return CreatedAtAction("GetGroup", new { id = @group.Id }, @group);
+            return CreatedAtAction("GetGroup", new { id = group.Id }, group);
         }
 
         // DELETE: api/Groups/5
