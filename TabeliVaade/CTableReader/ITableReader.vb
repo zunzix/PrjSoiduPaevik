@@ -13,7 +13,7 @@
     ' todo add getTable parameters
     ' what table(group,car,groupmember,carissue,carlog,carinsurance)
     ' returns user specific table list / error message
-    Function GetTable()
+    Function GetCarTable()
 
     ' todo add getSpecificTable parameters
     ' what table(car,groupmember,carissue,carlog,carinsurance), table id
@@ -50,4 +50,6 @@
     ' refresh token 
     ' returns success (and redirects to login screen)/error message
     Function Logout()
+
+    Function RefreshJwtToken(RefreshToken As String) As String
 End Interface

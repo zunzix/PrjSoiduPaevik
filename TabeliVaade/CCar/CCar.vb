@@ -1,9 +1,6 @@
 ﻿Public Class CCar
     Implements ICar
 
-    ' For testing purposes without the database intigrated
-    Private Shared NextID As Integer = 0
-
     Private Property ID As Integer Implements ICar.ID
     Private Property GroupID As Integer Implements ICar.GroupID
     Private Property Name As String Implements ICar.Name
@@ -15,12 +12,11 @@
 
     ' Car object constructer
     ' Includes validation in case of wrong datatypes
-    Public Sub New(groupID As Object, name As Object, mileage As Object,
+    Public Sub New(ID As Object, groupID As Object, name As Object, mileage As Object,
                    avgFuelConsumption As Object, isAvailable As Object,
                    isArchived As Object, isInCriticalState As Object)
         ' Automatic ID generation (Temporary)
-        Me.ID = NextID
-        NextID += 1
+        Me.ID = Convert.ToInt32(ID)
 
         ' GroupID validation
         Try
