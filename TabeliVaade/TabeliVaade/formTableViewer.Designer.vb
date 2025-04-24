@@ -36,12 +36,25 @@ Partial Class formTableViewer
         Me.lblReady = New System.Windows.Forms.Label()
         Me.lblArchive = New System.Windows.Forms.Label()
         Me.lblHeader = New System.Windows.Forms.Label()
-        Me.tpHistoryDetails = New System.Windows.Forms.TabPage()
-        Me.tpHistory = New System.Windows.Forms.TabPage()
         Me.tpCarsList = New System.Windows.Forms.TabPage()
-        Me.pnlDetails = New System.Windows.Forms.Panel()
+        Me.pnlLogs = New System.Windows.Forms.Panel()
+        Me.btnProblems = New System.Windows.Forms.Button()
         Me.btnAddLog = New System.Windows.Forms.Button()
-        Me.gbDetails = New System.Windows.Forms.GroupBox()
+        Me.dgvLogsList = New System.Windows.Forms.DataGridView()
+        Me.gbLogDetails = New System.Windows.Forms.GroupBox()
+        Me.lblCommentData = New System.Windows.Forms.Label()
+        Me.lblDistanceData = New System.Windows.Forms.Label()
+        Me.lblEndData = New System.Windows.Forms.Label()
+        Me.lblStartData = New System.Windows.Forms.Label()
+        Me.lblEndTime = New System.Windows.Forms.Label()
+        Me.lblLogComment = New System.Windows.Forms.Label()
+        Me.lblTotalDistance = New System.Windows.Forms.Label()
+        Me.lblStartTime = New System.Windows.Forms.Label()
+        Me.pnlDetails = New System.Windows.Forms.Panel()
+        Me.btnAddProblem = New System.Windows.Forms.Button()
+        Me.dgvProblemsList = New System.Windows.Forms.DataGridView()
+        Me.btnLogs = New System.Windows.Forms.Button()
+        Me.gbCarDetails = New System.Windows.Forms.GroupBox()
         Me.lblInsuranceData = New System.Windows.Forms.Label()
         Me.lblMilageData = New System.Windows.Forms.Label()
         Me.lblFuelData = New System.Windows.Forms.Label()
@@ -61,15 +74,47 @@ Partial Class formTableViewer
         Me.btnLoginLogin = New System.Windows.Forms.Button()
         Me.lblLoginTitle = New System.Windows.Forms.Label()
         Me.tcTabs = New System.Windows.Forms.TabControl()
-        Me.dgvProblemsList = New System.Windows.Forms.DataGridView()
+        Me.tpAddProblem = New System.Windows.Forms.TabPage()
+        Me.btnAddProblemEnter = New System.Windows.Forms.Button()
+        Me.btnAddProblemCancel = New System.Windows.Forms.Button()
+        Me.cbCriticality = New System.Windows.Forms.CheckBox()
+        Me.txtProblemDescription = New System.Windows.Forms.TextBox()
+        Me.lblCriticality = New System.Windows.Forms.Label()
+        Me.lblIssueDescription = New System.Windows.Forms.Label()
+        Me.lblProblemReportTitle = New System.Windows.Forms.Label()
+        Me.tpAddLog = New System.Windows.Forms.TabPage()
+        Me.gbEnd = New System.Windows.Forms.GroupBox()
+        Me.lblEndAdd = New System.Windows.Forms.Label()
+        Me.txtLocationEnd = New System.Windows.Forms.TextBox()
+        Me.dtpEndDate = New System.Windows.Forms.DateTimePicker()
+        Me.lblEndDateAdd = New System.Windows.Forms.Label()
+        Me.gbStart = New System.Windows.Forms.GroupBox()
+        Me.lblStartDateAdd = New System.Windows.Forms.Label()
+        Me.lblAddStart = New System.Windows.Forms.Label()
+        Me.dtpStartDate = New System.Windows.Forms.DateTimePicker()
+        Me.txtLocationStart = New System.Windows.Forms.TextBox()
+        Me.txtLogComment = New System.Windows.Forms.TextBox()
+        Me.txtTotalDistance = New System.Windows.Forms.TextBox()
+        Me.lblLogCommentAdd = New System.Windows.Forms.Label()
+        Me.lblDistanceAdd = New System.Windows.Forms.Label()
+        Me.lblAddLogTitle = New System.Windows.Forms.Label()
+        Me.btnAddLogCancel = New System.Windows.Forms.Button()
+        Me.btnAddLogEnter = New System.Windows.Forms.Button()
         Me.tpAddCar.SuspendLayout()
         Me.tpCarsList.SuspendLayout()
+        Me.pnlLogs.SuspendLayout()
+        CType(Me.dgvLogsList, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.gbLogDetails.SuspendLayout()
         Me.pnlDetails.SuspendLayout()
-        Me.gbDetails.SuspendLayout()
+        CType(Me.dgvProblemsList, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.gbCarDetails.SuspendLayout()
         CType(Me.dgvCarsList, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tpLogin.SuspendLayout()
         Me.tcTabs.SuspendLayout()
-        CType(Me.dgvProblemsList, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.tpAddProblem.SuspendLayout()
+        Me.tpAddLog.SuspendLayout()
+        Me.gbEnd.SuspendLayout()
+        Me.gbStart.SuspendLayout()
         Me.SuspendLayout()
         '
         'tpAddCar
@@ -92,7 +137,7 @@ Partial Class formTableViewer
         Me.tpAddCar.Name = "tpAddCar"
         Me.tpAddCar.Size = New System.Drawing.Size(789, 413)
         Me.tpAddCar.TabIndex = 7
-        Me.tpAddCar.Text = "AddCar"
+        Me.tpAddCar.Text = "Add Car"
         Me.tpAddCar.UseVisualStyleBackColor = True
         '
         'btnAddCarEnter
@@ -226,26 +271,9 @@ Partial Class formTableViewer
         Me.lblHeader.TabIndex = 0
         Me.lblHeader.Text = "Add a car to list"
         '
-        'tpHistoryDetails
-        '
-        Me.tpHistoryDetails.Location = New System.Drawing.Point(4, 28)
-        Me.tpHistoryDetails.Name = "tpHistoryDetails"
-        Me.tpHistoryDetails.Size = New System.Drawing.Size(789, 413)
-        Me.tpHistoryDetails.TabIndex = 4
-        Me.tpHistoryDetails.Text = "History Details"
-        Me.tpHistoryDetails.UseVisualStyleBackColor = True
-        '
-        'tpHistory
-        '
-        Me.tpHistory.Location = New System.Drawing.Point(4, 28)
-        Me.tpHistory.Name = "tpHistory"
-        Me.tpHistory.Size = New System.Drawing.Size(789, 413)
-        Me.tpHistory.TabIndex = 3
-        Me.tpHistory.Text = "Car History"
-        Me.tpHistory.UseVisualStyleBackColor = True
-        '
         'tpCarsList
         '
+        Me.tpCarsList.Controls.Add(Me.pnlLogs)
         Me.tpCarsList.Controls.Add(Me.pnlDetails)
         Me.tpCarsList.Controls.Add(Me.btnCarBack)
         Me.tpCarsList.Controls.Add(Me.btnAddCar)
@@ -258,67 +286,223 @@ Partial Class formTableViewer
         Me.tpCarsList.Text = "Cars"
         Me.tpCarsList.UseVisualStyleBackColor = True
         '
+        'pnlLogs
+        '
+        Me.pnlLogs.Controls.Add(Me.btnProblems)
+        Me.pnlLogs.Controls.Add(Me.btnAddLog)
+        Me.pnlLogs.Controls.Add(Me.dgvLogsList)
+        Me.pnlLogs.Controls.Add(Me.gbLogDetails)
+        Me.pnlLogs.Location = New System.Drawing.Point(7, 290)
+        Me.pnlLogs.Name = "pnlLogs"
+        Me.pnlLogs.Size = New System.Drawing.Size(777, 117)
+        Me.pnlLogs.TabIndex = 4
+        Me.pnlLogs.Visible = False
+        '
+        'btnProblems
+        '
+        Me.btnProblems.Location = New System.Drawing.Point(691, 65)
+        Me.btnProblems.Name = "btnProblems"
+        Me.btnProblems.Size = New System.Drawing.Size(83, 45)
+        Me.btnProblems.TabIndex = 3
+        Me.btnProblems.Text = "Problems"
+        Me.btnProblems.UseVisualStyleBackColor = True
+        '
+        'btnAddLog
+        '
+        Me.btnAddLog.Location = New System.Drawing.Point(691, 10)
+        Me.btnAddLog.Name = "btnAddLog"
+        Me.btnAddLog.Size = New System.Drawing.Size(83, 45)
+        Me.btnAddLog.TabIndex = 2
+        Me.btnAddLog.Text = "Add Log"
+        Me.btnAddLog.UseVisualStyleBackColor = True
+        '
+        'dgvLogsList
+        '
+        Me.dgvLogsList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.dgvLogsList.Location = New System.Drawing.Point(290, 10)
+        Me.dgvLogsList.Name = "dgvLogsList"
+        Me.dgvLogsList.RowHeadersWidth = 51
+        Me.dgvLogsList.RowTemplate.Height = 24
+        Me.dgvLogsList.Size = New System.Drawing.Size(394, 100)
+        Me.dgvLogsList.TabIndex = 1
+        '
+        'gbLogDetails
+        '
+        Me.gbLogDetails.Controls.Add(Me.lblCommentData)
+        Me.gbLogDetails.Controls.Add(Me.lblDistanceData)
+        Me.gbLogDetails.Controls.Add(Me.lblEndData)
+        Me.gbLogDetails.Controls.Add(Me.lblStartData)
+        Me.gbLogDetails.Controls.Add(Me.lblEndTime)
+        Me.gbLogDetails.Controls.Add(Me.lblLogComment)
+        Me.gbLogDetails.Controls.Add(Me.lblTotalDistance)
+        Me.gbLogDetails.Controls.Add(Me.lblStartTime)
+        Me.gbLogDetails.Location = New System.Drawing.Point(3, 3)
+        Me.gbLogDetails.Name = "gbLogDetails"
+        Me.gbLogDetails.Size = New System.Drawing.Size(281, 107)
+        Me.gbLogDetails.TabIndex = 0
+        Me.gbLogDetails.TabStop = False
+        Me.gbLogDetails.Text = "Details"
+        '
+        'lblCommentData
+        '
+        Me.lblCommentData.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblCommentData.AutoSize = True
+        Me.lblCommentData.Location = New System.Drawing.Point(235, 88)
+        Me.lblCommentData.Name = "lblCommentData"
+        Me.lblCommentData.Size = New System.Drawing.Size(28, 16)
+        Me.lblCommentData.TabIndex = 7
+        Me.lblCommentData.Text = "___"
+        '
+        'lblDistanceData
+        '
+        Me.lblDistanceData.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblDistanceData.AutoSize = True
+        Me.lblDistanceData.Location = New System.Drawing.Point(214, 66)
+        Me.lblDistanceData.Name = "lblDistanceData"
+        Me.lblDistanceData.Size = New System.Drawing.Size(49, 16)
+        Me.lblDistanceData.TabIndex = 6
+        Me.lblDistanceData.Text = "___ km"
+        '
+        'lblEndData
+        '
+        Me.lblEndData.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblEndData.AutoSize = True
+        Me.lblEndData.Location = New System.Drawing.Point(153, 44)
+        Me.lblEndData.Name = "lblEndData"
+        Me.lblEndData.Size = New System.Drawing.Size(110, 16)
+        Me.lblEndData.TabIndex = 5
+        Me.lblEndData.Text = "12:00 - 01.01.1970"
+        '
+        'lblStartData
+        '
+        Me.lblStartData.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblStartData.AutoSize = True
+        Me.lblStartData.Location = New System.Drawing.Point(153, 21)
+        Me.lblStartData.Name = "lblStartData"
+        Me.lblStartData.Size = New System.Drawing.Size(110, 16)
+        Me.lblStartData.TabIndex = 4
+        Me.lblStartData.Text = "12:00 - 01.01.1970"
+        '
+        'lblEndTime
+        '
+        Me.lblEndTime.AutoSize = True
+        Me.lblEndTime.Location = New System.Drawing.Point(6, 44)
+        Me.lblEndTime.Name = "lblEndTime"
+        Me.lblEndTime.Size = New System.Drawing.Size(34, 16)
+        Me.lblEndTime.TabIndex = 3
+        Me.lblEndTime.Text = "End:"
+        '
+        'lblLogComment
+        '
+        Me.lblLogComment.AutoSize = True
+        Me.lblLogComment.Location = New System.Drawing.Point(6, 88)
+        Me.lblLogComment.Name = "lblLogComment"
+        Me.lblLogComment.Size = New System.Drawing.Size(67, 16)
+        Me.lblLogComment.TabIndex = 2
+        Me.lblLogComment.Text = "Comment:"
+        '
+        'lblTotalDistance
+        '
+        Me.lblTotalDistance.AutoSize = True
+        Me.lblTotalDistance.Location = New System.Drawing.Point(6, 66)
+        Me.lblTotalDistance.Name = "lblTotalDistance"
+        Me.lblTotalDistance.Size = New System.Drawing.Size(95, 16)
+        Me.lblTotalDistance.TabIndex = 1
+        Me.lblTotalDistance.Text = "Total distance:"
+        '
+        'lblStartTime
+        '
+        Me.lblStartTime.AutoSize = True
+        Me.lblStartTime.Location = New System.Drawing.Point(6, 21)
+        Me.lblStartTime.Name = "lblStartTime"
+        Me.lblStartTime.Size = New System.Drawing.Size(37, 16)
+        Me.lblStartTime.TabIndex = 0
+        Me.lblStartTime.Text = "Start:"
+        '
         'pnlDetails
         '
+        Me.pnlDetails.Controls.Add(Me.btnAddProblem)
         Me.pnlDetails.Controls.Add(Me.dgvProblemsList)
-        Me.pnlDetails.Controls.Add(Me.btnAddLog)
-        Me.pnlDetails.Controls.Add(Me.gbDetails)
-        Me.pnlDetails.Location = New System.Drawing.Point(6, 223)
+        Me.pnlDetails.Controls.Add(Me.btnLogs)
+        Me.pnlDetails.Controls.Add(Me.gbCarDetails)
+        Me.pnlDetails.Location = New System.Drawing.Point(7, 166)
         Me.pnlDetails.Name = "pnlDetails"
         Me.pnlDetails.Size = New System.Drawing.Size(777, 117)
         Me.pnlDetails.TabIndex = 3
         Me.pnlDetails.Visible = False
         '
-        'btnAddLog
+        'btnAddProblem
         '
-        Me.btnAddLog.Location = New System.Drawing.Point(691, 28)
-        Me.btnAddLog.Name = "btnAddLog"
-        Me.btnAddLog.Size = New System.Drawing.Size(75, 65)
-        Me.btnAddLog.TabIndex = 5
-        Me.btnAddLog.Text = "Add Log"
-        Me.btnAddLog.UseVisualStyleBackColor = True
+        Me.btnAddProblem.Location = New System.Drawing.Point(691, 10)
+        Me.btnAddProblem.Name = "btnAddProblem"
+        Me.btnAddProblem.Size = New System.Drawing.Size(83, 45)
+        Me.btnAddProblem.TabIndex = 7
+        Me.btnAddProblem.Text = "Add Problem"
+        Me.btnAddProblem.UseVisualStyleBackColor = True
         '
-        'gbDetails
+        'dgvProblemsList
         '
-        Me.gbDetails.Controls.Add(Me.lblInsuranceData)
-        Me.gbDetails.Controls.Add(Me.lblMilageData)
-        Me.gbDetails.Controls.Add(Me.lblFuelData)
-        Me.gbDetails.Controls.Add(Me.lblMilage)
-        Me.gbDetails.Controls.Add(Me.lblInsurance)
-        Me.gbDetails.Controls.Add(Me.lblFuel)
-        Me.gbDetails.Location = New System.Drawing.Point(3, 3)
-        Me.gbDetails.Name = "gbDetails"
-        Me.gbDetails.Size = New System.Drawing.Size(281, 107)
-        Me.gbDetails.TabIndex = 4
-        Me.gbDetails.TabStop = False
-        Me.gbDetails.Text = "Details"
+        Me.dgvProblemsList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.dgvProblemsList.Location = New System.Drawing.Point(290, 10)
+        Me.dgvProblemsList.Name = "dgvProblemsList"
+        Me.dgvProblemsList.RowHeadersWidth = 51
+        Me.dgvProblemsList.RowTemplate.Height = 24
+        Me.dgvProblemsList.Size = New System.Drawing.Size(395, 100)
+        Me.dgvProblemsList.TabIndex = 6
+        '
+        'btnLogs
+        '
+        Me.btnLogs.Location = New System.Drawing.Point(691, 65)
+        Me.btnLogs.Name = "btnLogs"
+        Me.btnLogs.Size = New System.Drawing.Size(83, 45)
+        Me.btnLogs.TabIndex = 5
+        Me.btnLogs.Text = "Logs"
+        Me.btnLogs.UseVisualStyleBackColor = True
+        '
+        'gbCarDetails
+        '
+        Me.gbCarDetails.Controls.Add(Me.lblInsuranceData)
+        Me.gbCarDetails.Controls.Add(Me.lblMilageData)
+        Me.gbCarDetails.Controls.Add(Me.lblFuelData)
+        Me.gbCarDetails.Controls.Add(Me.lblMilage)
+        Me.gbCarDetails.Controls.Add(Me.lblInsurance)
+        Me.gbCarDetails.Controls.Add(Me.lblFuel)
+        Me.gbCarDetails.Location = New System.Drawing.Point(3, 3)
+        Me.gbCarDetails.Name = "gbCarDetails"
+        Me.gbCarDetails.Size = New System.Drawing.Size(281, 107)
+        Me.gbCarDetails.TabIndex = 4
+        Me.gbCarDetails.TabStop = False
+        Me.gbCarDetails.Text = "Details"
         '
         'lblInsuranceData
         '
+        Me.lblInsuranceData.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblInsuranceData.AutoSize = True
-        Me.lblInsuranceData.Location = New System.Drawing.Point(175, 80)
+        Me.lblInsuranceData.Location = New System.Drawing.Point(194, 80)
         Me.lblInsuranceData.Name = "lblInsuranceData"
-        Me.lblInsuranceData.Size = New System.Drawing.Size(28, 16)
+        Me.lblInsuranceData.Size = New System.Drawing.Size(69, 16)
         Me.lblInsuranceData.TabIndex = 6
-        Me.lblInsuranceData.Text = "___"
+        Me.lblInsuranceData.Text = "01.01.1970"
         '
         'lblMilageData
         '
+        Me.lblMilageData.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblMilageData.AutoSize = True
-        Me.lblMilageData.Location = New System.Drawing.Point(175, 52)
+        Me.lblMilageData.Location = New System.Drawing.Point(214, 52)
         Me.lblMilageData.Name = "lblMilageData"
-        Me.lblMilageData.Size = New System.Drawing.Size(28, 16)
+        Me.lblMilageData.Size = New System.Drawing.Size(49, 16)
         Me.lblMilageData.TabIndex = 5
-        Me.lblMilageData.Text = "___"
+        Me.lblMilageData.Text = "___ km"
         '
         'lblFuelData
         '
+        Me.lblFuelData.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblFuelData.AutoSize = True
-        Me.lblFuelData.Location = New System.Drawing.Point(175, 25)
+        Me.lblFuelData.Location = New System.Drawing.Point(182, 25)
         Me.lblFuelData.Name = "lblFuelData"
-        Me.lblFuelData.Size = New System.Drawing.Size(28, 16)
+        Me.lblFuelData.Size = New System.Drawing.Size(81, 16)
         Me.lblFuelData.TabIndex = 4
-        Me.lblFuelData.Text = "___"
+        Me.lblFuelData.Text = "___ L/100km"
         '
         'lblMilage
         '
@@ -473,24 +657,276 @@ Partial Class formTableViewer
         Me.tcTabs.Controls.Add(Me.tpLogin)
         Me.tcTabs.Controls.Add(Me.tpGroups)
         Me.tcTabs.Controls.Add(Me.tpCarsList)
-        Me.tcTabs.Controls.Add(Me.tpHistory)
-        Me.tcTabs.Controls.Add(Me.tpHistoryDetails)
         Me.tcTabs.Controls.Add(Me.tpAddCar)
+        Me.tcTabs.Controls.Add(Me.tpAddProblem)
+        Me.tcTabs.Controls.Add(Me.tpAddLog)
         Me.tcTabs.Location = New System.Drawing.Point(2, 3)
         Me.tcTabs.Name = "tcTabs"
         Me.tcTabs.SelectedIndex = 0
         Me.tcTabs.Size = New System.Drawing.Size(797, 445)
         Me.tcTabs.TabIndex = 0
         '
-        'dgvProblemsList
+        'tpAddProblem
         '
-        Me.dgvProblemsList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dgvProblemsList.Location = New System.Drawing.Point(290, 13)
-        Me.dgvProblemsList.Name = "dgvProblemsList"
-        Me.dgvProblemsList.RowHeadersWidth = 51
-        Me.dgvProblemsList.RowTemplate.Height = 24
-        Me.dgvProblemsList.Size = New System.Drawing.Size(395, 97)
-        Me.dgvProblemsList.TabIndex = 6
+        Me.tpAddProblem.Controls.Add(Me.btnAddProblemEnter)
+        Me.tpAddProblem.Controls.Add(Me.btnAddProblemCancel)
+        Me.tpAddProblem.Controls.Add(Me.cbCriticality)
+        Me.tpAddProblem.Controls.Add(Me.txtProblemDescription)
+        Me.tpAddProblem.Controls.Add(Me.lblCriticality)
+        Me.tpAddProblem.Controls.Add(Me.lblIssueDescription)
+        Me.tpAddProblem.Controls.Add(Me.lblProblemReportTitle)
+        Me.tpAddProblem.Location = New System.Drawing.Point(4, 28)
+        Me.tpAddProblem.Name = "tpAddProblem"
+        Me.tpAddProblem.Size = New System.Drawing.Size(789, 413)
+        Me.tpAddProblem.TabIndex = 8
+        Me.tpAddProblem.Text = "Add Problem"
+        Me.tpAddProblem.UseVisualStyleBackColor = True
+        '
+        'btnAddProblemEnter
+        '
+        Me.btnAddProblemEnter.Location = New System.Drawing.Point(405, 278)
+        Me.btnAddProblemEnter.Name = "btnAddProblemEnter"
+        Me.btnAddProblemEnter.Size = New System.Drawing.Size(108, 55)
+        Me.btnAddProblemEnter.TabIndex = 6
+        Me.btnAddProblemEnter.Text = "Enter"
+        Me.btnAddProblemEnter.UseVisualStyleBackColor = True
+        '
+        'btnAddProblemCancel
+        '
+        Me.btnAddProblemCancel.Location = New System.Drawing.Point(268, 278)
+        Me.btnAddProblemCancel.Name = "btnAddProblemCancel"
+        Me.btnAddProblemCancel.Size = New System.Drawing.Size(108, 54)
+        Me.btnAddProblemCancel.TabIndex = 5
+        Me.btnAddProblemCancel.Text = "Cancel"
+        Me.btnAddProblemCancel.UseVisualStyleBackColor = True
+        '
+        'cbCriticality
+        '
+        Me.cbCriticality.AutoSize = True
+        Me.cbCriticality.Location = New System.Drawing.Point(437, 241)
+        Me.cbCriticality.Name = "cbCriticality"
+        Me.cbCriticality.Size = New System.Drawing.Size(76, 20)
+        Me.cbCriticality.TabIndex = 4
+        Me.cbCriticality.Text = "Critical?"
+        Me.cbCriticality.UseVisualStyleBackColor = True
+        '
+        'txtProblemDescription
+        '
+        Me.txtProblemDescription.Location = New System.Drawing.Point(268, 161)
+        Me.txtProblemDescription.Multiline = True
+        Me.txtProblemDescription.Name = "txtProblemDescription"
+        Me.txtProblemDescription.Size = New System.Drawing.Size(245, 73)
+        Me.txtProblemDescription.TabIndex = 3
+        '
+        'lblCriticality
+        '
+        Me.lblCriticality.AutoSize = True
+        Me.lblCriticality.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.0!)
+        Me.lblCriticality.Location = New System.Drawing.Point(264, 237)
+        Me.lblCriticality.Name = "lblCriticality"
+        Me.lblCriticality.Size = New System.Drawing.Size(167, 24)
+        Me.lblCriticality.TabIndex = 2
+        Me.lblCriticality.Text = "Is it a critical issue?"
+        '
+        'lblIssueDescription
+        '
+        Me.lblIssueDescription.AutoSize = True
+        Me.lblIssueDescription.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.0!)
+        Me.lblIssueDescription.Location = New System.Drawing.Point(303, 134)
+        Me.lblIssueDescription.Name = "lblIssueDescription"
+        Me.lblIssueDescription.Size = New System.Drawing.Size(165, 24)
+        Me.lblIssueDescription.TabIndex = 1
+        Me.lblIssueDescription.Text = "Describe the issue"
+        '
+        'lblProblemReportTitle
+        '
+        Me.lblProblemReportTitle.AutoSize = True
+        Me.lblProblemReportTitle.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.0!)
+        Me.lblProblemReportTitle.Location = New System.Drawing.Point(285, 72)
+        Me.lblProblemReportTitle.Name = "lblProblemReportTitle"
+        Me.lblProblemReportTitle.Size = New System.Drawing.Size(201, 29)
+        Me.lblProblemReportTitle.TabIndex = 0
+        Me.lblProblemReportTitle.Text = "Report a problem"
+        '
+        'tpAddLog
+        '
+        Me.tpAddLog.Controls.Add(Me.btnAddLogEnter)
+        Me.tpAddLog.Controls.Add(Me.btnAddLogCancel)
+        Me.tpAddLog.Controls.Add(Me.gbEnd)
+        Me.tpAddLog.Controls.Add(Me.gbStart)
+        Me.tpAddLog.Controls.Add(Me.txtLogComment)
+        Me.tpAddLog.Controls.Add(Me.txtTotalDistance)
+        Me.tpAddLog.Controls.Add(Me.lblLogCommentAdd)
+        Me.tpAddLog.Controls.Add(Me.lblDistanceAdd)
+        Me.tpAddLog.Controls.Add(Me.lblAddLogTitle)
+        Me.tpAddLog.Location = New System.Drawing.Point(4, 28)
+        Me.tpAddLog.Name = "tpAddLog"
+        Me.tpAddLog.Size = New System.Drawing.Size(789, 413)
+        Me.tpAddLog.TabIndex = 9
+        Me.tpAddLog.Text = "Add Log"
+        Me.tpAddLog.UseVisualStyleBackColor = True
+        '
+        'gbEnd
+        '
+        Me.gbEnd.Controls.Add(Me.lblEndAdd)
+        Me.gbEnd.Controls.Add(Me.txtLocationEnd)
+        Me.gbEnd.Controls.Add(Me.dtpEndDate)
+        Me.gbEnd.Controls.Add(Me.lblEndDateAdd)
+        Me.gbEnd.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.0!)
+        Me.gbEnd.Location = New System.Drawing.Point(383, 43)
+        Me.gbEnd.Name = "gbEnd"
+        Me.gbEnd.Size = New System.Drawing.Size(351, 199)
+        Me.gbEnd.TabIndex = 16
+        Me.gbEnd.TabStop = False
+        Me.gbEnd.Text = "End"
+        '
+        'lblEndAdd
+        '
+        Me.lblEndAdd.AutoSize = True
+        Me.lblEndAdd.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.0!)
+        Me.lblEndAdd.Location = New System.Drawing.Point(6, 38)
+        Me.lblEndAdd.Name = "lblEndAdd"
+        Me.lblEndAdd.Size = New System.Drawing.Size(81, 24)
+        Me.lblEndAdd.TabIndex = 2
+        Me.lblEndAdd.Text = "Location"
+        '
+        'txtLocationEnd
+        '
+        Me.txtLocationEnd.Location = New System.Drawing.Point(93, 38)
+        Me.txtLocationEnd.Name = "txtLocationEnd"
+        Me.txtLocationEnd.Size = New System.Drawing.Size(252, 28)
+        Me.txtLocationEnd.TabIndex = 8
+        '
+        'dtpEndDate
+        '
+        Me.dtpEndDate.Location = New System.Drawing.Point(10, 130)
+        Me.dtpEndDate.MinDate = New Date(2025, 4, 24, 0, 0, 0, 0)
+        Me.dtpEndDate.Name = "dtpEndDate"
+        Me.dtpEndDate.Size = New System.Drawing.Size(335, 28)
+        Me.dtpEndDate.TabIndex = 14
+        '
+        'lblEndDateAdd
+        '
+        Me.lblEndDateAdd.AutoSize = True
+        Me.lblEndDateAdd.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.0!)
+        Me.lblEndDateAdd.Location = New System.Drawing.Point(6, 90)
+        Me.lblEndDateAdd.Name = "lblEndDateAdd"
+        Me.lblEndDateAdd.Size = New System.Drawing.Size(125, 24)
+        Me.lblEndDateAdd.TabIndex = 5
+        Me.lblEndDateAdd.Text = "Date and time"
+        '
+        'gbStart
+        '
+        Me.gbStart.Controls.Add(Me.lblStartDateAdd)
+        Me.gbStart.Controls.Add(Me.lblAddStart)
+        Me.gbStart.Controls.Add(Me.dtpStartDate)
+        Me.gbStart.Controls.Add(Me.txtLocationStart)
+        Me.gbStart.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.0!)
+        Me.gbStart.Location = New System.Drawing.Point(6, 43)
+        Me.gbStart.Name = "gbStart"
+        Me.gbStart.Size = New System.Drawing.Size(353, 190)
+        Me.gbStart.TabIndex = 15
+        Me.gbStart.TabStop = False
+        Me.gbStart.Text = "Start"
+        '
+        'lblStartDateAdd
+        '
+        Me.lblStartDateAdd.AutoSize = True
+        Me.lblStartDateAdd.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.0!)
+        Me.lblStartDateAdd.Location = New System.Drawing.Point(6, 90)
+        Me.lblStartDateAdd.Name = "lblStartDateAdd"
+        Me.lblStartDateAdd.Size = New System.Drawing.Size(125, 24)
+        Me.lblStartDateAdd.TabIndex = 4
+        Me.lblStartDateAdd.Text = "Date and time"
+        '
+        'lblAddStart
+        '
+        Me.lblAddStart.AutoSize = True
+        Me.lblAddStart.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.0!)
+        Me.lblAddStart.Location = New System.Drawing.Point(6, 38)
+        Me.lblAddStart.Name = "lblAddStart"
+        Me.lblAddStart.Size = New System.Drawing.Size(81, 24)
+        Me.lblAddStart.TabIndex = 1
+        Me.lblAddStart.Text = "Location"
+        '
+        'dtpStartDate
+        '
+        Me.dtpStartDate.Location = New System.Drawing.Point(6, 130)
+        Me.dtpStartDate.MaxDate = New Date(2025, 4, 24, 0, 0, 0, 0)
+        Me.dtpStartDate.Name = "dtpStartDate"
+        Me.dtpStartDate.Size = New System.Drawing.Size(341, 28)
+        Me.dtpStartDate.TabIndex = 13
+        Me.dtpStartDate.Value = New Date(2025, 4, 24, 0, 0, 0, 0)
+        '
+        'txtLocationStart
+        '
+        Me.txtLocationStart.Location = New System.Drawing.Point(93, 34)
+        Me.txtLocationStart.Name = "txtLocationStart"
+        Me.txtLocationStart.Size = New System.Drawing.Size(254, 28)
+        Me.txtLocationStart.TabIndex = 7
+        '
+        'txtLogComment
+        '
+        Me.txtLogComment.Location = New System.Drawing.Point(144, 320)
+        Me.txtLogComment.Multiline = True
+        Me.txtLogComment.Name = "txtLogComment"
+        Me.txtLogComment.Size = New System.Drawing.Size(215, 65)
+        Me.txtLogComment.TabIndex = 12
+        '
+        'txtTotalDistance
+        '
+        Me.txtTotalDistance.Location = New System.Drawing.Point(144, 256)
+        Me.txtTotalDistance.Name = "txtTotalDistance"
+        Me.txtTotalDistance.Size = New System.Drawing.Size(209, 22)
+        Me.txtTotalDistance.TabIndex = 11
+        '
+        'lblLogCommentAdd
+        '
+        Me.lblLogCommentAdd.AutoSize = True
+        Me.lblLogCommentAdd.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.0!)
+        Me.lblLogCommentAdd.Location = New System.Drawing.Point(12, 341)
+        Me.lblLogCommentAdd.Name = "lblLogCommentAdd"
+        Me.lblLogCommentAdd.Size = New System.Drawing.Size(101, 24)
+        Me.lblLogCommentAdd.TabIndex = 6
+        Me.lblLogCommentAdd.Text = "Comments"
+        '
+        'lblDistanceAdd
+        '
+        Me.lblDistanceAdd.AutoSize = True
+        Me.lblDistanceAdd.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.0!)
+        Me.lblDistanceAdd.Location = New System.Drawing.Point(12, 254)
+        Me.lblDistanceAdd.Name = "lblDistanceAdd"
+        Me.lblDistanceAdd.Size = New System.Drawing.Size(126, 24)
+        Me.lblDistanceAdd.TabIndex = 3
+        Me.lblDistanceAdd.Text = "Total distance"
+        '
+        'lblAddLogTitle
+        '
+        Me.lblAddLogTitle.AutoSize = True
+        Me.lblAddLogTitle.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.0!)
+        Me.lblAddLogTitle.Location = New System.Drawing.Point(265, 11)
+        Me.lblAddLogTitle.Name = "lblAddLogTitle"
+        Me.lblAddLogTitle.Size = New System.Drawing.Size(171, 29)
+        Me.lblAddLogTitle.TabIndex = 0
+        Me.lblAddLogTitle.Text = "Register a ride"
+        '
+        'btnAddLogCancel
+        '
+        Me.btnAddLogCancel.Location = New System.Drawing.Point(393, 341)
+        Me.btnAddLogCancel.Name = "btnAddLogCancel"
+        Me.btnAddLogCancel.Size = New System.Drawing.Size(132, 44)
+        Me.btnAddLogCancel.TabIndex = 17
+        Me.btnAddLogCancel.Text = "Cancel"
+        Me.btnAddLogCancel.UseVisualStyleBackColor = True
+        '
+        'btnAddLogEnter
+        '
+        Me.btnAddLogEnter.Location = New System.Drawing.Point(602, 341)
+        Me.btnAddLogEnter.Name = "btnAddLogEnter"
+        Me.btnAddLogEnter.Size = New System.Drawing.Size(132, 46)
+        Me.btnAddLogEnter.TabIndex = 18
+        Me.btnAddLogEnter.Text = "Enter"
+        Me.btnAddLogEnter.UseVisualStyleBackColor = True
         '
         'formTableViewer
         '
@@ -503,14 +939,26 @@ Partial Class formTableViewer
         Me.tpAddCar.ResumeLayout(False)
         Me.tpAddCar.PerformLayout()
         Me.tpCarsList.ResumeLayout(False)
+        Me.pnlLogs.ResumeLayout(False)
+        CType(Me.dgvLogsList, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.gbLogDetails.ResumeLayout(False)
+        Me.gbLogDetails.PerformLayout()
         Me.pnlDetails.ResumeLayout(False)
-        Me.gbDetails.ResumeLayout(False)
-        Me.gbDetails.PerformLayout()
+        CType(Me.dgvProblemsList, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.gbCarDetails.ResumeLayout(False)
+        Me.gbCarDetails.PerformLayout()
         CType(Me.dgvCarsList, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tpLogin.ResumeLayout(False)
         Me.tpLogin.PerformLayout()
         Me.tcTabs.ResumeLayout(False)
-        CType(Me.dgvProblemsList, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.tpAddProblem.ResumeLayout(False)
+        Me.tpAddProblem.PerformLayout()
+        Me.tpAddLog.ResumeLayout(False)
+        Me.tpAddLog.PerformLayout()
+        Me.gbEnd.ResumeLayout(False)
+        Me.gbEnd.PerformLayout()
+        Me.gbStart.ResumeLayout(False)
+        Me.gbStart.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -529,8 +977,6 @@ Partial Class formTableViewer
     Friend WithEvents lblReady As Label
     Friend WithEvents lblArchive As Label
     Friend WithEvents lblHeader As Label
-    Friend WithEvents tpHistoryDetails As TabPage
-    Friend WithEvents tpHistory As TabPage
     Friend WithEvents tpCarsList As TabPage
     Friend WithEvents pnlDetails As Panel
     Friend WithEvents lblInsurance As Label
@@ -549,10 +995,50 @@ Partial Class formTableViewer
     Friend WithEvents btnLoginLogin As Button
     Friend WithEvents lblLoginTitle As Label
     Friend WithEvents tcTabs As TabControl
-    Friend WithEvents btnAddLog As Button
-    Friend WithEvents gbDetails As GroupBox
+    Friend WithEvents btnLogs As Button
+    Friend WithEvents gbCarDetails As GroupBox
     Friend WithEvents lblInsuranceData As Label
     Friend WithEvents lblMilageData As Label
     Friend WithEvents lblFuelData As Label
     Friend WithEvents dgvProblemsList As DataGridView
+    Friend WithEvents btnAddProblem As Button
+    Friend WithEvents tpAddProblem As TabPage
+    Friend WithEvents pnlLogs As Panel
+    Friend WithEvents gbLogDetails As GroupBox
+    Friend WithEvents dgvLogsList As DataGridView
+    Friend WithEvents btnProblems As Button
+    Friend WithEvents btnAddLog As Button
+    Friend WithEvents lblEndTime As Label
+    Friend WithEvents lblLogComment As Label
+    Friend WithEvents lblTotalDistance As Label
+    Friend WithEvents lblStartTime As Label
+    Friend WithEvents lblEndData As Label
+    Friend WithEvents lblStartData As Label
+    Friend WithEvents lblCommentData As Label
+    Friend WithEvents lblDistanceData As Label
+    Friend WithEvents lblProblemReportTitle As Label
+    Friend WithEvents tpAddLog As TabPage
+    Friend WithEvents lblIssueDescription As Label
+    Friend WithEvents lblCriticality As Label
+    Friend WithEvents cbCriticality As CheckBox
+    Friend WithEvents txtProblemDescription As TextBox
+    Friend WithEvents btnAddProblemEnter As Button
+    Friend WithEvents btnAddProblemCancel As Button
+    Friend WithEvents lblAddStart As Label
+    Friend WithEvents lblAddLogTitle As Label
+    Friend WithEvents lblLogCommentAdd As Label
+    Friend WithEvents lblEndDateAdd As Label
+    Friend WithEvents lblStartDateAdd As Label
+    Friend WithEvents lblDistanceAdd As Label
+    Friend WithEvents lblEndAdd As Label
+    Friend WithEvents txtLocationStart As TextBox
+    Friend WithEvents dtpEndDate As DateTimePicker
+    Friend WithEvents dtpStartDate As DateTimePicker
+    Friend WithEvents txtLogComment As TextBox
+    Friend WithEvents txtTotalDistance As TextBox
+    Friend WithEvents txtLocationEnd As TextBox
+    Friend WithEvents gbStart As GroupBox
+    Friend WithEvents gbEnd As GroupBox
+    Friend WithEvents btnAddLogCancel As Button
+    Friend WithEvents btnAddLogEnter As Button
 End Class
