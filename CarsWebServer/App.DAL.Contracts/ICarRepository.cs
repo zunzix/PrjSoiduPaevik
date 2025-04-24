@@ -7,6 +7,6 @@ public interface ICarRepository : IBaseRepository<Car>
 {
     Task<IEnumerable<Car>> AllCarsAsync(IEnumerable<Group> userGroups);
     IEnumerable<Car> AllCars(IEnumerable<Group> userGroups);
-    
-    
+
+    Task<IEnumerable<Car>> AllGroupCarsAsync(IEnumerable<Car> userCars, Guid groupId);
 }

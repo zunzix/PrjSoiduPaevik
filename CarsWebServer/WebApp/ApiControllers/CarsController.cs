@@ -50,6 +50,27 @@ namespace WebApp.ApiControllers
                 c.IsCritical
             }).ToList());
         }
+        
+        // GET: api/Cars/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<IEnumerable<Car>>> GetGroupCars(Guid id)
+        {
+            var userGroups = await _uow.GroupRepository.AllAsync(User.GetUserId());
+            var cars = await _uow.CarRepository.AllCarsAsync(userGroups);
+            var groupCars = await _uow.CarRepository.AllGroupCarsAsync(cars, id);
+    
+            return Ok(groupCars.Select(c => new 
+            {
+                c.Id,
+                c.GroupId,
+                c.Name,
+                c.Mileage,
+                c.AvgFuelCons,
+                c.IsAvailable,
+                c.IsArchived,
+                c.IsCritical
+            }).ToList());
+        }
 
         // GET: api/Cars/5
         [HttpGet("{id}")]

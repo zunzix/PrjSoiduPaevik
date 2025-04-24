@@ -20,6 +20,11 @@ public class CarRepository : BaseRepository<Car>, ICarRepository
             .Where(c => groupIds.Contains(c.GroupId))
             .ToListAsync();
     }
+    
+    public async Task<IEnumerable<Car>> AllGroupCarsAsync(IEnumerable<Car> userCars, Guid groupId) 
+    {
+        return await Task.FromResult(userCars.Where(c => c.GroupId == groupId));
+    }
 
     public IEnumerable<Car> AllCars(IEnumerable<Group> userGroups)
     {
