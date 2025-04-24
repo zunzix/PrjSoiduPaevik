@@ -1,9 +1,11 @@
 ﻿Imports System.ComponentModel
 Imports System.Net
 Imports System.Security.Policy
+Imports CTableReader
 
 Public Class formTableViewer
     Const DEBUG = True
+    Private TableReader As New CTableReader.CTableReader()
 
     Private Sub formTableViewer_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
@@ -248,7 +250,13 @@ Public Class formTableViewer
             Case "btnLoginLogin"
                 ' Set tab to Groups
                 ' TODO: Add tranfer from Groups to Cars page
-                tab = tpCarsList                 ' Currently goes straight to the Cars tab
+                If (TableReader.Login(txtLoginEmail.Text, txtLoginPassword.Text)) Then
+                    Console.WriteLine("Login successful")
+                    tab = tpCarsList
+                Else
+                    Console.WriteLine("Login failed")
+                    tab = tpLogin
+                End If
 
             Case "btnAddCar"
                 ' Set tab to Add Car

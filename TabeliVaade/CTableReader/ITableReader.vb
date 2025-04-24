@@ -10,7 +10,6 @@
     ' Ids are all Guid. refresh token is guid (can be held as a string). jwt token is string.
     ' Some things may be wrong still, gl :)
 
-
     ' todo add getTable parameters
     ' what table(group,car,groupmember,carissue,carlog,carinsurance)
     ' returns user specific table list / error message
@@ -45,7 +44,7 @@
     ' todo add login parameter
     ' user file(email, password)
     ' returns jwt token and refresh token (in single list)/error message
-    Function Login()
+    Function Login(Email As String, Password As String) As Boolean
 
     ' todo add logout paramater
     ' refresh token 
