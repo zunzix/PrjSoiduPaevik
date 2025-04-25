@@ -1,6 +1,6 @@
 ﻿Public Class CCar
     Implements ICar
-    Private Property ID As Integer Implements ICar.ID
+    Private Property ID As String Implements ICar.ID
     Private Property GroupID As Integer Implements ICar.GroupID
     Private Property Name As String Implements ICar.Name
     Private Property RegistrationPlate As String Implements ICar.RegistrationPlate
@@ -17,7 +17,7 @@
                    isArchived As Object, isInCriticalState As Object)
         ' Automatic ID generation (Temporary)
 
-        Me.ID = Convert.ToInt32(ID)
+        Me.ID = Convert.ToString(ID)
 
         Me.GroupID = Convert.ToInt32(groupID)
 

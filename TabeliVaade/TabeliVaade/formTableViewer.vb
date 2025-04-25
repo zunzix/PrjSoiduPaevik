@@ -221,11 +221,14 @@ Public Class formTableViewer
                 ' TODO: Add tranfer from Groups to Cars page
                 If (TableReader.LoginRegister(txtLoginEmail.Text, txtLoginPassword.Text, "Login")) Then
                     Console.WriteLine("Login successful")
-                    TableReader.GetSpecificTables("Car", )
-                    tab = tpCarsList
+                    ' TableReader.GetSpecificTables("Car", )
+                    tab = tpGroups
+                    dgvGroupsList.DataSource = TableReader.GetGroupTable()
+                    dgvGroupsList.Columns(0).Visible = False
+                    dgvGroupsList.Columns(1).AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
                 Else
                     Console.WriteLine("Login failed")
-                    tab = tpGroups
+                    tab = tpLogin
                 End If
             Case "btnLoginRegister"
                 ' Set tab to Register

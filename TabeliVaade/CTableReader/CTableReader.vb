@@ -2,10 +2,10 @@
 Imports System.Net
 Imports System.Text
 Imports Newtonsoft.Json
-Imports CCar
 Imports Newtonsoft
 Imports Newtonsoft.Json.Linq
 Imports System.Reflection
+Imports System.Linq.Expressions
 
 
 Public Class CTableReader
@@ -34,36 +34,27 @@ Public Class CTableReader
 
         ' if is car, group, groupmember, carissue, carlog, carinsurance, then get that table
 
-        ' TODO: Add GroupID to paramaters
-        ' TODO: if it even works :))))))
+        Dim Request As HttpWebRequest
+        Dim Response As HttpWebResponse
+        Dim Reader As StreamReader
+        Dim JsonResponse As String
+        Dim List As JArray
+        Dim dt As New DataTable()
+
+        ' HTTP request
+        Request = HttpWebRequest.Create(BaseUrl & "api/Groups/GetGroups")
+        Request.Method = "GET"
+        Request.ContentType = "application/json"
+
+        ' Add Jwt token
+        Request.Headers.Add("Authorization", "Bearer " & JwtToken)
 
         Try
-            Dim Request As HttpWebRequest
-            Dim Response As HttpWebResponse
-            Dim Reader As StreamReader
-            Dim JsonResponse As String
-            Dim Cars As JArray
-
-
-            ' HTTP request
-            Request = HttpWebRequest.Create(BaseUrl & "api/Groups/GetGroups")
-            Request.Method = "GET"
-            Request.ContentType = "application/json"
-
-            ' Add Jwt token
-            Request.Headers.Add("Authorization", "Bearer " & JwtToken)
-
             ' Get response
             Response = Request.GetResponse()
             Reader = New StreamReader(Response.GetResponseStream)
             JsonResponse = Reader.ReadToEnd()
-
-            ' Parse JSON
-            Cars = JArray.Parse(JsonResponse)
-
-            ' Add each car to CarList
-
-
+            Console.WriteLine("DEBUG: Response: " & JsonResponse)
 
         Catch ex As WebException
 
@@ -80,12 +71,27 @@ Public Class CTableReader
 
         End Try
 
+        ' Parse JSON
+        List = JArray.Parse(JsonResponse)
 
-    ' Returns: A list of cars or an error message
-    Public Function GetGroupTable() As Object _
-        Implements ITableReader.GetGroupTable
+        dt.Columns.Add("ID", GetType(String))
+        dt.Columns.Add("GroupName", GetType(String))
 
-        ' if is car, group, groupmember, carissue, carlog, carinsurance, then get that table
+        Try
+            ' Populate DataTable
+            For Each item In List
+                dt.Rows.Add(item("id"), item("name"))
+            Next
+        Catch ex As WebException
+            Console.WriteLine("Error: " & ex.Message)
+            Return Nothing
+        End Try
+
+        Return dt
+    End Function
+
+
+    ' if is car, group, groupmember, carissue, carlog, carinsurance, then get that table
 
     ' Parameters: which table to get, 
     Public Function GetSpecificTables(TheTableToGet As String, ID As String) As Object Implements ITableReader.GetSpecificTables
@@ -93,6 +99,8 @@ Public Class CTableReader
         Dim Response As HttpWebResponse
         Dim Reader As StreamReader
         Dim JsonResponse As String
+        Dim List As JArray
+        Dim dt As New DataTable()
 
 
         Select Case TheTableToGet
@@ -138,75 +146,42 @@ Public Class CTableReader
 
         End Try
 
-        Dim List As JArray = JArray.Parse(JsonResponse)
+        List = JArray.Parse(JsonResponse)
 
         Select Case TheTableToGet
             Case "Car"
-                Dim CarList As New List(Of CCar.CCar)
-                For Each item In List
-                    Dim car As New CCar.CCar(item("ID"), item("GroupID"), item("Name"), item("RegistrationPlate"),
-                                        item("Mileage"), item("AvgFuelConsumption"), item("IsAvailable"),
-                                        item("IsArchived"), item("IsInCriticalState"))
-                    CarList.Add(car)
-                Next
-                Return CarList
+
+                dt.Columns.Add("ID", GetType(String))
+                dt.Columns.Add("GroupID", GetType(String))
+                dt.Columns.Add("Name", GetType(String))
+                dt.Columns.Add("RegistrationPlate", GetType(String))
+                dt.Columns.Add("Mileage", GetType(Integer))
+                dt.Columns.Add("AvgFuelConsumption", GetType(Double))
+                dt.Columns.Add("IsAvailable", GetType(Boolean))
+                dt.Columns.Add("IsArchived", GetType(Boolean))
+                dt.Columns.Add("IsInCriticalState", GetType(Boolean))
+
+                Try
+                    ' Populate DataTable
+                    For Each item In List
+                        dt.Rows.Add(item("id"), item("name"))
+                    Next
+                Catch ex As WebException
+                    Console.WriteLine("Error: " & ex.Message)
+                    Return Nothing
+                End Try
+
+                Return dt
+
             Case Else
                 Console.WriteLine("Error: No table")
                 Return Nothing
         End Select
 
 
-        Try
-            Dim Request As HttpWebRequest
-            Dim Response As HttpWebResponse
-            Dim Reader As StreamReader
-            Dim JsonResponse As String
-            Dim Cars As JArray
-
-
-            ' HTTP request
-            Request = HttpWebRequest.Create(BaseUrl & "api/Groups/GetGroups")
-            Request.Method = "GET"
-            Request.ContentType = "application/json"
-
-            ' Add Jwt token
-            Request.Headers.Add("Authorization", "Bearer " & JwtToken)
-
-            ' Get response
-            Response = Request.GetResponse()
-            Reader = New StreamReader(Response.GetResponseStream)
-            JsonResponse = Reader.ReadToEnd()
-
-            ' Parse JSON
-            Cars = JArray.Parse(JsonResponse)
-
-            ' Add each car to CarList
-
-
-
-        Catch ex As WebException
-
-            If CType(ex.Response, HttpWebResponse).StatusCode = HttpStatusCode.Unauthorized Then
-                ' if error is 401, refresh token and retry
-                If RefreshJwtToken() Then
-
-                    Return GetGroupTable()
-
-                End If
-            End If
-            Console.WriteLine("Error: " & ex.Message)
-            Return Nothing
-
-        End Try
-
-
     End Function
 
     Public Function UpdateTable() As Object Implements ITableReader.UpdateTable
-        Throw New NotImplementedException()
-    End Function
-
-    Public Function GetSpecificTable() As Object Implements ITableReader.GetSpecificTable
         Throw New NotImplementedException()
     End Function
 
