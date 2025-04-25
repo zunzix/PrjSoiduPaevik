@@ -195,7 +195,10 @@ Public Class formTableViewer
     Private Sub Button_Click(sender As Object, e As EventArgs) _
         Handles btnCarBack.Click, btnLoginLogin.Click, btnAddCarCancel.Click,
         btnAddCar.Click, btnAddProblemCancel.Click, btnAddProblem.Click,
-        btnAddLog.Click, btnAddLogCancel.Click, btnAddLogEnter.Click
+        btnAddLog.Click, btnAddLogCancel.Click, btnAddLogEnter.Click,
+        btnLogOut.Click, btnLoginRegister.Click, btnRegisterCancel.Click,
+        btnRegisterEnter.Click, btnNewGroup.Click, btnCancelNewGroup.Click,
+        btnEnterNewGroup.Click
 
         'Get the button that was clicked
         Dim btn As Button = CType(sender, Button)
@@ -212,9 +215,13 @@ Public Class formTableViewer
         Select Case btn.Name
 
             Case "btnLoginLogin"
+                ' TODO: Add user verification and actual logging in
+
                 ' Set tab to Groups
-                ' TODO: Add transfer from Groups to Cars page
-                tab = tpCarsList                 ' Currently goes straight to the Cars tab
+                tab = tpGroups
+            Case "btnLoginRegister"
+                ' Set tab to Register
+                tab = tpRegister
 
             ' Buttons for going back to the previous tab
             Case "btnCarBack"
@@ -223,6 +230,10 @@ Public Class formTableViewer
             Case "btnProblemBack"
                 ' Set tab to Car Details
                 tab = tpCarsList
+            Case "btnLogOut"
+                ' Set tab to LogIn
+                tab = tpLogin
+                ' TODO: Log user out
 
             ' Buttons for changing to tabs for adding to database
             Case "btnAddCar"
@@ -234,6 +245,9 @@ Public Class formTableViewer
             Case "btnAddLog"
                 ' Set tab to Add Log
                 tab = tpAddLog
+            Case "btnNewGroup"
+                ' Set tab to New Group
+                tab = tpNewGroup
 
             ' "Cancel" buttons for adding
             Case "btnAddCarCancel"
@@ -252,6 +266,12 @@ Public Class formTableViewer
                 ' Set the tab to Cars List
                 tab = tpCarsList
                 ' Clear fields
+            Case "btnRegisterCancel"
+                ' Set tab to Log in
+                tab = tpLogin
+            Case "btnCancelNewGroup"
+                ' Set tab to Groups
+                tab = tpGroups
 
             ' "Enter" buttons for adding
             Case "btnAddCarEnter"
@@ -266,6 +286,14 @@ Public Class formTableViewer
                 ' Set tab to Cars List
                 tab = tpCarsList
                 ' TODO: Add log to the database
+            Case "btnRegisterEnter"
+                ' Set tab to Log in
+                tab = tpLogin
+                ' TODO: Add user to database
+            Case "btnEnterNewGroup"
+                ' Set tab to Groups
+                tab = tpGroups
+                ' TODO: Add group to database
 
             Case Else
                 ' In case something goes wrong, it'll just stay on the same page
@@ -293,4 +321,11 @@ Public Class formTableViewer
         End Select
     End Sub
 
+    Private Sub dgvGroupsList_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvGroupsList.CellClick
+        If e.RowIndex < 0 Then
+            Return
+        End If
+
+        tcTabs.SelectedTab = tpCarsList
+    End Sub
 End Class

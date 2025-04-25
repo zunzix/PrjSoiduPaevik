@@ -41,6 +41,8 @@ Partial Class formTableViewer
         Me.btnProblems = New System.Windows.Forms.Button()
         Me.btnAddLog = New System.Windows.Forms.Button()
         Me.dgvLogsList = New System.Windows.Forms.DataGridView()
+        Me.trip = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.time = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.gbLogDetails = New System.Windows.Forms.GroupBox()
         Me.lblCommentData = New System.Windows.Forms.Label()
         Me.lblDistanceData = New System.Windows.Forms.Label()
@@ -53,6 +55,9 @@ Partial Class formTableViewer
         Me.pnlDetails = New System.Windows.Forms.Panel()
         Me.btnAddProblem = New System.Windows.Forms.Button()
         Me.dgvProblemsList = New System.Windows.Forms.DataGridView()
+        Me.description = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.isCritical = New System.Windows.Forms.DataGridViewCheckBoxColumn()
+        Me.isResolved = New System.Windows.Forms.DataGridViewCheckBoxColumn()
         Me.btnLogs = New System.Windows.Forms.Button()
         Me.gbCarDetails = New System.Windows.Forms.GroupBox()
         Me.lblInsuranceData = New System.Windows.Forms.Label()
@@ -64,7 +69,24 @@ Partial Class formTableViewer
         Me.btnCarBack = New System.Windows.Forms.Button()
         Me.btnAddCar = New System.Windows.Forms.Button()
         Me.dgvCarsList = New System.Windows.Forms.DataGridView()
+        Me.registrationPlate = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.carModel = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.maintenence = New System.Windows.Forms.DataGridViewCheckBoxColumn()
+        Me.isAvailable = New System.Windows.Forms.DataGridViewCheckBoxColumn()
+        Me.DeleteButton = New System.Windows.Forms.DataGridViewButtonColumn()
         Me.tpGroups = New System.Windows.Forms.TabPage()
+        Me.btnNewGroup = New System.Windows.Forms.Button()
+        Me.gbGroups = New System.Windows.Forms.GroupBox()
+        Me.dgvGroupsList = New System.Windows.Forms.DataGridView()
+        Me.groupID = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.groupName = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.gbRideHistory = New System.Windows.Forms.GroupBox()
+        Me.cbSortRides = New System.Windows.Forms.ComboBox()
+        Me.dgvUserHistoryList = New System.Windows.Forms.DataGridView()
+        Me.userHistoryRide = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.userRidePeriod = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.userRideDistance = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.btnLogOut = New System.Windows.Forms.Button()
         Me.tpLogin = New System.Windows.Forms.TabPage()
         Me.txtLoginPassword = New System.Windows.Forms.TextBox()
         Me.txtLoginEmail = New System.Windows.Forms.TextBox()
@@ -100,27 +122,22 @@ Partial Class formTableViewer
         Me.lblLogCommentAdd = New System.Windows.Forms.Label()
         Me.lblDistanceAdd = New System.Windows.Forms.Label()
         Me.lblAddLogTitle = New System.Windows.Forms.Label()
-        Me.dgvGroupsList = New System.Windows.Forms.DataGridView()
-        Me.dgvUserHistoryList = New System.Windows.Forms.DataGridView()
-        Me.btnLogOut = New System.Windows.Forms.Button()
-        Me.gbRideHistory = New System.Windows.Forms.GroupBox()
-        Me.cbSortRides = New System.Windows.Forms.ComboBox()
-        Me.gbGroups = New System.Windows.Forms.GroupBox()
-        Me.Button1 = New System.Windows.Forms.Button()
-        Me.carModel = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.maintenence = New System.Windows.Forms.DataGridViewCheckBoxColumn()
-        Me.isAvailable = New System.Windows.Forms.DataGridViewCheckBoxColumn()
-        Me.DeleteButton = New System.Windows.Forms.DataGridViewButtonColumn()
-        Me.description = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.isCritical = New System.Windows.Forms.DataGridViewCheckBoxColumn()
-        Me.isResolved = New System.Windows.Forms.DataGridViewCheckBoxColumn()
-        Me.trip = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.time = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.groupID = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.groupName = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.userHistoryRide = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.userRidePeriod = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.userRideDistance = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.tpNewGroup = New System.Windows.Forms.TabPage()
+        Me.lblGroupName = New System.Windows.Forms.Label()
+        Me.btnCancelNewGroup = New System.Windows.Forms.Button()
+        Me.btnEnterNewGroup = New System.Windows.Forms.Button()
+        Me.TextBox1 = New System.Windows.Forms.TextBox()
+        Me.lblCreateGroup = New System.Windows.Forms.Label()
+        Me.tpRegister = New System.Windows.Forms.TabPage()
+        Me.lblConfirmPassword = New System.Windows.Forms.Label()
+        Me.lblRegisterPassword = New System.Windows.Forms.Label()
+        Me.lblRegisterEmail = New System.Windows.Forms.Label()
+        Me.tbPasswordConfirm = New System.Windows.Forms.TextBox()
+        Me.tbRegisterPassword = New System.Windows.Forms.TextBox()
+        Me.tbRegisterEmail = New System.Windows.Forms.TextBox()
+        Me.btnRegisterEnter = New System.Windows.Forms.Button()
+        Me.btnRegisterCancel = New System.Windows.Forms.Button()
+        Me.Label1 = New System.Windows.Forms.Label()
         Me.tpAddCar.SuspendLayout()
         Me.tpCarsList.SuspendLayout()
         Me.pnlLogs.SuspendLayout()
@@ -131,16 +148,18 @@ Partial Class formTableViewer
         Me.gbCarDetails.SuspendLayout()
         CType(Me.dgvCarsList, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tpGroups.SuspendLayout()
+        Me.gbGroups.SuspendLayout()
+        CType(Me.dgvGroupsList, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.gbRideHistory.SuspendLayout()
+        CType(Me.dgvUserHistoryList, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tpLogin.SuspendLayout()
         Me.tcTabs.SuspendLayout()
         Me.tpAddProblem.SuspendLayout()
         Me.tpAddLog.SuspendLayout()
         Me.gbEnd.SuspendLayout()
         Me.gbStart.SuspendLayout()
-        CType(Me.dgvGroupsList, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.dgvUserHistoryList, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.gbRideHistory.SuspendLayout()
-        Me.gbGroups.SuspendLayout()
+        Me.tpNewGroup.SuspendLayout()
+        Me.tpRegister.SuspendLayout()
         Me.SuspendLayout()
         '
         'tpAddCar
@@ -355,6 +374,22 @@ Partial Class formTableViewer
         Me.dgvLogsList.Size = New System.Drawing.Size(394, 100)
         Me.dgvLogsList.TabIndex = 1
         '
+        'trip
+        '
+        Me.trip.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.trip.HeaderText = "Trip"
+        Me.trip.MinimumWidth = 6
+        Me.trip.Name = "trip"
+        Me.trip.ReadOnly = True
+        '
+        'time
+        '
+        Me.time.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.time.HeaderText = "Time of trip"
+        Me.time.MinimumWidth = 6
+        Me.time.Name = "time"
+        Me.time.ReadOnly = True
+        '
         'gbLogDetails
         '
         Me.gbLogDetails.Controls.Add(Me.lblCommentData)
@@ -482,6 +517,34 @@ Partial Class formTableViewer
         Me.dgvProblemsList.Size = New System.Drawing.Size(395, 100)
         Me.dgvProblemsList.TabIndex = 6
         '
+        'description
+        '
+        Me.description.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.description.HeaderText = "Problem description"
+        Me.description.MinimumWidth = 6
+        Me.description.Name = "description"
+        Me.description.ReadOnly = True
+        '
+        'isCritical
+        '
+        Me.isCritical.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader
+        Me.isCritical.HeaderText = "Critical?"
+        Me.isCritical.MinimumWidth = 6
+        Me.isCritical.Name = "isCritical"
+        Me.isCritical.ReadOnly = True
+        Me.isCritical.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.isCritical.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic
+        Me.isCritical.Width = 83
+        '
+        'isResolved
+        '
+        Me.isResolved.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader
+        Me.isResolved.HeaderText = "Resolved?"
+        Me.isResolved.MinimumWidth = 6
+        Me.isResolved.Name = "isResolved"
+        Me.isResolved.ReadOnly = True
+        Me.isResolved.Width = 79
+        '
         'btnLogs
         '
         Me.btnLogs.Location = New System.Drawing.Point(691, 65)
@@ -585,7 +648,7 @@ Partial Class formTableViewer
         '
         Me.dgvCarsList.ColumnHeadersHeight = 29
         Me.dgvCarsList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing
-        Me.dgvCarsList.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.carModel, Me.maintenence, Me.isAvailable, Me.DeleteButton})
+        Me.dgvCarsList.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.registrationPlate, Me.carModel, Me.maintenence, Me.isAvailable, Me.DeleteButton})
         Me.dgvCarsList.Location = New System.Drawing.Point(6, 35)
         Me.dgvCarsList.Name = "dgvCarsList"
         Me.dgvCarsList.ReadOnly = True
@@ -595,9 +658,55 @@ Partial Class formTableViewer
         Me.dgvCarsList.Size = New System.Drawing.Size(777, 375)
         Me.dgvCarsList.TabIndex = 0
         '
+        'registrationPlate
+        '
+        Me.registrationPlate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader
+        Me.registrationPlate.HeaderText = "Registration plate"
+        Me.registrationPlate.MinimumWidth = 6
+        Me.registrationPlate.Name = "registrationPlate"
+        Me.registrationPlate.ReadOnly = True
+        Me.registrationPlate.Width = 141
+        '
+        'carModel
+        '
+        Me.carModel.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.carModel.HeaderText = "Car Model"
+        Me.carModel.MinimumWidth = 6
+        Me.carModel.Name = "carModel"
+        Me.carModel.ReadOnly = True
+        '
+        'maintenence
+        '
+        Me.maintenence.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader
+        Me.maintenence.HeaderText = "Maintenence"
+        Me.maintenence.MinimumWidth = 6
+        Me.maintenence.Name = "maintenence"
+        Me.maintenence.ReadOnly = True
+        Me.maintenence.Width = 90
+        '
+        'isAvailable
+        '
+        Me.isAvailable.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader
+        Me.isAvailable.HeaderText = "Availability"
+        Me.isAvailable.MinimumWidth = 6
+        Me.isAvailable.Name = "isAvailable"
+        Me.isAvailable.ReadOnly = True
+        Me.isAvailable.Width = 78
+        '
+        'DeleteButton
+        '
+        Me.DeleteButton.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None
+        Me.DeleteButton.HeaderText = ""
+        Me.DeleteButton.MinimumWidth = 6
+        Me.DeleteButton.Name = "DeleteButton"
+        Me.DeleteButton.ReadOnly = True
+        Me.DeleteButton.Text = "Delete"
+        Me.DeleteButton.UseColumnTextForButtonValue = True
+        Me.DeleteButton.Width = 50
+        '
         'tpGroups
         '
-        Me.tpGroups.Controls.Add(Me.Button1)
+        Me.tpGroups.Controls.Add(Me.btnNewGroup)
         Me.tpGroups.Controls.Add(Me.gbGroups)
         Me.tpGroups.Controls.Add(Me.gbRideHistory)
         Me.tpGroups.Controls.Add(Me.btnLogOut)
@@ -607,6 +716,122 @@ Partial Class formTableViewer
         Me.tpGroups.TabIndex = 6
         Me.tpGroups.Text = "Groups"
         Me.tpGroups.UseVisualStyleBackColor = True
+        '
+        'btnNewGroup
+        '
+        Me.btnNewGroup.Location = New System.Drawing.Point(289, 6)
+        Me.btnNewGroup.Name = "btnNewGroup"
+        Me.btnNewGroup.Size = New System.Drawing.Size(86, 23)
+        Me.btnNewGroup.TabIndex = 5
+        Me.btnNewGroup.Text = "New group"
+        Me.btnNewGroup.UseVisualStyleBackColor = True
+        '
+        'gbGroups
+        '
+        Me.gbGroups.Controls.Add(Me.dgvGroupsList)
+        Me.gbGroups.Location = New System.Drawing.Point(6, 35)
+        Me.gbGroups.Name = "gbGroups"
+        Me.gbGroups.Size = New System.Drawing.Size(375, 372)
+        Me.gbGroups.TabIndex = 4
+        Me.gbGroups.TabStop = False
+        Me.gbGroups.Text = "Groups"
+        '
+        'dgvGroupsList
+        '
+        Me.dgvGroupsList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.dgvGroupsList.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.groupID, Me.groupName})
+        Me.dgvGroupsList.Location = New System.Drawing.Point(6, 25)
+        Me.dgvGroupsList.Name = "dgvGroupsList"
+        Me.dgvGroupsList.ReadOnly = True
+        Me.dgvGroupsList.RowHeadersVisible = False
+        Me.dgvGroupsList.RowHeadersWidth = 51
+        Me.dgvGroupsList.RowTemplate.Height = 24
+        Me.dgvGroupsList.Size = New System.Drawing.Size(363, 347)
+        Me.dgvGroupsList.TabIndex = 0
+        '
+        'groupID
+        '
+        Me.groupID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
+        Me.groupID.HeaderText = "ID"
+        Me.groupID.MinimumWidth = 6
+        Me.groupID.Name = "groupID"
+        Me.groupID.ReadOnly = True
+        Me.groupID.Width = 49
+        '
+        'groupName
+        '
+        Me.groupName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.groupName.HeaderText = "Group Name"
+        Me.groupName.MinimumWidth = 6
+        Me.groupName.Name = "groupName"
+        Me.groupName.ReadOnly = True
+        '
+        'gbRideHistory
+        '
+        Me.gbRideHistory.Controls.Add(Me.cbSortRides)
+        Me.gbRideHistory.Controls.Add(Me.dgvUserHistoryList)
+        Me.gbRideHistory.Location = New System.Drawing.Point(387, 6)
+        Me.gbRideHistory.Name = "gbRideHistory"
+        Me.gbRideHistory.Size = New System.Drawing.Size(399, 404)
+        Me.gbRideHistory.TabIndex = 3
+        Me.gbRideHistory.TabStop = False
+        Me.gbRideHistory.Text = "Ride history"
+        '
+        'cbSortRides
+        '
+        Me.cbSortRides.FormattingEnabled = True
+        Me.cbSortRides.Items.AddRange(New Object() {"A -> Z", "Z -> A", "Newest -> Oldest", "Oldest -> Newest", "Distance: Ascending", "Distance: Decending"})
+        Me.cbSortRides.Location = New System.Drawing.Point(272, 24)
+        Me.cbSortRides.Name = "cbSortRides"
+        Me.cbSortRides.Size = New System.Drawing.Size(121, 24)
+        Me.cbSortRides.TabIndex = 2
+        Me.cbSortRides.Text = "Sort"
+        '
+        'dgvUserHistoryList
+        '
+        Me.dgvUserHistoryList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.dgvUserHistoryList.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.userHistoryRide, Me.userRidePeriod, Me.userRideDistance})
+        Me.dgvUserHistoryList.Location = New System.Drawing.Point(6, 54)
+        Me.dgvUserHistoryList.Name = "dgvUserHistoryList"
+        Me.dgvUserHistoryList.ReadOnly = True
+        Me.dgvUserHistoryList.RowHeadersVisible = False
+        Me.dgvUserHistoryList.RowHeadersWidth = 51
+        Me.dgvUserHistoryList.RowTemplate.Height = 24
+        Me.dgvUserHistoryList.Size = New System.Drawing.Size(387, 347)
+        Me.dgvUserHistoryList.TabIndex = 1
+        '
+        'userHistoryRide
+        '
+        Me.userHistoryRide.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.userHistoryRide.HeaderText = "Ride"
+        Me.userHistoryRide.MinimumWidth = 6
+        Me.userHistoryRide.Name = "userHistoryRide"
+        Me.userHistoryRide.ReadOnly = True
+        '
+        'userRidePeriod
+        '
+        Me.userRidePeriod.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.userRidePeriod.HeaderText = "Period"
+        Me.userRidePeriod.MinimumWidth = 6
+        Me.userRidePeriod.Name = "userRidePeriod"
+        Me.userRidePeriod.ReadOnly = True
+        '
+        'userRideDistance
+        '
+        Me.userRideDistance.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.userRideDistance.HeaderText = "Distance"
+        Me.userRideDistance.MinimumWidth = 6
+        Me.userRideDistance.Name = "userRideDistance"
+        Me.userRideDistance.ReadOnly = True
+        '
+        'btnLogOut
+        '
+        Me.btnLogOut.Location = New System.Drawing.Point(7, 6)
+        Me.btnLogOut.Name = "btnLogOut"
+        Me.btnLogOut.Size = New System.Drawing.Size(75, 23)
+        Me.btnLogOut.TabIndex = 2
+        Me.btnLogOut.Text = "Log out"
+        Me.btnLogOut.UseVisualStyleBackColor = True
         '
         'tpLogin
         '
@@ -700,6 +925,8 @@ Partial Class formTableViewer
         Me.tcTabs.Controls.Add(Me.tpAddCar)
         Me.tcTabs.Controls.Add(Me.tpAddProblem)
         Me.tcTabs.Controls.Add(Me.tpAddLog)
+        Me.tcTabs.Controls.Add(Me.tpNewGroup)
+        Me.tcTabs.Controls.Add(Me.tpRegister)
         Me.tcTabs.Location = New System.Drawing.Point(2, 3)
         Me.tcTabs.Name = "tcTabs"
         Me.tcTabs.SelectedIndex = 0
@@ -968,202 +1195,161 @@ Partial Class formTableViewer
         Me.lblAddLogTitle.TabIndex = 0
         Me.lblAddLogTitle.Text = "Register a ride"
         '
-        'dgvGroupsList
+        'tpNewGroup
         '
-        Me.dgvGroupsList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dgvGroupsList.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.groupID, Me.groupName})
-        Me.dgvGroupsList.Location = New System.Drawing.Point(6, 25)
-        Me.dgvGroupsList.Name = "dgvGroupsList"
-        Me.dgvGroupsList.ReadOnly = True
-        Me.dgvGroupsList.RowHeadersVisible = False
-        Me.dgvGroupsList.RowHeadersWidth = 51
-        Me.dgvGroupsList.RowTemplate.Height = 24
-        Me.dgvGroupsList.Size = New System.Drawing.Size(363, 347)
-        Me.dgvGroupsList.TabIndex = 0
+        Me.tpNewGroup.Controls.Add(Me.lblGroupName)
+        Me.tpNewGroup.Controls.Add(Me.btnCancelNewGroup)
+        Me.tpNewGroup.Controls.Add(Me.btnEnterNewGroup)
+        Me.tpNewGroup.Controls.Add(Me.TextBox1)
+        Me.tpNewGroup.Controls.Add(Me.lblCreateGroup)
+        Me.tpNewGroup.Location = New System.Drawing.Point(4, 28)
+        Me.tpNewGroup.Name = "tpNewGroup"
+        Me.tpNewGroup.Size = New System.Drawing.Size(789, 413)
+        Me.tpNewGroup.TabIndex = 10
+        Me.tpNewGroup.Text = "New Group"
+        Me.tpNewGroup.UseVisualStyleBackColor = True
         '
-        'dgvUserHistoryList
+        'lblGroupName
         '
-        Me.dgvUserHistoryList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dgvUserHistoryList.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.userHistoryRide, Me.userRidePeriod, Me.userRideDistance})
-        Me.dgvUserHistoryList.Location = New System.Drawing.Point(6, 54)
-        Me.dgvUserHistoryList.Name = "dgvUserHistoryList"
-        Me.dgvUserHistoryList.ReadOnly = True
-        Me.dgvUserHistoryList.RowHeadersVisible = False
-        Me.dgvUserHistoryList.RowHeadersWidth = 51
-        Me.dgvUserHistoryList.RowTemplate.Height = 24
-        Me.dgvUserHistoryList.Size = New System.Drawing.Size(387, 347)
-        Me.dgvUserHistoryList.TabIndex = 1
+        Me.lblGroupName.AutoSize = True
+        Me.lblGroupName.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.0!)
+        Me.lblGroupName.Location = New System.Drawing.Point(178, 171)
+        Me.lblGroupName.Name = "lblGroupName"
+        Me.lblGroupName.Size = New System.Drawing.Size(116, 24)
+        Me.lblGroupName.TabIndex = 4
+        Me.lblGroupName.Text = "Group name"
         '
-        'btnLogOut
+        'btnCancelNewGroup
         '
-        Me.btnLogOut.Location = New System.Drawing.Point(7, 6)
-        Me.btnLogOut.Name = "btnLogOut"
-        Me.btnLogOut.Size = New System.Drawing.Size(75, 23)
-        Me.btnLogOut.TabIndex = 2
-        Me.btnLogOut.Text = "Log out"
-        Me.btnLogOut.UseVisualStyleBackColor = True
+        Me.btnCancelNewGroup.Location = New System.Drawing.Point(182, 317)
+        Me.btnCancelNewGroup.Name = "btnCancelNewGroup"
+        Me.btnCancelNewGroup.Size = New System.Drawing.Size(114, 50)
+        Me.btnCancelNewGroup.TabIndex = 3
+        Me.btnCancelNewGroup.Text = "Cancel"
+        Me.btnCancelNewGroup.UseVisualStyleBackColor = True
         '
-        'gbRideHistory
+        'btnEnterNewGroup
         '
-        Me.gbRideHistory.Controls.Add(Me.cbSortRides)
-        Me.gbRideHistory.Controls.Add(Me.dgvUserHistoryList)
-        Me.gbRideHistory.Location = New System.Drawing.Point(387, 6)
-        Me.gbRideHistory.Name = "gbRideHistory"
-        Me.gbRideHistory.Size = New System.Drawing.Size(399, 404)
-        Me.gbRideHistory.TabIndex = 3
-        Me.gbRideHistory.TabStop = False
-        Me.gbRideHistory.Text = "Ride history"
+        Me.btnEnterNewGroup.Location = New System.Drawing.Point(460, 317)
+        Me.btnEnterNewGroup.Name = "btnEnterNewGroup"
+        Me.btnEnterNewGroup.Size = New System.Drawing.Size(114, 50)
+        Me.btnEnterNewGroup.TabIndex = 2
+        Me.btnEnterNewGroup.Text = "Enter"
+        Me.btnEnterNewGroup.UseVisualStyleBackColor = True
         '
-        'cbSortRides
+        'TextBox1
         '
-        Me.cbSortRides.FormattingEnabled = True
-        Me.cbSortRides.Items.AddRange(New Object() {"A -> Z", "Z -> A", "Newest -> Oldest", "Oldest -> Newest", "Distance: Ascending", "Distance: Decending"})
-        Me.cbSortRides.Location = New System.Drawing.Point(272, 24)
-        Me.cbSortRides.Name = "cbSortRides"
-        Me.cbSortRides.Size = New System.Drawing.Size(121, 24)
-        Me.cbSortRides.TabIndex = 2
-        Me.cbSortRides.Text = "Sort"
+        Me.TextBox1.Location = New System.Drawing.Point(314, 173)
+        Me.TextBox1.Name = "TextBox1"
+        Me.TextBox1.Size = New System.Drawing.Size(260, 22)
+        Me.TextBox1.TabIndex = 1
         '
-        'gbGroups
+        'lblCreateGroup
         '
-        Me.gbGroups.Controls.Add(Me.dgvGroupsList)
-        Me.gbGroups.Location = New System.Drawing.Point(6, 35)
-        Me.gbGroups.Name = "gbGroups"
-        Me.gbGroups.Size = New System.Drawing.Size(375, 372)
-        Me.gbGroups.TabIndex = 4
-        Me.gbGroups.TabStop = False
-        Me.gbGroups.Text = "Groups"
+        Me.lblCreateGroup.AutoSize = True
+        Me.lblCreateGroup.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.0!)
+        Me.lblCreateGroup.Location = New System.Drawing.Point(273, 14)
+        Me.lblCreateGroup.Name = "lblCreateGroup"
+        Me.lblCreateGroup.Size = New System.Drawing.Size(205, 29)
+        Me.lblCreateGroup.TabIndex = 0
+        Me.lblCreateGroup.Text = "Create new group"
         '
-        'Button1
+        'tpRegister
         '
-        Me.Button1.Location = New System.Drawing.Point(289, 6)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(86, 23)
-        Me.Button1.TabIndex = 5
-        Me.Button1.Text = "New group"
-        Me.Button1.UseVisualStyleBackColor = True
+        Me.tpRegister.Controls.Add(Me.Label1)
+        Me.tpRegister.Controls.Add(Me.lblConfirmPassword)
+        Me.tpRegister.Controls.Add(Me.lblRegisterPassword)
+        Me.tpRegister.Controls.Add(Me.lblRegisterEmail)
+        Me.tpRegister.Controls.Add(Me.tbPasswordConfirm)
+        Me.tpRegister.Controls.Add(Me.tbRegisterPassword)
+        Me.tpRegister.Controls.Add(Me.tbRegisterEmail)
+        Me.tpRegister.Controls.Add(Me.btnRegisterEnter)
+        Me.tpRegister.Controls.Add(Me.btnRegisterCancel)
+        Me.tpRegister.Location = New System.Drawing.Point(4, 28)
+        Me.tpRegister.Name = "tpRegister"
+        Me.tpRegister.Size = New System.Drawing.Size(789, 413)
+        Me.tpRegister.TabIndex = 11
+        Me.tpRegister.Text = "Register"
+        Me.tpRegister.UseVisualStyleBackColor = True
         '
-        'carModel
+        'lblConfirmPassword
         '
-        Me.carModel.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.carModel.HeaderText = "Car Model"
-        Me.carModel.MinimumWidth = 6
-        Me.carModel.Name = "carModel"
-        Me.carModel.ReadOnly = True
+        Me.lblConfirmPassword.AutoSize = True
+        Me.lblConfirmPassword.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.0!)
+        Me.lblConfirmPassword.Location = New System.Drawing.Point(224, 244)
+        Me.lblConfirmPassword.Name = "lblConfirmPassword"
+        Me.lblConfirmPassword.Size = New System.Drawing.Size(166, 24)
+        Me.lblConfirmPassword.TabIndex = 7
+        Me.lblConfirmPassword.Text = "Confirm password:"
         '
-        'maintenence
+        'lblRegisterPassword
         '
-        Me.maintenence.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader
-        Me.maintenence.HeaderText = "Maintenence"
-        Me.maintenence.MinimumWidth = 6
-        Me.maintenence.Name = "maintenence"
-        Me.maintenence.ReadOnly = True
-        Me.maintenence.Width = 90
+        Me.lblRegisterPassword.AutoSize = True
+        Me.lblRegisterPassword.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.0!)
+        Me.lblRegisterPassword.Location = New System.Drawing.Point(224, 188)
+        Me.lblRegisterPassword.Name = "lblRegisterPassword"
+        Me.lblRegisterPassword.Size = New System.Drawing.Size(97, 24)
+        Me.lblRegisterPassword.TabIndex = 6
+        Me.lblRegisterPassword.Text = "Password:"
         '
-        'isAvailable
+        'lblRegisterEmail
         '
-        Me.isAvailable.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader
-        Me.isAvailable.HeaderText = "Availability"
-        Me.isAvailable.MinimumWidth = 6
-        Me.isAvailable.Name = "isAvailable"
-        Me.isAvailable.ReadOnly = True
-        Me.isAvailable.Width = 78
+        Me.lblRegisterEmail.AutoSize = True
+        Me.lblRegisterEmail.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.0!)
+        Me.lblRegisterEmail.Location = New System.Drawing.Point(224, 124)
+        Me.lblRegisterEmail.Name = "lblRegisterEmail"
+        Me.lblRegisterEmail.Size = New System.Drawing.Size(62, 24)
+        Me.lblRegisterEmail.TabIndex = 5
+        Me.lblRegisterEmail.Text = "Email:"
         '
-        'DeleteButton
+        'tbPasswordConfirm
         '
-        Me.DeleteButton.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None
-        Me.DeleteButton.HeaderText = ""
-        Me.DeleteButton.MinimumWidth = 6
-        Me.DeleteButton.Name = "DeleteButton"
-        Me.DeleteButton.ReadOnly = True
-        Me.DeleteButton.Text = "Delete"
-        Me.DeleteButton.UseColumnTextForButtonValue = True
-        Me.DeleteButton.Width = 50
+        Me.tbPasswordConfirm.Location = New System.Drawing.Point(427, 246)
+        Me.tbPasswordConfirm.Name = "tbPasswordConfirm"
+        Me.tbPasswordConfirm.Size = New System.Drawing.Size(100, 22)
+        Me.tbPasswordConfirm.TabIndex = 4
         '
-        'description
+        'tbRegisterPassword
         '
-        Me.description.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.description.HeaderText = "Problem description"
-        Me.description.MinimumWidth = 6
-        Me.description.Name = "description"
-        Me.description.ReadOnly = True
+        Me.tbRegisterPassword.Location = New System.Drawing.Point(427, 190)
+        Me.tbRegisterPassword.Name = "tbRegisterPassword"
+        Me.tbRegisterPassword.Size = New System.Drawing.Size(100, 22)
+        Me.tbRegisterPassword.TabIndex = 3
         '
-        'isCritical
+        'tbRegisterEmail
         '
-        Me.isCritical.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader
-        Me.isCritical.HeaderText = "Critical?"
-        Me.isCritical.MinimumWidth = 6
-        Me.isCritical.Name = "isCritical"
-        Me.isCritical.ReadOnly = True
-        Me.isCritical.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.isCritical.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic
-        Me.isCritical.Width = 83
+        Me.tbRegisterEmail.Location = New System.Drawing.Point(427, 126)
+        Me.tbRegisterEmail.Name = "tbRegisterEmail"
+        Me.tbRegisterEmail.Size = New System.Drawing.Size(100, 22)
+        Me.tbRegisterEmail.TabIndex = 2
         '
-        'isResolved
+        'btnRegisterEnter
         '
-        Me.isResolved.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader
-        Me.isResolved.HeaderText = "Resolved?"
-        Me.isResolved.MinimumWidth = 6
-        Me.isResolved.Name = "isResolved"
-        Me.isResolved.ReadOnly = True
-        Me.isResolved.Width = 79
+        Me.btnRegisterEnter.Location = New System.Drawing.Point(452, 326)
+        Me.btnRegisterEnter.Name = "btnRegisterEnter"
+        Me.btnRegisterEnter.Size = New System.Drawing.Size(75, 23)
+        Me.btnRegisterEnter.TabIndex = 1
+        Me.btnRegisterEnter.Text = "Enter"
+        Me.btnRegisterEnter.UseVisualStyleBackColor = True
         '
-        'trip
+        'btnRegisterCancel
         '
-        Me.trip.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.trip.HeaderText = "Trip"
-        Me.trip.MinimumWidth = 6
-        Me.trip.Name = "trip"
-        Me.trip.ReadOnly = True
+        Me.btnRegisterCancel.Location = New System.Drawing.Point(228, 326)
+        Me.btnRegisterCancel.Name = "btnRegisterCancel"
+        Me.btnRegisterCancel.Size = New System.Drawing.Size(75, 23)
+        Me.btnRegisterCancel.TabIndex = 0
+        Me.btnRegisterCancel.Text = "Cancel"
+        Me.btnRegisterCancel.UseVisualStyleBackColor = True
         '
-        'time
+        'Label1
         '
-        Me.time.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.time.HeaderText = "Time of trip"
-        Me.time.MinimumWidth = 6
-        Me.time.Name = "time"
-        Me.time.ReadOnly = True
-        '
-        'groupID
-        '
-        Me.groupID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
-        Me.groupID.HeaderText = "ID"
-        Me.groupID.MinimumWidth = 6
-        Me.groupID.Name = "groupID"
-        Me.groupID.ReadOnly = True
-        Me.groupID.Width = 49
-        '
-        'groupName
-        '
-        Me.groupName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.groupName.HeaderText = "Group Name"
-        Me.groupName.MinimumWidth = 6
-        Me.groupName.Name = "groupName"
-        Me.groupName.ReadOnly = True
-        '
-        'userHistoryRide
-        '
-        Me.userHistoryRide.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.userHistoryRide.HeaderText = "Ride"
-        Me.userHistoryRide.MinimumWidth = 6
-        Me.userHistoryRide.Name = "userHistoryRide"
-        Me.userHistoryRide.ReadOnly = True
-        '
-        'userRidePeriod
-        '
-        Me.userRidePeriod.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.userRidePeriod.HeaderText = "Period"
-        Me.userRidePeriod.MinimumWidth = 6
-        Me.userRidePeriod.Name = "userRidePeriod"
-        Me.userRidePeriod.ReadOnly = True
-        '
-        'userRideDistance
-        '
-        Me.userRideDistance.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.userRideDistance.HeaderText = "Distance"
-        Me.userRideDistance.MinimumWidth = 6
-        Me.userRideDistance.Name = "userRideDistance"
-        Me.userRideDistance.ReadOnly = True
+        Me.Label1.AutoSize = True
+        Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.0!)
+        Me.Label1.Location = New System.Drawing.Point(251, 37)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(244, 29)
+        Me.Label1.TabIndex = 8
+        Me.Label1.Text = "Create a new account"
         '
         'formTableViewer
         '
@@ -1186,6 +1372,10 @@ Partial Class formTableViewer
         Me.gbCarDetails.PerformLayout()
         CType(Me.dgvCarsList, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tpGroups.ResumeLayout(False)
+        Me.gbGroups.ResumeLayout(False)
+        CType(Me.dgvGroupsList, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.gbRideHistory.ResumeLayout(False)
+        CType(Me.dgvUserHistoryList, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tpLogin.ResumeLayout(False)
         Me.tpLogin.PerformLayout()
         Me.tcTabs.ResumeLayout(False)
@@ -1197,10 +1387,10 @@ Partial Class formTableViewer
         Me.gbEnd.PerformLayout()
         Me.gbStart.ResumeLayout(False)
         Me.gbStart.PerformLayout()
-        CType(Me.dgvGroupsList, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.dgvUserHistoryList, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.gbRideHistory.ResumeLayout(False)
-        Me.gbGroups.ResumeLayout(False)
+        Me.tpNewGroup.ResumeLayout(False)
+        Me.tpNewGroup.PerformLayout()
+        Me.tpRegister.ResumeLayout(False)
+        Me.tpRegister.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -1288,12 +1478,8 @@ Partial Class formTableViewer
     Friend WithEvents dgvUserHistoryList As DataGridView
     Friend WithEvents gbRideHistory As GroupBox
     Friend WithEvents cbSortRides As ComboBox
-    Friend WithEvents Button1 As Button
+    Friend WithEvents btnNewGroup As Button
     Friend WithEvents gbGroups As GroupBox
-    Friend WithEvents carModel As DataGridViewTextBoxColumn
-    Friend WithEvents maintenence As DataGridViewCheckBoxColumn
-    Friend WithEvents isAvailable As DataGridViewCheckBoxColumn
-    Friend WithEvents DeleteButton As DataGridViewButtonColumn
     Friend WithEvents description As DataGridViewTextBoxColumn
     Friend WithEvents isCritical As DataGridViewCheckBoxColumn
     Friend WithEvents isResolved As DataGridViewCheckBoxColumn
@@ -1304,4 +1490,25 @@ Partial Class formTableViewer
     Friend WithEvents userHistoryRide As DataGridViewTextBoxColumn
     Friend WithEvents userRidePeriod As DataGridViewTextBoxColumn
     Friend WithEvents userRideDistance As DataGridViewTextBoxColumn
+    Friend WithEvents registrationPlate As DataGridViewTextBoxColumn
+    Friend WithEvents carModel As DataGridViewTextBoxColumn
+    Friend WithEvents maintenence As DataGridViewCheckBoxColumn
+    Friend WithEvents isAvailable As DataGridViewCheckBoxColumn
+    Friend WithEvents DeleteButton As DataGridViewButtonColumn
+    Friend WithEvents tpNewGroup As TabPage
+    Friend WithEvents btnEnterNewGroup As Button
+    Friend WithEvents TextBox1 As TextBox
+    Friend WithEvents lblCreateGroup As Label
+    Friend WithEvents btnCancelNewGroup As Button
+    Friend WithEvents lblGroupName As Label
+    Friend WithEvents tpRegister As TabPage
+    Friend WithEvents btnRegisterEnter As Button
+    Friend WithEvents btnRegisterCancel As Button
+    Friend WithEvents lblConfirmPassword As Label
+    Friend WithEvents lblRegisterPassword As Label
+    Friend WithEvents lblRegisterEmail As Label
+    Friend WithEvents tbPasswordConfirm As TextBox
+    Friend WithEvents tbRegisterPassword As TextBox
+    Friend WithEvents tbRegisterEmail As TextBox
+    Friend WithEvents Label1 As Label
 End Class
