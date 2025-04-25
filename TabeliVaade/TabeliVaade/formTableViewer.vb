@@ -223,9 +223,7 @@ Public Class formTableViewer
                     Console.WriteLine("Login successful")
                     ' TableReader.GetSpecificTables("Car", )
                     tab = tpGroups
-                    dgvGroupsList.DataSource = TableReader.GetGroupTable()
-                    dgvGroupsList.Columns(0).Visible = False
-                    dgvGroupsList.Columns(1).AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+                    LoadToGroupTab()
                 Else
                     Console.WriteLine("Login failed")
                     tab = tpLogin
@@ -238,6 +236,8 @@ Public Class formTableViewer
             Case "btnCarBack"
                 ' Set tab to Group
                 tab = tpGroups
+                LoadToGroupTab()
+
             Case "btnProblemBack"
                 ' Set tab to Car Details
                 tab = tpCarsList
@@ -275,6 +275,7 @@ Public Class formTableViewer
             Case "btnCancelNewGroup"
                 ' Set tab to Groups
                 tab = tpGroups
+                LoadToGroupTab()
 
             ' "Enter" buttons for adding
             Case "btnAddCarEnter"
@@ -296,6 +297,7 @@ Public Class formTableViewer
             Case "btnEnterNewGroup"
                 ' Set tab to Groups
                 tab = tpGroups
+                LoadToGroupTab()
                 ' TODO: Add group to database
 
             Case Else
@@ -330,5 +332,13 @@ Public Class formTableViewer
         End If
 
         tcTabs.SelectedTab = tpCarsList
+    End Sub
+
+    ' Description:  Loads the group list into the DataGridView
+    ' Used when: 'tab = tpGroups' is called
+    Private Sub LoadToGroupTab()
+        dgvGroupsList.DataSource = TableReader.GetGroupTable()
+        dgvGroupsList.Columns(0).Visible = False
+        dgvGroupsList.Columns(1).AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
     End Sub
 End Class

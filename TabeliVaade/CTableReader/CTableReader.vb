@@ -151,20 +151,28 @@ Public Class CTableReader
         Select Case TheTableToGet
             Case "Car"
 
-                dt.Columns.Add("ID", GetType(String))
-                dt.Columns.Add("GroupID", GetType(String))
-                dt.Columns.Add("Name", GetType(String))
-                dt.Columns.Add("RegistrationPlate", GetType(String))
-                dt.Columns.Add("Mileage", GetType(Integer))
-                dt.Columns.Add("AvgFuelConsumption", GetType(Double))
-                dt.Columns.Add("IsAvailable", GetType(Boolean))
-                dt.Columns.Add("IsArchived", GetType(Boolean))
-                dt.Columns.Add("IsInCriticalState", GetType(Boolean))
+                dt.Columns.Add("CarID", GetType(String))
+                dt.Columns.Add("CarGroupID", GetType(String))
+                dt.Columns.Add("CarName", GetType(String))
+                dt.Columns.Add("CarRegistrationPlate", GetType(String))
+                dt.Columns.Add("CarMileage", GetType(Integer))
+                dt.Columns.Add("CarAvgFuelConsumption", GetType(Double))
+                dt.Columns.Add("CarIsAvailable", GetType(Boolean))
+                dt.Columns.Add("CarIsArchived", GetType(Boolean))
+                dt.Columns.Add("CarIsInCriticalState", GetType(Boolean))
 
                 Try
                     ' Populate DataTable
                     For Each item In List
-                        dt.Rows.Add(item("id"), item("name"))
+                        dt.Rows.Add(item("id"),
+                                    item("groupID"),
+                                    item("name"),
+                                    item("registrationPlate"),
+                                    item("mileage"),
+                                    item("avgFuelConsumption"),
+                                    item("isAvailable"),
+                                    item("isArchived"),
+                                    item("isInCriticalState"))
                     Next
                 Catch ex As WebException
                     Console.WriteLine("Error: " & ex.Message)
