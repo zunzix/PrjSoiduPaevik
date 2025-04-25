@@ -4,6 +4,7 @@ Imports System.Security.Policy
 
 Public Class formTableViewer
     Const DEBUG = True
+    Private expandedRowIndex As Integer = -1
 
     Private Sub formTableViewer_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
@@ -14,52 +15,20 @@ Public Class formTableViewer
         ' Initialize the form on the "Cars list" tab until log in and/or group view has been built
         tcTabs.SelectedTab = tpLogin
 
+        ' Set panel width
+        pnlDetails.Left = dgvCarsList.Left + 2
+        pnlDetails.Width = dgvCarsList.Width - 4
+        pnlLogs.Left = dgvCarsList.Left + 2
+        pnlLogs.Width = dgvCarsList.Width - 4
+
         ' TODO: Bringing in lists and view them on DataGridView
 
-        'For Each row As DataGridViewRow In dgvCarsList.Rows
-        '    If Not row.IsNewRow Then
-        '        If row.Cells("IsInCriticalState").Value Then
-        '            row.Cells("IsInCriticalState").Style.BackColor = Color.Coral
-        '        End If
-        '    End If
-        'Next
-
-        ' Add fields for the car model, whether it needs maintenence and whether it's available and the delete button
-        Dim carModel As New DataGridViewTextBoxColumn()
-        carModel.Name = "CarModel"
-        carModel.HeaderText = "Car Model"
-        carModel.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
-        dgvCarsList.Columns.Add(carModel)
-
-        Dim maintenence As New DataGridViewCheckBoxColumn()
-        maintenence.Name = "Maintenence"
-        maintenence.HeaderText = "Maintenence"
-        maintenence.AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
-        dgvCarsList.Columns.Add(maintenence)
-
-        Dim availability As New DataGridViewCheckBoxColumn()
-        availability.Name = "isAvailable"
-        availability.HeaderText = "Availability"
-        availability.AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
-        dgvCarsList.Columns.Add(availability)
-
-        Dim subtractButton As New DataGridViewButtonColumn()
-        subtractButton.Name = "DeleteButton"
-        subtractButton.HeaderText = ""
-        subtractButton.Text = "Delete"
-        subtractButton.UseColumnTextForButtonValue = True
-        subtractButton.AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-        subtractButton.Width = 50
-        dgvCarsList.Columns.Add(subtractButton)
-
-        ' Set the DataGridView to ReadOnly so that you can't change the fields right on the table
-        dgvCarsList.ReadOnly = True
-
-        ' Remove the annoying row headers and the beginning of the list
-        dgvCarsList.RowHeadersVisible = False
+        dgvCarsList.Rows.Add()
 
         ' Change the select color from an eye piercing blue to a more subtle gray
         dgvCarsList.DefaultCellStyle.SelectionBackColor = Color.LightGray
+        dgvProblemsList.DefaultCellStyle.SelectionBackColor = Color.LightGray
+        dgvLogsList.DefaultCellStyle.SelectionBackColor = Color.LightGray
 
     End Sub
 
@@ -130,29 +99,43 @@ Public Class formTableViewer
         End If
     End Sub
 
-    ' Description:  Double clicking one of the fields changes tabs to the problems view
+    ' Description:  Clicking one of the fields changes tabs to the problems view
     ' Parameters:   Default handler parameters
     ' Return:       NONE
-    Private Sub dgvCarsList_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvCarsList.CellDoubleClick
-        ' Check if the clicked cell is in the header or not
-        If e.RowIndex < 0 Then
+    Private Sub dgvCarsList_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvCarsList.CellClick
+        ' Check if the clicked cell is in the header or delete button
+        If e.RowIndex < 0 Or e.ColumnIndex = (dgvCarsList.ColumnCount - 1) Then
+            Return
+        ElseIf e.RowIndex = expandedRowIndex Then ' Clicking the same row will close it
+            pnlDetails.Visible = False
+            pnlLogs.Visible = False
+            expandedRowIndex = -1
             Return
         End If
 
+        ' Get the area of the row that was clicked
+        Dim rowRect As Rectangle = dgvCarsList.GetRowDisplayRectangle(e.RowIndex, True)
+
+        ' Style it so that it looks like a "drop down panel"
+        pnlDetails.Top = dgvCarsList.Top + rowRect.Bottom
+        pnlDetails.Visible = True
+
+        ' Style the logs panel the same way as details panel, but not visible (yet)
+        pnlLogs.Top = dgvCarsList.Top + rowRect.Bottom
+
         ' Assign detailed values to the data fields
         ' TODO: Make it so that you get the data from the database
-        lblFuelData.Text = "-1"
-        lblAvailabilityData.Text = "-1"
-        lblMilageData.Text = "-1"
+        'lblFuelData.Text = "-1"
+        'lblMilageData.Text = "-1"
 
         ' Find whether the selected car has any ongoing insurances
         ' TODO: Make it possible to search through the database for insurance
 
         ' Check if the insurance item exists
-        lblInsuranceData.Text = "No insurance found"
+        'lblInsuranceData.Text = "Expired!"
 
-        ' Change tabs to the details page
-        tcTabs.SelectedTab = tpCarDetails
+        ' Update the expanded row to be the current row
+        expandedRowIndex = e.RowIndex
     End Sub
 
     ' Description:  By pressing this button, the data inserted into the fields in tpAddCar is added into the database
@@ -210,8 +193,12 @@ Public Class formTableViewer
     ' Parameters:   The usual for an event handler
     ' Return:       NONE
     Private Sub Button_Click(sender As Object, e As EventArgs) _
-        Handles btnCarBack.Click, btnProblemBack.Click, btnCarDetailsBack.Click,
-        btnShowProblems.Click, btnLoginLogin.Click, btnAddCarCancel.Click, btnAddCar.Click
+        Handles btnCarBack.Click, btnLoginLogin.Click, btnAddCarCancel.Click,
+        btnAddCar.Click, btnAddProblemCancel.Click, btnAddProblem.Click,
+        btnAddLog.Click, btnAddLogCancel.Click, btnAddLogEnter.Click,
+        btnLogOut.Click, btnLoginRegister.Click, btnRegisterCancel.Click,
+        btnRegisterEnter.Click, btnNewGroup.Click, btnCancelNewGroup.Click,
+        btnEnterNewGroup.Click
 
         'Get the button that was clicked
         Dim btn As Button = CType(sender, Button)
@@ -226,46 +213,87 @@ Public Class formTableViewer
         Dim tab As TabPage
 
         Select Case btn.Name
+
+            Case "btnLoginLogin"
+                ' TODO: Add user verification and actual logging in
+
+                ' Set tab to Groups
+                tab = tpGroups
+            Case "btnLoginRegister"
+                ' Set tab to Register
+                tab = tpRegister
+
+            ' Buttons for going back to the previous tab
             Case "btnCarBack"
                 ' Set tab to Group
                 tab = tpGroups
-
             Case "btnProblemBack"
                 ' Set tab to Car Details
-                tab = tpCarDetails
-
-            Case "btnCarDetailsBack"
-                ' Set tab to Cars List
                 tab = tpCarsList
-                lblFuelData.Dispose()
-                lblAvailabilityData.Dispose()
-                lblMilageData.Dispose()
+            Case "btnLogOut"
+                ' Set tab to LogIn
+                tab = tpLogin
+                ' TODO: Log user out
 
-            Case "btnShowProblems"
-                ' Set tab to Problems
-                tab = tpProblems
-
-            Case "btnLoginLogin"
-                ' Set tab to Groups
-                ' TODO: Add tranfer from Groups to Cars page
-                tab = tpCarsList                 ' Currently goes straight to the Cars tab
-
+            ' Buttons for changing to tabs for adding to database
             Case "btnAddCar"
                 ' Set tab to Add Car
                 tab = tpAddCar
+            Case "btnAddProblem"
+                ' Set tab to Add Problem
+                tab = tpAddProblem
+            Case "btnAddLog"
+                ' Set tab to Add Log
+                tab = tpAddLog
+            Case "btnNewGroup"
+                ' Set tab to New Group
+                tab = tpNewGroup
 
+            ' "Cancel" buttons for adding
             Case "btnAddCarCancel"
                 ' Set tab to Cars List
                 tab = tpCarsList
-
                 ' Clear fields
                 txtName.Clear()
                 txtMileage.Clear()
                 txtAvgFuel.Clear()
+            Case "btnAddProblemCancel"
+                ' Set the tab to Cars List
+                tab = tpCarsList
+                ' Clear field
+                txtProblemDescription.Clear()
+            Case "btnAddLogCancel"
+                ' Set the tab to Cars List
+                tab = tpCarsList
+                ' Clear fields
+            Case "btnRegisterCancel"
+                ' Set tab to Log in
+                tab = tpLogin
+            Case "btnCancelNewGroup"
+                ' Set tab to Groups
+                tab = tpGroups
 
+            ' "Enter" buttons for adding
             Case "btnAddCarEnter"
                 ' Set tab to Cars List
                 tab = tpCarsList
+                ' TODO: Add car to the database
+            Case "btnAddProblemEnter"
+                ' Set tab to Cars List
+                tab = tpCarsList
+                ' TODO: Add problem to the database
+            Case "btnAddLogEnter"
+                ' Set tab to Cars List
+                tab = tpCarsList
+                ' TODO: Add log to the database
+            Case "btnRegisterEnter"
+                ' Set tab to Log in
+                tab = tpLogin
+                ' TODO: Add user to database
+            Case "btnEnterNewGroup"
+                ' Set tab to Groups
+                tab = tpGroups
+                ' TODO: Add group to database
 
             Case Else
                 ' In case something goes wrong, it'll just stay on the same page
@@ -278,5 +306,26 @@ Public Class formTableViewer
 
         ' Change the tab
         tcTabs.SelectedTab = tab
+    End Sub
+
+    Private Sub btnLogs_Click(sender As Object, e As EventArgs) Handles btnLogs.Click, btnProblems.Click
+        Dim btn As Button = CType(sender, Button)
+
+        Select Case btn.Name
+            Case "btnLogs"
+                pnlDetails.Visible = False
+                pnlLogs.Visible = True
+            Case "btnProblems"
+                pnlDetails.Visible = True
+                pnlLogs.Visible = False
+        End Select
+    End Sub
+
+    Private Sub dgvGroupsList_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvGroupsList.CellClick
+        If e.RowIndex < 0 Then
+            Return
+        End If
+
+        tcTabs.SelectedTab = tpCarsList
     End Sub
 End Class
