@@ -1,9 +1,9 @@
 ﻿Public Class CCar
     Implements ICar
-
     Private Property ID As Integer Implements ICar.ID
     Private Property GroupID As Integer Implements ICar.GroupID
     Private Property Name As String Implements ICar.Name
+    Private Property RegistrationPlate As String Implements ICar.RegistrationPlate
     Private Property Mileage As Double Implements ICar.Mileage
     Private Property AvgFuelConsumption As Double Implements ICar.AvgFuelConsumption
     Private Property IsAvailable As Boolean Implements ICar.IsAvailable
@@ -12,60 +12,29 @@
 
     ' Car object constructer
     ' Includes validation in case of wrong datatypes
-    Public Sub New(ID As Object, groupID As Object, name As Object, mileage As Object,
+    Public Sub New(ID As Object, groupID As Object, name As Object, registrationPlate As Object, mileage As Object,
                    avgFuelConsumption As Object, isAvailable As Object,
                    isArchived As Object, isInCriticalState As Object)
         ' Automatic ID generation (Temporary)
+
         Me.ID = Convert.ToInt32(ID)
 
-        ' GroupID validation
-        Try
-            Me.GroupID = Convert.ToInt32(groupID)
-        Catch ex As Exception
-            Me.GroupID = -1
-        End Try
+        Me.GroupID = Convert.ToInt32(groupID)
 
-        ' Name validation
-        If TypeOf name Is String AndAlso Not String.IsNullOrWhiteSpace(name.ToString()) Then
-            Me.Name = name.ToString()
-        Else
-            Me.Name = String.Empty
-        End If
+        Me.Name = name.ToString()
 
-        ' Milage validation
-        Try
-            Me.Mileage = Convert.ToDouble(mileage)
-        Catch ex As Exception
-            Me.Mileage = 0
-        End Try
+        Me.RegistrationPlate = Convert.ToString(registrationPlate)
 
-        ' Fuel consumption validation
-        Try
-            Me.AvgFuelConsumption = Convert.ToDouble(avgFuelConsumption)
-        Catch ex As Exception
-            Me.AvgFuelConsumption = 0
-        End Try
+        Me.Mileage = Convert.ToDouble(mileage)
 
-        ' Availability validation
-        Try
-            Me.IsAvailable = Convert.ToBoolean(isAvailable)
-        Catch ex As Exception
-            Me.IsAvailable = False
-        End Try
+        Me.AvgFuelConsumption = Convert.ToDouble(avgFuelConsumption)
 
-        ' Archival validation
-        Try
-            Me.IsArchived = Convert.ToBoolean(isArchived)
-        Catch ex As Exception
-            Me.IsArchived = False
-        End Try
+        Me.IsAvailable = Convert.ToBoolean(isAvailable)
 
-        ' Criticality validation
-        Try
-            Me.IsInCriticalState = isInCriticalState
-        Catch ex As Exception
-            Me.IsInCriticalState = False
-        End Try
+        Me.IsArchived = Convert.ToBoolean(isArchived)
+
+        Me.IsInCriticalState = isInCriticalState
+
     End Sub
 
     ' To Add: Functions/Subs for adding, removing and updating database through TableReader

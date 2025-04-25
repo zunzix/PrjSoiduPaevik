@@ -36,15 +36,10 @@
     '  returns success/error message 
     Function UpdateTable()
 
-    ' todo add register parameter
-    ' user file(email, password)
-    ' returns jwt token and refresh token (in single list)/error message
-    Function Register()
-
     ' todo add login parameter
     ' user file(email, password)
     ' returns jwt token and refresh token (in single list)/error message
-    Function Login(Email As String, Password As String) As Boolean
+    Function LoginRegister(Email As String, Password As String, Purpose As String) As Boolean
 
     ' todo add logout paramater
     ' refresh token 

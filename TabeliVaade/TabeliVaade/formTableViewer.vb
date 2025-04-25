@@ -250,8 +250,9 @@ Public Class formTableViewer
             Case "btnLoginLogin"
                 ' Set tab to Groups
                 ' TODO: Add tranfer from Groups to Cars page
-                If (TableReader.Login(txtLoginEmail.Text, txtLoginPassword.Text)) Then
+                If (TableReader.LoginRegister(txtLoginEmail.Text, txtLoginPassword.Text, "Login")) Then
                     Console.WriteLine("Login successful")
+                    TableReader.GetSpecificTables("Car", )
                     tab = tpCarsList
                 Else
                     Console.WriteLine("Login failed")

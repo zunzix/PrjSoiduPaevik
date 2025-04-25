@@ -5,13 +5,11 @@ Imports Newtonsoft.Json
 Imports CCar
 Imports Newtonsoft
 Imports Newtonsoft.Json.Linq
+Imports System.Reflection
 
 
 Public Class CTableReader
     Implements ITableReader
-
-    ' Private lists
-    Private CarList As CCar
 
     ' Private variables
     Private JwtToken As String
@@ -45,10 +43,10 @@ Public Class CTableReader
             Dim Reader As StreamReader
             Dim JsonResponse As String
             Dim Cars As JArray
-            Dim CarList As New List(Of CCar)
+
 
             ' HTTP request
-            Request = HttpWebRequest.Create(BaseUrl & "api/Cars/GetCars")
+            Request = HttpWebRequest.Create(BaseUrl & "api/Groups/GetGroups")
             Request.Method = "GET"
             Request.ContentType = "application/json"
 
@@ -64,28 +62,16 @@ Public Class CTableReader
             Cars = JArray.Parse(JsonResponse)
 
             ' Add each car to CarList
-            For Each Car In Cars
-                CarList.Add(New CCar(
-                Car("id"),
-                Car("groupId"),
-                Car("name"),
-                Car("mileage"),
-                Car("avgFuelCons"),
-                Car("isAvailable"),
-                Car("isArchived"),
-                Car("isCritical")
-            ))
-            Next
 
-            Return CarList
+
 
         Catch ex As WebException
 
             If CType(ex.Response, HttpWebResponse).StatusCode = HttpStatusCode.Unauthorized Then
                 ' if error is 401, refresh token and retry
-                If RefreshJwtToken(RefreshToken) Then
+                If RefreshJwtToken() Then
 
-                    Return GetCarTable()
+                    Return GetGroupTable()
 
                 End If
             End If
@@ -103,52 +89,47 @@ Public Class CTableReader
 
     ' Parameters: which table to get, 
     Public Function GetSpecificTables(TheTableToGet As String, ID As String) As Object Implements ITableReader.GetSpecificTables
+        Dim Request As HttpWebRequest
+        Dim Response As HttpWebResponse
+        Dim Reader As StreamReader
+        Dim JsonResponse As String
+
+
+        Select Case TheTableToGet
+            Case "Car"
+                Request = HttpWebRequest.Create(BaseUrl & "api/Cars/GetGroupCars/" & ID)
+            Case "GroupMember"
+                Request = HttpWebRequest.Create(BaseUrl & "api/GroupMembers/GetGroupGroupMember/" & ID)
+            Case "CarIssue"
+                Request = HttpWebRequest.Create(BaseUrl & "api/CarIssues/GetCarCarIssues/" & ID)
+            Case "CarLog"
+                Request = HttpWebRequest.Create(BaseUrl & "api/CarLogs/GetCarCarLogs/" & ID)
+            Case "CarInsurance"
+                Request = HttpWebRequest.Create(BaseUrl & "api/CarInsurances/GetCarCarInsurances/" & ID)
+            Case Else
+                Console.WriteLine("Error: Invalid table type.")
+                Return Nothing
+        End Select
+
+        Request.Method = "GET"
+        Request.ContentType = "application/json"
+
+        ' Add Jwt token
+        Request.Headers.Add("Authorization", "Bearer " & JwtToken)
+
         Try
-            Dim Request As HttpWebRequest
-            Dim Response As HttpWebResponse
-            Dim Reader As StreamReader
-            Dim JsonResponse As String
-            Dim Cars As JArray
-
-            ' HTTP request
-            Request = HttpWebRequest.Create(BaseUrl & "api/Cars/GetGroupCars/" & ID) ' for each different table
-            Request.Method = "GET"
-            Request.ContentType = "application/json"
-
-            ' Add Jwt token
-            Request.Headers.Add("Authorization", "Bearer " & JwtToken)
-
             ' Get response
             Response = Request.GetResponse()
             Reader = New StreamReader(Response.GetResponseStream)
             JsonResponse = Reader.ReadToEnd()
 
-            ' Parse JSON
-            Cars = JArray.Parse(JsonResponse)
-
-            ' Add each car to CarList
-            For Each Car In Cars ' for each different table
-                CarList.Add(New CCar(
-                Car("id"),
-                Car("groupId"),
-                Car("name"),
-                Car("mileage"),
-                Car("avgFuelCons"),
-                Car("isAvailable"),
-                Car("isArchived"),
-                Car("isCritical")
-            ))
-            Next
-
-            Return CarList
-
         Catch ex As WebException
 
             If CType(ex.Response, HttpWebResponse).StatusCode = HttpStatusCode.Unauthorized Then
                 ' if error is 401, refresh token and retry
-                If RefreshJwtToken(RefreshToken) Then
+                If RefreshJwtToken() Then
 
-                    Return GetCarTable()
+                    Return GetSpecificTables(TheTableToGet, ID)
 
                 End If
             End If
@@ -156,17 +137,32 @@ Public Class CTableReader
             Return Nothing
 
         End Try
+
+        Dim List As JArray = JArray.Parse(JsonResponse)
+
+        Select Case TheTableToGet
+            Case "Car"
+                Dim CarList As New List(Of CCar.CCar)
+                For Each item In List
+                    Dim car As New CCar.CCar(item("ID"), item("GroupID"), item("Name"), item("RegistrationPlate"),
+                                        item("Mileage"), item("AvgFuelConsumption"), item("IsAvailable"),
+                                        item("IsArchived"), item("IsInCriticalState"))
+                    CarList.Add(car)
+                Next
+                Return CarList
+            Case Else
+                Console.WriteLine("Error: No table")
+                Return Nothing
+        End Select
+
     End Function
 
-    Public Function Register() As Object Implements ITableReader.Register
-        Throw New NotImplementedException()
-    End Function
 
     ' Description: Function for Loggin a user in
     ' Parameters: Email as String and Password as String
     ' Returns: True if login is successful, False otherwise
-    Public Function Login(Email As String, Password As String) As Boolean _
-        Implements ITableReader.Login
+    Public Function LoginRegister(Email As String, Password As String, Purpose As String) As Boolean _
+        Implements ITableReader.LoginRegister
         Try
             Dim Request As HttpWebRequest
             Dim Response As HttpWebResponse
@@ -177,7 +173,15 @@ Public Class CTableReader
             Input = "{""email"":""" & Email & """,""password"":""" & Password & """}"
 
             ' HHTP request
-            Request = HttpWebRequest.Create(BaseUrl & "api/Account/Login")
+            If (Purpose Is "Login") Then
+                Request = HttpWebRequest.Create(BaseUrl & "api/Account/Login")
+            ElseIf (Purpose Is "Register") Then
+                Request = HttpWebRequest.Create(BaseUrl & "api/Account/Register")
+            Else
+                Console.WriteLine("Error: Invalid purpose. Use 'Login' or 'Register'.")
+                Return False
+            End If
+
             Request.Method = "POST"
 
             ' Set the content type to application/json
@@ -206,7 +210,7 @@ Public Class CTableReader
                 Console.WriteLine("Error: Missing tokens in response.")
                 Return False
             End If
-        Catch ex As Exception
+        Catch ex As WebException
             Console.WriteLine("Error: " & ex.Message)
             Return False
         End Try
@@ -216,10 +220,55 @@ Public Class CTableReader
         Throw New NotImplementedException()
     End Function
 
-    Private Function RefreshJwtToken(RefreshToken As String) As String
+    Private Function RefreshJwtToken() As Boolean
+        ' TODO: if this function returns false, it should return the user back to login screen
         ' enter jwt and refresh 
         ' returns new jwt and new refresh
+        Try
+            Dim Request As HttpWebRequest
+            Dim Response As HttpWebResponse
+            Dim Reader As StreamReader
+            Dim Input As String
 
-        Return RefreshToken
+            ' JSON input string
+            Input = "{""jwt"":""" & JwtToken & """,""refreshToken"":""" & RefreshToken & """}"
+
+            ' HHTP request
+            Request = HttpWebRequest.Create(BaseUrl & "api/Account/RefreshTokenData")
+            Request.Method = "POST"
+
+            ' Set the content type to application/json
+            Request.ContentType = "application/json"
+
+            ' Write the Json Input to Request body
+            Request.GetRequestStream.Write(System.Text.Encoding.UTF8.GetBytes(Input), 0, Input.Length)
+
+            ' Get the response from server
+            Response = Request.GetResponse()
+            Reader = New System.IO.StreamReader(Response.GetResponseStream)
+            Dim ResponseString As String = Reader.ReadToEnd()
+
+            ' Parse the response
+            Dim responseData As Dictionary(Of String, String) = JsonConvert.DeserializeObject(Of Dictionary(Of String, String))(ResponseString)
+
+            ' Extract the tokens from the response
+            If responseData.ContainsKey("jwt") AndAlso responseData.ContainsKey("refreshToken") Then
+
+                JwtToken = responseData("jwt")
+                RefreshToken = responseData("refreshToken")
+                Console.WriteLine("DEBUG: Login successful! JWT: " & JwtToken & vbCrLf & "Refresh Token: " & RefreshToken)
+
+                Return True
+
+            Else
+                Console.WriteLine("Error: Missing tokens in response.")
+                Return False
+
+            End If
+
+        Catch ex As WebException
+            Console.WriteLine("Error: " & ex.Message)
+            Return False
+        End Try
     End Function
 End Class
