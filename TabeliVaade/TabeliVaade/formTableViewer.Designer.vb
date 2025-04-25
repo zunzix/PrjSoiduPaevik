@@ -83,6 +83,8 @@ Partial Class formTableViewer
         Me.lblIssueDescription = New System.Windows.Forms.Label()
         Me.lblProblemReportTitle = New System.Windows.Forms.Label()
         Me.tpAddLog = New System.Windows.Forms.TabPage()
+        Me.btnAddLogEnter = New System.Windows.Forms.Button()
+        Me.btnAddLogCancel = New System.Windows.Forms.Button()
         Me.gbEnd = New System.Windows.Forms.GroupBox()
         Me.lblEndAdd = New System.Windows.Forms.Label()
         Me.txtLocationEnd = New System.Windows.Forms.TextBox()
@@ -98,8 +100,27 @@ Partial Class formTableViewer
         Me.lblLogCommentAdd = New System.Windows.Forms.Label()
         Me.lblDistanceAdd = New System.Windows.Forms.Label()
         Me.lblAddLogTitle = New System.Windows.Forms.Label()
-        Me.btnAddLogCancel = New System.Windows.Forms.Button()
-        Me.btnAddLogEnter = New System.Windows.Forms.Button()
+        Me.dgvGroupsList = New System.Windows.Forms.DataGridView()
+        Me.dgvUserHistoryList = New System.Windows.Forms.DataGridView()
+        Me.btnLogOut = New System.Windows.Forms.Button()
+        Me.gbRideHistory = New System.Windows.Forms.GroupBox()
+        Me.cbSortRides = New System.Windows.Forms.ComboBox()
+        Me.gbGroups = New System.Windows.Forms.GroupBox()
+        Me.Button1 = New System.Windows.Forms.Button()
+        Me.carModel = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.maintenence = New System.Windows.Forms.DataGridViewCheckBoxColumn()
+        Me.isAvailable = New System.Windows.Forms.DataGridViewCheckBoxColumn()
+        Me.DeleteButton = New System.Windows.Forms.DataGridViewButtonColumn()
+        Me.description = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.isCritical = New System.Windows.Forms.DataGridViewCheckBoxColumn()
+        Me.isResolved = New System.Windows.Forms.DataGridViewCheckBoxColumn()
+        Me.trip = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.time = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.groupID = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.groupName = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.userHistoryRide = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.userRidePeriod = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.userRideDistance = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.tpAddCar.SuspendLayout()
         Me.tpCarsList.SuspendLayout()
         Me.pnlLogs.SuspendLayout()
@@ -109,12 +130,17 @@ Partial Class formTableViewer
         CType(Me.dgvProblemsList, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbCarDetails.SuspendLayout()
         CType(Me.dgvCarsList, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.tpGroups.SuspendLayout()
         Me.tpLogin.SuspendLayout()
         Me.tcTabs.SuspendLayout()
         Me.tpAddProblem.SuspendLayout()
         Me.tpAddLog.SuspendLayout()
         Me.gbEnd.SuspendLayout()
         Me.gbStart.SuspendLayout()
+        CType(Me.dgvGroupsList, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.dgvUserHistoryList, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.gbRideHistory.SuspendLayout()
+        Me.gbGroups.SuspendLayout()
         Me.SuspendLayout()
         '
         'tpAddCar
@@ -319,8 +345,11 @@ Partial Class formTableViewer
         'dgvLogsList
         '
         Me.dgvLogsList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.dgvLogsList.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.trip, Me.time})
         Me.dgvLogsList.Location = New System.Drawing.Point(290, 10)
         Me.dgvLogsList.Name = "dgvLogsList"
+        Me.dgvLogsList.ReadOnly = True
+        Me.dgvLogsList.RowHeadersVisible = False
         Me.dgvLogsList.RowHeadersWidth = 51
         Me.dgvLogsList.RowTemplate.Height = 24
         Me.dgvLogsList.Size = New System.Drawing.Size(394, 100)
@@ -443,8 +472,11 @@ Partial Class formTableViewer
         'dgvProblemsList
         '
         Me.dgvProblemsList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.dgvProblemsList.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.description, Me.isCritical, Me.isResolved})
         Me.dgvProblemsList.Location = New System.Drawing.Point(290, 10)
         Me.dgvProblemsList.Name = "dgvProblemsList"
+        Me.dgvProblemsList.ReadOnly = True
+        Me.dgvProblemsList.RowHeadersVisible = False
         Me.dgvProblemsList.RowHeadersWidth = 51
         Me.dgvProblemsList.RowTemplate.Height = 24
         Me.dgvProblemsList.Size = New System.Drawing.Size(395, 100)
@@ -551,9 +583,13 @@ Partial Class formTableViewer
         '
         'dgvCarsList
         '
-        Me.dgvCarsList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.dgvCarsList.ColumnHeadersHeight = 29
+        Me.dgvCarsList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing
+        Me.dgvCarsList.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.carModel, Me.maintenence, Me.isAvailable, Me.DeleteButton})
         Me.dgvCarsList.Location = New System.Drawing.Point(6, 35)
         Me.dgvCarsList.Name = "dgvCarsList"
+        Me.dgvCarsList.ReadOnly = True
+        Me.dgvCarsList.RowHeadersVisible = False
         Me.dgvCarsList.RowHeadersWidth = 51
         Me.dgvCarsList.RowTemplate.Height = 24
         Me.dgvCarsList.Size = New System.Drawing.Size(777, 375)
@@ -561,6 +597,10 @@ Partial Class formTableViewer
         '
         'tpGroups
         '
+        Me.tpGroups.Controls.Add(Me.Button1)
+        Me.tpGroups.Controls.Add(Me.gbGroups)
+        Me.tpGroups.Controls.Add(Me.gbRideHistory)
+        Me.tpGroups.Controls.Add(Me.btnLogOut)
         Me.tpGroups.Location = New System.Drawing.Point(4, 28)
         Me.tpGroups.Name = "tpGroups"
         Me.tpGroups.Size = New System.Drawing.Size(789, 413)
@@ -766,6 +806,24 @@ Partial Class formTableViewer
         Me.tpAddLog.Text = "Add Log"
         Me.tpAddLog.UseVisualStyleBackColor = True
         '
+        'btnAddLogEnter
+        '
+        Me.btnAddLogEnter.Location = New System.Drawing.Point(602, 341)
+        Me.btnAddLogEnter.Name = "btnAddLogEnter"
+        Me.btnAddLogEnter.Size = New System.Drawing.Size(132, 46)
+        Me.btnAddLogEnter.TabIndex = 18
+        Me.btnAddLogEnter.Text = "Enter"
+        Me.btnAddLogEnter.UseVisualStyleBackColor = True
+        '
+        'btnAddLogCancel
+        '
+        Me.btnAddLogCancel.Location = New System.Drawing.Point(393, 341)
+        Me.btnAddLogCancel.Name = "btnAddLogCancel"
+        Me.btnAddLogCancel.Size = New System.Drawing.Size(132, 44)
+        Me.btnAddLogCancel.TabIndex = 17
+        Me.btnAddLogCancel.Text = "Cancel"
+        Me.btnAddLogCancel.UseVisualStyleBackColor = True
+        '
         'gbEnd
         '
         Me.gbEnd.Controls.Add(Me.lblEndAdd)
@@ -910,23 +968,202 @@ Partial Class formTableViewer
         Me.lblAddLogTitle.TabIndex = 0
         Me.lblAddLogTitle.Text = "Register a ride"
         '
-        'btnAddLogCancel
+        'dgvGroupsList
         '
-        Me.btnAddLogCancel.Location = New System.Drawing.Point(393, 341)
-        Me.btnAddLogCancel.Name = "btnAddLogCancel"
-        Me.btnAddLogCancel.Size = New System.Drawing.Size(132, 44)
-        Me.btnAddLogCancel.TabIndex = 17
-        Me.btnAddLogCancel.Text = "Cancel"
-        Me.btnAddLogCancel.UseVisualStyleBackColor = True
+        Me.dgvGroupsList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.dgvGroupsList.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.groupID, Me.groupName})
+        Me.dgvGroupsList.Location = New System.Drawing.Point(6, 25)
+        Me.dgvGroupsList.Name = "dgvGroupsList"
+        Me.dgvGroupsList.ReadOnly = True
+        Me.dgvGroupsList.RowHeadersVisible = False
+        Me.dgvGroupsList.RowHeadersWidth = 51
+        Me.dgvGroupsList.RowTemplate.Height = 24
+        Me.dgvGroupsList.Size = New System.Drawing.Size(363, 347)
+        Me.dgvGroupsList.TabIndex = 0
         '
-        'btnAddLogEnter
+        'dgvUserHistoryList
         '
-        Me.btnAddLogEnter.Location = New System.Drawing.Point(602, 341)
-        Me.btnAddLogEnter.Name = "btnAddLogEnter"
-        Me.btnAddLogEnter.Size = New System.Drawing.Size(132, 46)
-        Me.btnAddLogEnter.TabIndex = 18
-        Me.btnAddLogEnter.Text = "Enter"
-        Me.btnAddLogEnter.UseVisualStyleBackColor = True
+        Me.dgvUserHistoryList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.dgvUserHistoryList.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.userHistoryRide, Me.userRidePeriod, Me.userRideDistance})
+        Me.dgvUserHistoryList.Location = New System.Drawing.Point(6, 54)
+        Me.dgvUserHistoryList.Name = "dgvUserHistoryList"
+        Me.dgvUserHistoryList.ReadOnly = True
+        Me.dgvUserHistoryList.RowHeadersVisible = False
+        Me.dgvUserHistoryList.RowHeadersWidth = 51
+        Me.dgvUserHistoryList.RowTemplate.Height = 24
+        Me.dgvUserHistoryList.Size = New System.Drawing.Size(387, 347)
+        Me.dgvUserHistoryList.TabIndex = 1
+        '
+        'btnLogOut
+        '
+        Me.btnLogOut.Location = New System.Drawing.Point(7, 6)
+        Me.btnLogOut.Name = "btnLogOut"
+        Me.btnLogOut.Size = New System.Drawing.Size(75, 23)
+        Me.btnLogOut.TabIndex = 2
+        Me.btnLogOut.Text = "Log out"
+        Me.btnLogOut.UseVisualStyleBackColor = True
+        '
+        'gbRideHistory
+        '
+        Me.gbRideHistory.Controls.Add(Me.cbSortRides)
+        Me.gbRideHistory.Controls.Add(Me.dgvUserHistoryList)
+        Me.gbRideHistory.Location = New System.Drawing.Point(387, 6)
+        Me.gbRideHistory.Name = "gbRideHistory"
+        Me.gbRideHistory.Size = New System.Drawing.Size(399, 404)
+        Me.gbRideHistory.TabIndex = 3
+        Me.gbRideHistory.TabStop = False
+        Me.gbRideHistory.Text = "Ride history"
+        '
+        'cbSortRides
+        '
+        Me.cbSortRides.FormattingEnabled = True
+        Me.cbSortRides.Items.AddRange(New Object() {"A -> Z", "Z -> A", "Newest -> Oldest", "Oldest -> Newest", "Distance: Ascending", "Distance: Decending"})
+        Me.cbSortRides.Location = New System.Drawing.Point(272, 24)
+        Me.cbSortRides.Name = "cbSortRides"
+        Me.cbSortRides.Size = New System.Drawing.Size(121, 24)
+        Me.cbSortRides.TabIndex = 2
+        Me.cbSortRides.Text = "Sort"
+        '
+        'gbGroups
+        '
+        Me.gbGroups.Controls.Add(Me.dgvGroupsList)
+        Me.gbGroups.Location = New System.Drawing.Point(6, 35)
+        Me.gbGroups.Name = "gbGroups"
+        Me.gbGroups.Size = New System.Drawing.Size(375, 372)
+        Me.gbGroups.TabIndex = 4
+        Me.gbGroups.TabStop = False
+        Me.gbGroups.Text = "Groups"
+        '
+        'Button1
+        '
+        Me.Button1.Location = New System.Drawing.Point(289, 6)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(86, 23)
+        Me.Button1.TabIndex = 5
+        Me.Button1.Text = "New group"
+        Me.Button1.UseVisualStyleBackColor = True
+        '
+        'carModel
+        '
+        Me.carModel.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.carModel.HeaderText = "Car Model"
+        Me.carModel.MinimumWidth = 6
+        Me.carModel.Name = "carModel"
+        Me.carModel.ReadOnly = True
+        '
+        'maintenence
+        '
+        Me.maintenence.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader
+        Me.maintenence.HeaderText = "Maintenence"
+        Me.maintenence.MinimumWidth = 6
+        Me.maintenence.Name = "maintenence"
+        Me.maintenence.ReadOnly = True
+        Me.maintenence.Width = 90
+        '
+        'isAvailable
+        '
+        Me.isAvailable.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader
+        Me.isAvailable.HeaderText = "Availability"
+        Me.isAvailable.MinimumWidth = 6
+        Me.isAvailable.Name = "isAvailable"
+        Me.isAvailable.ReadOnly = True
+        Me.isAvailable.Width = 78
+        '
+        'DeleteButton
+        '
+        Me.DeleteButton.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None
+        Me.DeleteButton.HeaderText = ""
+        Me.DeleteButton.MinimumWidth = 6
+        Me.DeleteButton.Name = "DeleteButton"
+        Me.DeleteButton.ReadOnly = True
+        Me.DeleteButton.Text = "Delete"
+        Me.DeleteButton.UseColumnTextForButtonValue = True
+        Me.DeleteButton.Width = 50
+        '
+        'description
+        '
+        Me.description.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.description.HeaderText = "Problem description"
+        Me.description.MinimumWidth = 6
+        Me.description.Name = "description"
+        Me.description.ReadOnly = True
+        '
+        'isCritical
+        '
+        Me.isCritical.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader
+        Me.isCritical.HeaderText = "Critical?"
+        Me.isCritical.MinimumWidth = 6
+        Me.isCritical.Name = "isCritical"
+        Me.isCritical.ReadOnly = True
+        Me.isCritical.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.isCritical.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic
+        Me.isCritical.Width = 83
+        '
+        'isResolved
+        '
+        Me.isResolved.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader
+        Me.isResolved.HeaderText = "Resolved?"
+        Me.isResolved.MinimumWidth = 6
+        Me.isResolved.Name = "isResolved"
+        Me.isResolved.ReadOnly = True
+        Me.isResolved.Width = 79
+        '
+        'trip
+        '
+        Me.trip.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.trip.HeaderText = "Trip"
+        Me.trip.MinimumWidth = 6
+        Me.trip.Name = "trip"
+        Me.trip.ReadOnly = True
+        '
+        'time
+        '
+        Me.time.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.time.HeaderText = "Time of trip"
+        Me.time.MinimumWidth = 6
+        Me.time.Name = "time"
+        Me.time.ReadOnly = True
+        '
+        'groupID
+        '
+        Me.groupID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
+        Me.groupID.HeaderText = "ID"
+        Me.groupID.MinimumWidth = 6
+        Me.groupID.Name = "groupID"
+        Me.groupID.ReadOnly = True
+        Me.groupID.Width = 49
+        '
+        'groupName
+        '
+        Me.groupName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.groupName.HeaderText = "Group Name"
+        Me.groupName.MinimumWidth = 6
+        Me.groupName.Name = "groupName"
+        Me.groupName.ReadOnly = True
+        '
+        'userHistoryRide
+        '
+        Me.userHistoryRide.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.userHistoryRide.HeaderText = "Ride"
+        Me.userHistoryRide.MinimumWidth = 6
+        Me.userHistoryRide.Name = "userHistoryRide"
+        Me.userHistoryRide.ReadOnly = True
+        '
+        'userRidePeriod
+        '
+        Me.userRidePeriod.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.userRidePeriod.HeaderText = "Period"
+        Me.userRidePeriod.MinimumWidth = 6
+        Me.userRidePeriod.Name = "userRidePeriod"
+        Me.userRidePeriod.ReadOnly = True
+        '
+        'userRideDistance
+        '
+        Me.userRideDistance.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.userRideDistance.HeaderText = "Distance"
+        Me.userRideDistance.MinimumWidth = 6
+        Me.userRideDistance.Name = "userRideDistance"
+        Me.userRideDistance.ReadOnly = True
         '
         'formTableViewer
         '
@@ -948,6 +1185,7 @@ Partial Class formTableViewer
         Me.gbCarDetails.ResumeLayout(False)
         Me.gbCarDetails.PerformLayout()
         CType(Me.dgvCarsList, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.tpGroups.ResumeLayout(False)
         Me.tpLogin.ResumeLayout(False)
         Me.tpLogin.PerformLayout()
         Me.tcTabs.ResumeLayout(False)
@@ -959,6 +1197,10 @@ Partial Class formTableViewer
         Me.gbEnd.PerformLayout()
         Me.gbStart.ResumeLayout(False)
         Me.gbStart.PerformLayout()
+        CType(Me.dgvGroupsList, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.dgvUserHistoryList, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.gbRideHistory.ResumeLayout(False)
+        Me.gbGroups.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -1041,4 +1283,25 @@ Partial Class formTableViewer
     Friend WithEvents gbEnd As GroupBox
     Friend WithEvents btnAddLogCancel As Button
     Friend WithEvents btnAddLogEnter As Button
+    Friend WithEvents dgvGroupsList As DataGridView
+    Friend WithEvents btnLogOut As Button
+    Friend WithEvents dgvUserHistoryList As DataGridView
+    Friend WithEvents gbRideHistory As GroupBox
+    Friend WithEvents cbSortRides As ComboBox
+    Friend WithEvents Button1 As Button
+    Friend WithEvents gbGroups As GroupBox
+    Friend WithEvents carModel As DataGridViewTextBoxColumn
+    Friend WithEvents maintenence As DataGridViewCheckBoxColumn
+    Friend WithEvents isAvailable As DataGridViewCheckBoxColumn
+    Friend WithEvents DeleteButton As DataGridViewButtonColumn
+    Friend WithEvents description As DataGridViewTextBoxColumn
+    Friend WithEvents isCritical As DataGridViewCheckBoxColumn
+    Friend WithEvents isResolved As DataGridViewCheckBoxColumn
+    Friend WithEvents trip As DataGridViewTextBoxColumn
+    Friend WithEvents time As DataGridViewTextBoxColumn
+    Friend WithEvents groupID As DataGridViewTextBoxColumn
+    Friend WithEvents groupName As DataGridViewTextBoxColumn
+    Friend WithEvents userHistoryRide As DataGridViewTextBoxColumn
+    Friend WithEvents userRidePeriod As DataGridViewTextBoxColumn
+    Friend WithEvents userRideDistance As DataGridViewTextBoxColumn
 End Class
