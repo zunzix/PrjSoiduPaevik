@@ -15,7 +15,7 @@
     ' returns user specific table list / error message
     Function GetGroupTable()
 
-    ' todo add getSpecificTable parameters
+    ' todo add getSpecificTables parameters
     ' what table(car,groupmember,carissue,carlog,carinsurance), table id
     ' returns specific group/car table list / error message
     ' note : add 2 different private functions for group/car

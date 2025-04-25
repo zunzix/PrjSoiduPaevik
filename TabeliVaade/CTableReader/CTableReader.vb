@@ -81,11 +81,11 @@ Public Class CTableReader
         End Try
 
 
-    End Function
+    ' Returns: A list of cars or an error message
+    Public Function GetGroupTable() As Object _
+        Implements ITableReader.GetGroupTable
 
-    Public Function UpdateTable() As Object Implements ITableReader.UpdateTable
-        Throw New NotImplementedException()
-    End Function
+        ' if is car, group, groupmember, carissue, carlog, carinsurance, then get that table
 
     ' Parameters: which table to get, 
     Public Function GetSpecificTables(TheTableToGet As String, ID As String) As Object Implements ITableReader.GetSpecificTables
@@ -155,6 +155,59 @@ Public Class CTableReader
                 Return Nothing
         End Select
 
+
+        Try
+            Dim Request As HttpWebRequest
+            Dim Response As HttpWebResponse
+            Dim Reader As StreamReader
+            Dim JsonResponse As String
+            Dim Cars As JArray
+
+
+            ' HTTP request
+            Request = HttpWebRequest.Create(BaseUrl & "api/Groups/GetGroups")
+            Request.Method = "GET"
+            Request.ContentType = "application/json"
+
+            ' Add Jwt token
+            Request.Headers.Add("Authorization", "Bearer " & JwtToken)
+
+            ' Get response
+            Response = Request.GetResponse()
+            Reader = New StreamReader(Response.GetResponseStream)
+            JsonResponse = Reader.ReadToEnd()
+
+            ' Parse JSON
+            Cars = JArray.Parse(JsonResponse)
+
+            ' Add each car to CarList
+
+
+
+        Catch ex As WebException
+
+            If CType(ex.Response, HttpWebResponse).StatusCode = HttpStatusCode.Unauthorized Then
+                ' if error is 401, refresh token and retry
+                If RefreshJwtToken() Then
+
+                    Return GetGroupTable()
+
+                End If
+            End If
+            Console.WriteLine("Error: " & ex.Message)
+            Return Nothing
+
+        End Try
+
+
+    End Function
+
+    Public Function UpdateTable() As Object Implements ITableReader.UpdateTable
+        Throw New NotImplementedException()
+    End Function
+
+    Public Function GetSpecificTable() As Object Implements ITableReader.GetSpecificTable
+        Throw New NotImplementedException()
     End Function
 
 
