@@ -31,8 +31,10 @@ Public Class CTableReader
     ' Description: Function to fill the CarList of type CCar with data from the API
     ' Parameters: None
     ' Returns: A list of cars or an error message
-    Public Function GetCarTable() As Object _
-        Implements ITableReader.GetCarTable
+    Public Function GetGroupTable() As Object _
+        Implements ITableReader.GetGroupTable
+
+        ' if is car, group, groupmember, carissue, carlog, carinsurance, then get that table
 
         ' TODO: Add GroupID to paramaters
         ' TODO: if it even works :))))))
@@ -99,8 +101,61 @@ Public Class CTableReader
         Throw New NotImplementedException()
     End Function
 
-    Public Function GetSpecificTable() As Object Implements ITableReader.GetSpecificTable
-        Throw New NotImplementedException()
+    ' Parameters: which table to get, 
+    Public Function GetSpecificTables(TheTableToGet As String, ID As String) As Object Implements ITableReader.GetSpecificTables
+        Try
+            Dim Request As HttpWebRequest
+            Dim Response As HttpWebResponse
+            Dim Reader As StreamReader
+            Dim JsonResponse As String
+            Dim Cars As JArray
+
+            ' HTTP request
+            Request = HttpWebRequest.Create(BaseUrl & "api/Cars/GetGroupCars/" & ID) ' for each different table
+            Request.Method = "GET"
+            Request.ContentType = "application/json"
+
+            ' Add Jwt token
+            Request.Headers.Add("Authorization", "Bearer " & JwtToken)
+
+            ' Get response
+            Response = Request.GetResponse()
+            Reader = New StreamReader(Response.GetResponseStream)
+            JsonResponse = Reader.ReadToEnd()
+
+            ' Parse JSON
+            Cars = JArray.Parse(JsonResponse)
+
+            ' Add each car to CarList
+            For Each Car In Cars ' for each different table
+                CarList.Add(New CCar(
+                Car("id"),
+                Car("groupId"),
+                Car("name"),
+                Car("mileage"),
+                Car("avgFuelCons"),
+                Car("isAvailable"),
+                Car("isArchived"),
+                Car("isCritical")
+            ))
+            Next
+
+            Return CarList
+
+        Catch ex As WebException
+
+            If CType(ex.Response, HttpWebResponse).StatusCode = HttpStatusCode.Unauthorized Then
+                ' if error is 401, refresh token and retry
+                If RefreshJwtToken(RefreshToken) Then
+
+                    Return GetCarTable()
+
+                End If
+            End If
+            Console.WriteLine("Error: " & ex.Message)
+            Return Nothing
+
+        End Try
     End Function
 
     Public Function Register() As Object Implements ITableReader.Register
@@ -161,8 +216,9 @@ Public Class CTableReader
         Throw New NotImplementedException()
     End Function
 
-    Public Function RefreshJwtToken(RefreshToken As String) As String _
-        Implements ITableReader.RefreshJwtToken
+    Private Function RefreshJwtToken(RefreshToken As String) As String
+        ' enter jwt and refresh 
+        ' returns new jwt and new refresh
 
         Return RefreshToken
     End Function

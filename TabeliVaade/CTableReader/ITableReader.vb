@@ -13,13 +13,13 @@
     ' todo add getTable parameters
     ' what table(group,car,groupmember,carissue,carlog,carinsurance)
     ' returns user specific table list / error message
-    Function GetCarTable()
+    Function GetGroupTable()
 
     ' todo add getSpecificTable parameters
     ' what table(car,groupmember,carissue,carlog,carinsurance), table id
     ' returns specific group/car table list / error message
     ' note : add 2 different private functions for group/car
-    Function GetSpecificTable()
+    Function GetSpecificTables(TheTableToGet As String, ID As String)
 
     ' todo add addTable parameters
     ' what table(group,car,groupmember,carissue,carlog,carinsurance), new table file(list)
@@ -50,6 +50,4 @@
     ' refresh token 
     ' returns success (and redirects to login screen)/error message
     Function Logout()
-
-    Function RefreshJwtToken(RefreshToken As String) As String
 End Interface
