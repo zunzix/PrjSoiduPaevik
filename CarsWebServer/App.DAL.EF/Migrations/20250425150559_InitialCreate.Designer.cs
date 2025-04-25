@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace App.DAL.EF.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250414174144_InitialCreate")]
+    [Migration("20250425150559_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -50,6 +50,11 @@ namespace App.DAL.EF.Migrations
                         .HasColumnType("real");
 
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)");
+
+                    b.Property<string>("RegistrationPlate")
                         .IsRequired()
                         .HasMaxLength(64)
                         .HasColumnType("character varying(64)");

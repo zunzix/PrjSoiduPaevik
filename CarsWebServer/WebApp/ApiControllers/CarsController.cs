@@ -64,6 +64,7 @@ namespace WebApp.ApiControllers
                 c.Id,
                 c.GroupId,
                 c.Name,
+                c.RegistrationPlate,
                 c.Mileage,
                 c.AvgFuelCons,
                 c.IsAvailable,

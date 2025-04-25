@@ -202,6 +202,7 @@ namespace App.DAL.EF.Migrations
                     Mileage = table.Column<float>(type: "real", nullable: false),
                     AvgFuelCons = table.Column<float>(type: "real", nullable: false),
                     IsAvailable = table.Column<bool>(type: "boolean", nullable: false),
+                    RegistrationPlate = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: false),
                     IsArchived = table.Column<bool>(type: "boolean", nullable: false),
                     IsCritical = table.Column<bool>(type: "boolean", nullable: false)
                 },
