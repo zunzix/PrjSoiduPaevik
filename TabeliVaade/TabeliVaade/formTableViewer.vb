@@ -332,6 +332,11 @@ Public Class formTableViewer
         End If
 
         tcTabs.SelectedTab = tpCarsList
+
+        ' Get the ID of selected cell
+        Dim SelectedID As String = dgvGroupsList.Rows(e.RowIndex).Cells("ID").Value.ToString()
+
+        TableReader.GetSpecificTables("Car", selectedID)
     End Sub
 
     ' Description:  Loads the group list into the DataGridView
