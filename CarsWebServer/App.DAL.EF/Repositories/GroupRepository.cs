@@ -1,52 +1,54 @@
 using App.DAL.Contracts;
+using App.DAL.EF.Mappers;
 using Base.DAL.EF;
 using App.Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace App.DAL.EF.Repositories;
 
-public class GroupRepository : BaseRepository<Group>, IGroupRepository
+public class GroupRepository : BaseRepository<App.DAL.DTO.Group, App.Domain.Group>, IGroupRepository
 {
-    public GroupRepository(AppDbContext repositoryDbContext) : base(repositoryDbContext)
+    public GroupRepository(AppDbContext repositoryDbContext) : base(repositoryDbContext, new GroupMapper())
     {
     }
     
-    public override async Task<IEnumerable<Group>> AllAsync(Guid userId = default)
+    public override async Task<IEnumerable<App.DAL.DTO.Group>> AllAsync(Guid userId = default)
     {
-        return await RepositoryDbSet
+        return (await RepositoryDbSet
             .Where(g => g.GroupMembers!.Any(gm => gm.UserId == userId))
-            .ToListAsync();
+            .ToListAsync()).Select(e => Mapper.Map(e)!);
     }
     
-    public override IEnumerable<Group> All(Guid userId = default)
+    public override IEnumerable<App.DAL.DTO.Group> All(Guid userId = default)
     {
         return RepositoryDbSet
             .Where(g => g.GroupMembers!.Any(gm => gm.UserId == userId))
-            .ToList();
+            .ToList().Select(e => Mapper.Map(e)!);
     }
     
-    public override async Task<Group?> FindAsync(Guid id, Guid userId = default)
+    public override async Task<App.DAL.DTO.Group?> FindAsync(Guid id, Guid userId = default)
     {
-        return await RepositoryDbSet
+        var res = await RepositoryDbSet
             .Where(g => g.Id == id)
             .Where(g => g.GroupMembers!.Any(gm => gm.UserId == userId))
             .FirstOrDefaultAsync();
+        return Mapper.Map(res);
     }
 
-    public IEnumerable<Group> AllAdmins(Guid userId)
+    public IEnumerable<App.DAL.DTO.Group> AllAdmins(Guid userId)
     {
         return RepositoryDbSet
             .Where(g => g.GroupMembers!
                 .Any(gm => gm.UserId == userId && gm.IsAdmin))
-            .ToList();
+            .ToList().Select(e => Mapper.Map(e)!);
     }
 
-    public async Task<IEnumerable<Group>> AllAdminsAsync(Guid userId)
+    public async Task<IEnumerable<App.DAL.DTO.Group>> AllAdminsAsync(Guid userId)
     {
-        return await RepositoryDbSet
+        return (await RepositoryDbSet
             .Where(g => g.GroupMembers!
                 .Any(gm => gm.UserId == userId && gm.IsAdmin))
-            .ToListAsync();
+            .ToListAsync()).Select(e => Mapper.Map(e)!);
     }
     
     public async Task<bool> IsUserAdminInGroup(Guid userId, Guid groupId)
