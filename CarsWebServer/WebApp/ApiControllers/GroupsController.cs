@@ -122,7 +122,7 @@ namespace WebApp.ApiControllers
                 return Forbid();
             }
 
-            _uow.GroupRepository.Remove(entity);
+            await _uow.GroupRepository.RemoveGroupWithDependenciesAsync(entity);
             await _uow.SaveChangesAsync();
 
             return NoContent();

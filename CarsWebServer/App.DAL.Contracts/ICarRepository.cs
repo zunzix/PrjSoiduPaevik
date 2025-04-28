@@ -9,4 +9,8 @@ public interface ICarRepository : IBaseRepository<App.DAL.DTO.Car>
     IEnumerable<App.DAL.DTO.Car> AllCars(IEnumerable<App.DAL.DTO.Group> userGroups);
 
     Task<IEnumerable<App.DAL.DTO.Car>> AllGroupCarsAsync(IEnumerable<App.DAL.DTO.Car> userCars, Guid groupId);
+    
+    void RemoveCarWithDependencies(App.DAL.DTO.Car entity);
+    
+    Task RemoveCarWithDependenciesAsync(App.DAL.DTO.Car entity);
 }

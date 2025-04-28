@@ -36,6 +36,7 @@ public class AppDbContext : IdentityDbContext<AppUser, AppRole, Guid, IdentityUs
         }
         
         
+        
         // Custom UserRole with separate PK and navigation for Role and User
         // override default Identity EF config
         builder.Entity<AppUserRole>().HasKey(a => a.Id);

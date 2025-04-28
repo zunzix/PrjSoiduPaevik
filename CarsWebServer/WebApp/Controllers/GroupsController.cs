@@ -144,7 +144,20 @@ public class GroupsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(Guid id)
     {
-        await _uow.GroupRepository.RemoveAsync(id);
+        var entity = await _uow.GroupRepository.FindAsync(id, User.GetUserId());
+        if (entity == null)
+        {
+            return NotFound();
+        }
+        
+        // Check if current user is admin of the group
+        var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), id);
+        if (!isAdmin)
+        {
+            return Forbid();
+        }
+        
+        await _uow.GroupRepository.RemoveGroupWithDependenciesAsync(entity);
 
         await _uow.SaveChangesAsync();
         return RedirectToAction(nameof(Index));

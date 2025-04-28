@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 
 
-//todo : add cascade delete
+
 
 namespace WebApp.ApiControllers
 {
@@ -145,7 +145,7 @@ namespace WebApp.ApiControllers
                 return Forbid();
             }
 
-            _uow.CarRepository.Remove(car);
+            await _uow.CarRepository.RemoveCarWithDependenciesAsync(car);
             await _uow.SaveChangesAsync();
 
             return NoContent();
