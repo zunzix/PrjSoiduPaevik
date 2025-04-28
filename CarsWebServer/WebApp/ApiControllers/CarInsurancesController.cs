@@ -114,7 +114,7 @@ namespace WebApp.ApiControllers
         [HttpPost]
         public async Task<ActionResult<CarInsurance>> PostCarInsurance(CarInsurance carInsurance)
         {
-            var car = await _uow.CarRepository.FindAsync(carInsurance.CarId);
+            var car = await _uow.CarRepository.FindAsync(carInsurance.CarId, User.GetUserId());
             if (car == null)
             {
                 return NotFound();
@@ -142,9 +142,15 @@ namespace WebApp.ApiControllers
             {
                 return NotFound();
             }
+            
+            var car = await _uow.CarRepository.FindAsync(carInsurance.CarId, User.GetUserId());
+            if (car == null)
+            {
+                return NotFound();
+            }
         
             // Check if current user is admin of the group
-            var isAdmin = await _uow.GroupRepository.IsUserInGroup(User.GetUserId(), carInsurance.Car!.GroupId);
+            var isAdmin = await _uow.GroupRepository.IsUserInGroup(User.GetUserId(), car.GroupId);
             if (!isAdmin)
             {
                 return Forbid();

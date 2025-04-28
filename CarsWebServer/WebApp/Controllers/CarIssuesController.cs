@@ -110,7 +110,9 @@ public class CarIssuesController : Controller
             return NotFound();
         }
         
-        var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), entity.Car!.GroupId);
+        var car = await _uow.CarRepository.FindAsync(entity.CarId, User.GetUserId());
+        
+        var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), car!.GroupId);
         if (!isAdmin)
         {
             return Forbid();
@@ -135,8 +137,9 @@ public class CarIssuesController : Controller
         {
             return NotFound();
         }
+        var car = await _uow.CarRepository.FindAsync(carIssue.CarId, User.GetUserId());
         
-        var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), carIssue.Car!.GroupId);
+        var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), car!.GroupId);
         if (!isAdmin)
         {
             return Forbid();
@@ -170,7 +173,13 @@ public class CarIssuesController : Controller
             return NotFound();
         }
         
-        var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), entity.Car!.GroupId);
+        var car = await _uow.CarRepository.FindAsync(entity.CarId, User.GetUserId());
+        if (car == null)
+        {
+            return NotFound();
+        }
+        
+        var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), car!.GroupId);
         if (!isAdmin)
         {
             return Forbid();
@@ -190,8 +199,14 @@ public class CarIssuesController : Controller
             return NotFound();
         }
 
+        var car = await _uow.CarRepository.FindAsync(entity.CarId, User.GetUserId());
+        if (car == null)
+        {
+            return NotFound();
+        }
+        
         // Check if current user is admin of the group
-        var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), entity.Car!.GroupId);
+        var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), car!.GroupId);
         if (!isAdmin)
         {
             return Forbid();

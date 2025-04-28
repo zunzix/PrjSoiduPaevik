@@ -55,22 +55,31 @@ public class CarMapper : IMapper<App.DAL.DTO.Car, App.Domain.Car>
                 Name = ci.Name,
                 EndDate = ci.EndDate
             }).ToList(),
-            CarLogs = entity.CarLogs?.Select(ci => new CarLog()
+            CarLogs = entity.CarLogs?.Select(ci =>
             {
-                Id = ci.Id,
+                var user = _context.Users.FirstOrDefault(u => u.Id == ci.UserId);
+                if (user == null)
+                {
+                    return null;
+                }
+                
+                return new CarLog()
+                {
+                    Id = ci.Id,
 
-                CarId = ci.CarId,
-                //todo : add mapping
-                Car = null,
+                    CarId = ci.CarId,
+                    //todo : add mapping
+                    Car = null,
 
-                Email = ci.User!.Email!,
-                StartDate = ci.StartDate,
-                EndDate = ci.EndDate,
-                StartPoint = ci.StartPoint,
-                EndPoint = ci.EndPoint,
-                Distance = ci.Distance,
-                Comment = ci.Comment
-            }).ToList()
+                    Email = user.Email!,
+                    StartDate = ci.StartDate,
+                    EndDate = ci.EndDate,
+                    StartPoint = ci.StartPoint,
+                    EndPoint = ci.EndPoint,
+                    Distance = ci.Distance,
+                    Comment = ci.Comment
+                };
+            }).ToList()!
         };
         return res;
     }

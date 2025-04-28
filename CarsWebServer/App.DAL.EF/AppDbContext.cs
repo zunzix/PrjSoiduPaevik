@@ -34,7 +34,8 @@ public class AppDbContext : IdentityDbContext<AppUser, AppRole, Guid, IdentityUs
         {
             relationship.DeleteBehavior = DeleteBehavior.Restrict;
         }
-
+        
+        
         // Custom UserRole with separate PK and navigation for Role and User
         // override default Identity EF config
         builder.Entity<AppUserRole>().HasKey(a => a.Id);
@@ -74,7 +75,11 @@ public class AppDbContext : IdentityDbContext<AppUser, AppRole, Guid, IdentityUs
                 entry.Property("CreatedAt").IsModified = false;
                 entry.Property("CreatedBy").IsModified = false;
 
-                entry.Property("UserId").IsModified = false;
+                if (entry.Entity.GetType().GetProperty("UserId") != null)
+                {
+                    entry.Property("UserId").IsModified = false;
+                }
+                
             }
         }
 

@@ -16,6 +16,13 @@ public class CarLogMapper : IMapper<App.DAL.DTO.CarLog, App.Domain.CarLog>
     {
         if (entity == null) return null;
         
+        
+        var user = _context.Users.FirstOrDefault(u => u.Id == entity.UserId);
+        if (user == null)
+        {
+            return null;
+        }
+        
         var res = new CarLog()
         {
             Id = entity.Id,
@@ -24,7 +31,7 @@ public class CarLogMapper : IMapper<App.DAL.DTO.CarLog, App.Domain.CarLog>
             //todo : add mapping
             Car = null,
 
-            Email = entity.User!.Email!,
+            Email = user.Email,
             StartDate = entity.StartDate,
             EndDate = entity.EndDate,
             StartPoint = entity.StartPoint,

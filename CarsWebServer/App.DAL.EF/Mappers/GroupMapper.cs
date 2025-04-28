@@ -22,18 +22,28 @@ public class GroupMapper : IMapper<App.DAL.DTO.Group, App.Domain.Group>
         {
             Id = entity.Id,
             Name = entity.Name,
-            GroupMembers = entity.GroupMembers?.Select(c => new GroupMember()
+            GroupMembers = entity.GroupMembers?.Select(c =>
             {
-                Id = c.Id,
+                var user = _context.Users.FirstOrDefault(u => u.Id == c.UserId);
+                if (user == null)
+                {
+                    return null;
+                }
+
                 
-                GroupId = c.GroupId,
-                //todo : add mapping
-                Group = null,
-                
-                Email = c.User!.Email!,
-                
-                IsAdmin = c.IsAdmin
-            }).ToList(),
+                return new GroupMember()
+                {
+                    Id = c.Id,
+
+                    GroupId = c.GroupId,
+                    //todo : add mapping
+                    Group = null,
+
+                    Email = user.Email!,
+
+                    IsAdmin = c.IsAdmin
+                };
+            }).ToList()!,
             Cars = entity.Cars?.Select(c => new Car()
             {
                 Id = c.Id,
@@ -73,22 +83,31 @@ public class GroupMapper : IMapper<App.DAL.DTO.Group, App.Domain.Group>
                     Name = ci.Name,
                     EndDate = ci.EndDate
                 }).ToList(),
-                CarLogs = c.CarLogs?.Select(ci => new CarLog()
-                { 
-                    Id = ci.Id,
+                CarLogs = c.CarLogs?.Select(ci =>
+                {
+                    var user = _context.Users.FirstOrDefault(u => u.Id == ci.UserId);
+                    if (user == null)
+                    {
+                        return null;
+                    }
                     
-                    CarId = ci.CarId,
-                    //todo : add mapping
-                    Car = null,
-                    
-                    Email = ci.User!.Email!,
-                    StartDate = ci.StartDate,
-                    EndDate = ci.EndDate,
-                    StartPoint = ci.StartPoint,
-                    EndPoint = ci.EndPoint,
-                    Distance = ci.Distance,
-                    Comment = ci.Comment
-                }).ToList()
+                    return new CarLog()
+                    {
+                        Id = ci.Id,
+
+                        CarId = ci.CarId,
+                        //todo : add mapping
+                        Car = null,
+
+                        Email =  user.Email!,
+                        StartDate = ci.StartDate,
+                        EndDate = ci.EndDate,
+                        StartPoint = ci.StartPoint,
+                        EndPoint = ci.EndPoint,
+                        Distance = ci.Distance,
+                        Comment = ci.Comment
+                    };
+                }).ToList()!
             }).ToList()
         };
         return res;

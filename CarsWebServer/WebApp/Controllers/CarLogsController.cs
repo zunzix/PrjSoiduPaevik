@@ -118,8 +118,14 @@ public class CarLogsController : Controller
         {
             return NotFound();
         }
+        var car = await _uow.CarRepository.FindAsync(entity.CarId, User.GetUserId());
+        if (car == null)
+        {
+            return NotFound();
+        }
+        
         // Check if current user is admin of the group
-        var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), entity.Car!.GroupId);
+        var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), car!.GroupId);
         if (!isAdmin)
         {
             return Forbid();
@@ -145,15 +151,26 @@ public class CarLogsController : Controller
             return NotFound();
         }
         
+        var car = await _uow.CarRepository.FindAsync(carLog.CarId, User.GetUserId());
+        if (car == null)
+        {
+            return NotFound();
+        }
+        
         // Check if current user is admin of the group
-        var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), carLog.Car!.GroupId);
+        var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), car!.GroupId);
         if (!isAdmin)
         {
             return Forbid();
         }
+        
+        carLog.Email = User.GetUserEmail();
 
         if (ModelState.IsValid)
         {
+            carLog.EndDate = DateTime.SpecifyKind(carLog.EndDate, DateTimeKind.Utc);
+            carLog.StartDate = DateTime.SpecifyKind(carLog.StartDate, DateTimeKind.Utc);
+            
             _uow.CarLogRepository.Update(carLog);
             await _uow.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -178,8 +195,15 @@ public class CarLogsController : Controller
         {
             return NotFound();
         }
+        
+        var car = await _uow.CarRepository.FindAsync(entity.CarId, User.GetUserId());
+        if (car == null)
+        {
+            return NotFound();
+        }
+        
         // Check if current user is admin of the group
-        var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), entity.Car!.GroupId);
+        var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), car!.GroupId);
         if (!isAdmin)
         {
             return Forbid();
@@ -199,8 +223,14 @@ public class CarLogsController : Controller
             return NotFound();
         }
 
+        var car = await _uow.CarRepository.FindAsync(entity.CarId, User.GetUserId());
+        if (car == null)
+        {
+            return NotFound();
+        }
+        
         // Check if current user is admin of the group
-        var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), entity.Car!.GroupId);
+        var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), car!.GroupId);
         if (!isAdmin)
         {
             return Forbid();

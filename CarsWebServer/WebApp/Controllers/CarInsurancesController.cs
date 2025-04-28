@@ -113,7 +113,13 @@ public class CarInsurancesController : Controller
             return NotFound();
         }
         
-        var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), entity.Car!.GroupId);
+        var car = await _uow.CarRepository.FindAsync(entity.CarId, User.GetUserId());
+        if (car == null)
+        {
+            return NotFound();
+        }
+        
+        var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), car!.GroupId);
         if (!isAdmin)
         {
             return Forbid();
@@ -139,7 +145,13 @@ public class CarInsurancesController : Controller
             return NotFound();
         }
         
-        var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), carInsurance.Car!.GroupId);
+        var car = await _uow.CarRepository.FindAsync(carInsurance.CarId, User.GetUserId());
+        if (car == null)
+        {
+            return NotFound();
+        }
+        
+        var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), car!.GroupId);
         if (!isAdmin)
         {
             return Forbid();
@@ -147,6 +159,8 @@ public class CarInsurancesController : Controller
 
         if (ModelState.IsValid)
         {
+            carInsurance.EndDate = DateTime.SpecifyKind(carInsurance.EndDate, DateTimeKind.Utc);
+            
             _uow.CarInsuranceRepository.Update(carInsurance);
             await _uow.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -172,7 +186,13 @@ public class CarInsurancesController : Controller
             return NotFound();
         }
         
-        var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), entity.Car!.GroupId);
+        var car = await _uow.CarRepository.FindAsync(entity.CarId, User.GetUserId());
+        if (car == null)
+        {
+            return NotFound();
+        }
+        
+        var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), car!.GroupId);
         if (!isAdmin)
         {
             return Forbid();
@@ -192,8 +212,14 @@ public class CarInsurancesController : Controller
             return NotFound();
         }
 
+        var car = await _uow.CarRepository.FindAsync(entity.CarId, User.GetUserId());
+        if (car == null)
+        {
+            return NotFound();
+        }
+        
         // Check if current user is admin of the group
-        var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), entity.Car!.GroupId);
+        var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), car!.GroupId);
         if (!isAdmin)
         {
             return Forbid();

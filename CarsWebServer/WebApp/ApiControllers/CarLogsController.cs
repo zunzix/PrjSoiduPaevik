@@ -130,6 +130,8 @@ namespace WebApp.ApiControllers
             {
                 return Forbid();
             }
+            
+            carLog.Email = User.GetUserEmail();
 
             _uow.CarLogRepository.Update(carLog);
             await _uow.SaveChangesAsync();
@@ -174,8 +176,14 @@ namespace WebApp.ApiControllers
                 return NotFound();
             }
             
+            var car = await _uow.CarRepository.FindAsync(carLog.CarId, User.GetUserId());
+            if (car == null)
+            {
+                return NotFound();
+            }
+            
             // Check if current user is admin of the group
-            var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), carLog.Car!.GroupId);
+            var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), car.GroupId);
             if (!isAdmin)
             {
                 return Forbid();

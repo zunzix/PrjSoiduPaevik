@@ -17,6 +17,12 @@ public class GroupMemberMapper : IMapper<App.DAL.DTO.GroupMember, App.Domain.Gro
     {
         if (entity == null) return null;
         
+        var user = _context.Users.FirstOrDefault(u => u.Id == entity.UserId);
+        if (user == null)
+        {
+            return null;
+        }
+        
         var res = new GroupMember()
         {
             Id = entity.Id,
@@ -25,7 +31,7 @@ public class GroupMemberMapper : IMapper<App.DAL.DTO.GroupMember, App.Domain.Gro
             //todo : add mapping
             Group = null,
                 
-            Email = entity.User!.Email!,
+            Email = user.Email!,
                 
             IsAdmin = entity.IsAdmin
         };

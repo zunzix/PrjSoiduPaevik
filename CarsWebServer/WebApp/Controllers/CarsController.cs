@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace WebApp.Controllers;
 
+//todo : add cascade delete
 [Authorize]
 public class CarsController : Controller
 {
