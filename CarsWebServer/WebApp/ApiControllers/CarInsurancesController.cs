@@ -88,7 +88,7 @@ namespace WebApp.ApiControllers
                 return BadRequest();
             }
             
-            var car = await _uow.CarRepository.FindAsync(carInsurance.CarId);
+            var car = await _uow.CarRepository.FindAsync(carInsurance.CarId, User.GetUserId());
             if (car == null)
             {
                 return NotFound();
@@ -101,6 +101,7 @@ namespace WebApp.ApiControllers
                 return Forbid();
             }
             
+            carInsurance.Id = Guid.NewGuid();
             _uow.CarInsuranceRepository.Update(carInsurance);
             await _uow.SaveChangesAsync();
 

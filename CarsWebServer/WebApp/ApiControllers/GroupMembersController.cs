@@ -109,6 +109,7 @@ namespace WebApp.ApiControllers
             {
                 return Forbid();
             }
+            groupMember.Id = Guid.NewGuid();
             
             _uow.GroupMemberRepository.Add(groupMember);
             await _uow.SaveChangesAsync();

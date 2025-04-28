@@ -142,7 +142,7 @@ namespace WebApp.ApiControllers
         [HttpPost]
         public async Task<ActionResult<CarLog>> PostCarLog(CarLog carLog)
         {
-            var car = await _uow.CarRepository.FindAsync(carLog.CarId);
+            var car = await _uow.CarRepository.FindAsync(carLog.CarId, User.GetUserId());
             if (car == null)
             {
                 return NotFound();
@@ -154,6 +154,9 @@ namespace WebApp.ApiControllers
             {
                 return Forbid();
             }
+            
+            carLog.Id = Guid.NewGuid();
+            carLog.Email = User.GetUserEmail();
             
             _uow.CarLogRepository.Add(carLog);
             await _uow.SaveChangesAsync();

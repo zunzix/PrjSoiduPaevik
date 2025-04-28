@@ -121,6 +121,7 @@ namespace WebApp.ApiControllers
                 return Forbid();
             }
             
+            car.Id = Guid.NewGuid();
             _uow.CarRepository.Add(car);
             await _uow.SaveChangesAsync();
 

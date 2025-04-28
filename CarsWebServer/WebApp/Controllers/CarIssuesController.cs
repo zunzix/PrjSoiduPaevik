@@ -69,7 +69,7 @@ public class CarIssuesController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(CarIssue carIssue)
     {
-        var car = await _uow.CarRepository.FindAsync(carIssue.CarId);
+        var car = await _uow.CarRepository.FindAsync(carIssue.CarId, User.GetUserId());
         if (car == null)
         {
             return NotFound();

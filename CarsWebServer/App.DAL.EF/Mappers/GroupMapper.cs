@@ -167,7 +167,7 @@ public class GroupMapper : IMapper<App.DAL.DTO.Group, App.Domain.Group>
                 }).ToList(),
                 CarLogs = c.CarLogs?.Select(ci =>
                 {
-                    var normalizedEmail =  ci.Email.Normalize().ToUpperInvariant();
+                    var normalizedEmail =  ci.Email!.Normalize().ToUpperInvariant();
                     
                     var user = _context.Users.FirstOrDefault(u => u.NormalizedEmail == normalizedEmail);
                     

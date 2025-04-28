@@ -115,7 +115,7 @@ namespace WebApp.ApiControllers
         [HttpPost]
         public async Task<ActionResult<CarIssue>> PostCarIssue(CarIssue carIssue)
         {
-            var car = await _uow.CarRepository.FindAsync(carIssue.CarId);
+            var car = await _uow.CarRepository.FindAsync(carIssue.CarId, User.GetUserId());
             if (car == null)
             {
                 return NotFound();
@@ -128,6 +128,7 @@ namespace WebApp.ApiControllers
                 return Forbid();
             }
             
+            carIssue.Id = Guid.NewGuid();
             _uow.CarIssueRepository.Add(carIssue);
             await _uow.SaveChangesAsync();
 

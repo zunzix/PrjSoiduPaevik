@@ -14,7 +14,7 @@ public class CarLog : IDomainId
     
     [MaxLength(256)]
     [Display(Name = nameof(Email), Prompt = nameof(Email), ResourceType = typeof(Base.Resources.Common))]
-    public string Email { get; set; } = null!;
+    public string? Email { get; set; }
     
     [Display(Name = nameof(StartDate), Prompt = nameof(StartDate), ResourceType = typeof(App.Resources.Domain.CarLog))]
     public DateTime StartDate { get; set; }

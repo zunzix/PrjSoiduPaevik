@@ -7,11 +7,37 @@ public class CarInsuranceMapper : IMapper<App.DAL.DTO.CarInsurance, App.Domain.C
 {
     public CarInsurance? Map(Domain.CarInsurance? entity)
     {
-        throw new NotImplementedException();
+        if (entity == null) return null;
+        
+        var res = new CarInsurance()
+        {
+            Id = entity.Id,
+
+            CarId = entity.CarId,
+            //todo : add mapping
+            Car = null,
+
+            Name = entity.Name,
+            EndDate = entity.EndDate
+        };
+        return res;
     }
 
     public Domain.CarInsurance? Map(CarInsurance? entity)
     {
-        throw new NotImplementedException();
+        if (entity == null) return null;
+        
+        var res = new Domain.CarInsurance()
+        {
+            Id = entity.Id,
+
+            CarId = entity.CarId,
+            //todo : add mapping
+            Car = null,
+
+            Name = entity.Name,
+            EndDate = entity.EndDate
+        };
+        return res;
     }
 }

@@ -70,7 +70,9 @@ public class CarLogsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(CarLog carLog)
     {
-        var car = await _uow.CarRepository.FindAsync(carLog.CarId);
+        
+        
+        var car = await _uow.CarRepository.FindAsync(carLog.CarId, User.GetUserId());
         if (car == null)
         {
             return NotFound();
@@ -82,7 +84,6 @@ public class CarLogsController : Controller
         {
             return Forbid();
         }
-        
         
         carLog.Email = User.GetUserEmail();
         

@@ -8,7 +8,7 @@ namespace App.DAL.EF.Repositories;
 
 public class CarRepository : BaseRepository<App.DAL.DTO.Car, App.Domain.Car>, ICarRepository
 {
-    public CarRepository(AppDbContext repositoryDbContext) : base(repositoryDbContext, new CarMapper())
+    public CarRepository(AppDbContext repositoryDbContext) : base(repositoryDbContext, new CarMapper(repositoryDbContext))
     {
     }
     

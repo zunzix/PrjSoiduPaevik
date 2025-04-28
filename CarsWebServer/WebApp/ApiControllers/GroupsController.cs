@@ -51,7 +51,11 @@ namespace WebApp.ApiControllers
                 return NotFound();
             }
 
-            return group;
+            return Ok(new
+            {
+                id = group.Id,
+                name = group.Name
+            });
         }
 
         // PUT: api/Groups/5
@@ -83,6 +87,7 @@ namespace WebApp.ApiControllers
         [HttpPost]
         public async Task<ActionResult<Group>> PostGroup(Group group)
         {
+            group.Id = Guid.NewGuid();
             _uow.GroupRepository.Add(group);
             
             
