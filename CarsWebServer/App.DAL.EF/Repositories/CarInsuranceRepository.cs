@@ -31,6 +31,7 @@ public class CarInsuranceRepository : BaseRepository<App.DAL.DTO.CarInsurance, A
     {
         var res = await RepositoryDbSet
             .Include(c => c.Car)
+            .Where(g => g.Car!.Group!.GroupMembers!.Any(gm => gm.UserId == userId))
             .FirstOrDefaultAsync(m => m.Id == id);
         return Mapper.Map(res);
     }

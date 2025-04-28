@@ -33,6 +33,7 @@ public class CarLogRepository : BaseRepository<App.DAL.DTO.CarLog, App.Domain.Ca
         var res = await RepositoryDbSet
             .Include(c => c.User)
             .Include(c => c.Car)
+            .Where(g => g.Car!.Group!.GroupMembers!.Any(gm => gm.UserId == userId))
             .FirstOrDefaultAsync(m => m.Id == id);
         return Mapper.Map(res);
     }

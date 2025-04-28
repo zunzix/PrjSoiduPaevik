@@ -40,6 +40,7 @@ public class CarRepository : BaseRepository<App.DAL.DTO.Car, App.Domain.Car>, IC
     {
         var res = await RepositoryDbSet
             .Include(c => c.Group)
+            .Where(g => g.Group!.GroupMembers!.Any(gm => gm.UserId == userId))
             .FirstOrDefaultAsync(m => m.Id == id);
         return Mapper.Map(res);
     }

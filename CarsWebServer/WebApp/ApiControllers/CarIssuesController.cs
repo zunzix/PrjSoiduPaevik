@@ -12,7 +12,7 @@ using Base.Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 
-// todo : add user specific Find
+
 
 namespace WebApp.ApiControllers
 {
@@ -68,7 +68,7 @@ namespace WebApp.ApiControllers
         [HttpGet("{id}")]
         public async Task<ActionResult<CarIssue>> GetCarIssue(Guid id)
         {
-            var carIssue = await _uow.CarIssueRepository.FindAsync(id);
+            var carIssue = await _uow.CarIssueRepository.FindAsync(id, User.GetUserId());
 
             if (carIssue == null)
             {
