@@ -72,7 +72,8 @@ namespace WebApp.ApiControllers
 
             return entity;
         }
-
+        
+        
         // PUT: api/GroupMembers/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
@@ -95,7 +96,8 @@ namespace WebApp.ApiControllers
 
             return NoContent();
         }
-
+        
+        
         // POST: api/GroupMembers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
