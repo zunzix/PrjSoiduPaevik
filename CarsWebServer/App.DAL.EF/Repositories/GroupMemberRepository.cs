@@ -8,7 +8,7 @@ namespace App.DAL.EF.Repositories;
 
 public class GroupMemberRepository : BaseRepository<App.DAL.DTO.GroupMember, App.Domain.GroupMember>, IGroupMemberRepository
 {
-    public GroupMemberRepository(AppDbContext repositoryDbContext) : base(repositoryDbContext, new GroupMemberMapper())
+    public GroupMemberRepository(AppDbContext repositoryDbContext) : base(repositoryDbContext, new GroupMemberMapper(repositoryDbContext))
     {
     }
     

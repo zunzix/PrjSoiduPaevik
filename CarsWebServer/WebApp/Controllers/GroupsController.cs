@@ -67,6 +67,7 @@ public class GroupsController : Controller
             @group.Id = Guid.NewGuid();
             _uow.GroupRepository.Add(@group);
 
+            
             var groupMember = new GroupMember
             {
                 Id = Guid.NewGuid(),
@@ -74,7 +75,6 @@ public class GroupsController : Controller
                 Email = User.GetUserEmail(),
                 IsAdmin = true
             };
-            
             _uow.GroupMemberRepository.Add(groupMember);
             
             await _uow.SaveChangesAsync();

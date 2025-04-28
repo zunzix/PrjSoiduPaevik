@@ -105,18 +105,26 @@ public class GroupMapper : IMapper<App.DAL.DTO.Group, App.Domain.Group>
         {
             Id = entity.Id,
             Name = entity.Name,
-            GroupMembers = entity.GroupMembers?.Select(c => new Domain.GroupMember()
+            GroupMembers = entity.GroupMembers?.Select(c =>
             {
-                Id = c.Id,
+                var normalizedEmail =  c.Email.Normalize().ToUpperInvariant();
                 
-                GroupId = c.GroupId,
-                //todo : add mapping
-                Group = null,
-                
-                User = _context.Users.FirstOrDefault(u => u.Email == c.Email),
-                UserId = _context.Users.FirstOrDefault(u => u.Email == c.Email)!.Id,
-                
-                IsAdmin = c.IsAdmin
+                var user = _context.Users.FirstOrDefault(u => u.NormalizedEmail == normalizedEmail);
+
+                return new Domain.GroupMember()
+                {
+                    Id = c.Id,
+
+                    GroupId = c.GroupId,
+                    //todo : add mapping
+                    Group = null,
+
+                    UserId = user!.Id,
+                    //todo : add mapping
+                    User = null,
+                    
+                    IsAdmin = c.IsAdmin
+                };
             }).ToList(),
             Cars = entity.Cars?.Select(c => new Domain.Car()
             {
@@ -157,23 +165,31 @@ public class GroupMapper : IMapper<App.DAL.DTO.Group, App.Domain.Group>
                     Name = ci.Name,
                     EndDate = ci.EndDate
                 }).ToList(),
-                CarLogs = c.CarLogs?.Select(ci => new Domain.CarLog()
-                { 
-                    Id = ci.Id,
+                CarLogs = c.CarLogs?.Select(ci =>
+                {
+                    var normalizedEmail =  ci.Email.Normalize().ToUpperInvariant();
                     
-                    CarId = ci.CarId,
-                    //todo : add mapping
-                    Car = null,
+                    var user = _context.Users.FirstOrDefault(u => u.NormalizedEmail == normalizedEmail);
                     
-                    User = _context.Users.FirstOrDefault(u => u.Email == ci.Email),
-                    UserId = _context.Users.FirstOrDefault(u => u.Email == ci.Email)!.Id,
-                    
-                    StartDate = ci.StartDate,
-                    EndDate = ci.EndDate,
-                    StartPoint = ci.StartPoint,
-                    EndPoint = ci.EndPoint,
-                    Distance = ci.Distance,
-                    Comment = ci.Comment
+                    return new Domain.CarLog()
+                    {
+                        Id = ci.Id,
+
+                        CarId = ci.CarId,
+                        //todo : add mapping
+                        Car = null,
+
+                        UserId = user!.Id,
+                        //todo : add mapping
+                        User = null,
+
+                        StartDate = ci.StartDate,
+                        EndDate = ci.EndDate,
+                        StartPoint = ci.StartPoint,
+                        EndPoint = ci.EndPoint,
+                        Distance = ci.Distance,
+                        Comment = ci.Comment
+                    };
                 }).ToList()
             }).ToList()
         };
