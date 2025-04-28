@@ -4,7 +4,7 @@ using Base.Domain;
 
 namespace App.Domain;
 
-public class CarLog : BaseEntityUser<AppUser, AppRole>
+public class CarLog : BaseEntityUser<AppUser>
 {
     [Display(Name = nameof(Car), Prompt = nameof(Car), ResourceType = typeof(App.Resources.Domain.CarLog))]
     public Guid CarId { get; set; }

@@ -4,7 +4,7 @@ using Base.Domain;
 
 namespace App.Domain;
 
-public class GroupMember : BaseEntityUser<AppUser, AppRole>
+public class GroupMember : BaseEntityUser<AppUser>
 {
     [Display(Name = nameof(Group), Prompt = nameof(Group), ResourceType = typeof(App.Resources.Domain.GroupMember))]
     public Guid GroupId { get; set; }
