@@ -15,7 +15,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace WebApp.Controllers;
 
-//todo : add cascade delete
+
 [Authorize]
 public class CarsController : Controller
 {
@@ -178,7 +178,7 @@ public class CarsController : Controller
             return Forbid();
         }
         
-        await _uow.CarRepository.RemoveAsync(id);
+        await _uow.CarRepository.RemoveCarWithDependenciesAsync(entity);
         await _uow.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
     }

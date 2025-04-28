@@ -36,6 +36,7 @@ public class GroupRepository : BaseRepository<App.DAL.DTO.Group, App.Domain.Grou
             .FirstOrDefaultAsync();
         return Mapper.Map(res);
     }
+    
 
     public IEnumerable<App.DAL.DTO.Group> AllAdmins(Guid userId)
     {
@@ -67,5 +68,86 @@ public class GroupRepository : BaseRepository<App.DAL.DTO.Group, App.Domain.Grou
             .Where(g => g.Id == groupId)
             .AnyAsync(g => g.GroupMembers!
                 .Any(gm => gm.UserId == userId));
+    }
+    
+    public void RemoveGroupWithDependencies(App.DAL.DTO.Group entity)
+    {
+        var domainEntity = Mapper.Map(entity)!;
+        var groupId = domainEntity.Id;
+
+        // Delete car-related entities
+        var carIds = RepositoryDbContext.Set<Car>()
+            .Where(c => c.GroupId == groupId)
+            .Select(c => c.Id)
+            .ToList();
+
+        RepositoryDbContext.Set<CarIssue>()
+            .RemoveRange(RepositoryDbContext.Set<CarIssue>()
+                .Where(ci => carIds.Contains(ci.CarId)));
+
+        RepositoryDbContext.Set<CarLog>()
+            .RemoveRange(RepositoryDbContext.Set<CarLog>()
+                .Where(cl => carIds.Contains(cl.CarId)));
+
+        RepositoryDbContext.Set<CarInsurance>()
+            .RemoveRange(RepositoryDbContext.Set<CarInsurance>()
+                .Where(ci => carIds.Contains(ci.CarId)));
+
+        // Delete cars
+        RepositoryDbContext.Set<Car>()
+            .RemoveRange(RepositoryDbContext.Set<Car>()
+                .Where(c => c.GroupId == groupId));
+
+        // Delete group members
+        RepositoryDbContext.Set<GroupMember>()
+            .RemoveRange(RepositoryDbContext.Set<GroupMember>()
+                .Where(gm => gm.GroupId == groupId));
+
+        // Finally delete the group
+        base.Remove(entity);
+    }
+    
+    public async Task RemoveGroupWithDependenciesAsync(App.DAL.DTO.Group entity)
+    {
+        var domainEntity = Mapper.Map(entity)!;
+        var groupId = domainEntity.Id;
+
+        // Get car IDs asynchronously
+        var carIds = await RepositoryDbContext.Set<Car>()
+            .Where(c => c.GroupId == groupId)
+            .Select(c => c.Id)
+            .ToListAsync();
+
+        // Delete car-related entities asynchronously
+        var carIssues = await RepositoryDbContext.Set<CarIssue>()
+            .Where(ci => carIds.Contains(ci.CarId))
+            .ToListAsync();
+        RepositoryDbContext.Set<CarIssue>().RemoveRange(carIssues);
+
+        var carLogs = await RepositoryDbContext.Set<CarLog>()
+            .Where(cl => carIds.Contains(cl.CarId))
+            .ToListAsync();
+        RepositoryDbContext.Set<CarLog>().RemoveRange(carLogs);
+
+        var carInsurances = await RepositoryDbContext.Set<CarInsurance>()
+            .Where(ci => carIds.Contains(ci.CarId))
+            .ToListAsync();
+        RepositoryDbContext.Set<CarInsurance>().RemoveRange(carInsurances);
+
+        // Delete cars asynchronously
+        var cars = await RepositoryDbContext.Set<Car>()
+            .Where(c => c.GroupId == groupId)
+            .ToListAsync();
+        RepositoryDbContext.Set<Car>().RemoveRange(cars);
+
+        // Delete group members asynchronously
+        var groupMembers = await RepositoryDbContext.Set<GroupMember>()
+            .Where(gm => gm.GroupId == groupId)
+            .ToListAsync();
+        RepositoryDbContext.Set<GroupMember>().RemoveRange(groupMembers);
+
+        // Finally delete the group using base async method if available
+        // If your base repository doesn't have RemoveAsync, you'll need to implement it
+        await base.RemoveAsync(entity.Id);
     }
 }
