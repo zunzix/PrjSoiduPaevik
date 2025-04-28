@@ -11,7 +11,7 @@ public class GroupService : BaseService<App.BLL.DTO.Group, App.DAL.DTO.Group, Ap
 {
     public GroupService(
         IAppUOW serviceUOW, 
-        IBLLMapper<App.BLL.DTO.Group, App.DAL.DTO.Group, Guid> bllMapper) : base(serviceUOW, serviceUOW.GroupRepository, bllMapper)
+        IBLLMapper<App.BLL.DTO.Group, App.DAL.DTO.Group> bllMapper) : base(serviceUOW, serviceUOW.GroupRepository, bllMapper)
     {
     }
 }

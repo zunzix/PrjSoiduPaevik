@@ -9,7 +9,7 @@ public class CarInsuranceService : BaseService<App.BLL.DTO.CarInsurance, App.DAL
 {
     public CarInsuranceService(
         IAppUOW serviceUOW, 
-        IBLLMapper<App.BLL.DTO.CarInsurance, App.DAL.DTO.CarInsurance, Guid> bllMapper) : base(serviceUOW, serviceUOW.CarInsuranceRepository, bllMapper)
+        IBLLMapper<App.BLL.DTO.CarInsurance, App.DAL.DTO.CarInsurance> bllMapper) : base(serviceUOW, serviceUOW.CarInsuranceRepository, bllMapper)
     {
     }
 }

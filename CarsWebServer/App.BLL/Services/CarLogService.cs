@@ -9,7 +9,7 @@ public class CarLogService : BaseService<App.BLL.DTO.CarLog, App.DAL.DTO.CarLog,
 {
     public CarLogService(
         IAppUOW serviceUOW, 
-        IBLLMapper<App.BLL.DTO.CarLog, App.DAL.DTO.CarLog, Guid> bllMapper) : base(serviceUOW, serviceUOW.CarLogRepository, bllMapper)
+        IBLLMapper<App.BLL.DTO.CarLog, App.DAL.DTO.CarLog> bllMapper) : base(serviceUOW, serviceUOW.CarLogRepository, bllMapper)
     {
     }
 }

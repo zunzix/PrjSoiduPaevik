@@ -10,7 +10,7 @@ public class GroupMemberService : BaseService<App.BLL.DTO.GroupMember, App.DAL.D
 {
     public GroupMemberService(
         IAppUOW serviceUOW,
-        IBLLMapper<App.BLL.DTO.GroupMember, App.DAL.DTO.GroupMember, Guid> bllMapper) : base(serviceUOW, serviceUOW.GroupMemberRepository, bllMapper)
+        IBLLMapper<App.BLL.DTO.GroupMember, App.DAL.DTO.GroupMember> bllMapper) : base(serviceUOW, serviceUOW.GroupMemberRepository, bllMapper)
     {
     }
 }
