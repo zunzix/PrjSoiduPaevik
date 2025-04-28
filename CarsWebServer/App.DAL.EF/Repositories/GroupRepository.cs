@@ -2,13 +2,15 @@ using App.DAL.Contracts;
 using App.DAL.EF.Mappers;
 using Base.DAL.EF;
 using App.Domain;
+using App.Domain.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace App.DAL.EF.Repositories;
 
 public class GroupRepository : BaseRepository<App.DAL.DTO.Group, App.Domain.Group>, IGroupRepository
 {
-    public GroupRepository(AppDbContext repositoryDbContext) : base(repositoryDbContext, new GroupMapper())
+    public GroupRepository(AppDbContext repositoryDbContext) : base(repositoryDbContext, new GroupMapper(repositoryDbContext))
     {
     }
     
