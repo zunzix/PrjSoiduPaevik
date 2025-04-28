@@ -3,10 +3,10 @@ using Base.DAL.Contracts;
 
 namespace App.DAL.Contracts;
 
-public interface ICarRepository : IBaseRepository<Car>
+public interface ICarRepository : IBaseRepository<App.DAL.DTO.Car>
 {
-    Task<IEnumerable<Car>> AllCarsAsync(IEnumerable<Group> userGroups);
-    IEnumerable<Car> AllCars(IEnumerable<Group> userGroups);
+    Task<IEnumerable<App.DAL.DTO.Car>> AllCarsAsync(IEnumerable<App.DAL.DTO.Group> userGroups);
+    IEnumerable<App.DAL.DTO.Car> AllCars(IEnumerable<App.DAL.DTO.Group> userGroups);
 
-    Task<IEnumerable<Car>> AllGroupCarsAsync(IEnumerable<Car> userCars, Guid groupId);
+    Task<IEnumerable<App.DAL.DTO.Car>> AllGroupCarsAsync(IEnumerable<App.DAL.DTO.Car> userCars, Guid groupId);
 }

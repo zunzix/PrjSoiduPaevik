@@ -9,10 +9,6 @@ public class AppUOW : BaseUOW<AppDbContext>, IAppUOW
     public AppUOW(AppDbContext uowDbContext) : base(uowDbContext)
     {
     }
-    
-    private IUserRepository? _userRepository;
-    public IUserRepository UserRepository =>
-        _userRepository ??= new UserRepository(UOWDbContext);
 
     private IGroupRepository? _groupRepository;
     public IGroupRepository GroupRepository =>

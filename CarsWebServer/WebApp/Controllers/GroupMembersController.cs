@@ -19,10 +19,12 @@ namespace WebApp.Controllers;
 public class GroupMembersController : Controller
 {
     private readonly IAppUOW _uow;
+    private readonly AppDbContext _context;
     
-    public GroupMembersController(IAppUOW uow)
+    public GroupMembersController(IAppUOW uow, AppDbContext context)
     {
         _uow = uow;
+        _context = context;
     }
 
     // GET: GroupMembers
@@ -53,7 +55,7 @@ public class GroupMembersController : Controller
     public IActionResult Create()
     {
         ViewData["GroupId"] = new SelectList(_uow.GroupRepository.AllAdmins(User.GetUserId()), "Id", "Name");
-        ViewData["AppUserId"] = new SelectList(_uow.UserRepository.All(), "Id", "Email");
+        ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Email");
         return View();
     }
 
@@ -81,7 +83,7 @@ public class GroupMembersController : Controller
             return RedirectToAction(nameof(Index));
         }
 
-        ViewData["AppUserId"] = new SelectList(await _uow.UserRepository.AllAsync(), "Id", "Email", groupMember.UserId);
+        ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Email", groupMember.UserId);
         ViewData["GroupId"] = new SelectList(await _uow.GroupRepository.AllAdminsAsync(User.GetUserId()), "Id", "Name", groupMember.GroupId);
         return View(groupMember);
     }
@@ -109,7 +111,7 @@ public class GroupMembersController : Controller
 
 
         ViewData["GroupId"] = new SelectList(await _uow.GroupRepository.AllAdminsAsync(User.GetUserId()), "Id", "Name");
-        ViewData["AppUserId"] = new SelectList(await _uow.UserRepository.AllAsync(), "Id", "Email");
+        ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Email");
         return View(entity);
     }
 
@@ -138,7 +140,7 @@ public class GroupMembersController : Controller
             await _uow.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        ViewData["AppUserId"] = new SelectList(await _uow.UserRepository.AllAsync(), "Id", "Email", groupMember.UserId);
+        ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Email", groupMember.UserId);
         ViewData["GroupId"] = new SelectList(await _uow.GroupRepository.AllAdminsAsync(User.GetUserId()), "Id", "Name", groupMember.GroupId);
         return View(groupMember);
     }

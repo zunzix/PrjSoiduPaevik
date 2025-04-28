@@ -4,7 +4,6 @@ namespace App.DAL.Contracts;
 
 public interface IAppUOW : IBaseUOW
 {
-    IUserRepository UserRepository { get; }
     IGroupRepository GroupRepository { get; }
     IGroupMemberRepository GroupMemberRepository { get; }
     ICarRepository CarRepository { get; }

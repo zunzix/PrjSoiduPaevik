@@ -3,9 +3,9 @@ using Base.DAL.Contracts;
 
 namespace App.DAL.Contracts;
 
-public interface ICarIssueRepository : IBaseRepository<CarIssue>
+public interface ICarIssueRepository : IBaseRepository<App.DAL.DTO.CarIssue>
 {
-    Task<IEnumerable<CarIssue>> AllCarIssuesAsync(IEnumerable<Car> userCars);
+    Task<IEnumerable<App.DAL.DTO.CarIssue>> AllCarIssuesAsync(IEnumerable<App.DAL.DTO.Car> userCars);
     
-    Task<IEnumerable<CarIssue>> AllCarCarIssuesAsync(IEnumerable<CarIssue> userCarIssues, Guid carId);
+    Task<IEnumerable<App.DAL.DTO.CarIssue>> AllCarCarIssuesAsync(IEnumerable<App.DAL.DTO.CarIssue> userCarIssues, Guid carId);
 }

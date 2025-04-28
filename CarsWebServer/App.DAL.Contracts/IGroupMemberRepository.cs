@@ -3,7 +3,7 @@ using Base.DAL.Contracts;
 
 namespace App.DAL.Contracts;
 
-public interface IGroupMemberRepository : IBaseRepository<GroupMember>
+public interface IGroupMemberRepository : IBaseRepository<App.DAL.DTO.GroupMember>
 {
-    Task<IEnumerable<GroupMember>> AllGroupGroupMembersAsync(IEnumerable<GroupMember> userGroupMembers, Guid groupId);
+    Task<IEnumerable<App.DAL.DTO.GroupMember>> AllGroupGroupMembersAsync(IEnumerable<App.DAL.DTO.GroupMember> userGroupMembers, Guid groupId);
 }
