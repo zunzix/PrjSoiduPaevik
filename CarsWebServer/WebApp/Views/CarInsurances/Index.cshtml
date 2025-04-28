@@ -1,4 +1,4 @@
-@model IEnumerable<App.Domain.CarInsurance>
+@model IEnumerable<App.DAL.DTO.CarInsurance>
 
 @{
     ViewData["Title"] = "Index";
@@ -28,7 +28,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Car.Name)
+                @Html.DisplayFor(modelItem => item.Car!.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)

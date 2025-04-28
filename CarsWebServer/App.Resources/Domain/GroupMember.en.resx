@@ -20,7 +20,7 @@
     <data name="IsAdmin" xml:space="preserve">
         <value>Is Admin</value>
     </data>
-    <data name="Person" xml:space="preserve">
+    <data name="AppUser" xml:space="preserve">
         <value>User</value>
     </data>
 </root>

@@ -2,46 +2,78 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using App.DAL.Contracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using App.Domain;
-using WebApp.Data;
+using App.DAL.EF;
+using App.DAL.DTO;
+using Base.Helpers;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+
+
+
 
 namespace WebApp.ApiControllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class GroupMembersController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly IAppUOW _uow;
 
-        public GroupMembersController(AppDbContext context)
+        public GroupMembersController(IAppUOW uow)
         {
-            _context = context;
+            _uow = uow;
         }
 
         // GET: api/GroupMembers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GroupMember>>> GetGroupMembers()
         {
-            return await _context.GroupMembers.ToListAsync();
+            var groupMembers = await _uow.GroupMemberRepository.AllAsync(User.GetUserId());
+            return Ok(groupMembers.Select(c => new 
+            {
+                c.Id,
+                c.Group!.Name,
+                c.GroupId,
+                c.Email,
+                c.IsAdmin
+            }).ToList());
+        }
+        
+        // GET: api/GroupMembers/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<GroupMember>> GetGroupGroupMembers(Guid id)
+        {
+            var groupMembers = await _uow.GroupMemberRepository.AllAsync(User.GetUserId());
+            var groupGroupMembers = await _uow.GroupMemberRepository.AllGroupGroupMembersAsync(groupMembers, id);
+            return Ok(groupGroupMembers.Select(c => new 
+            {
+                c.Id,
+                c.Group!.Name,
+                c.GroupId,
+                c.Email,
+                c.IsAdmin
+            }).ToList());
         }
 
         // GET: api/GroupMembers/5
         [HttpGet("{id}")]
         public async Task<ActionResult<GroupMember>> GetGroupMember(Guid id)
         {
-            var groupMember = await _context.GroupMembers.FindAsync(id);
-
-            if (groupMember == null)
+            var entity = await _uow.GroupMemberRepository.FindAsync(id, User.GetUserId());
+            if (entity == null)
             {
                 return NotFound();
             }
 
-            return groupMember;
+            return entity;
         }
-
+        
+        
         // PUT: api/GroupMembers/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
@@ -51,35 +83,36 @@ namespace WebApp.ApiControllers
             {
                 return BadRequest();
             }
-
-            _context.Entry(groupMember).State = EntityState.Modified;
-
-            try
+            // Check if current user is admin of the group
+            var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), groupMember.GroupId);
+            if (!isAdmin)
             {
-                await _context.SaveChangesAsync();
+                return Forbid();
             }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!GroupMemberExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+
+
+            _uow.GroupMemberRepository.Update(groupMember);
+            await _uow.SaveChangesAsync();
 
             return NoContent();
         }
-
+        
+        
         // POST: api/GroupMembers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<GroupMember>> PostGroupMember(GroupMember groupMember)
         {
-            _context.GroupMembers.Add(groupMember);
-            await _context.SaveChangesAsync();
+            // Check if current user is admin of the group
+            var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), groupMember.GroupId);
+            if (!isAdmin)
+            {
+                return Forbid();
+            }
+            groupMember.Id = Guid.NewGuid();
+            
+            _uow.GroupMemberRepository.Add(groupMember);
+            await _uow.SaveChangesAsync();
 
             return CreatedAtAction("GetGroupMember", new { id = groupMember.Id }, groupMember);
         }
@@ -88,21 +121,23 @@ namespace WebApp.ApiControllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteGroupMember(Guid id)
         {
-            var groupMember = await _context.GroupMembers.FindAsync(id);
+            var groupMember = await _uow.GroupMemberRepository.FindAsync(id);
             if (groupMember == null)
             {
                 return NotFound();
             }
+            
+            var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), groupMember.GroupId);
+            if (!isAdmin)
+            {
+                return Forbid();
+            }
 
-            _context.GroupMembers.Remove(groupMember);
-            await _context.SaveChangesAsync();
+            _uow.GroupMemberRepository.Remove(groupMember);
+            await _uow.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool GroupMemberExists(Guid id)
-        {
-            return _context.GroupMembers.Any(e => e.Id == id);
-        }
     }
 }

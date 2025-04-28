@@ -60,6 +60,15 @@ namespace App.Resources.Domain {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Kasutaja.
+        /// </summary>
+        public static string AppUser {
+            get {
+                return ResourceManager.GetString("AppUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Grupp.
         /// </summary>
         public static string Group {
@@ -83,15 +92,6 @@ namespace App.Resources.Domain {
         public static string IsAdmin {
             get {
                 return ResourceManager.GetString("IsAdmin", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Kasutaja.
-        /// </summary>
-        public static string Person {
-            get {
-                return ResourceManager.GetString("Person", resourceCulture);
             }
         }
     }

@@ -1,4 +1,4 @@
-@model IEnumerable<App.Domain.CarLog>
+@model IEnumerable<App.DAL.DTO.CarLog>
 
 @{
     ViewData["Title"] = "Index";
@@ -16,7 +16,7 @@
                 @Html.DisplayNameFor(model => model.Car)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Person)
+                @Html.DisplayNameFor(model => model.Email)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.StartDate)
@@ -43,10 +43,10 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Car.Name)
+                @Html.DisplayFor(modelItem => item.Car!.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Person.Name)
+                @Html.DisplayFor(modelItem => item.Email)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.StartDate)

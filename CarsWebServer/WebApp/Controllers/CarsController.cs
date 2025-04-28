@@ -1,165 +1,186 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using App.DAL.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using App.Domain;
-using WebApp.Data;
+using App.DAL.EF;
+using App.DAL.EF.Repositories;
+using App.DAL.DTO;
+using Base.Helpers;
+using Microsoft.AspNetCore.Authorization;
 
-namespace WebApp.Controllers
+namespace WebApp.Controllers;
+
+//todo : add cascade delete
+[Authorize]
+public class CarsController : Controller
 {
-    public class CarsController : Controller
+    private readonly IAppUOW _uow;
+    
+    public CarsController(IAppUOW uow)
     {
-        private readonly AppDbContext _context;
+        _uow = uow;
+    }
 
-        public CarsController(AppDbContext context)
+    // GET: Cars
+    public async Task<IActionResult> Index()
+    {
+        var userGroups = await _uow.GroupRepository.AllAsync(User.GetUserId());
+        var res = await _uow.CarRepository.AllCarsAsync(userGroups);
+        
+        return View(res);
+    }
+
+    // GET: Cars/Details/5
+    public async Task<IActionResult> Details(Guid? id)
+    {
+        if (id == null)
         {
-            _context = context;
+            return NotFound();
         }
 
-        // GET: Cars
-        public async Task<IActionResult> Index()
+        var entity = await _uow.CarRepository.FindAsync(id.Value, User.GetUserId());
+        if (entity == null)
         {
-            var appDbContext = _context.Cars.Include(c => c.Group);
-            return View(await appDbContext.ToListAsync());
+            return NotFound();
         }
 
-        // GET: Cars/Details/5
-        public async Task<IActionResult> Details(Guid? id)
+        return View(entity);
+    }
+
+    // GET: Cars/Create
+    public IActionResult Create()
+    {
+        ViewData["GroupId"] = new SelectList(_uow.GroupRepository.AllAdmins(User.GetUserId()), "Id", "Name");
+        return View();
+    }
+
+    // POST: Cars/Create
+    // To protect from overposting attacks, enable the specific properties you want to bind to.
+    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Create(Car car)
+    {
+        // Check if current user is admin of the group
+        var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), car.GroupId);
+        if (!isAdmin)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var car = await _context.Cars
-                .Include(c => c.Group)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (car == null)
-            {
-                return NotFound();
-            }
-
-            return View(car);
+            return Forbid();
         }
-
-        // GET: Cars/Create
-        public IActionResult Create()
+        
+        if (ModelState.IsValid)
         {
-            ViewData["GroupId"] = new SelectList(_context.Groups, "Id", "Name");
-            return View();
-        }
-
-        // POST: Cars/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("GroupId,Name,Mileage,AvgFuelCons,IsAvailable,IsArchived,Id")] Car car)
-        {
-            if (ModelState.IsValid)
-            {
-                car.Id = Guid.NewGuid();
-                _context.Add(car);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["GroupId"] = new SelectList(_context.Groups, "Id", "Name", car.GroupId);
-            return View(car);
-        }
-
-        // GET: Cars/Edit/5
-        public async Task<IActionResult> Edit(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var car = await _context.Cars.FindAsync(id);
-            if (car == null)
-            {
-                return NotFound();
-            }
-            ViewData["GroupId"] = new SelectList(_context.Groups, "Id", "Name", car.GroupId);
-            return View(car);
-        }
-
-        // POST: Cars/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("GroupId,Name,Mileage,AvgFuelCons,IsAvailable,IsArchived,Id")] Car car)
-        {
-            if (id != car.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(car);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CarExists(car.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["GroupId"] = new SelectList(_context.Groups, "Id", "Name", car.GroupId);
-            return View(car);
-        }
-
-        // GET: Cars/Delete/5
-        public async Task<IActionResult> Delete(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var car = await _context.Cars
-                .Include(c => c.Group)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (car == null)
-            {
-                return NotFound();
-            }
-
-            return View(car);
-        }
-
-        // POST: Cars/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
-        {
-            var car = await _context.Cars.FindAsync(id);
-            if (car != null)
-            {
-                _context.Cars.Remove(car);
-            }
-
-            await _context.SaveChangesAsync();
+            car.Id = Guid.NewGuid();
+            _uow.CarRepository.Add(car);
+            await _uow.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
-        private bool CarExists(Guid id)
-        {
-            return _context.Cars.Any(e => e.Id == id);
-        }
+        ViewData["GroupId"] = new SelectList(await _uow.GroupRepository.AllAdminsAsync(User.GetUserId()), "Id", "Name", car.GroupId);
+        return View(car);
     }
+
+    // GET: Cars/Edit/5
+    public async Task<IActionResult> Edit(Guid? id)
+    {
+        if (id == null)
+        {
+            return NotFound();
+        }
+
+        var entity = await _uow.CarRepository.FindAsync(id.Value, User.GetUserId());
+        if (entity == null)
+        {
+            return NotFound();
+        }
+        // Check if current user is admin of the group
+        var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), entity.GroupId);
+        if (!isAdmin)
+        {
+            return Forbid();
+        }
+        
+        ViewData["GroupId"] = new SelectList(await _uow.GroupRepository.AllAdminsAsync(User.GetUserId()), "Id", "Name");
+        return View(entity);
+    }
+
+    // POST: Cars/Edit/5
+    // To protect from overposting attacks, enable the specific properties you want to bind to.
+    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Edit(Guid id, Car car)
+    {
+        if (id != car.Id)
+        {
+            return NotFound();
+        }
+        
+        // Check if current user is admin of the group
+        var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), car.GroupId);
+        if (!isAdmin)
+        {
+            return Forbid();
+        }
+
+        if (ModelState.IsValid)
+        {
+            _uow.CarRepository.Update(car);
+            await _uow.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+        ViewData["GroupId"] = new SelectList(await _uow.GroupRepository.AllAdminsAsync(User.GetUserId()), "Id", "Name", car.GroupId);
+        return View(car);
+    }
+
+    // GET: Cars/Delete/5
+    public async Task<IActionResult> Delete(Guid? id)
+    {
+        if (id == null)
+        {
+            return NotFound();
+        }
+
+        var entity = await _uow.CarRepository.FindAsync(id.Value, User.GetUserId());
+        if (entity == null)
+        {
+            return NotFound();
+        }
+        // Check if current user is admin of the group
+        var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), entity.GroupId);
+        if (!isAdmin)
+        {
+            return Forbid();
+        }
+
+        return View(entity);
+    }
+
+    // POST: Cars/Delete/5
+    [HttpPost, ActionName("Delete")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeleteConfirmed(Guid id)
+    {
+        var entity = await _uow.CarRepository.FindAsync(id, User.GetUserId());
+        if (entity == null)
+        {
+            return NotFound();
+        }
+
+        // Check if current user is admin of the group
+        var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), entity.GroupId);
+        if (!isAdmin)
+        {
+            return Forbid();
+        }
+        
+        await _uow.CarRepository.RemoveAsync(id);
+        await _uow.SaveChangesAsync();
+        return RedirectToAction(nameof(Index));
+    }
+
 }

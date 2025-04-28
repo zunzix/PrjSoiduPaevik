@@ -32,4 +32,10 @@
     <data name="Cars" xml:space="preserve">
         <value>Cars</value>
     </data>
+    <data name="IsCritical" xml:space="preserve">
+        <value>Is Critical</value>
+    </data>
+    <data name="RegistrationPlate" xml:space="preserve">
+        <value>Registration Plate</value>
+    </data>
 </root>

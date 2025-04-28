@@ -2,73 +2,82 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using App.DAL.Contracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using App.Domain;
-using WebApp.Data;
+using App.DAL.EF;
+using App.DAL.DTO;
+using Base.Helpers;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+
+//todo : add cascade delete
 
 namespace WebApp.ApiControllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class GroupsController : ControllerBase
     {
-        private readonly AppDbContext _context;
-
-        public GroupsController(AppDbContext context)
+        private readonly IAppUOW _uow;
+    
+        public GroupsController(IAppUOW uow)
         {
-            _context = context;
+            _uow = uow;
         }
 
         // GET: api/Groups
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Group>>> GetGroups()
         {
-            return await _context.Groups.ToListAsync();
+            var groups = await _uow.GroupRepository.AllAsync(User.GetUserId());
+            return Ok(groups.Select(c => new 
+            {
+                c.Id,
+                c.Name
+            }).ToList());
         }
 
         // GET: api/Groups/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Group>> GetGroup(Guid id)
         {
-            var @group = await _context.Groups.FindAsync(id);
+            var group = await _uow.GroupRepository.FindAsync(id, User.GetUserId());
 
-            if (@group == null)
+            if (group == null)
             {
                 return NotFound();
             }
 
-            return @group;
+            return Ok(new
+            {
+                id = group.Id,
+                name = group.Name
+            });
         }
 
         // PUT: api/Groups/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutGroup(Guid id, Group @group)
+        public async Task<IActionResult> PutGroup(Guid id, Group group)
         {
-            if (id != @group.Id)
+            if (id != group.Id)
             {
                 return BadRequest();
             }
-
-            _context.Entry(@group).State = EntityState.Modified;
-
-            try
+            
+            // Check if current user is admin of the group
+            var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), group.Id);
+            if (!isAdmin)
             {
-                await _context.SaveChangesAsync();
+                return Forbid();
             }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!GroupExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            
+            _uow.GroupRepository.Update(group);
+            await _uow.SaveChangesAsync();
+
 
             return NoContent();
         }
@@ -76,33 +85,47 @@ namespace WebApp.ApiControllers
         // POST: api/Groups
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Group>> PostGroup(Group @group)
+        public async Task<ActionResult<Group>> PostGroup(Group group)
         {
-            _context.Groups.Add(@group);
-            await _context.SaveChangesAsync();
+            group.Id = Guid.NewGuid();
+            _uow.GroupRepository.Add(group);
+            
+            
+            var groupMember = new GroupMember
+            {
+                Id = Guid.NewGuid(),
+                GroupId = group.Id,
+                Email = User.GetUserEmail(),
+                IsAdmin = true
+            };
+            
+            _uow.GroupMemberRepository.Add(groupMember);
+            await _uow.SaveChangesAsync();
 
-            return CreatedAtAction("GetGroup", new { id = @group.Id }, @group);
+            return CreatedAtAction("GetGroup", new { id = group.Id }, group);
         }
 
         // DELETE: api/Groups/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteGroup(Guid id)
         {
-            var @group = await _context.Groups.FindAsync(id);
-            if (@group == null)
+            var entity = await _uow.GroupRepository.FindAsync(id);
+            if (entity == null)
             {
                 return NotFound();
             }
+            
+            // Check if current user is admin of the group
+            var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), entity.Id);
+            if (!isAdmin)
+            {
+                return Forbid();
+            }
 
-            _context.Groups.Remove(@group);
-            await _context.SaveChangesAsync();
+            _uow.GroupRepository.Remove(entity);
+            await _uow.SaveChangesAsync();
 
             return NoContent();
-        }
-
-        private bool GroupExists(Guid id)
-        {
-            return _context.Groups.Any(e => e.Id == id);
         }
     }
 }

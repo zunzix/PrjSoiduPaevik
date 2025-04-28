@@ -1,158 +1,154 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using App.DAL.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using App.Domain;
-using WebApp.Data;
+using App.DAL.EF;
+using App.DAL.EF.Repositories;
+using App.DAL.DTO;
+using Base.Helpers;
+using Microsoft.AspNetCore.Authorization;
 
-namespace WebApp.Controllers
+namespace WebApp.Controllers;
+
+//todo : add cascade delete
+
+[Authorize]
+public class GroupsController : Controller
 {
-    public class GroupsController : Controller
+    private readonly IAppUOW _uow;
+    
+    public GroupsController(IAppUOW uow)
     {
-        private readonly AppDbContext _context;
+        _uow = uow;
+    }
+    
+// GET: Groups
+    public async Task<IActionResult> Index()
+    {
+        var res = await _uow.GroupRepository.AllAsync(User.GetUserId());
+        return View(res);
+    }
 
-        public GroupsController(AppDbContext context)
+    // GET: Groups/Details/5
+    public async Task<IActionResult> Details(Guid? id)
+    {
+        if (id == null)
         {
-            _context = context;
+            return NotFound();
+        }
+        var entity = await _uow.GroupRepository.FindAsync(id.Value, User.GetUserId());
+        if (entity == null)
+        {
+            return NotFound();
         }
 
-        // GET: Groups
-        public async Task<IActionResult> Index()
+        return View(entity);
+    }
+
+    // GET: Groups/Create
+    public IActionResult Create()
+    {
+        return View();
+    }
+
+    // POST: Groups/Create
+    // To protect from overposting attacks, enable the specific properties you want to bind to.
+    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Create(Group @group)
+    {
+        if (ModelState.IsValid)
         {
-            return View(await _context.Groups.ToListAsync());
-        }
+            @group.Id = Guid.NewGuid();
+            _uow.GroupRepository.Add(@group);
 
-        // GET: Groups/Details/5
-        public async Task<IActionResult> Details(Guid? id)
-        {
-            if (id == null)
+            
+            var groupMember = new GroupMember
             {
-                return NotFound();
-            }
-
-            var @group = await _context.Groups
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (@group == null)
-            {
-                return NotFound();
-            }
-
-            return View(@group);
-        }
-
-        // GET: Groups/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Groups/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Id")] Group @group)
-        {
-            if (ModelState.IsValid)
-            {
-                @group.Id = Guid.NewGuid();
-                _context.Add(@group);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(@group);
-        }
-
-        // GET: Groups/Edit/5
-        public async Task<IActionResult> Edit(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var @group = await _context.Groups.FindAsync(id);
-            if (@group == null)
-            {
-                return NotFound();
-            }
-            return View(@group);
-        }
-
-        // POST: Groups/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Name,Id")] Group @group)
-        {
-            if (id != @group.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(@group);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!GroupExists(@group.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(@group);
-        }
-
-        // GET: Groups/Delete/5
-        public async Task<IActionResult> Delete(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var @group = await _context.Groups
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (@group == null)
-            {
-                return NotFound();
-            }
-
-            return View(@group);
-        }
-
-        // POST: Groups/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
-        {
-            var @group = await _context.Groups.FindAsync(id);
-            if (@group != null)
-            {
-                _context.Groups.Remove(@group);
-            }
-
-            await _context.SaveChangesAsync();
+                Id = Guid.NewGuid(),
+                GroupId = @group.Id,
+                Email = User.GetUserEmail(),
+                IsAdmin = true
+            };
+            _uow.GroupMemberRepository.Add(groupMember);
+            
+            await _uow.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
-        private bool GroupExists(Guid id)
-        {
-            return _context.Groups.Any(e => e.Id == id);
-        }
+        return View(@group);
     }
+
+    // GET: Groups/Edit/5
+    public async Task<IActionResult> Edit(Guid? id)
+    {
+        if (id == null)
+        {
+            return NotFound();
+        }
+        
+        var entity = await _uow.GroupRepository.FindAsync(id.Value, User.GetUserId());
+        if (entity == null)
+        {
+            return NotFound();
+        }
+        return View(entity);
+    }
+
+    // POST: Groups/Edit/5
+    // To protect from overposting attacks, enable the specific properties you want to bind to.
+    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Edit(Guid id, Group @group)
+    {
+        
+        if (id != @group.Id)
+        {
+            return NotFound();
+        }
+
+        if (ModelState.IsValid)
+        {
+            _uow.GroupRepository.Update(@group);
+            await _uow.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+        return View(@group);
+    }
+
+    // GET: Groups/Delete/5
+    public async Task<IActionResult> Delete(Guid? id)
+    {
+        if (id == null)
+        {
+            return NotFound();
+        }
+
+        var entity = await _uow.GroupRepository.FindAsync(id.Value, User.GetUserId());
+        if (entity == null)
+        {
+            return NotFound();
+        }
+
+        return View(entity);
+    }
+
+    // POST: Groups/Delete/5
+    [HttpPost, ActionName("Delete")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeleteConfirmed(Guid id)
+    {
+        await _uow.GroupRepository.RemoveAsync(id);
+
+        await _uow.SaveChangesAsync();
+        return RedirectToAction(nameof(Index));
+    }
+
+    
 }

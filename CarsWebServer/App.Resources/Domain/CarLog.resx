@@ -21,7 +21,7 @@
     <data name="Car" xml:space="preserve">
         <value>Auto</value>
     </data>
-    <data name="Person" xml:space="preserve">
+    <data name="AppUser" xml:space="preserve">
         <value>Kasutaja</value>
     </data>
     <data name="StartDate" xml:space="preserve">

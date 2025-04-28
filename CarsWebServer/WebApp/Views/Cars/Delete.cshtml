@@ -1,4 +1,4 @@
-@model App.Domain.Car
+@model App.DAL.DTO.Car
 
 @{
     ViewData["Title"] = "Delete";
@@ -15,13 +15,19 @@
             @Html.DisplayNameFor(model => model.Group)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Group.Name)
+            @Html.DisplayFor(model => model.Group!.Name)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Name)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.RegistrationPlate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.RegistrationPlate)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Mileage)
@@ -46,6 +52,12 @@
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.IsArchived)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.IsCritical)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.IsCritical)
         </dd>
     </dl>
     
