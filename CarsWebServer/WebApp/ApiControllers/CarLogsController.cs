@@ -31,6 +31,25 @@ namespace WebApp.ApiControllers
             _context = context;
             _uow = uow;
         }
+        
+        // GET: api/CarLogs
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<CarLog>>> GetUserCarLogs()
+        {
+            var carLogs = await _uow.CarLogRepository.AllAsync(User.GetUserId());
+            return Ok(carLogs.Select(c => new 
+            {
+                c.Id,
+                c.UserId,
+                c.CarId,
+                c.StartDate,
+                c.EndDate,
+                c.StartPoint,
+                c.EndPoint,
+                c.Distance,
+                c.Comment
+            }).ToList());
+        }
 
         // GET: api/CarLogs
         [HttpGet]
