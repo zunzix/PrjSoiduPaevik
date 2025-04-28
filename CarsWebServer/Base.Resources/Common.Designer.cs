@@ -60,6 +60,15 @@ namespace Base.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Epost.
+        /// </summary>
+        public static string Email {
+            get {
+                return ResourceManager.GetString("Email", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Väli {0} peab olema sõne või massiiv miinimum pikkusega &apos;{1}&apos;..
         /// </summary>
         public static string MaxLength {
@@ -74,6 +83,15 @@ namespace Base.Resources {
         public static string Privacy {
             get {
                 return ResourceManager.GetString("Privacy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kasutaja.
+        /// </summary>
+        public static string User {
+            get {
+                return ResourceManager.GetString("User", resourceCulture);
             }
         }
     }
