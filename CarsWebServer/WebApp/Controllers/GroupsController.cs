@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using App.DAL.EF;
 using App.DAL.EF.Repositories;
-using App.Domain;
+using App.DAL.DTO;
 using Base.Helpers;
 using Microsoft.AspNetCore.Authorization;
 
@@ -71,7 +71,7 @@ public class GroupsController : Controller
             {
                 Id = Guid.NewGuid(),
                 GroupId = @group.Id,
-                UserId = User.GetUserId(),
+                Email = User.GetUserEmail(),
                 IsAdmin = true
             };
             

@@ -7,13 +7,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using App.DAL.EF;
-using App.Domain;
+using App.DAL.DTO;
 using Base.Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 
 // todo : add user specific Find
-// todo : remove _context
 
 namespace WebApp.ApiControllers
 {
@@ -23,12 +22,10 @@ namespace WebApp.ApiControllers
     public class GroupsController : ControllerBase
     {
         private readonly IAppUOW _uow;
-        private readonly AppDbContext _context;
     
-        public GroupsController(IAppUOW uow, AppDbContext context)
+        public GroupsController(IAppUOW uow)
         {
             _uow = uow;
-            _context = context;
         }
 
         // GET: api/Groups
@@ -74,7 +71,7 @@ namespace WebApp.ApiControllers
                 return Forbid();
             }
             
-            _context.Entry(group).State = EntityState.Modified;
+            _uow.GroupRepository.Update(group);
             await _uow.SaveChangesAsync();
 
 
@@ -93,7 +90,7 @@ namespace WebApp.ApiControllers
             {
                 Id = Guid.NewGuid(),
                 GroupId = group.Id,
-                UserId = User.GetUserId(),
+                Email = User.GetUserEmail(),
                 IsAdmin = true
             };
             

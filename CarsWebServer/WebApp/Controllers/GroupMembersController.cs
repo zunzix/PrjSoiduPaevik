@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using App.DAL.EF;
 using App.DAL.EF.Repositories;
-using App.Domain;
+using App.DAL.DTO;
 using Base.Helpers;
 using Microsoft.AspNetCore.Authorization;
 
@@ -55,7 +55,7 @@ public class GroupMembersController : Controller
     public IActionResult Create()
     {
         ViewData["GroupId"] = new SelectList(_uow.GroupRepository.AllAdmins(User.GetUserId()), "Id", "Name");
-        ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Email");
+        ViewData["AppUserId"] = new SelectList(_context.Users, "Email", "Email");
         return View();
     }
 
@@ -83,7 +83,7 @@ public class GroupMembersController : Controller
             return RedirectToAction(nameof(Index));
         }
 
-        ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Email", groupMember.UserId);
+        ViewData["AppUserId"] = new SelectList(_context.Users, "Email", "Email", groupMember.Email);
         ViewData["GroupId"] = new SelectList(await _uow.GroupRepository.AllAdminsAsync(User.GetUserId()), "Id", "Name", groupMember.GroupId);
         return View(groupMember);
     }
@@ -111,7 +111,7 @@ public class GroupMembersController : Controller
 
 
         ViewData["GroupId"] = new SelectList(await _uow.GroupRepository.AllAdminsAsync(User.GetUserId()), "Id", "Name");
-        ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Email");
+        ViewData["AppUserId"] = new SelectList(_context.Users, "Email", "Email");
         return View(entity);
     }
 
@@ -140,7 +140,7 @@ public class GroupMembersController : Controller
             await _uow.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Email", groupMember.UserId);
+        ViewData["AppUserId"] = new SelectList(_context.Users, "Email", "Email", groupMember.Email);
         ViewData["GroupId"] = new SelectList(await _uow.GroupRepository.AllAdminsAsync(User.GetUserId()), "Id", "Name", groupMember.GroupId);
         return View(groupMember);
     }

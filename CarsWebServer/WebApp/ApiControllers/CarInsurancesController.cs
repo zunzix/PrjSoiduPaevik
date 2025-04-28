@@ -7,13 +7,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using App.DAL.EF;
-using App.Domain;
+using App.DAL.DTO;
 using Base.Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 
 // todo : add user specific Find
-// todo : remove _context
 
 namespace WebApp.ApiControllers
 {
@@ -22,12 +21,10 @@ namespace WebApp.ApiControllers
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class CarInsurancesController : ControllerBase
     {
-        private readonly AppDbContext _context;
         private readonly IAppUOW _uow;
 
-        public CarInsurancesController(AppDbContext context, IAppUOW uow)
+        public CarInsurancesController(IAppUOW uow)
         {
-            _context = context;
             _uow = uow;
         }
 
@@ -101,8 +98,8 @@ namespace WebApp.ApiControllers
             {
                 return Forbid();
             }
-
-            _context.Entry(carInsurance).State = EntityState.Modified;
+            
+            _uow.CarInsuranceRepository.Update(carInsurance);
             await _uow.SaveChangesAsync();
 
 

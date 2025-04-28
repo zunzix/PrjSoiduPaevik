@@ -14,6 +14,11 @@ public static class IdentityExtensions
 
         return userId;
     }
+    public static string GetUserEmail(this ClaimsPrincipal claimsPrincipal)
+    {
+        return claimsPrincipal.Claims
+            .FirstOrDefault(c => c.Type == ClaimTypes.Email)!.Value;
+    }
     
     private static readonly JwtSecurityTokenHandler JWTSecurityTokenHandler = new JwtSecurityTokenHandler();
     

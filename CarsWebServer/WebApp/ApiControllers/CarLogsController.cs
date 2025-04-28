@@ -7,14 +7,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using App.DAL.EF;
-using App.Domain;
+using App.DAL.DTO;
 using Base.Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.CodeAnalysis;
 
 // todo : add user specific Find
-// todo : remove _context
 
 namespace WebApp.ApiControllers
 {
@@ -23,12 +22,10 @@ namespace WebApp.ApiControllers
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class CarLogsController : ControllerBase
     {
-        private readonly AppDbContext _context;
         private readonly IAppUOW _uow;
 
-        public CarLogsController(AppDbContext context, IAppUOW uow)
+        public CarLogsController(IAppUOW uow)
         {
-            _context = context;
             _uow = uow;
         }
         
@@ -40,7 +37,7 @@ namespace WebApp.ApiControllers
             return Ok(carLogs.Select(c => new 
             {
                 c.Id,
-                c.UserId,
+                c.Email,
                 c.CarId,
                 c.StartDate,
                 c.EndDate,
@@ -61,7 +58,7 @@ namespace WebApp.ApiControllers
             return Ok(carLogs.Select(c => new 
             {
                 c.Id,
-                c.UserId,
+                c.Email,
                 c.CarId,
                 c.StartDate,
                 c.EndDate,
@@ -84,7 +81,7 @@ namespace WebApp.ApiControllers
             return Ok(carCarLogs.Select(c => new 
             {
                 c.Id,
-                c.UserId,
+                c.Email,
                 c.CarId,
                 c.StartDate,
                 c.EndDate,
@@ -132,7 +129,7 @@ namespace WebApp.ApiControllers
                 return Forbid();
             }
 
-            _context.Entry(carLog).State = EntityState.Modified;
+            _uow.CarLogRepository.Update(carLog);
             await _uow.SaveChangesAsync();
 
             return NoContent();

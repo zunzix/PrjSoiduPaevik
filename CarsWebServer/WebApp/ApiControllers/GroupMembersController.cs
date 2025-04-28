@@ -7,13 +7,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using App.DAL.EF;
-using App.Domain;
+using App.DAL.DTO;
 using Base.Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 
 // todo : add user specific Find
-// todo : remove _context
+
 
 namespace WebApp.ApiControllers
 {
@@ -22,12 +22,10 @@ namespace WebApp.ApiControllers
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class GroupMembersController : ControllerBase
     {
-        private readonly AppDbContext _context;
         private readonly IAppUOW _uow;
 
-        public GroupMembersController(AppDbContext context, IAppUOW uow)
+        public GroupMembersController(IAppUOW uow)
         {
-            _context = context;
             _uow = uow;
         }
 
@@ -41,8 +39,7 @@ namespace WebApp.ApiControllers
                 c.Id,
                 c.Group!.Name,
                 c.GroupId,
-                c.UserId,
-                c.User!.Email,
+                c.Email,
                 c.IsAdmin
             }).ToList());
         }
@@ -58,8 +55,7 @@ namespace WebApp.ApiControllers
                 c.Id,
                 c.Group!.Name,
                 c.GroupId,
-                c.UserId,
-                c.User!.Email,
+                c.Email,
                 c.IsAdmin
             }).ToList());
         }
@@ -93,8 +89,8 @@ namespace WebApp.ApiControllers
                 return Forbid();
             }
 
-            _context.Entry(groupMember).State = EntityState.Modified;
-            
+
+            _uow.GroupMemberRepository.Update(groupMember);
             await _uow.SaveChangesAsync();
 
             return NoContent();
