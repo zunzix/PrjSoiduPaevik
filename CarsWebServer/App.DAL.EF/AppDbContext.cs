@@ -1,5 +1,6 @@
 ﻿using App.Domain;
 using App.Domain.Identity;
+using Base.Contracts;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -34,7 +35,7 @@ public class AppDbContext : IdentityDbContext<AppUser, AppRole, Guid, IdentityUs
             relationship.DeleteBehavior = DeleteBehavior.Restrict;
         }
 
-        // We have custom UserRole - with separate PK and navigation for Role and User
+        // Custom UserRole with separate PK and navigation for Role and User
         // override default Identity EF config
         builder.Entity<AppUserRole>().HasKey(a => a.Id);
 
@@ -52,5 +53,34 @@ public class AppDbContext : IdentityDbContext<AppUser, AppRole, Guid, IdentityUs
 
 
     }
+    
+    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
+    {
+        var addedEntries = ChangeTracker.Entries()
+            .Where(e => e is { Entity: IDomainMeta });
+        foreach (var entry in addedEntries)
+        {
+            if (entry.State == EntityState.Added)
+            {
+                (entry.Entity as IDomainMeta)!.CreatedAt = DateTime.UtcNow;
+                (entry.Entity as IDomainMeta)!.CreatedBy = "system";
+            }
+            else if (entry.State == EntityState.Modified)
+            {
+                (entry.Entity as IDomainMeta)!.ChangedAt = DateTime.UtcNow;
+                (entry.Entity as IDomainMeta)!.ChangedBy = "system";
+                
+                // Prevent overwriting CreatedBy/CreatedAt/UserId on update
+                entry.Property("CreatedAt").IsModified = false;
+                entry.Property("CreatedBy").IsModified = false;
+
+                entry.Property("UserId").IsModified = false;
+            }
+        }
+
+
+        return base.SaveChangesAsync(cancellationToken);
+    }
+
 
 }

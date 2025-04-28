@@ -42,4 +42,7 @@
     <data name="IsCritical" xml:space="preserve">
         <value>Kriitilisus</value>
     </data>
+    <data name="RegistrationPlate" xml:space="preserve">
+        <value>Numbrimärk</value>
+    </data>
 </root>

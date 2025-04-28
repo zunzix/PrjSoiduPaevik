@@ -130,5 +130,14 @@ namespace App.Resources.Domain {
                 return ResourceManager.GetString("Name", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Numbrimärk.
+        /// </summary>
+        public static string RegistrationPlate {
+            get {
+                return ResourceManager.GetString("RegistrationPlate", resourceCulture);
+            }
+        }
     }
 }
