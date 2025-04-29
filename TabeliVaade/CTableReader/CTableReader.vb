@@ -681,25 +681,25 @@ Public Class CTableReader
         dt.Columns.Add("CarLogID", GetType(String))
         dt.Columns.Add("CarLogCarID", GetType(String))
         dt.Columns.Add("CarLogUserEmail", GetType(String))
-        dt.Columns.Add("CarLogStartDate", GetType(DateTime))
-        dt.Columns.Add("CarLogEndDate", GetType(DateTime))
-        dt.Columns.Add("CarLogStartPoint", GetType(String))
-        dt.Columns.Add("CarLogEndPoint", GetType(String))
-        dt.Columns.Add("CarLogDistance", GetType(Double))
-        dt.Columns.Add("CarLogComment", GetType(String))
+        dt.Columns.Add("Start Date", GetType(DateTime))
+        dt.Columns.Add("End Date", GetType(DateTime))
+        dt.Columns.Add("Starting Point", GetType(String))
+        dt.Columns.Add("End Point", GetType(String))
+        dt.Columns.Add("Distance", GetType(Double))
+        dt.Columns.Add("Comment", GetType(String))
 
         Try
             ' Populate DataTable
             For Each item In List
                 dt.Rows.Add(item("id"),
-                                    item("carId"),
-                                    item("email"),
-                                    item("startDate"),
-                                    item("endDate"),
-                                    item("startPoint"),
-                                    item("endPoint"),
-                                    item("distance"),
-                                    item("comment"))
+                            item("carId"),
+                            item("email"),
+                            item("startDate"),
+                            item("endDate"),
+                            item("startPoint"),
+                            item("endPoint"),
+                            item("distance"),
+                            item("comment"))
             Next
         Catch ex As WebException
             Console.WriteLine("Error: " & ex.Message)

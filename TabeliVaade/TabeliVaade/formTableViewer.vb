@@ -421,9 +421,22 @@ Public Class formTableViewer
     ' Description: Loads the group list into the DataGridView
     ' Used when: 'tab = tpGroups' is called
     Private Sub LoadToGroupTab()
+
+        ' Groups list 
         dgvGroupsList.DataSource = TableReader.GetGroupTable()
+
         dgvGroupsList.Columns(0).Visible = False
         dgvGroupsList.Columns(1).AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+
+
+        ' CarLog list
+        dgvUserHistoryList.DataSource = TableReader.GetLogsByUserId()
+
+        dgvUserHistoryList.Columns(0).Visible = False
+        dgvUserHistoryList.Columns(1).Visible = False
+        dgvUserHistoryList.Columns(2).Visible = False
+        dgvUserHistoryList.Columns(8).Visible = False
+
     End Sub
 
     Private Sub LoadToCarTable(SelectedID As String)
