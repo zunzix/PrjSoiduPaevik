@@ -132,7 +132,7 @@ Public Class formTableViewer
         ' TODO: Make it possible to search through the database for insurance
 
         ' Check if the insurance item exists
-        'lblInsuranceData.Text = "Expired!"
+        lblInsuranceData.Text = DateAdd(DateInterval.Day, 10, Date.Today).ToString()
 
         ' Update the expanded row to be the current row
         expandedRowIndex = e.RowIndex
@@ -219,6 +219,7 @@ Public Class formTableViewer
 
                 ' Set tab to Groups
                 tab = tpGroups
+
             Case "btnLoginRegister"
                 ' Set tab to Register
                 tab = tpRegister
@@ -327,5 +328,41 @@ Public Class formTableViewer
         End If
 
         tcTabs.SelectedTab = tpCarsList
+
+        ' TODO: Check whether any cars have soon to be expired insurance
+        Dim data As New DataTable()
+        Dim message As String = "Expiring insurances: "
+
+        ' == DELETE LATER ==
+        data.Columns.Add("CarInsuranceID", GetType(String))
+        data.Columns.Add("CarInsuranceCarID", GetType(String))
+        data.Columns.Add("CarInsuranceName", GetType(String))
+        data.Columns.Add("CarInsuranceEndDate", GetType(DateTime))
+
+        data.Rows.Add("abcd", 1, "Swed", DateAdd(DateInterval.Day, 7, DateAndTime.Today))
+        data.Rows.Add("efgh", 2, "If", DateAdd(DateInterval.Day, 14, DateAndTime.Today))
+        data.Rows.Add("ijkl", 3, "SEB", DateAdd(DateInterval.Year, 1, DateAndTime.Today))
+        ' == DELETE LATER ==
+
+        For Each row In dgvCarsList.Rows
+            If Not row.IsNewRow Then
+
+                ' Get the insurance info
+
+                ' TODO: Uncomment correct function and delete temporary code when merged with main
+                ' data = GetSpecificTables("CarInsurance", row.Cells("ID").Value.ToString())
+
+                If data.Rows.Count > 0 Then
+                    Dim endDate As DateTime = data.Rows(0)("CarInsuranceEndDate")
+                    Dim comparisonDate As DateTime = DateTime.Now
+
+                    If DateDiff(DateInterval.Day, endDate, DateAndTime.Today, FirstDayOfWeek.Monday) <= 14 Then
+
+                    End If
+                End If
+            End If
+        Next
+
+        MessageBox.Show($"Insurance of carID {data.Rows(0)("CarInsuranceCarID")} is expiring!")
     End Sub
 End Class

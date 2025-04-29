@@ -129,6 +129,7 @@ Partial Class formTableViewer
         Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.lblCreateGroup = New System.Windows.Forms.Label()
         Me.tpRegister = New System.Windows.Forms.TabPage()
+        Me.Label1 = New System.Windows.Forms.Label()
         Me.lblConfirmPassword = New System.Windows.Forms.Label()
         Me.lblRegisterPassword = New System.Windows.Forms.Label()
         Me.lblRegisterEmail = New System.Windows.Forms.Label()
@@ -137,7 +138,6 @@ Partial Class formTableViewer
         Me.tbRegisterEmail = New System.Windows.Forms.TextBox()
         Me.btnRegisterEnter = New System.Windows.Forms.Button()
         Me.btnRegisterCancel = New System.Windows.Forms.Button()
-        Me.Label1 = New System.Windows.Forms.Label()
         Me.tpAddCar.SuspendLayout()
         Me.tpCarsList.SuspendLayout()
         Me.pnlLogs.SuspendLayout()
@@ -573,7 +573,7 @@ Partial Class formTableViewer
         '
         Me.lblInsuranceData.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblInsuranceData.AutoSize = True
-        Me.lblInsuranceData.Location = New System.Drawing.Point(194, 80)
+        Me.lblInsuranceData.Location = New System.Drawing.Point(170, 80)
         Me.lblInsuranceData.Name = "lblInsuranceData"
         Me.lblInsuranceData.Size = New System.Drawing.Size(69, 16)
         Me.lblInsuranceData.TabIndex = 6
@@ -1272,6 +1272,16 @@ Partial Class formTableViewer
         Me.tpRegister.Text = "Register"
         Me.tpRegister.UseVisualStyleBackColor = True
         '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.0!)
+        Me.Label1.Location = New System.Drawing.Point(251, 37)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(244, 29)
+        Me.Label1.TabIndex = 8
+        Me.Label1.Text = "Create a new account"
+        '
         'lblConfirmPassword
         '
         Me.lblConfirmPassword.AutoSize = True
@@ -1340,16 +1350,6 @@ Partial Class formTableViewer
         Me.btnRegisterCancel.TabIndex = 0
         Me.btnRegisterCancel.Text = "Cancel"
         Me.btnRegisterCancel.UseVisualStyleBackColor = True
-        '
-        'Label1
-        '
-        Me.Label1.AutoSize = True
-        Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.0!)
-        Me.Label1.Location = New System.Drawing.Point(251, 37)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(244, 29)
-        Me.Label1.TabIndex = 8
-        Me.Label1.Text = "Create a new account"
         '
         'formTableViewer
         '
