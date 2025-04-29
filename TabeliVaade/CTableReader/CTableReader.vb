@@ -342,7 +342,7 @@ Public Class CTableReader
     End Function
 
     ' Put Table
-    Public Function UpdateTable(TheTableToUpdate As String) As Object Implements _
+    Public Function UpdateTable(TheTableToUpdate As String, ID As String, Table As Object) As Object Implements _
         ITableReader.UpdateTable
         Dim Request As HttpWebRequest
         Dim Response As HttpWebResponse
@@ -350,19 +350,20 @@ Public Class CTableReader
         Dim JsonResponse As String
         Dim Input As String
 
+        ' TODO: check if the request is correct
         Select Case TheTableToUpdate
             Case "Car"
-                Request = HttpWebRequest.Create(BaseUrl & "api/Cars/PostCar")
+                Request = HttpWebRequest.Create(BaseUrl & "api/Cars/PutCar" & ID)
             Case "GroupMember"
-                Request = HttpWebRequest.Create(BaseUrl & "api/GroupMembers/PostGroupMember")
+                Request = HttpWebRequest.Create(BaseUrl & "api/GroupMembers/PutGroupMember" & ID)
             Case "CarIssue"
-                Request = HttpWebRequest.Create(BaseUrl & "api/CarIssues/PostCarIssue")
+                Request = HttpWebRequest.Create(BaseUrl & "api/CarIssues/PutCarIssue" & ID)
             Case "CarLog"
-                Request = HttpWebRequest.Create(BaseUrl & "api/CarLogs/PostCarLog")
+                Request = HttpWebRequest.Create(BaseUrl & "api/CarLogs/PutCarLog" & ID)
             Case "CarInsurance"
-                Request = HttpWebRequest.Create(BaseUrl & "api/CarInsurances/PostCarInsurance")
+                Request = HttpWebRequest.Create(BaseUrl & "api/CarInsurances/PutCarInsurance" & ID)
             Case "Group"
-                Request = HttpWebRequest.Create(BaseUrl & "api/Groups/PostGroup")
+                Request = HttpWebRequest.Create(BaseUrl & "api/Groups/PutGroup" & ID)
             Case Else
                 Console.WriteLine("Error: Invalid table type.")
                 Return Nothing
@@ -373,7 +374,7 @@ Public Class CTableReader
         ' Write the Json Input to Request body
         Request.GetRequestStream.Write(System.Text.Encoding.UTF8.GetBytes(Input), 0, Input.Length)
 
-        Request.Method = "POST"
+        Request.Method = "PUT"
         Request.ContentType = "application/json"
 
         ' Add Jwt token
@@ -392,7 +393,7 @@ Public Class CTableReader
                 ' if error is 401, refresh token and retry
                 If RefreshJwtToken() Then
 
-                    Return AddTable(TheTableToAddTo, Table)
+                    Return UpdateTable(TheTableToUpdate, ID, Table)
 
                 End If
             End If

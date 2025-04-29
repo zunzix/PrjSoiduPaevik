@@ -35,7 +35,7 @@
     ' todo add updateTable parameters
     ' what table(group,car,groupmember,carissue,carlog,carinsurance), table id, new table file(list)
     '  returns success/error message 
-    Function UpdateTable()
+    Function UpdateTable(TheTableToUpdate As String, ID As String, Table As Object)
 
     ' todo add login parameter
     ' user file(email, password)
