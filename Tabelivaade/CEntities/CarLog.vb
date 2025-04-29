@@ -14,7 +14,7 @@ Public Class CarLog
     ' Constructor
     Public Sub New(ByVal carId As String, ByVal startDate As DateTime, ByVal endDate As DateTime, ByVal startPoint As String, ByVal endPoint As String, ByVal distance As Double, ByVal comment As String)
         Me.CarID = carId
-        Me.StartDate = startDate.ToUniversalTime()
+        Me.StartDate = startDate.ToUniversalTime
         Me.EndDate = endDate.ToUniversalTime()
         Me.StartPoint = startPoint
         Me.EndPoint = endPoint

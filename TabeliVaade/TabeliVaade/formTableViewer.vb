@@ -170,7 +170,6 @@ Public Class formTableViewer
     Private Sub ChangeTab(ByVal btn As Button)
         Dim tab As TabPage
 
-        EmptyCarTable()
         Select Case btn.Name
 
             Case "btnLoginLogin"
@@ -211,26 +210,34 @@ Public Class formTableViewer
             Case "btnLogOut"
                 ' Set tab to LogIn
                 If TableReader.Logout() Then
+
                     tab = tpLogin
                 Else
                     tab = tpGroups
+
                     LoadToGroupTab()
                 End If
 
                 ' TODO: Log user out
             Case "btnAddLog"
                 ' Set tab to Add Log
+
                 tab = tpAddLog
             Case "btnNewGroup"
                 ' Set tab to New Group
+
                 tab = tpNewGroup
             Case "btnDetailsUpdateInsurance"
+
                 tab = tpUpdateInsurance
             Case "btnAddCar"
+
                 tab = tpAddCar
             Case "btnAddMember"
+
                 tab = tpAddMember
             Case "btnAddProblem"
+
                 tab = tpAddProblem
 
             ' "Cancel" buttons for adding
@@ -260,6 +267,7 @@ Public Class formTableViewer
             Case "btnCancelNewGroup"
                 ' Set tab to Groups
                 tab = tpGroups
+
                 LoadToGroupTab()
             Case "btnUpdateInsuranceCancel"
                 tab = tpCarsList
@@ -298,6 +306,7 @@ Public Class formTableViewer
 
                 'TODO: check if inputs are valid
                 If TableReader.AddTable("Car", NewCar) Then
+                    LoadToCarTable(GroupID)
                     tab = tpCarsList
                 Else
                     tab = tpAddCar
@@ -324,6 +333,7 @@ Public Class formTableViewer
 
                 If TableReader.AddTable("CarLog", NewLog) Then
                     ' Set tab to Cars List
+                    'TODO: Clear LogEnter fields
                     tab = tpCarsList
                 Else
                     tab = tpAddLog
@@ -490,6 +500,7 @@ Public Class formTableViewer
     End Sub
 
     Private Sub LoadToCarTable(SelectedID As String)
+        EmptyCarTable()
         ' Car list
         dgvCarsList.DataSource = TableReader.GetSpecificTables("Car", SelectedID)
         dgvCarsList.Columns(0).Visible = False
