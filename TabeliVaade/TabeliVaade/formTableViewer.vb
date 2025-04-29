@@ -1,10 +1,12 @@
 ﻿Imports System.ComponentModel
 Imports System.Net
 Imports System.Security.Policy
+Imports CTableReader
 
 Public Class formTableViewer
     Const DEBUG = True
     Private expandedRowIndex As Integer = -1
+    Private TableReader As New CTableReader.CTableReader()
 
     Private Sub formTableViewer_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
@@ -215,10 +217,17 @@ Public Class formTableViewer
         Select Case btn.Name
 
             Case "btnLoginLogin"
-                ' TODO: Add user verification and actual logging in
-
                 ' Set tab to Groups
-                tab = tpGroups
+                ' TODO: Add tranfer from Groups to Cars page
+                If (TableReader.LoginRegister(txtLoginEmail.Text, txtLoginPassword.Text, "Login")) Then
+                    Console.WriteLine("Login successful")
+                    ' TableReader.GetSpecificTables("Car", )
+                    tab = tpGroups
+                    LoadToGroupTab()
+                Else
+                    Console.WriteLine("Login failed")
+                    tab = tpLogin
+                End If
             Case "btnLoginRegister"
                 ' Set tab to Register
                 tab = tpRegister
@@ -227,6 +236,8 @@ Public Class formTableViewer
             Case "btnCarBack"
                 ' Set tab to Group
                 tab = tpGroups
+                LoadToGroupTab()
+
             Case "btnProblemBack"
                 ' Set tab to Car Details
                 tab = tpCarsList
@@ -234,14 +245,6 @@ Public Class formTableViewer
                 ' Set tab to LogIn
                 tab = tpLogin
                 ' TODO: Log user out
-
-            ' Buttons for changing to tabs for adding to database
-            Case "btnAddCar"
-                ' Set tab to Add Car
-                tab = tpAddCar
-            Case "btnAddProblem"
-                ' Set tab to Add Problem
-                tab = tpAddProblem
             Case "btnAddLog"
                 ' Set tab to Add Log
                 tab = tpAddLog
@@ -272,6 +275,7 @@ Public Class formTableViewer
             Case "btnCancelNewGroup"
                 ' Set tab to Groups
                 tab = tpGroups
+                LoadToGroupTab()
 
             ' "Enter" buttons for adding
             Case "btnAddCarEnter"
@@ -293,6 +297,7 @@ Public Class formTableViewer
             Case "btnEnterNewGroup"
                 ' Set tab to Groups
                 tab = tpGroups
+                LoadToGroupTab()
                 ' TODO: Add group to database
 
             Case Else
@@ -327,5 +332,18 @@ Public Class formTableViewer
         End If
 
         tcTabs.SelectedTab = tpCarsList
+
+        ' Get the ID of selected cell
+        Dim SelectedID As String = dgvGroupsList.Rows(e.RowIndex).Cells("ID").Value.ToString()
+
+        dgvCarsList.DataSource = TableReader.GetSpecificTables("Car", SelectedID)
+    End Sub
+
+    ' Description:  Loads the group list into the DataGridView
+    ' Used when: 'tab = tpGroups' is called
+    Private Sub LoadToGroupTab()
+        dgvGroupsList.DataSource = TableReader.GetGroupTable()
+        dgvGroupsList.Columns(0).Visible = False
+        dgvGroupsList.Columns(1).AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
     End Sub
 End Class
