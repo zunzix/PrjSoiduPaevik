@@ -67,7 +67,7 @@ Public Class formTableViewer
     End Function
 
 
-    ' Description:  Clears the flieds when adding a new car
+    ' Description:  Clears the fields when adding a new car
     ' Parameters:   The usual handler parameters
     ' Return:       NONE
     Private Sub txtAddCarFields_Click(sender As Object, e As EventArgs) _
