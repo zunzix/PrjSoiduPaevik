@@ -124,6 +124,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CEntities\CEntities.vbproj">
+      <Project>{dbd10ac7-20c7-4524-9d36-b387c4c97f8c}</Project>
+      <Name>CEntities</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CTableReader\CTableReader.vbproj">
       <Project>{53b127e1-dcc7-4d76-8d21-0773b2a41952}</Project>
       <Name>CTableReader</Name>
