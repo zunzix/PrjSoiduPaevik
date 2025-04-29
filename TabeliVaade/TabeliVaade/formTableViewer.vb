@@ -49,10 +49,6 @@ Public Class formTableViewer
         pnlLogs.Width = dgvCarsList.Width - 4
 
 
-        dgvCarsList.Rows.Add()
-        dgvCarsList.Rows.Add()
-        dgvCarsList.Rows.Add()
-
         ' Change the select color from an eye piercing blue to a more subtle gray
         dgvCarsList.DefaultCellStyle.SelectionBackColor = Color.LightGray
         dgvProblemsList.DefaultCellStyle.SelectionBackColor = Color.LightGray
@@ -365,7 +361,6 @@ Public Class formTableViewer
         Dim SelectedID As String = dgvGroupsList.Rows(e.RowIndex).Cells("ID").Value.ToString()
 
         dgvCarsList.DataSource = TableReader.GetSpecificTables("Car", SelectedID)
-
         Dim data As New DataTable()
         Dim message As String = "Expiring insurances:" & Environment.NewLine
         Dim messageLen As Integer = message.Length
@@ -393,11 +388,50 @@ Public Class formTableViewer
         End If
     End Sub
 
+
     ' Description:  Loads the group list into the DataGridView
     ' Used when: 'tab = tpGroups' is called
     Private Sub LoadToGroupTab()
         dgvGroupsList.DataSource = TableReader.GetGroupTable()
         dgvGroupsList.Columns(0).Visible = False
         dgvGroupsList.Columns(1).AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+    End Sub
+
+    Private Sub cbCarsSort_TabIndexChanged(sender As Object, e As EventArgs) _
+        Handles cbCarsSort.TabIndexChanged
+        If cbCarsSort.SelectedIndex = -1 Then
+            Return
+        End If
+
+        ' Sort the DataGridView based on the selected sorting option index 4-7
+        Select Case cbCarsSort.SelectedIndex
+            ''commented out becaus sorting is already implemented from datagridviewdda
+            'Case "Distance: Ascending"
+            '    dgvCarsList.Sort(dgvCarsList.Columns("CarMileage"), ListSortDirection.Ascending)
+
+            'Case "Distance: Descending"
+            '    dgvCarsList.Sort(dgvCarsList.Columns("CarMileage"), ListSortDirection.Descending)
+
+            'Case "A -> Z"
+            '    dgvCarsList.Sort(dgvCarsList.Columns("CarName"), ListSortDirection.Ascending)
+
+            'Case "Z -> A"
+            '    dgvCarsList.Sort(dgvCarsList.Columns("CarName"), ListSortDirection.Descending)
+
+            Case 4
+                dgvCarsList.Sort(dgvCarsList.Columns("CarAvailable"), ListSortDirection.Ascending)
+
+            Case 5
+                dgvCarsList.Sort(dgvCarsList.Columns("CarAvailable"), ListSortDirection.Descending)
+
+            Case 6
+                dgvCarsList.Sort(dgvCarsList.Columns("CarArchived"), ListSortDirection.Ascending)
+
+            Case 7
+                dgvCarsList.Sort(dgvCarsList.Columns("CarArchived"), ListSortDirection.Descending)
+            Case Else
+                ' Refresh the DataGridView to reflect the changes
+                dgvCarsList.Refresh()
+        End Select
     End Sub
 End Class
