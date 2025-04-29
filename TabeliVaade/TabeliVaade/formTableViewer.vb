@@ -10,6 +10,7 @@ Public Class formTableViewer
     Const DEBUG = False
     Private ADMIN = True
     Private expandedRowIndex As Integer = -1
+    Private currentGroup As String = ""
     Private TableReader As New CTableReader.CTableReader()
 
     ' CHANGE THESE TO YOUR LOG IN INFO SO THAT YOU CAN LOG IN FASTER
@@ -187,6 +188,7 @@ Public Class formTableViewer
                 ' Set tab to Group
                 tab = tpGroups
                 LoadToGroupTab()
+                currentGroup = ""
 
             Case "btnProblemBack"
                 ' Set tab to Car Details
@@ -347,7 +349,15 @@ Public Class formTableViewer
                 ' TODO: Actually update the insurance
             Case "btnAddMemberEnter"
                 tab = tpCarsList
-                ' TODO: Actually add member to group
+                ' TODO: Check if that member exists
+                Dim NewMember As New CEntities.GroupMember(currentGroup, txtMemberEmail.Text, cbIsAdmin.Checked)
+
+                If TableReader.AddTable("GroupMember", NewMember) Then
+                    ' Set tab to Cars List
+                    tab = tpCarsList
+                Else
+                    tab = tpAddMember
+                End If
 
             Case Else
                 ' In case something goes wrong, it'll just stay on the same page
@@ -437,6 +447,8 @@ Public Class formTableViewer
         If message.Length > messageLen Then
             MessageBox.Show(message)
         End If
+
+        currentGroup = SelectedID
     End Sub
 
     ' Description: Loads the group list into the DataGridView
