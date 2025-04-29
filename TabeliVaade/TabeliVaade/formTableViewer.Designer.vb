@@ -136,8 +136,8 @@ Partial Class formTableViewer
         Me.lblUpdateInsuranceTitle = New System.Windows.Forms.Label()
         Me.btnUpdateInsuranceEnter = New System.Windows.Forms.Button()
         Me.btnUpdateInsuranceCancel = New System.Windows.Forms.Button()
-        Me.DateTimePicker1 = New System.Windows.Forms.DateTimePicker()
-        Me.TextBox1 = New System.Windows.Forms.TextBox()
+        Me.dtpInsuranceExpiration = New System.Windows.Forms.DateTimePicker()
+        Me.txtUpdateInsuranceName = New System.Windows.Forms.TextBox()
         Me.lblUpdateExpiration = New System.Windows.Forms.Label()
         Me.lblUpdateName = New System.Windows.Forms.Label()
         Me.tpAddMember = New System.Windows.Forms.TabPage()
@@ -1404,8 +1404,8 @@ Partial Class formTableViewer
         Me.tpUpdateInsurance.Controls.Add(Me.lblUpdateInsuranceTitle)
         Me.tpUpdateInsurance.Controls.Add(Me.btnUpdateInsuranceEnter)
         Me.tpUpdateInsurance.Controls.Add(Me.btnUpdateInsuranceCancel)
-        Me.tpUpdateInsurance.Controls.Add(Me.DateTimePicker1)
-        Me.tpUpdateInsurance.Controls.Add(Me.TextBox1)
+        Me.tpUpdateInsurance.Controls.Add(Me.dtpInsuranceExpiration)
+        Me.tpUpdateInsurance.Controls.Add(Me.txtUpdateInsuranceName)
         Me.tpUpdateInsurance.Controls.Add(Me.lblUpdateExpiration)
         Me.tpUpdateInsurance.Controls.Add(Me.lblUpdateName)
         Me.tpUpdateInsurance.Location = New System.Drawing.Point(4, 28)
@@ -1447,21 +1447,21 @@ Partial Class formTableViewer
         Me.btnUpdateInsuranceCancel.Text = "Cancel"
         Me.btnUpdateInsuranceCancel.UseVisualStyleBackColor = True
         '
-        'DateTimePicker1
+        'dtpInsuranceExpiration
         '
-        Me.DateTimePicker1.Location = New System.Drawing.Point(346, 212)
-        Me.DateTimePicker1.Margin = New System.Windows.Forms.Padding(4)
-        Me.DateTimePicker1.Name = "DateTimePicker1"
-        Me.DateTimePicker1.Size = New System.Drawing.Size(319, 22)
-        Me.DateTimePicker1.TabIndex = 3
+        Me.dtpInsuranceExpiration.Location = New System.Drawing.Point(346, 212)
+        Me.dtpInsuranceExpiration.Margin = New System.Windows.Forms.Padding(4)
+        Me.dtpInsuranceExpiration.Name = "dtpInsuranceExpiration"
+        Me.dtpInsuranceExpiration.Size = New System.Drawing.Size(319, 22)
+        Me.dtpInsuranceExpiration.TabIndex = 3
         '
-        'TextBox1
+        'txtUpdateInsuranceName
         '
-        Me.TextBox1.Location = New System.Drawing.Point(346, 136)
-        Me.TextBox1.Margin = New System.Windows.Forms.Padding(4)
-        Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.Size = New System.Drawing.Size(319, 22)
-        Me.TextBox1.TabIndex = 2
+        Me.txtUpdateInsuranceName.Location = New System.Drawing.Point(346, 136)
+        Me.txtUpdateInsuranceName.Margin = New System.Windows.Forms.Padding(4)
+        Me.txtUpdateInsuranceName.Name = "txtUpdateInsuranceName"
+        Me.txtUpdateInsuranceName.Size = New System.Drawing.Size(319, 22)
+        Me.txtUpdateInsuranceName.TabIndex = 2
         '
         'lblUpdateExpiration
         '
@@ -1723,8 +1723,8 @@ Partial Class formTableViewer
     Friend WithEvents lblInsuranceName As Label
     Friend WithEvents tpUpdateInsurance As TabPage
     Friend WithEvents lblUpdateName As Label
-    Friend WithEvents DateTimePicker1 As DateTimePicker
-    Friend WithEvents TextBox1 As TextBox
+    Friend WithEvents dtpInsuranceExpiration As DateTimePicker
+    Friend WithEvents txtUpdateInsuranceName As TextBox
     Friend WithEvents lblUpdateExpiration As Label
     Friend WithEvents lblUpdateInsuranceTitle As Label
     Friend WithEvents btnUpdateInsuranceEnter As Button

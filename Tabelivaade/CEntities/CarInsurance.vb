@@ -10,6 +10,6 @@ Public Class CarInsurance
     Public Sub New(ByVal carId As String, ByVal name As String, ByVal endDate As DateTime)
         Me.CarID = carId
         Me.Name = name
-        Me.EndDate = endDate
+        Me.EndDate = endDate.ToUniversalTime()
     End Sub
 End Class

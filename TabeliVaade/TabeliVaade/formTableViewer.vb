@@ -345,10 +345,19 @@ Public Class formTableViewer
                 LoadToGroupTab()
 
             Case "btnUpdateInsuranceEnter"
-                tab = tpCarsList
                 ' TODO: Actually update the insurance
+                Dim NewInsurance As New CEntities.CarInsurance(dgvCarsList.Rows(expandedRowIndex).Cells("CarID").Value, txtUpdateInsuranceName.Text, dtpInsuranceExpiration.Value)
+
+                If TableReader.UpdateTable("CarInsurance", TableReader.GetSpecificTables("CarIssues", dgvCarsList.Rows(expandedRowIndex).Cells("CarID").Value), NewInsurance) Then
+                    tab = tpLogin
+                Else
+                    tab = tpUpdateInsurance
+                End If
+
+                LoadToInsuranceField(TableReader.GetSpecificTables("CarInsurance", dgvCarsList.Rows(expandedRowIndex).Cells("CarID").Value.ToString()))
+
+
             Case "btnAddMemberEnter"
-                tab = tpCarsList
                 ' TODO: Check if that member exists
                 Dim NewMember As New CEntities.GroupMember(currentGroup, txtMemberEmail.Text, cbIsAdmin.Checked)
 
@@ -493,6 +502,19 @@ Public Class formTableViewer
         dgvLogsList.Columns("CarLogEndDate").Visible = False
         dgvLogsList.Columns("CarLogDistance").Visible = False
         dgvLogsList.Columns("CarLogComment").Visible = False
+    End Sub
+
+    Private Sub LoadToInsuranceField(SelectedID As String)
+        Dim insuranceData As New DataTable()
+        insuranceData = TableReader.GetSpecificTables("CarInsurance", SelectedID)
+        If insuranceData Is Nothing OrElse insuranceData.Rows.Count = 0 Then
+            ' Handle the case where insuranceData is Nothing or has no rows
+            lblInsuranceData.Text = ""
+            lblInsuranceNameData.Text = ""
+        Else
+            lblInsuranceData.Text = insuranceData.Rows(0)("CarInsuranceEndDate")
+            lblInsuranceNameData.Text = insuranceData.Rows(0)("CarInsuranceName")
+        End If
     End Sub
 
     Private Sub btnGetDistance_Click(sender As Object, e As EventArgs) Handles btnGetDistance.Click
