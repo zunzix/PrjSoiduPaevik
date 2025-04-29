@@ -1271,7 +1271,7 @@ Partial Class formTableViewer
         '
         'btnEnterNewGroup
         '
-        Me.btnEnterNewGroup.Location = New System.Drawing.Point(460, 318)
+        Me.btnEnterNewGroup.Location = New System.Drawing.Point(451, 318)
         Me.btnEnterNewGroup.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.btnEnterNewGroup.Name = "btnEnterNewGroup"
         Me.btnEnterNewGroup.Size = New System.Drawing.Size(115, 50)
@@ -1281,7 +1281,7 @@ Partial Class formTableViewer
         '
         'txtNewGroupName
         '
-        Me.txtNewGroupName.Location = New System.Drawing.Point(420, 214)
+        Me.txtNewGroupName.Location = New System.Drawing.Point(348, 173)
         Me.txtNewGroupName.Margin = New System.Windows.Forms.Padding(4, 2, 4, 2)
         Me.txtNewGroupName.Name = "txtNewGroupName"
         Me.txtNewGroupName.Size = New System.Drawing.Size(345, 22)
@@ -1422,7 +1422,7 @@ Partial Class formTableViewer
         '
         Me.lblUpdateInsuranceTitle.AutoSize = True
         Me.lblUpdateInsuranceTitle.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.0!)
-        Me.lblUpdateInsuranceTitle.Location = New System.Drawing.Point(372, 68)
+        Me.lblUpdateInsuranceTitle.Location = New System.Drawing.Point(275, 24)
         Me.lblUpdateInsuranceTitle.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblUpdateInsuranceTitle.Name = "lblUpdateInsuranceTitle"
         Me.lblUpdateInsuranceTitle.Size = New System.Drawing.Size(201, 29)
@@ -1431,7 +1431,7 @@ Partial Class formTableViewer
         '
         'btnUpdateInsuranceEnter
         '
-        Me.btnUpdateInsuranceEnter.Location = New System.Drawing.Point(685, 406)
+        Me.btnUpdateInsuranceEnter.Location = New System.Drawing.Point(566, 314)
         Me.btnUpdateInsuranceEnter.Margin = New System.Windows.Forms.Padding(4)
         Me.btnUpdateInsuranceEnter.Name = "btnUpdateInsuranceEnter"
         Me.btnUpdateInsuranceEnter.Size = New System.Drawing.Size(100, 69)
@@ -1441,7 +1441,7 @@ Partial Class formTableViewer
         '
         'btnUpdateInsuranceCancel
         '
-        Me.btnUpdateInsuranceCancel.Location = New System.Drawing.Point(233, 406)
+        Me.btnUpdateInsuranceCancel.Location = New System.Drawing.Point(114, 314)
         Me.btnUpdateInsuranceCancel.Margin = New System.Windows.Forms.Padding(4)
         Me.btnUpdateInsuranceCancel.Name = "btnUpdateInsuranceCancel"
         Me.btnUpdateInsuranceCancel.Size = New System.Drawing.Size(100, 69)
@@ -1451,7 +1451,7 @@ Partial Class formTableViewer
         '
         'DateTimePicker1
         '
-        Me.DateTimePicker1.Location = New System.Drawing.Point(465, 304)
+        Me.DateTimePicker1.Location = New System.Drawing.Point(346, 212)
         Me.DateTimePicker1.Margin = New System.Windows.Forms.Padding(4)
         Me.DateTimePicker1.Name = "DateTimePicker1"
         Me.DateTimePicker1.Size = New System.Drawing.Size(319, 22)
@@ -1459,7 +1459,7 @@ Partial Class formTableViewer
         '
         'TextBox1
         '
-        Me.TextBox1.Location = New System.Drawing.Point(465, 228)
+        Me.TextBox1.Location = New System.Drawing.Point(346, 136)
         Me.TextBox1.Margin = New System.Windows.Forms.Padding(4)
         Me.TextBox1.Name = "TextBox1"
         Me.TextBox1.Size = New System.Drawing.Size(319, 22)
@@ -1469,7 +1469,7 @@ Partial Class formTableViewer
         '
         Me.lblUpdateExpiration.AutoSize = True
         Me.lblUpdateExpiration.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.0!)
-        Me.lblUpdateExpiration.Location = New System.Drawing.Point(228, 302)
+        Me.lblUpdateExpiration.Location = New System.Drawing.Point(109, 210)
         Me.lblUpdateExpiration.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblUpdateExpiration.Name = "lblUpdateExpiration"
         Me.lblUpdateExpiration.Size = New System.Drawing.Size(140, 24)
@@ -1480,7 +1480,7 @@ Partial Class formTableViewer
         '
         Me.lblUpdateName.AutoSize = True
         Me.lblUpdateName.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.0!)
-        Me.lblUpdateName.Location = New System.Drawing.Point(228, 225)
+        Me.lblUpdateName.Location = New System.Drawing.Point(109, 133)
         Me.lblUpdateName.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblUpdateName.Name = "lblUpdateName"
         Me.lblUpdateName.Size = New System.Drawing.Size(172, 24)
