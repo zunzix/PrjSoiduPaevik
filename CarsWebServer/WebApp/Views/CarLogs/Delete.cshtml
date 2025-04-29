@@ -1,4 +1,4 @@
-@model App.Domain.CarLog
+@model App.DAL.DTO.CarLog
 
 @{
     ViewData["Title"] = "Delete";
@@ -15,13 +15,13 @@
             @Html.DisplayNameFor(model => model.Car)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Car.Name)
+            @Html.DisplayFor(model => model.Car!.Name)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Person)
+            @Html.DisplayNameFor(model => model.Email)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Person.Name)
+            @Html.DisplayFor(model => model.Email)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.StartDate)

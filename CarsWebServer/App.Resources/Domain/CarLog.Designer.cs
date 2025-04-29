@@ -60,6 +60,15 @@ namespace App.Resources.Domain {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Kasutaja.
+        /// </summary>
+        public static string AppUser {
+            get {
+                return ResourceManager.GetString("AppUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Auto.
         /// </summary>
         public static string Car {
@@ -110,15 +119,6 @@ namespace App.Resources.Domain {
         public static string EndPoint {
             get {
                 return ResourceManager.GetString("EndPoint", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Kasutaja.
-        /// </summary>
-        public static string Person {
-            get {
-                return ResourceManager.GetString("Person", resourceCulture);
             }
         }
         

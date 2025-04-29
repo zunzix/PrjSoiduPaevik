@@ -1,4 +1,4 @@
-@model App.Domain.GroupMember
+@model App.DAL.DTO.GroupMember
 
 @{
     ViewData["Title"] = "Details";
@@ -14,13 +14,13 @@
             @Html.DisplayNameFor(model => model.Group)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Group.Name)
+            @Html.DisplayFor(model => model.Group!.Name)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Person)
+            @Html.DisplayNameFor(model => model.Email)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Person.Name)
+            @Html.DisplayFor(model => model.Email)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.IsAdmin)

@@ -1,171 +1,195 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using App.DAL.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using App.Domain;
-using WebApp.Data;
+using App.DAL.EF;
+using App.DAL.EF.Repositories;
+using App.DAL.DTO;
+using Base.Helpers;
+using Microsoft.AspNetCore.Authorization;
 
-namespace WebApp.Controllers
+namespace WebApp.Controllers;
+
+[Authorize]
+public class GroupMembersController : Controller
 {
-    public class GroupMembersController : Controller
+    private readonly IAppUOW _uow;
+    private readonly AppDbContext _context;
+    
+    public GroupMembersController(IAppUOW uow, AppDbContext context)
     {
-        private readonly AppDbContext _context;
+        _uow = uow;
+        _context = context;
+    }
 
-        public GroupMembersController(AppDbContext context)
+    // GET: GroupMembers
+    public async Task<IActionResult> Index()
+    {
+        var res = await _uow.GroupMemberRepository.AllAsync(User.GetUserId());
+        return View(res);
+    }
+
+    // GET: GroupMembers/Details/5
+    public async Task<IActionResult> Details(Guid? id)
+    {
+        if (id == null)
         {
-            _context = context;
+            return NotFound();
         }
 
-        // GET: GroupMembers
-        public async Task<IActionResult> Index()
+        var entity = await _uow.GroupMemberRepository.FindAsync(id.Value, User.GetUserId());
+        if (entity == null)
         {
-            var appDbContext = _context.GroupMembers.Include(g => g.Group).Include(g => g.Person);
-            return View(await appDbContext.ToListAsync());
+            return NotFound();
         }
 
-        // GET: GroupMembers/Details/5
-        public async Task<IActionResult> Details(Guid? id)
+        return View(entity);
+    }
+
+    // GET: GroupMembers/Create
+    public IActionResult Create()
+    {
+        ViewData["GroupId"] = new SelectList(_uow.GroupRepository.AllAdmins(User.GetUserId()), "Id", "Name");
+        ViewData["AppUserId"] = new SelectList(_context.Users, "Email", "Email");
+        return View();
+    }
+
+    // POST: GroupMembers/Create
+    // To protect from overposting attacks, enable the specific properties you want to bind to.
+    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Create(GroupMember groupMember)
+    {
+        // Check if current user is admin of the group
+        var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), groupMember.GroupId);
+        if (!isAdmin)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var groupMember = await _context.GroupMembers
-                .Include(g => g.Group)
-                .Include(g => g.Person)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (groupMember == null)
-            {
-                return NotFound();
-            }
-
-            return View(groupMember);
+            return Forbid();
         }
 
-        // GET: GroupMembers/Create
-        public IActionResult Create()
+        
+        if (ModelState.IsValid)
         {
-            ViewData["GroupId"] = new SelectList(_context.Groups, "Id", "Name");
-            ViewData["PersonId"] = new SelectList(_context.People, "Id", "Name");
-            return View();
-        }
-
-        // POST: GroupMembers/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("GroupId,PersonId,IsAdmin,Id")] GroupMember groupMember)
-        {
-            if (ModelState.IsValid)
-            {
-                groupMember.Id = Guid.NewGuid();
-                _context.Add(groupMember);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["GroupId"] = new SelectList(_context.Groups, "Id", "Name", groupMember.GroupId);
-            ViewData["PersonId"] = new SelectList(_context.People, "Id", "Name", groupMember.PersonId);
-            return View(groupMember);
-        }
-
-        // GET: GroupMembers/Edit/5
-        public async Task<IActionResult> Edit(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var groupMember = await _context.GroupMembers.FindAsync(id);
-            if (groupMember == null)
-            {
-                return NotFound();
-            }
-            ViewData["GroupId"] = new SelectList(_context.Groups, "Id", "Name", groupMember.GroupId);
-            ViewData["PersonId"] = new SelectList(_context.People, "Id", "Name", groupMember.PersonId);
-            return View(groupMember);
-        }
-
-        // POST: GroupMembers/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("GroupId,PersonId,IsAdmin,Id")] GroupMember groupMember)
-        {
-            if (id != groupMember.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(groupMember);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!GroupMemberExists(groupMember.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["GroupId"] = new SelectList(_context.Groups, "Id", "Name", groupMember.GroupId);
-            ViewData["PersonId"] = new SelectList(_context.People, "Id", "Name", groupMember.PersonId);
-            return View(groupMember);
-        }
-
-        // GET: GroupMembers/Delete/5
-        public async Task<IActionResult> Delete(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var groupMember = await _context.GroupMembers
-                .Include(g => g.Group)
-                .Include(g => g.Person)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (groupMember == null)
-            {
-                return NotFound();
-            }
-
-            return View(groupMember);
-        }
-
-        // POST: GroupMembers/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
-        {
-            var groupMember = await _context.GroupMembers.FindAsync(id);
-            if (groupMember != null)
-            {
-                _context.GroupMembers.Remove(groupMember);
-            }
-
-            await _context.SaveChangesAsync();
+            groupMember.Id = Guid.NewGuid();
+            
+            _uow.GroupMemberRepository.Add(groupMember);
+            await _uow.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool GroupMemberExists(Guid id)
-        {
-            return _context.GroupMembers.Any(e => e.Id == id);
-        }
+        ViewData["AppUserId"] = new SelectList(_context.Users, "Email", "Email", groupMember.Email);
+        ViewData["GroupId"] = new SelectList(await _uow.GroupRepository.AllAdminsAsync(User.GetUserId()), "Id", "Name", groupMember.GroupId);
+        return View(groupMember);
     }
+
+    // GET: GroupMembers/Edit/5
+    public async Task<IActionResult> Edit(Guid? id)
+    {
+        if (id == null)
+        {
+            return NotFound();
+        }
+
+        var entity = await _uow.GroupMemberRepository.FindAsync(id.Value, User.GetUserId());
+        if (entity == null)
+        {
+            return NotFound();
+        }
+        
+        // Check if current user is admin of the group
+        var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), entity.GroupId);
+        if (!isAdmin)
+        {
+            return Forbid();
+        }
+
+
+        ViewData["GroupId"] = new SelectList(await _uow.GroupRepository.AllAdminsAsync(User.GetUserId()), "Id", "Name");
+        ViewData["AppUserId"] = new SelectList(_context.Users, "Email", "Email");
+        return View(entity);
+    }
+
+    // POST: GroupMembers/Edit/5
+    // To protect from overposting attacks, enable the specific properties you want to bind to.
+    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Edit(Guid id, GroupMember groupMember)
+    {
+        if (id != groupMember.Id)
+        {
+            return NotFound();
+        }
+        
+        // Check if current user is admin of the group
+        var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), groupMember.GroupId);
+        if (!isAdmin)
+        {
+            return Forbid(); 
+        }
+
+        if (ModelState.IsValid)
+        {
+            _uow.GroupMemberRepository.Update(groupMember);
+            await _uow.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+        ViewData["AppUserId"] = new SelectList(_context.Users, "Email", "Email", groupMember.Email);
+        ViewData["GroupId"] = new SelectList(await _uow.GroupRepository.AllAdminsAsync(User.GetUserId()), "Id", "Name", groupMember.GroupId);
+        return View(groupMember);
+    }
+
+    // GET: GroupMembers/Delete/5
+    public async Task<IActionResult> Delete(Guid? id)
+    {
+        if (id == null)
+        {
+            return NotFound();
+        }
+
+        var entity = await _uow.GroupMemberRepository.FindAsync(id.Value, User.GetUserId());
+        if (entity == null)
+        {
+            return NotFound();
+        }
+        
+        // Check if current user is admin of the group
+        var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), entity.GroupId);
+        if (!isAdmin)
+        {
+            return Forbid();
+        }
+
+        return View(entity);
+    }
+
+    // POST: GroupMembers/Delete/5
+    [HttpPost, ActionName("Delete")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeleteConfirmed(Guid id)
+    {
+        var entity = await _uow.GroupMemberRepository.FindAsync(id, User.GetUserId());
+        if (entity == null)
+        {
+            return NotFound();
+        }
+
+        // Check if current user is admin of the group
+        var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), entity.GroupId);
+        if (!isAdmin)
+        {
+            return Forbid();
+        }
+        
+        await _uow.GroupMemberRepository.RemoveAsync(id);
+        await _uow.SaveChangesAsync();
+        return RedirectToAction(nameof(Index));
+    }
+
 }

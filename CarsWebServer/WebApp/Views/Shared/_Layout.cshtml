@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@using App.Domain.Identity
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@inject SignInManager<AppUser> SignInManager
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
@@ -23,27 +27,27 @@
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Persons" asp-action="Index">@App.Resources.Domain.Person.Persons</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Groups" asp-action="Index">@App.Resources.Domain.Group.Groups</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="GroupMembers" asp-action="Index">@App.Resources.Domain.GroupMember.GroupMembers</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Cars" asp-action="Index">@App.Resources.Domain.Car.Cars</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="CarIssues" asp-action="Index">@App.Resources.Domain.CarIssue.CarIssues</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="CarInsurances" asp-action="Index">@App.Resources.Domain.CarInsurance.CarInsurances</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="CarLogs" asp-action="Index">@App.Resources.Domain.CarLog.CarLogs</a>
-                    </li>
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Groups" asp-action="Index">@App.Resources.Domain.Group.Groups</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="GroupMembers" asp-action="Index">@App.Resources.Domain.GroupMember.GroupMembers</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Cars" asp-action="Index">@App.Resources.Domain.Car.Cars</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="CarIssues" asp-action="Index">@App.Resources.Domain.CarIssue.CarIssues</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="CarInsurances" asp-action="Index">@App.Resources.Domain.CarInsurance.CarInsurances</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="CarLogs" asp-action="Index">@App.Resources.Domain.CarLog.CarLogs</a>
+                        </li>
+                    }
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">@Base.Resources.Common.Privacy</a>
                     </li>

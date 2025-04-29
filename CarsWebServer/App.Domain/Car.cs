@@ -15,6 +15,10 @@ public class Car : BaseEntity
     [Display(Name = nameof(Name), Prompt = nameof(Name), ResourceType = typeof(App.Resources.Domain.Car))]
     public string Name { get; set; } = null!;
     
+    [MaxLength(64, ErrorMessageResourceType = typeof(Base.Resources.Common), ErrorMessageResourceName = "MaxLength")]
+    [Display(Name = nameof(RegistrationPlate), Prompt = nameof(RegistrationPlate), ResourceType = typeof(App.Resources.Domain.Car))]
+    public string RegistrationPlate { get; set; } = null!;
+    
     
     [Display(Name = nameof(Mileage), Prompt = nameof(Mileage), ResourceType = typeof(App.Resources.Domain.Car))]
     public float Mileage { get; set; }
@@ -28,8 +32,12 @@ public class Car : BaseEntity
     public bool IsAvailable { get; set; }
     
     
+    
     [Display(Name = nameof(IsArchived), Prompt = nameof(IsArchived), ResourceType = typeof(App.Resources.Domain.Car))]
     public bool IsArchived { get; set; }
+    
+    [Display(Name = nameof(IsCritical), Prompt = nameof(IsCritical), ResourceType = typeof(App.Resources.Domain.Car))]
+    public bool IsCritical { get; set; }
     
     
     public ICollection<CarIssue>? CarIssues { get; set; }

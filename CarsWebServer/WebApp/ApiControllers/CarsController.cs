@@ -2,37 +2,80 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using App.DAL.Contracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using App.Domain;
-using WebApp.Data;
+using App.DAL.EF;
+using App.DAL.DTO;
+using Base.Helpers;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+
+
+
 
 namespace WebApp.ApiControllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class CarsController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly IAppUOW _uow;
 
-        public CarsController(AppDbContext context)
+        public CarsController(IAppUOW uow)
         {
-            _context = context;
+            _uow = uow;
         }
 
         // GET: api/Cars
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Car>>> GetCars()
         {
-            return await _context.Cars.ToListAsync();
+            var userGroups = await _uow.GroupRepository.AllAsync(User.GetUserId());
+            var cars = await _uow.CarRepository.AllCarsAsync(userGroups);
+    
+            return Ok(cars.Select(c => new 
+            {
+                c.Id,
+                c.GroupId,
+                c.Name,
+                c.Mileage,
+                c.AvgFuelCons,
+                c.IsAvailable,
+                c.IsArchived,
+                c.IsCritical
+            }).ToList());
+        }
+        
+        // GET: api/Cars/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<IEnumerable<Car>>> GetGroupCars(Guid id)
+        {
+            var userGroups = await _uow.GroupRepository.AllAsync(User.GetUserId());
+            var cars = await _uow.CarRepository.AllCarsAsync(userGroups);
+            var groupCars = await _uow.CarRepository.AllGroupCarsAsync(cars, id);
+    
+            return Ok(groupCars.Select(c => new 
+            {
+                c.Id,
+                c.GroupId,
+                c.Name,
+                c.RegistrationPlate,
+                c.Mileage,
+                c.AvgFuelCons,
+                c.IsAvailable,
+                c.IsArchived,
+                c.IsCritical
+            }).ToList());
         }
 
         // GET: api/Cars/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Car>> GetCar(Guid id)
         {
-            var car = await _context.Cars.FindAsync(id);
+            var car = await _uow.CarRepository.FindAsync(id, User.GetUserId());
 
             if (car == null)
             {
@@ -41,7 +84,8 @@ namespace WebApp.ApiControllers
 
             return car;
         }
-
+        
+        
         // PUT: api/Cars/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
@@ -51,25 +95,17 @@ namespace WebApp.ApiControllers
             {
                 return BadRequest();
             }
-
-            _context.Entry(car).State = EntityState.Modified;
-
-            try
+            
+            // Check if current user is admin of the group
+            var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), car.GroupId);
+            if (!isAdmin)
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CarExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return Forbid();
             }
 
+            _uow.CarRepository.Update(car);
+            await _uow.SaveChangesAsync();
+            
             return NoContent();
         }
 
@@ -78,8 +114,16 @@ namespace WebApp.ApiControllers
         [HttpPost]
         public async Task<ActionResult<Car>> PostCar(Car car)
         {
-            _context.Cars.Add(car);
-            await _context.SaveChangesAsync();
+            // Check if current user is admin of the group
+            var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), car.GroupId);
+            if (!isAdmin)
+            {
+                return Forbid();
+            }
+            
+            car.Id = Guid.NewGuid();
+            _uow.CarRepository.Add(car);
+            await _uow.SaveChangesAsync();
 
             return CreatedAtAction("GetCar", new { id = car.Id }, car);
         }
@@ -88,21 +132,24 @@ namespace WebApp.ApiControllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCar(Guid id)
         {
-            var car = await _context.Cars.FindAsync(id);
+            var car = await _uow.CarRepository.FindAsync(id);
             if (car == null)
             {
                 return NotFound();
             }
+            
+            // Check if current user is admin of the group
+            var isAdmin = await _uow.GroupRepository.IsUserAdminInGroup(User.GetUserId(), car.GroupId);
+            if (!isAdmin)
+            {
+                return Forbid();
+            }
 
-            _context.Cars.Remove(car);
-            await _context.SaveChangesAsync();
+            await _uow.CarRepository.RemoveCarWithDependenciesAsync(car);
+            await _uow.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool CarExists(Guid id)
-        {
-            return _context.Cars.Any(e => e.Id == id);
-        }
     }
 }

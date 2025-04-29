@@ -1,21 +1,93 @@
 using System.Globalization;
+using System.IdentityModel.Tokens.Jwt;
+using System.Text;
+using App.BLL;
+using App.BLL.Contracts;
+using App.DAL.Contracts;
+using App.DAL.EF;
+using App.DAL.EF.Repositories;
+using App.Domain.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Options;
-using WebApp.Data;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ??
                        throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(connectionString));
+
+if (builder.Environment.IsProduction())
+{
+    builder.Services.AddDbContext<AppDbContext>(options =>
+        options
+            .UseNpgsql(
+                connectionString,
+                o => o.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)
+            )
+            // disable tracking, allow id based shared entity creation
+            .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTrackingWithIdentityResolution)
+    );
+}
+else
+{
+    builder.Services.AddDbContext<AppDbContext>(options =>
+        options
+            .UseNpgsql(
+                connectionString,
+                o => o.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)
+            )
+            .ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))
+            .EnableDetailedErrors()
+            .EnableSensitiveDataLogging()
+            // disable tracking, allow id based shared entity creation
+            .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTrackingWithIdentityResolution)
+    );
+}
+
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+builder.Services.AddScoped<IAppUOW, AppUOW>();
+//builder.Services.AddScoped<IAppBLL, AppBLL>();
+
+
+
+builder.Services.AddIdentity<AppUser, AppRole>(o => 
+    o.SignIn.RequireConfirmedAccount = false)
+    .AddDefaultUI()
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddDefaultTokenProviders();
+
+// Remove default claim mapping
+JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
+builder.Services
+    .AddAuthentication()
+    .AddCookie(options => { options.SlidingExpiration = true; })
+    .AddJwtBearer(cfg =>
+    {
+        //https in dev?
+        cfg.RequireHttpsMetadata = false;
+        //cfg.SaveToken = false;
+        cfg.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidIssuer = builder.Configuration["JWTSecurity:Issuer"],
+            ValidAudience = builder.Configuration["JWTSecurity:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(builder.Configuration["JWTSecurity:Key"]!)),
+            ClockSkew = TimeSpan.Zero // remove delay of token when expires
+        };
+    });
+
+/*
+builder.Services.AddDefaultIdentity<IdentityUser>(
+        options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<AppDbContext>();
+*/
 builder.Services.AddControllersWithViews();
 
 //Add culture switching support
@@ -38,12 +110,23 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 
     options.RequestCultureProviders = new List<IRequestCultureProvider>
     {
-        // Order is important, its in which order they will be evaluated
-        // add support for ?culture=ru-RU
         new QueryStringRequestCultureProvider(),
         new CookieRequestCultureProvider()
     };
 });
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "CorsAllowAll", configurePolicy: policy =>
+    {
+        policy.AllowAnyHeader();
+        policy.AllowAnyMethod();
+        policy.AllowAnyOrigin();
+        policy.SetIsOriginAllowed((host) => true);
+    });
+});
+    
+
 
 var app = builder.Build();
 
@@ -62,7 +145,10 @@ else
 app.UseHttpsRedirection();
 
 app.UseRequestLocalization(options: app.Services.GetService<IOptions<RequestLocalizationOptions>>()!.Value!);
+
 app.UseRouting();
+
+app.UseCors("CorsAllowAll");
 
 app.UseAuthorization();
 

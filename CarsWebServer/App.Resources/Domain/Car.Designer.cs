@@ -105,6 +105,15 @@ namespace App.Resources.Domain {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Kriitilisus.
+        /// </summary>
+        public static string IsCritical {
+            get {
+                return ResourceManager.GetString("IsCritical", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Kilometraaž.
         /// </summary>
         public static string Mileage {
@@ -119,6 +128,15 @@ namespace App.Resources.Domain {
         public static string Name {
             get {
                 return ResourceManager.GetString("Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Numbrimärk.
+        /// </summary>
+        public static string RegistrationPlate {
+            get {
+                return ResourceManager.GetString("RegistrationPlate", resourceCulture);
             }
         }
     }
