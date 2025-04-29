@@ -477,7 +477,7 @@ Partial Class formTableViewer
         '
         Me.lblCommentData.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblCommentData.AutoSize = True
-        Me.lblCommentData.Location = New System.Drawing.Point(169, 105)
+        Me.lblCommentData.Location = New System.Drawing.Point(112, 105)
         Me.lblCommentData.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblCommentData.Name = "lblCommentData"
         Me.lblCommentData.Size = New System.Drawing.Size(28, 16)
@@ -489,7 +489,7 @@ Partial Class formTableViewer
         '
         Me.lblDistanceData.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblDistanceData.AutoSize = True
-        Me.lblDistanceData.Location = New System.Drawing.Point(169, 76)
+        Me.lblDistanceData.Location = New System.Drawing.Point(112, 76)
         Me.lblDistanceData.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblDistanceData.Name = "lblDistanceData"
         Me.lblDistanceData.Size = New System.Drawing.Size(28, 16)
@@ -501,7 +501,7 @@ Partial Class formTableViewer
         '
         Me.lblEndData.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblEndData.AutoSize = True
-        Me.lblEndData.Location = New System.Drawing.Point(169, 49)
+        Me.lblEndData.Location = New System.Drawing.Point(112, 49)
         Me.lblEndData.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblEndData.Name = "lblEndData"
         Me.lblEndData.Size = New System.Drawing.Size(28, 16)
@@ -513,7 +513,7 @@ Partial Class formTableViewer
         '
         Me.lblStartData.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblStartData.AutoSize = True
-        Me.lblStartData.Location = New System.Drawing.Point(169, 21)
+        Me.lblStartData.Location = New System.Drawing.Point(112, 21)
         Me.lblStartData.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblStartData.Name = "lblStartData"
         Me.lblStartData.Size = New System.Drawing.Size(28, 16)
@@ -524,7 +524,7 @@ Partial Class formTableViewer
         'lblEndTime
         '
         Me.lblEndTime.AutoSize = True
-        Me.lblEndTime.Location = New System.Drawing.Point(5, 44)
+        Me.lblEndTime.Location = New System.Drawing.Point(5, 49)
         Me.lblEndTime.Name = "lblEndTime"
         Me.lblEndTime.Size = New System.Drawing.Size(34, 16)
         Me.lblEndTime.TabIndex = 3
@@ -533,7 +533,7 @@ Partial Class formTableViewer
         'lblLogComment
         '
         Me.lblLogComment.AutoSize = True
-        Me.lblLogComment.Location = New System.Drawing.Point(5, 89)
+        Me.lblLogComment.Location = New System.Drawing.Point(6, 105)
         Me.lblLogComment.Name = "lblLogComment"
         Me.lblLogComment.Size = New System.Drawing.Size(67, 16)
         Me.lblLogComment.TabIndex = 2
@@ -542,7 +542,7 @@ Partial Class formTableViewer
         'lblTotalDistance
         '
         Me.lblTotalDistance.AutoSize = True
-        Me.lblTotalDistance.Location = New System.Drawing.Point(5, 66)
+        Me.lblTotalDistance.Location = New System.Drawing.Point(5, 76)
         Me.lblTotalDistance.Name = "lblTotalDistance"
         Me.lblTotalDistance.Size = New System.Drawing.Size(95, 16)
         Me.lblTotalDistance.TabIndex = 1
@@ -828,7 +828,7 @@ Partial Class formTableViewer
         'dgvUserHistoryList
         '
         Me.dgvUserHistoryList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dgvUserHistoryList.Location = New System.Drawing.Point(7, 66)
+        Me.dgvUserHistoryList.Location = New System.Drawing.Point(7, 53)
         Me.dgvUserHistoryList.Margin = New System.Windows.Forms.Padding(4, 2, 4, 2)
         Me.dgvUserHistoryList.Name = "dgvUserHistoryList"
         Me.dgvUserHistoryList.ReadOnly = True
@@ -1118,7 +1118,6 @@ Partial Class formTableViewer
         '
         Me.dtpEndDate.Location = New System.Drawing.Point(11, 130)
         Me.dtpEndDate.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
-        Me.dtpEndDate.MinDate = New Date(2025, 4, 24, 0, 0, 0, 0)
         Me.dtpEndDate.Name = "dtpEndDate"
         Me.dtpEndDate.Size = New System.Drawing.Size(335, 28)
         Me.dtpEndDate.TabIndex = 14
@@ -1173,7 +1172,6 @@ Partial Class formTableViewer
         '
         Me.dtpStartDate.Location = New System.Drawing.Point(5, 130)
         Me.dtpStartDate.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
-        Me.dtpStartDate.MaxDate = New Date(2025, 4, 24, 0, 0, 0, 0)
         Me.dtpStartDate.Name = "dtpStartDate"
         Me.dtpStartDate.Size = New System.Drawing.Size(341, 28)
         Me.dtpStartDate.TabIndex = 13

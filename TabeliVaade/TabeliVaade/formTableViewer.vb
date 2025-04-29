@@ -10,6 +10,7 @@ Public Class formTableViewer
     Const DEBUG = False
     Private ADMIN = True
     Private expandedRowIndex As Integer = -1
+    Private currentGroup As String = ""
     Private TableReader As New CTableReader.CTableReader()
 
     ' CHANGE THESE TO YOUR LOG IN INFO SO THAT YOU CAN LOG IN FASTER
@@ -107,6 +108,7 @@ Public Class formTableViewer
 
         ' Style the logs panel the same way as details panel, but not visible (yet)
         pnlLogs.Top = dgvCarsList.Top + rowRect.Bottom
+        LoadToLogTable(dgvCarsList.Rows(e.RowIndex).Cells("CarID").Value)
 
         ' Assign detailed values to the data fields
         lblFuelData.Text = dgvCarsList.Rows(e.RowIndex).Cells("CarAvgFuelConsumption").Value & " L/100km"
@@ -200,6 +202,7 @@ Public Class formTableViewer
                 ' Set tab to Group
                 tab = tpGroups
                 LoadToGroupTab()
+                currentGroup = ""
 
             Case "btnProblemBack"
                 ' Set tab to Car Details
@@ -301,7 +304,6 @@ Public Class formTableViewer
                 End If
 
             Case "btnAddProblemEnter"
-                ' TODO: Add problem to the database
                 Dim NewIssue As New CEntities.CarIssue(dgvCarsList.Rows(expandedRowIndex).Cells("CarID").Value, txtProblemDescription.Text, cbCriticality.Checked, False)
 
                 If TableReader.AddTable("CarIssue", NewIssue) Then
@@ -314,9 +316,21 @@ Public Class formTableViewer
                 LoadToProblemTable(dgvCarsList.Rows(expandedRowIndex).Cells("CarID").Value)
 
             Case "btnAddLogEnter"
-                ' Set tab to Cars List
-                tab = tpCarsList
                 ' TODO: Add log to the database
+                Dim NewLog As New CEntities.CarLog(dgvCarsList.Rows(expandedRowIndex).Cells("CarID").Value,
+                                                   CType(dtpStartDate.Value, Date), CType(dtpEndDate.Value, Date), txtLocationStart.Text,
+                                                   txtLocationEnd.Text, CType(txtTotalDistance.Text, Double),
+                                                   txtLogComment.Text)
+
+                If TableReader.AddTable("CarLog", NewLog) Then
+                    ' Set tab to Cars List
+                    tab = tpCarsList
+                Else
+                    tab = tpAddLog
+                End If
+
+                LoadToLogTable(dgvCarsList.Rows(expandedRowIndex).Cells("CarID").Value)
+
             Case "btnRegisterEnter"
                 ' Set tab to Log in
 
@@ -338,7 +352,6 @@ Public Class formTableViewer
                 ' Set tab to Groups
                 tab = tpGroups
 
-                ' TODO: Add group to database
                 Dim newGroup As New CEntities.Group(txtNewGroupName.Text)
 
                 TableReader.AddTable("Group", newGroup)
@@ -350,7 +363,15 @@ Public Class formTableViewer
                 ' TODO: Actually update the insurance
             Case "btnAddMemberEnter"
                 tab = tpCarsList
-                ' TODO: Actually add member to group
+                ' TODO: Check if that member exists
+                Dim NewMember As New CEntities.GroupMember(currentGroup, txtMemberEmail.Text, cbIsAdmin.Checked)
+
+                If TableReader.AddTable("GroupMember", NewMember) Then
+                    ' Set tab to Cars List
+                    tab = tpCarsList
+                Else
+                    tab = tpAddMember
+                End If
 
             Case Else
                 ' In case something goes wrong, it'll just stay on the same page
@@ -434,6 +455,8 @@ Public Class formTableViewer
         If message.Length > messageLen Then
             MessageBox.Show(message)
         End If
+
+        currentGroup = SelectedID
     End Sub
 
     ' Description: Loads the group list into the DataGridView
@@ -485,6 +508,17 @@ Public Class formTableViewer
         dgvProblemsList.Columns(1).Visible = False
     End Sub
 
+    Private Sub LoadToLogTable(SelectedID As String)
+        dgvLogsList.DataSource = TableReader.GetSpecificTables("CarLog", SelectedID)
+        dgvLogsList.Columns("CarLogID").Visible = False
+        dgvLogsList.Columns("CarLogCarID").Visible = False
+        dgvLogsList.Columns("CarLogUserEmail").Visible = False
+        dgvLogsList.Columns("CarLogStartDate").Visible = False
+        dgvLogsList.Columns("CarLogEndDate").Visible = False
+        dgvLogsList.Columns("CarLogDistance").Visible = False
+        dgvLogsList.Columns("CarLogComment").Visible = False
+    End Sub
+
     Private Sub btnGetDistance_Click(sender As Object, e As EventArgs) Handles btnGetDistance.Click
         lblStartData.Text = dtpStatsTimeStart.Value
         lblEndData.Text = dtpStatsTimeEnd.Value
@@ -501,7 +535,7 @@ Public Class formTableViewer
         lblDistanceData.Text = totalDistance.ToString() & " km"
     End Sub
 
-    Private Sub dgvLogsList_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvLogsList.CellContentClick
+    Private Sub dgvLogsList_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvLogsList.CellClick
         If e.RowIndex < 0 Then
             Return
         End If
