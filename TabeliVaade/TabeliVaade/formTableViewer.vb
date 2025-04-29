@@ -208,7 +208,8 @@ Public Class formTableViewer
         btnLogOut.Click, btnLoginRegister.Click, btnRegisterCancel.Click,
         btnRegisterEnter.Click, btnNewGroup.Click, btnCancelNewGroup.Click,
         btnEnterNewGroup.Click, btnDetailsUpdateInsurance.Click,
-        btnUpdateInsuranceCancel.Click, btnUpdateInsuranceEnter.Click
+        btnUpdateInsuranceCancel.Click, btnUpdateInsuranceEnter.Click,
+        btnAddMember.Click, btnAddMemberCancel.Click, btnAddMemberEnter.Click
 
         'Get the button that was clicked
         Dim btn As Button = CType(sender, Button)
@@ -269,6 +270,10 @@ Public Class formTableViewer
                 tab = tpNewGroup
             Case "btnDetailsUpdateInsurance"
                 tab = tpUpdateInsurance
+            Case "btnAddCar"
+                tab = tpAddCar
+            Case "btnAddMember"
+                tab = tpAddMember
 
             ' "Cancel" buttons for adding
             Case "btnAddCarCancel"
@@ -295,6 +300,8 @@ Public Class formTableViewer
                 tab = tpGroups
                 LoadToGroupTab()
             Case "btnUpdateInsuranceCancel"
+                tab = tpCarsList
+            Case "btnAddMemberCancel"
                 tab = tpCarsList
 
             ' "Enter" buttons for adding
@@ -332,11 +339,14 @@ Public Class formTableViewer
                 tab = tpGroups
                 LoadToGroupTab()
                 ' TODO: Add group to database
-                Dim newGroup As New Group(txtNewGroupName.Text)
+                Dim newGroup As New CEntities.Group(txtNewGroupName.Text)
                 TableReader.AddTable("Group", newGroup)
             Case "btnUpdateInsuranceEnter"
                 tab = tpCarsList
                 ' TODO: Actually update the insurance
+            Case "btnAddMemberEnter"
+                tab = tpCarsList
+                ' TODO: Actually add member to group
 
             Case Else
                 ' In case something goes wrong, it'll just stay on the same page
@@ -393,10 +403,7 @@ Public Class formTableViewer
         If True Then
             ADMIN = True
             btnAddCar.Visible = ADMIN
-            dgvCarsList.ReadOnly = Not ADMIN
-            dgvProblemsList.ReadOnly = Not ADMIN
-            dgvUserHistoryList.ReadOnly = Not ADMIN
-            dgvLogsList.ReadOnly = Not ADMIN
+            btnAddMember.Visible = ADMIN
         End If
 
         Dim data As New DataTable()
@@ -462,14 +469,6 @@ Public Class formTableViewer
         lblDistanceData.Text = dgvLogsList.Rows(e.RowIndex).Cells("CarLogDistance").Value & " km"
 
         lblCommentData.Text = dgvLogsList.Rows(e.RowIndex).Cells("CarLogComment").Value
-    End Sub
-
-    Private Sub btnUpdateInsuranceCancel_Click(sender As Object, e As EventArgs) Handles btnUpdateInsuranceCancel.Click
-
-    End Sub
-
-    Private Sub btnUpdateInsuranceEnter_Click(sender As Object, e As EventArgs) Handles btnUpdateInsuranceEnter.Click
-
     End Sub
 
     ' Description:  Function for registering a new user and to check if all inputs are valid
