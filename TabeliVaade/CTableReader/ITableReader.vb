@@ -24,7 +24,8 @@
     ' todo add addTable parameters
     ' what table(group,car,groupmember,carissue,carlog,carinsurance), new table file(list)
     ' returns success/error message 
-    Function AddTable()
+    ' Table is a singular field 
+    Function AddTable(TheTableToAddTo As String, Table As Object)
 
     ' todo add removeTable parameters
     ' what table(group,car,groupmember,carissue,carlog,carinsurance), table id

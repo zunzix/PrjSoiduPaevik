@@ -6,6 +6,7 @@ Imports Newtonsoft
 Imports Newtonsoft.Json.Linq
 Imports System.Reflection
 Imports System.Linq.Expressions
+Imports CEntities
 
 
 Public Class CTableReader
@@ -18,7 +19,67 @@ Public Class CTableReader
     ' Base URL for the API 
     Private Const BaseUrl As String = "https://localhost:7231/"
 
-    Public Function AddTable() Implements ITableReader.AddTable
+    Public Function AddTable(TheTableToAddTo As String, Table As Object) _
+        Implements ITableReader.AddTable
+
+        Dim Request As HttpWebRequest
+        Dim Response As HttpWebResponse
+        Dim Reader As StreamReader
+        Dim JsonResponse As String
+        Dim Input As String
+
+        Select Case TheTableToAddTo
+            Case "Car"
+                Request = HttpWebRequest.Create(BaseUrl & "api/Cars/PostCar")
+            Case "GroupMember"
+                Request = HttpWebRequest.Create(BaseUrl & "api/GroupMembers/PostGroupMember")
+            Case "CarIssue"
+                Request = HttpWebRequest.Create(BaseUrl & "api/CarIssues/PostCarIssue")
+            Case "CarLog"
+                Request = HttpWebRequest.Create(BaseUrl & "api/CarLogs/PostCarLog")
+            Case "CarInsurance"
+                Request = HttpWebRequest.Create(BaseUrl & "api/CarInsurances/PostCarInsurance")
+            Case "Group"
+                Request = HttpWebRequest.Create(BaseUrl & "api/Groups/PostGroup")
+            Case Else
+                Console.WriteLine("Error: Invalid table type.")
+                Return Nothing
+        End Select
+
+        Input = JsonConvert.SerializeObject(Table)
+
+        ' Write the Json Input to Request body
+        Request.GetRequestStream.Write(System.Text.Encoding.UTF8.GetBytes(Input), 0, Input.Length)
+
+        Request.Method = "POST"
+        Request.ContentType = "application/json"
+
+        ' Add Jwt token
+        Request.Headers.Add("Authorization", "Bearer " & JwtToken)
+
+        Try
+            ' Get response
+            Response = Request.GetResponse()
+            Reader = New StreamReader(Response.GetResponseStream)
+            JsonResponse = Reader.ReadToEnd()
+            Console.WriteLine("DEBUG: Response: " & JsonResponse)
+
+        Catch ex As WebException
+
+            If CType(ex.Response, HttpWebResponse).StatusCode = HttpStatusCode.Unauthorized Then
+                ' if error is 401, refresh token and retry
+                If RefreshJwtToken() Then
+
+                    Return AddTable(TheTableToAddTo, Table)
+
+                End If
+            End If
+            Console.WriteLine("Error: " & ex.Message)
+            Return Nothing
+
+        End Try
+
+        Return True
     End Function
 
     Public Function RemoveTable() Implements ITableReader.RemoveTable
@@ -280,8 +341,67 @@ Public Class CTableReader
 
     End Function
 
-    Public Function UpdateTable() As Object Implements ITableReader.UpdateTable
-        Throw New NotImplementedException()
+    ' Put Table
+    Public Function UpdateTable(TheTableToUpdate As String) As Object Implements _
+        ITableReader.UpdateTable
+        Dim Request As HttpWebRequest
+        Dim Response As HttpWebResponse
+        Dim Reader As StreamReader
+        Dim JsonResponse As String
+        Dim Input As String
+
+        Select Case TheTableToUpdate
+            Case "Car"
+                Request = HttpWebRequest.Create(BaseUrl & "api/Cars/PostCar")
+            Case "GroupMember"
+                Request = HttpWebRequest.Create(BaseUrl & "api/GroupMembers/PostGroupMember")
+            Case "CarIssue"
+                Request = HttpWebRequest.Create(BaseUrl & "api/CarIssues/PostCarIssue")
+            Case "CarLog"
+                Request = HttpWebRequest.Create(BaseUrl & "api/CarLogs/PostCarLog")
+            Case "CarInsurance"
+                Request = HttpWebRequest.Create(BaseUrl & "api/CarInsurances/PostCarInsurance")
+            Case "Group"
+                Request = HttpWebRequest.Create(BaseUrl & "api/Groups/PostGroup")
+            Case Else
+                Console.WriteLine("Error: Invalid table type.")
+                Return Nothing
+        End Select
+
+        Input = JsonConvert.SerializeObject(Table)
+
+        ' Write the Json Input to Request body
+        Request.GetRequestStream.Write(System.Text.Encoding.UTF8.GetBytes(Input), 0, Input.Length)
+
+        Request.Method = "POST"
+        Request.ContentType = "application/json"
+
+        ' Add Jwt token
+        Request.Headers.Add("Authorization", "Bearer " & JwtToken)
+
+        Try
+            ' Get response
+            Response = Request.GetResponse()
+            Reader = New StreamReader(Response.GetResponseStream)
+            JsonResponse = Reader.ReadToEnd()
+            Console.WriteLine("DEBUG: Response: " & JsonResponse)
+
+        Catch ex As WebException
+
+            If CType(ex.Response, HttpWebResponse).StatusCode = HttpStatusCode.Unauthorized Then
+                ' if error is 401, refresh token and retry
+                If RefreshJwtToken() Then
+
+                    Return AddTable(TheTableToAddTo, Table)
+
+                End If
+            End If
+            Console.WriteLine("Error: " & ex.Message)
+            Return Nothing
+
+        End Try
+
+        Return True
     End Function
 
 
@@ -343,6 +463,7 @@ Public Class CTableReader
         End Try
     End Function
 
+    ' RefreshToken in the func, 
     Public Function Logout() As Object Implements ITableReader.Logout
         Throw New NotImplementedException()
     End Function

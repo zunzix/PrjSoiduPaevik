@@ -22,3 +22,5 @@
         Me.IsCritical = isCritical
     End Sub
 End Class
+
+
