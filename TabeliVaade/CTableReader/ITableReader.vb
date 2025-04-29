@@ -30,7 +30,7 @@
     ' todo add removeTable parameters
     ' what table(group,car,groupmember,carissue,carlog,carinsurance), table id
     ' returns success/error message
-    Function RemoveTable()
+    Function RemoveTable(TheTableToRemove As String, ID As String) As Boolean
 
     ' todo add updateTable parameters
     ' what table(group,car,groupmember,carissue,carlog,carinsurance), table id, new table file(list)
@@ -41,6 +41,10 @@
     ' user file(email, password)
     ' returns jwt token and refresh token (in single list)/error message
     Function LoginRegister(Email As String, Password As String, Purpose As String) As Boolean
+
+    ' uses JWT
+    ' retuns all car logs by current user
+    Function GetLogsByUserId()
 
     ' todo add logout paramater
     ' refresh token 

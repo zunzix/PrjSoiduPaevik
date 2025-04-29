@@ -420,7 +420,9 @@ Public Class formTableViewer
     Private Function AccountRegistration(Email As String, Password As String, ConfirmPassword As String)
 
         ' Check if passwords match
-        If Password <> ConfirmPassword Then
+        If Password = ConfirmPassword Then
+            ' check is password is atleast 8 long, 1 upper and 1 special character
+        Else
             MessageBox.Show("Passwords do not match.")
             Return False
         End If
@@ -434,10 +436,13 @@ Public Class formTableViewer
         ' TODO: Check if a user with the given email already exists in the database
 
         ' If everything is correct, register account and return true
-        TableReader.LoginRegister(Email, Password, "Register")
+        If (TableReader.LoginRegister(Email, Password, "Register")) Then
+            MessageBox.Show("Account registered successfully.")
 
-        MessageBox.Show("Account registered successfully.")
-
-        Return True
+            Return True
+        Else
+            MessageBox.Show("Account registration failed.")
+            Return False
+        End If
     End Function
 End Class
