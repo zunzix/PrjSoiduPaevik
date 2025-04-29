@@ -24,7 +24,8 @@
     ' todo add addTable parameters
     ' what table(group,car,groupmember,carissue,carlog,carinsurance), new table file(list)
     ' returns success/error message 
-    Function AddTable()
+    ' Table is a singular field 
+    Function AddTable(TheTableToAddTo As String, Table As Object)
 
     ' todo add removeTable parameters
     ' what table(group,car,groupmember,carissue,carlog,carinsurance), table id
@@ -34,7 +35,7 @@
     ' todo add updateTable parameters
     ' what table(group,car,groupmember,carissue,carlog,carinsurance), table id, new table file(list)
     '  returns success/error message 
-    Function UpdateTable()
+    Function UpdateTable(TheTableToUpdate As String, ID As String, Table As Object) As Boolean
 
     ' todo add login parameter
     ' user file(email, password)
@@ -44,5 +45,5 @@
     ' todo add logout paramater
     ' refresh token 
     ' returns success (and redirects to login screen)/error message
-    Function Logout()
+    Function Logout() As Boolean
 End Interface
