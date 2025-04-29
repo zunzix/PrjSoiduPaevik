@@ -99,7 +99,7 @@ Public Class formTableViewer
         ' TODO: Once removing functionality for the database has been made. Fill it out!
         ' Temporary solution
         If e.ColumnIndex = dgvCarsList.Columns("DeleteButton").Index Then
-            dgvCarsList.Rows.Remove(dgvCarsList.SelectedRows(e.RowIndex))
+            dgvCarsList.Rows.Remove(dgvCarsList.Rows(e.RowIndex))
         End If
     End Sub
 
@@ -123,6 +123,7 @@ Public Class formTableViewer
         ' Style it so that it looks like a "drop down panel"
         pnlDetails.Top = dgvCarsList.Top + rowRect.Bottom
         pnlDetails.Visible = True
+        dgvProblemsList.DataSource = TableReader.GetSpecificTables("CarIssue", dgvCarsList.Rows(e.RowIndex).Cells("CarID").Value)
 
         ' Style the logs panel the same way as details panel, but not visible (yet)
         pnlLogs.Top = dgvCarsList.Top + rowRect.Bottom
@@ -330,9 +331,15 @@ Public Class formTableViewer
             Case "btnLogs"
                 pnlDetails.Visible = False
                 pnlLogs.Visible = True
+                If dgvLogsList.DataSource Is Nothing Then
+                    dgvLogsList.DataSource = TableReader.GetSpecificTables("CarLog", dgvCarsList.Rows(expandedRowIndex).Cells("CarID").Value)
+                End If
             Case "btnProblems"
                 pnlDetails.Visible = True
                 pnlLogs.Visible = False
+                If dgvProblemsList Is Nothing Then
+                    dgvProblemsList.DataSource = TableReader.GetSpecificTables("CarIssue", dgvCarsList.Rows(expandedRowIndex).Cells("CarID").Value)
+                End If
         End Select
     End Sub
 
@@ -343,7 +350,7 @@ Public Class formTableViewer
 
         ' Change tab to Cars list
         tcTabs.SelectedTab = tpCarsList
-      
+
         ' Get the ID of selected cell
         Dim SelectedID As String = dgvGroupsList.Rows(e.RowIndex).Cells("ID").Value.ToString()
 
@@ -357,7 +364,7 @@ Public Class formTableViewer
 
         ' TODO: Check if user is an admin in this group
         If True Then
-            ADMIN = False
+            ADMIN = True
             btnAddCar.Visible = ADMIN
             dgvCarsList.ReadOnly = Not ADMIN
             dgvProblemsList.ReadOnly = Not ADMIN
@@ -398,5 +405,21 @@ Public Class formTableViewer
         dgvGroupsList.DataSource = TableReader.GetGroupTable()
         dgvGroupsList.Columns(0).Visible = False
         dgvGroupsList.Columns(1).AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+    End Sub
+
+    Private Sub btnGetDistance_Click(sender As Object, e As EventArgs) Handles btnGetDistance.Click
+        lblStartData.Text = dtpStatsTimeStart.Value
+        lblEndData.Text = dtpStatsTimeEnd.Value
+        lblCommentData.Text = "___"
+
+        Dim totalDistance As Double = 0
+
+        For Each log In dgvLogsList.Rows
+            If CDate(log.Cells("CarLogStartDate").Value) > dtpStartDate.Value And CDate(log.Cells("CarLogEndDate").Value) < dtpEndDate.Value Then
+                totalDistance = totalDistance + log.Cells("CarLogDistance").Value
+            End If
+        Next
+
+        lblDistanceData.Text = totalDistance.ToString()
     End Sub
 End Class

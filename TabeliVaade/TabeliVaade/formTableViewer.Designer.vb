@@ -38,11 +38,12 @@ Partial Class formTableViewer
         Me.lblHeader = New System.Windows.Forms.Label()
         Me.tpCarsList = New System.Windows.Forms.TabPage()
         Me.pnlLogs = New System.Windows.Forms.Panel()
+        Me.dtpStatsTimeEnd = New System.Windows.Forms.DateTimePicker()
+        Me.btnGetDistance = New System.Windows.Forms.Button()
+        Me.dtpStatsTimeStart = New System.Windows.Forms.DateTimePicker()
         Me.btnProblems = New System.Windows.Forms.Button()
         Me.btnAddLog = New System.Windows.Forms.Button()
         Me.dgvLogsList = New System.Windows.Forms.DataGridView()
-        Me.trip = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.time = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.gbLogDetails = New System.Windows.Forms.GroupBox()
         Me.lblCommentData = New System.Windows.Forms.Label()
         Me.lblDistanceData = New System.Windows.Forms.Label()
@@ -55,11 +56,11 @@ Partial Class formTableViewer
         Me.pnlDetails = New System.Windows.Forms.Panel()
         Me.btnAddProblem = New System.Windows.Forms.Button()
         Me.dgvProblemsList = New System.Windows.Forms.DataGridView()
-        Me.description = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.isCritical = New System.Windows.Forms.DataGridViewCheckBoxColumn()
-        Me.isResolved = New System.Windows.Forms.DataGridViewCheckBoxColumn()
         Me.btnLogs = New System.Windows.Forms.Button()
         Me.gbCarDetails = New System.Windows.Forms.GroupBox()
+        Me.lblInsuranceNameData = New System.Windows.Forms.Label()
+        Me.lblInsuranceName = New System.Windows.Forms.Label()
+        Me.btnDetailsUpdateInsurance = New System.Windows.Forms.Button()
         Me.lblInsuranceData = New System.Windows.Forms.Label()
         Me.lblMilageData = New System.Windows.Forms.Label()
         Me.lblFuelData = New System.Windows.Forms.Label()
@@ -327,16 +328,45 @@ Partial Class formTableViewer
         '
         'pnlLogs
         '
+        Me.pnlLogs.Controls.Add(Me.dtpStatsTimeEnd)
+        Me.pnlLogs.Controls.Add(Me.btnGetDistance)
+        Me.pnlLogs.Controls.Add(Me.dtpStatsTimeStart)
         Me.pnlLogs.Controls.Add(Me.btnProblems)
         Me.pnlLogs.Controls.Add(Me.btnAddLog)
         Me.pnlLogs.Controls.Add(Me.dgvLogsList)
         Me.pnlLogs.Controls.Add(Me.gbLogDetails)
-        Me.pnlLogs.Location = New System.Drawing.Point(7, 290)
+        Me.pnlLogs.Location = New System.Drawing.Point(6, 221)
         Me.pnlLogs.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.pnlLogs.Name = "pnlLogs"
-        Me.pnlLogs.Size = New System.Drawing.Size(777, 117)
+        Me.pnlLogs.Size = New System.Drawing.Size(779, 183)
         Me.pnlLogs.TabIndex = 4
         Me.pnlLogs.Visible = False
+        '
+        'dtpStatsTimeEnd
+        '
+        Me.dtpStatsTimeEnd.Location = New System.Drawing.Point(516, 146)
+        Me.dtpStatsTimeEnd.MaxDate = New Date(2025, 4, 29, 0, 0, 0, 0)
+        Me.dtpStatsTimeEnd.Name = "dtpStatsTimeEnd"
+        Me.dtpStatsTimeEnd.Size = New System.Drawing.Size(171, 22)
+        Me.dtpStatsTimeEnd.TabIndex = 10
+        Me.dtpStatsTimeEnd.Value = New Date(2025, 4, 29, 0, 0, 0, 0)
+        '
+        'btnGetDistance
+        '
+        Me.btnGetDistance.Location = New System.Drawing.Point(691, 132)
+        Me.btnGetDistance.Name = "btnGetDistance"
+        Me.btnGetDistance.Size = New System.Drawing.Size(83, 44)
+        Me.btnGetDistance.TabIndex = 8
+        Me.btnGetDistance.Text = "Get Distance"
+        Me.btnGetDistance.UseVisualStyleBackColor = True
+        '
+        'dtpStatsTimeStart
+        '
+        Me.dtpStatsTimeStart.CustomFormat = ""
+        Me.dtpStatsTimeStart.Location = New System.Drawing.Point(292, 146)
+        Me.dtpStatsTimeStart.Name = "dtpStatsTimeStart"
+        Me.dtpStatsTimeStart.Size = New System.Drawing.Size(171, 22)
+        Me.dtpStatsTimeStart.TabIndex = 9
         '
         'btnProblems
         '
@@ -361,7 +391,6 @@ Partial Class formTableViewer
         'dgvLogsList
         '
         Me.dgvLogsList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dgvLogsList.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.trip, Me.time})
         Me.dgvLogsList.Location = New System.Drawing.Point(291, 10)
         Me.dgvLogsList.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.dgvLogsList.Name = "dgvLogsList"
@@ -369,24 +398,8 @@ Partial Class formTableViewer
         Me.dgvLogsList.RowHeadersVisible = False
         Me.dgvLogsList.RowHeadersWidth = 51
         Me.dgvLogsList.RowTemplate.Height = 24
-        Me.dgvLogsList.Size = New System.Drawing.Size(395, 100)
+        Me.dgvLogsList.Size = New System.Drawing.Size(395, 122)
         Me.dgvLogsList.TabIndex = 1
-        '
-        'trip
-        '
-        Me.trip.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.trip.HeaderText = "Trip"
-        Me.trip.MinimumWidth = 6
-        Me.trip.Name = "trip"
-        Me.trip.ReadOnly = True
-        '
-        'time
-        '
-        Me.time.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.time.HeaderText = "Time of trip"
-        Me.time.MinimumWidth = 6
-        Me.time.Name = "time"
-        Me.time.ReadOnly = True
         '
         'gbLogDetails
         '
@@ -402,7 +415,7 @@ Partial Class formTableViewer
         Me.gbLogDetails.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.gbLogDetails.Name = "gbLogDetails"
         Me.gbLogDetails.Padding = New System.Windows.Forms.Padding(3, 2, 3, 2)
-        Me.gbLogDetails.Size = New System.Drawing.Size(281, 107)
+        Me.gbLogDetails.Size = New System.Drawing.Size(281, 174)
         Me.gbLogDetails.TabIndex = 0
         Me.gbLogDetails.TabStop = False
         Me.gbLogDetails.Text = "Details"
@@ -489,10 +502,10 @@ Partial Class formTableViewer
         Me.pnlDetails.Controls.Add(Me.dgvProblemsList)
         Me.pnlDetails.Controls.Add(Me.btnLogs)
         Me.pnlDetails.Controls.Add(Me.gbCarDetails)
-        Me.pnlDetails.Location = New System.Drawing.Point(7, 166)
+        Me.pnlDetails.Location = New System.Drawing.Point(7, 34)
         Me.pnlDetails.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.pnlDetails.Name = "pnlDetails"
-        Me.pnlDetails.Size = New System.Drawing.Size(777, 117)
+        Me.pnlDetails.Size = New System.Drawing.Size(777, 183)
         Me.pnlDetails.TabIndex = 3
         Me.pnlDetails.Visible = False
         '
@@ -509,7 +522,6 @@ Partial Class formTableViewer
         'dgvProblemsList
         '
         Me.dgvProblemsList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dgvProblemsList.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.description, Me.isCritical, Me.isResolved})
         Me.dgvProblemsList.Location = New System.Drawing.Point(291, 10)
         Me.dgvProblemsList.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.dgvProblemsList.Name = "dgvProblemsList"
@@ -517,36 +529,8 @@ Partial Class formTableViewer
         Me.dgvProblemsList.RowHeadersVisible = False
         Me.dgvProblemsList.RowHeadersWidth = 51
         Me.dgvProblemsList.RowTemplate.Height = 24
-        Me.dgvProblemsList.Size = New System.Drawing.Size(395, 100)
+        Me.dgvProblemsList.Size = New System.Drawing.Size(395, 166)
         Me.dgvProblemsList.TabIndex = 6
-        '
-        'description
-        '
-        Me.description.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.description.HeaderText = "Problem description"
-        Me.description.MinimumWidth = 6
-        Me.description.Name = "description"
-        Me.description.ReadOnly = True
-        '
-        'isCritical
-        '
-        Me.isCritical.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader
-        Me.isCritical.HeaderText = "Critical?"
-        Me.isCritical.MinimumWidth = 6
-        Me.isCritical.Name = "isCritical"
-        Me.isCritical.ReadOnly = True
-        Me.isCritical.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.isCritical.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic
-        Me.isCritical.Width = 83
-        '
-        'isResolved
-        '
-        Me.isResolved.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader
-        Me.isResolved.HeaderText = "Resolved?"
-        Me.isResolved.MinimumWidth = 6
-        Me.isResolved.Name = "isResolved"
-        Me.isResolved.ReadOnly = True
-        Me.isResolved.Width = 79
         '
         'btnLogs
         '
@@ -560,6 +544,9 @@ Partial Class formTableViewer
         '
         'gbCarDetails
         '
+        Me.gbCarDetails.Controls.Add(Me.lblInsuranceNameData)
+        Me.gbCarDetails.Controls.Add(Me.lblInsuranceName)
+        Me.gbCarDetails.Controls.Add(Me.btnDetailsUpdateInsurance)
         Me.gbCarDetails.Controls.Add(Me.lblInsuranceData)
         Me.gbCarDetails.Controls.Add(Me.lblMilageData)
         Me.gbCarDetails.Controls.Add(Me.lblFuelData)
@@ -570,16 +557,43 @@ Partial Class formTableViewer
         Me.gbCarDetails.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.gbCarDetails.Name = "gbCarDetails"
         Me.gbCarDetails.Padding = New System.Windows.Forms.Padding(3, 2, 3, 2)
-        Me.gbCarDetails.Size = New System.Drawing.Size(281, 107)
+        Me.gbCarDetails.Size = New System.Drawing.Size(281, 174)
         Me.gbCarDetails.TabIndex = 4
         Me.gbCarDetails.TabStop = False
         Me.gbCarDetails.Text = "Details"
+        '
+        'lblInsuranceNameData
+        '
+        Me.lblInsuranceNameData.AutoSize = True
+        Me.lblInsuranceNameData.Location = New System.Drawing.Point(233, 78)
+        Me.lblInsuranceNameData.Name = "lblInsuranceNameData"
+        Me.lblInsuranceNameData.Size = New System.Drawing.Size(28, 16)
+        Me.lblInsuranceNameData.TabIndex = 9
+        Me.lblInsuranceNameData.Text = "___"
+        '
+        'lblInsuranceName
+        '
+        Me.lblInsuranceName.AutoSize = True
+        Me.lblInsuranceName.Location = New System.Drawing.Point(4, 78)
+        Me.lblInsuranceName.Name = "lblInsuranceName"
+        Me.lblInsuranceName.Size = New System.Drawing.Size(68, 16)
+        Me.lblInsuranceName.TabIndex = 8
+        Me.lblInsuranceName.Text = "Insurance:"
+        '
+        'btnDetailsUpdateInsurance
+        '
+        Me.btnDetailsUpdateInsurance.Location = New System.Drawing.Point(67, 136)
+        Me.btnDetailsUpdateInsurance.Name = "btnDetailsUpdateInsurance"
+        Me.btnDetailsUpdateInsurance.Size = New System.Drawing.Size(136, 23)
+        Me.btnDetailsUpdateInsurance.TabIndex = 7
+        Me.btnDetailsUpdateInsurance.Text = "Update insurance"
+        Me.btnDetailsUpdateInsurance.UseVisualStyleBackColor = True
         '
         'lblInsuranceData
         '
         Me.lblInsuranceData.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblInsuranceData.AutoSize = True
-        Me.lblInsuranceData.Location = New System.Drawing.Point(195, 80)
+        Me.lblInsuranceData.Location = New System.Drawing.Point(193, 106)
         Me.lblInsuranceData.Name = "lblInsuranceData"
         Me.lblInsuranceData.Size = New System.Drawing.Size(69, 16)
         Me.lblInsuranceData.TabIndex = 6
@@ -617,7 +631,7 @@ Partial Class formTableViewer
         'lblInsurance
         '
         Me.lblInsurance.AutoSize = True
-        Me.lblInsurance.Location = New System.Drawing.Point(5, 80)
+        Me.lblInsurance.Location = New System.Drawing.Point(5, 106)
         Me.lblInsurance.Name = "lblInsurance"
         Me.lblInsurance.Size = New System.Drawing.Size(107, 16)
         Me.lblInsurance.TabIndex = 3
@@ -1467,11 +1481,6 @@ Partial Class formTableViewer
     Friend WithEvents cbSortRides As ComboBox
     Friend WithEvents btnNewGroup As Button
     Friend WithEvents gbGroups As GroupBox
-    Friend WithEvents description As DataGridViewTextBoxColumn
-    Friend WithEvents isCritical As DataGridViewCheckBoxColumn
-    Friend WithEvents isResolved As DataGridViewCheckBoxColumn
-    Friend WithEvents trip As DataGridViewTextBoxColumn
-    Friend WithEvents time As DataGridViewTextBoxColumn
     Friend WithEvents userHistoryRide As DataGridViewTextBoxColumn
     Friend WithEvents userRidePeriod As DataGridViewTextBoxColumn
     Friend WithEvents userRideDistance As DataGridViewTextBoxColumn
@@ -1496,4 +1505,10 @@ Partial Class formTableViewer
     Friend WithEvents tbRegisterPassword As TextBox
     Friend WithEvents tbRegisterEmail As TextBox
     Friend WithEvents Label1 As Label
+    Friend WithEvents dtpStatsTimeEnd As DateTimePicker
+    Friend WithEvents btnGetDistance As Button
+    Friend WithEvents dtpStatsTimeStart As DateTimePicker
+    Friend WithEvents btnDetailsUpdateInsurance As Button
+    Friend WithEvents lblInsuranceNameData As Label
+    Friend WithEvents lblInsuranceName As Label
 End Class
