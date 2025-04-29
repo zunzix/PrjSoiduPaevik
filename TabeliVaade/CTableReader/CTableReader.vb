@@ -561,7 +561,7 @@ Public Class CTableReader
             Response = Request.GetResponse()
             Reader = New StreamReader(Response.GetResponseStream)
             JsonResponse = Reader.ReadToEnd()
-            Console.WriteLine("DEBUG: Response: " & JsonResponse)
+            Console.WriteLine("DEBUG: Logout successful: " & JsonResponse)
 
         Catch ex As WebException
             If CType(ex.Response, HttpWebResponse).StatusCode = HttpStatusCode.Unauthorized Then

@@ -193,7 +193,13 @@ Public Class formTableViewer
                 LoadToCarTable(dgvGroupsList.Rows(dgvGroupsList.CurrentRow.Index).Cells("ID").Value.ToString())
             Case "btnLogOut"
                 ' Set tab to LogIn
-                tab = tpLogin
+                If TableReader.Logout() Then
+                    tab = tpLogin
+                Else
+                    tab = tpGroups
+                    LoadToGroupTab()
+                End If
+
                 ' TODO: Log user out
             Case "btnAddLog"
                 ' Set tab to Add Log
