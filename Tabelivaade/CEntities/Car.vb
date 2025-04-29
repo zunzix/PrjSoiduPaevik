@@ -1,5 +1,4 @@
 ﻿Public Class Car
-    Private ID As String
     Private GroupID As String
     Private Name As String
     Private RegistrationPlate As String
@@ -10,8 +9,7 @@
     Private IsCritical As Boolean
 
     ' Constructor
-    Public Sub New(ByVal id As String, ByVal groupId As String, ByVal name As String, ByVal registrationPlate As String, ByVal mileage As Double, ByVal avgFuelCons As Double, ByVal isAvailable As Boolean, ByVal isArchived As Boolean, ByVal isCritical As Boolean)
-        Me.ID = id
+    Public Sub New(ByVal groupId As String, ByVal name As String, ByVal registrationPlate As String, ByVal mileage As Double, ByVal avgFuelCons As Double, ByVal isAvailable As Boolean, ByVal isArchived As Boolean, ByVal isCritical As Boolean)
         Me.GroupID = groupId
         Me.Name = name
         Me.RegistrationPlate = registrationPlate
