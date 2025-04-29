@@ -112,7 +112,7 @@ Public Class CTableReader
         End Select
 
         ' Write the Json Input to Request body
-        Request.Method = "POST"
+        Request.Method = "DELETE"
         Request.ContentType = "application/json"
 
         ' Add Jwt token
