@@ -415,6 +415,7 @@ Public Class CTableReader
         Select Case TheTableToUpdate
             Case "Car"
                 Request = HttpWebRequest.Create(BaseUrl & "api/Cars/PutCar/" & ID)
+                ' TODO: when adding a car the body needs to also include cars id
             Case "GroupMember"
                 Request = HttpWebRequest.Create(BaseUrl & "api/GroupMembers/PutGroupMember/" & ID)
             Case "CarIssue"
