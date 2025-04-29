@@ -70,10 +70,15 @@ Public Class formTableViewer
 
             Dim SelectedID As String = dgvCarsList.Rows(e.RowIndex).Cells("CarID").Value
 
-            If TableReader.RemoveTable("Car", SelectedID) Then
-                dgvCarsList.Rows.Remove(dgvCarsList.Rows(e.RowIndex))
-            Else
-                MessageBox.Show("Car not removed")
+            ' Confirm with the user before deleting the car
+            Dim result As DialogResult = MessageBox.Show("Are you sure you want to delete this car?", "Confirm Deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Warning)
+
+            If result = DialogResult.Yes Then
+                If TableReader.RemoveTable("Car", SelectedID) Then
+                    dgvCarsList.Rows.Remove(dgvCarsList.Rows(e.RowIndex))
+                Else
+                    MessageBox.Show("Car not removed")
+                End If
             End If
         End If
     End Sub
