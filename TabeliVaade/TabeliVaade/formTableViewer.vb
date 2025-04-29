@@ -1,12 +1,21 @@
 ﻿Imports System.ComponentModel
 Imports System.Net
 Imports System.Security.Policy
+Imports System.Text.RegularExpressions
+Imports System.Windows.Forms.VisualStyles
+Imports CEntities
 Imports CTableReader
 
 Public Class formTableViewer
-    Const DEBUG = True
+    Const DEBUG = False
+    Private ADMIN = True
     Private expandedRowIndex As Integer = -1
+    Private currentGroup As String = ""
     Private TableReader As New CTableReader.CTableReader()
+
+    ' CHANGE THESE TO YOUR LOG IN INFO SO THAT YOU CAN LOG IN FASTER
+    Const QUICK_LOGIN_USER = "test@gmail.com"
+    Const QUICK_LOGIN_PASS = "Test123!"
 
     Private Sub formTableViewer_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
@@ -23,12 +32,6 @@ Public Class formTableViewer
         pnlLogs.Left = dgvCarsList.Left + 2
         pnlLogs.Width = dgvCarsList.Width - 4
 
-        ' TODO: Bringing in lists and view them on DataGridView
-
-        dgvCarsList.Rows.Add()
-        dgvCarsList.Rows.Add()
-        dgvCarsList.Rows.Add()
-
         ' Change the select color from an eye piercing blue to a more subtle gray
         dgvCarsList.DefaultCellStyle.SelectionBackColor = Color.LightGray
         dgvProblemsList.DefaultCellStyle.SelectionBackColor = Color.LightGray
@@ -36,46 +39,11 @@ Public Class formTableViewer
 
     End Sub
 
-    ' Description:  Checks whether input fields for adding a car are valid or not
-    ' Parameters:   NONE
-    ' Return:       Boolean value of whether input fields are valid or not
-    Private Function ValidateInput() As Boolean
-        ' Validate the input fields
-
-        ' Car name cannot be empty
-        If String.IsNullOrWhiteSpace(txtName.Text) Then
-            txtName.Text = "Please enter car name"
-            Return False
-
-            ' Car milage must be a numeric value
-        ElseIf String.IsNullOrWhiteSpace(txtMileage.Text) _
-            OrElse Not IsNumeric(txtMileage.Text) Then
-            txtMileage.Text = "Pelase enter valid mileage"
-            Return False
-
-            ' Average fuel consumption must be a numberic value
-        ElseIf String.IsNullOrWhiteSpace(txtAvgFuel.Text) _
-            OrElse Not IsNumeric(txtAvgFuel.Text) Then
-            txtAvgFuel.Text = "Please enter valid average fuel consumption"
-            Return False
-        End If
-        ' TODO: Add check, if car is already in list/database
-
-        If DEBUG Then
-            MessageBox.Show($"Name: {txtName.Text}, Mileage: {txtMileage.Text}
-                                , Avg Fuel Consumption: {txtAvgFuel.Text}, 
-                                Ready: {cboxReady.Checked}, Archived: {cboxArchive.Checked}")
-        End If
-
-        Return True
-    End Function
-
-
     ' Description:  Clears the flieds when adding a new car
     ' Parameters:   The usual handler parameters
     ' Return:       NONE
     Private Sub txtAddCarFields_Click(sender As Object, e As EventArgs) _
-        Handles txtAvgFuel.Click, txtMileage.Click, txtName.Click
+        Handles txtAddCarAvgFuel.Click, txtAddCarMileage.Click, txtAddCarName.Click
         ' Figure out which textbox was clicked
         Dim txt As TextBox = CType(sender, TextBox)
 
@@ -98,8 +66,21 @@ Public Class formTableViewer
 
         ' TODO: Once removing functionality for the database has been made. Fill it out!
         ' Temporary solution
+
         If e.ColumnIndex = dgvCarsList.Columns("DeleteButton").Index Then
-            dgvCarsList.Rows.Remove(dgvCarsList.SelectedRows(e.RowIndex))
+
+            Dim SelectedID As String = dgvCarsList.Rows(e.RowIndex).Cells("CarID").Value
+
+            ' Confirm with the user before deleting the car
+            Dim result As DialogResult = MessageBox.Show("Are you sure you want to delete this car?", "Confirm Deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Warning)
+
+            If result = DialogResult.Yes Then
+                If TableReader.RemoveTable("Car", SelectedID) Then
+                    dgvCarsList.Rows.Remove(dgvCarsList.Rows(e.RowIndex))
+                Else
+                    MessageBox.Show("Car not removed")
+                End If
+            End If
         End If
     End Sub
 
@@ -123,71 +104,42 @@ Public Class formTableViewer
         ' Style it so that it looks like a "drop down panel"
         pnlDetails.Top = dgvCarsList.Top + rowRect.Bottom
         pnlDetails.Visible = True
+        LoadToProblemTable(dgvCarsList.Rows(e.RowIndex).Cells("CarID").Value)
 
         ' Style the logs panel the same way as details panel, but not visible (yet)
         pnlLogs.Top = dgvCarsList.Top + rowRect.Bottom
+        LoadToLogTable(dgvCarsList.Rows(e.RowIndex).Cells("CarID").Value)
 
         ' Assign detailed values to the data fields
-        ' TODO: Make it so that you get the data from the database
-        'lblFuelData.Text = "-1"
-        'lblMilageData.Text = "-1"
+        lblFuelData.Text = dgvCarsList.Rows(e.RowIndex).Cells("CarAvgFuelConsumption").Value & " L/100km"
+        lblMilageData.Text = dgvCarsList.Rows(e.RowIndex).Cells("CarMileage").Value & " km"
 
         ' Find whether the selected car has any ongoing insurances
         ' TODO: Make it possible to search through the database for insurance
 
         ' Check if the insurance item exists
-        lblInsuranceData.Text = DateAdd(DateInterval.Day, 10, Date.Today).ToString()
+        Dim insuranceData As New DataTable()
+        insuranceData = TableReader.GetSpecificTables("CarInsurance", dgvCarsList.Rows(e.RowIndex).Cells("CarID").Value.ToString())
+        If insuranceData Is Nothing OrElse insuranceData.Rows.Count = 0 Then
+            ' Handle the case where insuranceData is Nothing or has no rows
+            lblInsuranceData.Text = ""
+            lblInsuranceNameData.Text = ""
+        Else
+            lblInsuranceData.Text = insuranceData.Rows(0)("CarInsuranceEndDate")
+            lblInsuranceNameData.Text = insuranceData.Rows(0)("CarInsuranceName")
+        End If
+
 
         ' Update the expanded row to be the current row
         expandedRowIndex = e.RowIndex
     End Sub
 
-    ' Description:  By pressing this button, the data inserted into the fields in tpAddCar is added into the database
-    ' Parameters:   Default handler parameters
-    ' Return:       NONE
-    Private Sub btnEnter_Click(sender As Object, e As EventArgs) Handles btnAddCarEnter.Click
-
-        Dim done As Boolean = False
-        'initiate groupID, import correct ID later
-        Dim groupID As Integer = 0
-
-        ' Validate input fields
-        If Not ValidateInput() Then
-            ' Force garbage collection
-            GC.Collect()
-            GC.WaitForPendingFinalizers()
-            Return
-        End If
-
-        ' Add the new car to the list
-        done = True
-        ' TODO: Add the car to the database
-
-        ' Clear input fields
-        txtName.Clear()
-        txtMileage.Clear()
-        txtAvgFuel.Clear()
-
-        If done Then
-            ' Force garbage collection
-            GC.Collect()
-            GC.WaitForPendingFinalizers()
-            If DEBUG Then
-                MessageBox.Show("Operation successful")
-            End If
-        Else
-            MessageBox.Show("Operation failed")
-        End If
-
-        ChangeTab(CType(sender, Button))
-    End Sub
-
-    Private Sub cboxArchive_CheckedChanged(sender As Object, e As EventArgs) Handles cboxArchive.CheckedChanged
+    Private Sub cboxArchive_CheckedChanged(sender As Object, e As EventArgs) Handles cboxAddCarIsArchived.CheckedChanged
         ' Force garbage collection
         GC.Collect()
         GC.WaitForPendingFinalizers()
     End Sub
-    Private Sub cboxReady_CheckedChanged(sender As Object, e As EventArgs) Handles cboxReady.CheckedChanged
+    Private Sub cboxReady_CheckedChanged(sender As Object, e As EventArgs) Handles cboxAddCarIsAvailable.CheckedChanged
         ' Force garbage collection
         GC.Collect()
         GC.WaitForPendingFinalizers()
@@ -198,11 +150,13 @@ Public Class formTableViewer
     ' Return:       NONE
     Private Sub Button_Click(sender As Object, e As EventArgs) _
         Handles btnCarBack.Click, btnLoginLogin.Click, btnAddCarCancel.Click,
-        btnAddCar.Click, btnAddProblemCancel.Click, btnAddProblem.Click,
+        btnAddCar.Click, btnAddProblemCancel.Click, btnAddProblem.Click, btnAddProblemEnter.Click,
         btnAddLog.Click, btnAddLogCancel.Click, btnAddLogEnter.Click,
         btnLogOut.Click, btnLoginRegister.Click, btnRegisterCancel.Click,
         btnRegisterEnter.Click, btnNewGroup.Click, btnCancelNewGroup.Click,
-        btnEnterNewGroup.Click
+        btnEnterNewGroup.Click, btnDetailsUpdateInsurance.Click,
+        btnUpdateInsuranceCancel.Click, btnUpdateInsuranceEnter.Click,
+        btnAddMember.Click, btnAddMemberCancel.Click, btnAddMemberEnter.Click, btnAddCarEnter.Click
 
         'Get the button that was clicked
         Dim btn As Button = CType(sender, Button)
@@ -220,14 +174,22 @@ Public Class formTableViewer
 
             Case "btnLoginLogin"
                 ' Set tab to Groups
-                ' TODO: Add tranfer from Groups to Cars page
+
+                ' TEMPORARY QUICK LOGIN
+                If txtLoginEmail.Text = "" And txtLoginPassword.Text = "" Then
+                    txtLoginEmail.Text = QUICK_LOGIN_USER
+                    txtLoginPassword.Text = QUICK_LOGIN_PASS
+                End If
+
                 If (TableReader.LoginRegister(txtLoginEmail.Text, txtLoginPassword.Text, "Login")) Then
                     Console.WriteLine("Login successful")
                     ' TableReader.GetSpecificTables("Car", )
+
                     tab = tpGroups
                     LoadToGroupTab()
                 Else
                     Console.WriteLine("Login failed")
+                    MessageBox.Show("Login Failed.")
                     tab = tpLogin
                 End If
             Case "btnLoginRegister"
@@ -239,37 +201,65 @@ Public Class formTableViewer
                 ' Set tab to Group
                 tab = tpGroups
                 LoadToGroupTab()
+                currentGroup = ""
 
             Case "btnProblemBack"
                 ' Set tab to Car Details
                 tab = tpCarsList
+                LoadToCarTable(dgvGroupsList.Rows(dgvGroupsList.CurrentRow.Index).Cells("ID").Value.ToString())
             Case "btnLogOut"
                 ' Set tab to LogIn
-                tab = tpLogin
+                If TableReader.Logout() Then
+
+                    tab = tpLogin
+                Else
+                    tab = tpGroups
+
+                    LoadToGroupTab()
+                End If
+
                 ' TODO: Log user out
             Case "btnAddLog"
                 ' Set tab to Add Log
+
                 tab = tpAddLog
             Case "btnNewGroup"
                 ' Set tab to New Group
+
                 tab = tpNewGroup
+            Case "btnDetailsUpdateInsurance"
+
+                tab = tpUpdateInsurance
+            Case "btnAddCar"
+
+                tab = tpAddCar
+            Case "btnAddMember"
+
+                tab = tpAddMember
+            Case "btnAddProblem"
+
+                tab = tpAddProblem
 
             ' "Cancel" buttons for adding
             Case "btnAddCarCancel"
                 ' Set tab to Cars List
                 tab = tpCarsList
+                LoadToCarTable(dgvGroupsList.Rows(dgvGroupsList.CurrentRow.Index).Cells("ID").Value.ToString())
                 ' Clear fields
-                txtName.Clear()
-                txtMileage.Clear()
-                txtAvgFuel.Clear()
+                txtAddCarName.Clear()
+                txtAddCarRegistrationPlate.Clear()
+                txtAddCarMileage.Clear()
+                txtAddCarAvgFuel.Clear()
             Case "btnAddProblemCancel"
                 ' Set the tab to Cars List
                 tab = tpCarsList
+                LoadToCarTable(dgvGroupsList.Rows(dgvGroupsList.CurrentRow.Index).Cells("ID").Value.ToString())
                 ' Clear field
                 txtProblemDescription.Clear()
             Case "btnAddLogCancel"
                 ' Set the tab to Cars List
                 tab = tpCarsList
+                LoadToCarTable(dgvGroupsList.Rows(dgvGroupsList.CurrentRow.Index).Cells("ID").Value.ToString())
                 ' Clear fields
             Case "btnRegisterCancel"
                 ' Set tab to Log in
@@ -277,30 +267,130 @@ Public Class formTableViewer
             Case "btnCancelNewGroup"
                 ' Set tab to Groups
                 tab = tpGroups
+
                 LoadToGroupTab()
+            Case "btnUpdateInsuranceCancel"
+                tab = tpCarsList
+                LoadToCarTable(dgvGroupsList.Rows(dgvGroupsList.CurrentRow.Index).Cells("ID").Value.ToString())
+            Case "btnAddMemberCancel"
+                tab = tpCarsList
+                LoadToCarTable(dgvGroupsList.Rows(dgvGroupsList.CurrentRow.Index).Cells("ID").Value.ToString())
 
             ' "Enter" buttons for adding
             Case "btnAddCarEnter"
-                ' Set tab to Cars List
-                tab = tpCarsList
-                ' TODO: Add car to the database
+
+                Dim GroupID As String = dgvGroupsList.Rows(dgvGroupsList.CurrentRow.Index).Cells("ID").Value.ToString()
+                Dim Name As String = txtAddCarName.Text
+                Dim RegistrationPlate As String = txtAddCarRegistrationPlate.Text
+                Dim Mileage As Double
+                Dim AvgFuelCons As Double
+                Dim IsAvailable As Boolean = cboxAddCarIsAvailable.Checked
+                Dim IsArchived As Boolean = cboxAddCarIsArchived.Checked
+                Dim IsCritical As Boolean = False
+
+                If Double.TryParse(txtAddCarMileage.Text, Mileage) Then
+                    ' Proceed with valid Mileage
+                Else
+                    MessageBox.Show("Please enter a valid numeric value for Mileage.")
+                    Return
+                End If
+
+                If Double.TryParse(txtAddCarAvgFuel.Text, AvgFuelCons) Then
+                    ' Proceed with valid Mileage
+                Else
+                    MessageBox.Show("Please enter a valid numeric value for AvgFuelCons.")
+                    Return
+                End If
+
+                Dim NewCar As New CEntities.Car(GroupID, RegistrationPlate, Name, Mileage, AvgFuelCons, IsAvailable, IsArchived, IsCritical)
+
+                'TODO: check if inputs are valid
+                If TableReader.AddTable("Car", NewCar) Then
+                    LoadToCarTable(GroupID)
+                    tab = tpCarsList
+                Else
+                    tab = tpAddCar
+                End If
+
             Case "btnAddProblemEnter"
-                ' Set tab to Cars List
-                tab = tpCarsList
-                ' TODO: Add problem to the database
+                Dim NewIssue As New CEntities.CarIssue(dgvCarsList.Rows(expandedRowIndex).Cells("CarID").Value, txtProblemDescription.Text, cbCriticality.Checked, False)
+
+                If TableReader.AddTable("CarIssue", NewIssue) Then
+                    ' Set tab to Cars List
+                    tab = tpCarsList
+                Else
+                    tab = tpAddProblem
+                End If
+
+                LoadToProblemTable(dgvCarsList.Rows(expandedRowIndex).Cells("CarID").Value)
+
             Case "btnAddLogEnter"
-                ' Set tab to Cars List
-                tab = tpCarsList
                 ' TODO: Add log to the database
+                Dim NewLog As New CEntities.CarLog(dgvCarsList.Rows(expandedRowIndex).Cells("CarID").Value,
+                                                   CType(dtpStartDate.Value, Date), CType(dtpEndDate.Value, Date), txtLocationStart.Text,
+                                                   txtLocationEnd.Text, CType(txtTotalDistance.Text, Double),
+                                                   txtLogComment.Text)
+
+                If TableReader.AddTable("CarLog", NewLog) Then
+                    ' Set tab to Cars List
+                    'TODO: Clear LogEnter fields
+                    tab = tpCarsList
+                Else
+                    tab = tpAddLog
+                End If
+
+                LoadToLogTable(dgvCarsList.Rows(expandedRowIndex).Cells("CarID").Value)
+
             Case "btnRegisterEnter"
                 ' Set tab to Log in
-                tab = tpLogin
+
+                ' TODO: Check if user with email is already in the database
+                ' TODO: Check if the entered email and password are valid
+
+                Dim email As String = tbRegisterEmail.Text
+                Dim password As String = tbRegisterPassword.Text
+                Dim confirmPassword As String = tbRegisterPasswordConfirm.Text
+
+                If (AccountRegistration(email, password, confirmPassword)) Then
+                    tab = tpLogin
+                Else
+                    tab = tpRegister
+                End If
                 ' TODO: Add user to database
+
             Case "btnEnterNewGroup"
                 ' Set tab to Groups
                 tab = tpGroups
+
+                Dim newGroup As New CEntities.Group(txtNewGroupName.Text)
+
+                TableReader.AddTable("Group", newGroup)
+
                 LoadToGroupTab()
-                ' TODO: Add group to database
+
+            Case "btnUpdateInsuranceEnter"
+                ' TODO: Actually update the insurance
+                Dim NewInsurance As New CEntities.CarInsurance(dgvCarsList.Rows(expandedRowIndex).Cells("CarID").Value, txtUpdateInsuranceName.Text, dtpInsuranceExpiration.Value)
+
+                If TableReader.UpdateTable("CarInsurance", TableReader.GetSpecificTables("CarIssues", dgvCarsList.Rows(expandedRowIndex).Cells("CarID").Value), NewInsurance) Then
+                    tab = tpLogin
+                Else
+                    tab = tpUpdateInsurance
+                End If
+
+                LoadToInsuranceField(TableReader.GetSpecificTables("CarInsurance", dgvCarsList.Rows(expandedRowIndex).Cells("CarID").Value.ToString()))
+
+
+            Case "btnAddMemberEnter"
+                ' TODO: Check if that member exists
+                Dim NewMember As New CEntities.GroupMember(currentGroup, txtMemberEmail.Text, cbIsAdmin.Checked)
+
+                If TableReader.AddTable("GroupMember", NewMember) Then
+                    ' Set tab to Cars List
+                    tab = tpCarsList
+                Else
+                    tab = tpAddMember
+                End If
 
             Case Else
                 ' In case something goes wrong, it'll just stay on the same page
@@ -322,9 +412,15 @@ Public Class formTableViewer
             Case "btnLogs"
                 pnlDetails.Visible = False
                 pnlLogs.Visible = True
+                If dgvLogsList.DataSource Is Nothing Then
+                    dgvLogsList.DataSource = TableReader.GetSpecificTables("CarLog", dgvCarsList.Rows(expandedRowIndex).Cells("CarID").Value)
+                End If
             Case "btnProblems"
                 pnlDetails.Visible = True
                 pnlLogs.Visible = False
+                If dgvProblemsList Is Nothing Then
+                    dgvProblemsList.DataSource = TableReader.GetSpecificTables("CarIssue", dgvCarsList.Rows(expandedRowIndex).Cells("CarID").Value)
+                End If
         End Select
     End Sub
 
@@ -333,13 +429,25 @@ Public Class formTableViewer
             Return
         End If
 
-        ' Change tab to Cars list
-        tcTabs.SelectedTab = tpCarsList
-
         ' Get the ID of selected cell
         Dim SelectedID As String = dgvGroupsList.Rows(e.RowIndex).Cells("ID").Value.ToString()
 
-        dgvCarsList.DataSource = TableReader.GetSpecificTables("Car", SelectedID)
+        ' Check if the clicked cell isn't empty
+        If String.IsNullOrEmpty(SelectedID) Then
+            Return
+        End If
+
+        ' Change tab to Cars list
+        tcTabs.SelectedTab = tpCarsList
+
+        LoadToCarTable(SelectedID)
+
+        ' TODO: Check if user is an admin in this group
+        If True Then
+            ADMIN = True
+            btnAddCar.Visible = ADMIN
+            btnAddMember.Visible = ADMIN
+        End If
 
         Dim data As New DataTable()
         Dim message As String = "Expiring insurances:" & Environment.NewLine
@@ -366,13 +474,144 @@ Public Class formTableViewer
         If message.Length > messageLen Then
             MessageBox.Show(message)
         End If
+
+        currentGroup = SelectedID
     End Sub
 
-    ' Description:  Loads the group list into the DataGridView
+    ' Description: Loads the group list into the DataGridView
     ' Used when: 'tab = tpGroups' is called
     Private Sub LoadToGroupTab()
+
+        ' Groups list 
         dgvGroupsList.DataSource = TableReader.GetGroupTable()
+
         dgvGroupsList.Columns(0).Visible = False
         dgvGroupsList.Columns(1).AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+
+
+        ' CarLog list
+        dgvUserHistoryList.DataSource = TableReader.GetLogsByUserId()
+
+        dgvUserHistoryList.Columns(0).Visible = False
+        dgvUserHistoryList.Columns(1).Visible = False
+        dgvUserHistoryList.Columns(2).Visible = False
+        dgvUserHistoryList.Columns(8).Visible = False
+
     End Sub
+
+    Private Sub LoadToCarTable(SelectedID As String)
+        EmptyCarTable()
+        ' Car list
+        dgvCarsList.DataSource = TableReader.GetSpecificTables("Car", SelectedID)
+        dgvCarsList.Columns(0).Visible = False
+        dgvCarsList.Columns(1).Visible = False
+
+        ' Delete button to car list
+
+        Dim carDeleteButton As New DataGridViewButtonColumn()
+        carDeleteButton.Name = "DeleteButton"
+        carDeleteButton.Text = "Delete"
+        carDeleteButton.HeaderText = ""
+        carDeleteButton.UseColumnTextForButtonValue = True
+        dgvCarsList.Columns.Add(carDeleteButton)
+    End Sub
+
+    Private Sub EmptyCarTable()
+        dgvCarsList.DataSource = Nothing
+        dgvCarsList.Columns.Clear()
+        dgvCarsList.Rows.Clear()
+    End Sub
+
+    Private Sub LoadToProblemTable(SelectedID As String)
+        dgvProblemsList.DataSource = TableReader.GetSpecificTables("CarIssue", SelectedID)
+        dgvProblemsList.Columns(0).Visible = False
+        dgvProblemsList.Columns(1).Visible = False
+    End Sub
+
+    Private Sub LoadToLogTable(SelectedID As String)
+        dgvLogsList.DataSource = TableReader.GetSpecificTables("CarLog", SelectedID)
+        dgvLogsList.Columns("CarLogID").Visible = False
+        dgvLogsList.Columns("CarLogCarID").Visible = False
+        dgvLogsList.Columns("CarLogUserEmail").Visible = False
+        dgvLogsList.Columns("CarLogStartDate").Visible = False
+        dgvLogsList.Columns("CarLogEndDate").Visible = False
+        dgvLogsList.Columns("CarLogDistance").Visible = False
+        dgvLogsList.Columns("CarLogComment").Visible = False
+    End Sub
+
+    Private Sub LoadToInsuranceField(SelectedID As String)
+        Dim insuranceData As New DataTable()
+        insuranceData = TableReader.GetSpecificTables("CarInsurance", SelectedID)
+        If insuranceData Is Nothing OrElse insuranceData.Rows.Count = 0 Then
+            ' Handle the case where insuranceData is Nothing or has no rows
+            lblInsuranceData.Text = ""
+            lblInsuranceNameData.Text = ""
+        Else
+            lblInsuranceData.Text = insuranceData.Rows(0)("CarInsuranceEndDate")
+            lblInsuranceNameData.Text = insuranceData.Rows(0)("CarInsuranceName")
+        End If
+    End Sub
+
+    Private Sub btnGetDistance_Click(sender As Object, e As EventArgs) Handles btnGetDistance.Click
+        lblStartData.Text = dtpStatsTimeStart.Value
+        lblEndData.Text = dtpStatsTimeEnd.Value
+        lblCommentData.Text = "___"
+
+        Dim totalDistance As Double = 0
+
+        For Each log In dgvLogsList.Rows
+            If CDate(log.Cells("CarLogStartDate").Value) >= CDate(dtpStatsTimeStart.Value) And CDate(log.Cells("CarLogEndDate").Value) <= CDate(dtpStatsTimeEnd.Value) Then
+                totalDistance = totalDistance + CType(log.Cells("CarLogDistance").Value, Integer)
+            End If
+        Next
+
+        lblDistanceData.Text = totalDistance.ToString() & " km"
+    End Sub
+
+    Private Sub dgvLogsList_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvLogsList.CellClick
+        If e.RowIndex < 0 Then
+            Return
+        End If
+
+        lblStartData.Text = dgvLogsList.Rows(e.RowIndex).Cells("CarLogStartDate").Value
+
+        lblEndData.Text = dgvLogsList.Rows(e.RowIndex).Cells("CarLogEndDate").Value
+
+        lblDistanceData.Text = dgvLogsList.Rows(e.RowIndex).Cells("CarLogDistance").Value & " km"
+
+        lblCommentData.Text = dgvLogsList.Rows(e.RowIndex).Cells("CarLogComment").Value
+    End Sub
+
+    ' Description:  Function for registering a new user and to check if all inputs are valid
+    ' Parameters:   Email - email of the user, Password - password of the user, ConfirmPassword - confirmation of the password
+    ' Return:       Boolean value of whether the registration was successful or not
+    Private Function AccountRegistration(Email As String, Password As String, ConfirmPassword As String)
+
+        ' Check if passwords match
+        If Password = ConfirmPassword Then
+            ' check is password is atleast 6 long, 1 upper and 1 special character and 1 number
+        Else
+            MessageBox.Show("Passwords do not match.")
+            Return False
+        End If
+
+        ' Check if email is correct
+        If Not Regex.IsMatch(Email, "^[^@\s]+@[^@\s]+\.[^@\s]+$") Then
+            MessageBox.Show("Please enter a valid email address.")
+            Return False
+        End If
+
+        ' TODO: Check if a user with the given email already exists in the database
+
+        ' If everything is correct, register account and return true
+        If (TableReader.LoginRegister(Email, Password, "Register")) Then
+            MessageBox.Show("Account registered successfully.")
+
+            Return True
+        Else
+            MessageBox.Show("Account registration failed.")
+            Return False
+        End If
+    End Function
+
 End Class

@@ -24,25 +24,30 @@
     ' todo add addTable parameters
     ' what table(group,car,groupmember,carissue,carlog,carinsurance), new table file(list)
     ' returns success/error message 
-    Function AddTable()
+    ' Table is a singular field 
+    Function AddTable(TheTableToAddTo As String, Table As Object) As Boolean
 
     ' todo add removeTable parameters
     ' what table(group,car,groupmember,carissue,carlog,carinsurance), table id
     ' returns success/error message
-    Function RemoveTable()
+    Function RemoveTable(TheTableToRemove As String, ID As String) As Boolean
 
     ' todo add updateTable parameters
     ' what table(group,car,groupmember,carissue,carlog,carinsurance), table id, new table file(list)
     '  returns success/error message 
-    Function UpdateTable()
+    Function UpdateTable(TheTableToUpdate As String, ID As String, Table As Object) As Boolean
 
     ' todo add login parameter
     ' user file(email, password)
     ' returns jwt token and refresh token (in single list)/error message
     Function LoginRegister(Email As String, Password As String, Purpose As String) As Boolean
 
+    ' uses JWT
+    ' retuns all car logs by current user
+    Function GetLogsByUserId()
+
     ' todo add logout paramater
     ' refresh token 
     ' returns success (and redirects to login screen)/error message
-    Function Logout()
+    Function Logout() As Boolean
 End Interface
