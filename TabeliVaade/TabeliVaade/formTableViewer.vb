@@ -1,6 +1,7 @@
 ﻿Imports System.ComponentModel
 Imports System.Net
 Imports System.Security.Policy
+Imports System.Text.RegularExpressions
 Imports System.Windows.Forms.VisualStyles
 Imports CEntities
 Imports CTableReader
@@ -311,8 +312,21 @@ Public Class formTableViewer
                 ' TODO: Add log to the database
             Case "btnRegisterEnter"
                 ' Set tab to Log in
-                tab = tpLogin
+
+                ' TODO: Check if user with email is already in the database
+                ' TODO: Check if the entered email and password are valid
+
+                Dim email As String = tbRegisterEmail.Text
+                Dim password As String = tbRegisterPassword.Text
+                Dim confirmPassword As String = tbRegisterPasswordConfirm.Text
+
+                If (AccountRegistration(email, password, confirmPassword)) Then
+                    tab = tpLogin
+                Else
+                    tab = tpRegister
+                End If
                 ' TODO: Add user to database
+
             Case "btnEnterNewGroup"
                 ' Set tab to Groups
                 tab = tpGroups
@@ -412,7 +426,7 @@ Public Class formTableViewer
         End If
     End Sub
 
-    ' Description:  Loads the group list into the DataGridView
+    ' Description: Loads the group list into the DataGridView
     ' Used when: 'tab = tpGroups' is called
     Private Sub LoadToGroupTab()
         dgvGroupsList.DataSource = TableReader.GetGroupTable()
@@ -457,4 +471,36 @@ Public Class formTableViewer
     Private Sub btnUpdateInsuranceEnter_Click(sender As Object, e As EventArgs) Handles btnUpdateInsuranceEnter.Click
 
     End Sub
+
+    ' Description:  Function for registering a new user and to check if all inputs are valid
+    ' Parameters:   Email - email of the user, Password - password of the user, ConfirmPassword - confirmation of the password
+    ' Return:       Boolean value of whether the registration was successful or not
+    Private Function AccountRegistration(Email As String, Password As String, ConfirmPassword As String)
+
+        ' Check if passwords match
+        If Password = ConfirmPassword Then
+            ' check is password is atleast 6 long, 1 upper and 1 special character and 1 number
+        Else
+            MessageBox.Show("Passwords do not match.")
+            Return False
+        End If
+
+        ' Check if email is correct
+        If Not Regex.IsMatch(Email, "^[^@\s]+@[^@\s]+\.[^@\s]+$") Then
+            MessageBox.Show("Please enter a valid email address.")
+            Return False
+        End If
+
+        ' TODO: Check if a user with the given email already exists in the database
+
+        ' If everything is correct, register account and return true
+        If (TableReader.LoginRegister(Email, Password, "Register")) Then
+            MessageBox.Show("Account registered successfully.")
+
+            Return True
+        Else
+            MessageBox.Show("Account registration failed.")
+            Return False
+        End If
+    End Function
 End Class

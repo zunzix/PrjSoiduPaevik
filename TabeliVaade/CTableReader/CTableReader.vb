@@ -83,8 +83,62 @@ Public Class CTableReader
         Return True
     End Function
 
-    Public Function RemoveTable() Implements ITableReader.RemoveTable
-        Throw New NotImplementedException()
+    Public Function RemoveTable(TheTableToRemove As String, ID As String) As Boolean _
+        Implements ITableReader.RemoveTable
+
+        Dim Request As HttpWebRequest
+        Dim Response As HttpWebResponse
+        Dim Reader As StreamReader
+        Dim JsonResponse As String
+
+        Select Case TheTableToRemove
+            Case "Car"
+                Request = HttpWebRequest.Create(BaseUrl & "api/Cars/DeleteCar/" & ID)
+            Case "GroupMember"
+                Request = HttpWebRequest.Create(BaseUrl & "api/GroupMembers/DeleteGroupMember/" & ID)
+            Case "CarIssue"
+                Request = HttpWebRequest.Create(BaseUrl & "api/CarIssues/DeleteCarIssue" & ID)
+            Case "CarLog"
+                Request = HttpWebRequest.Create(BaseUrl & "api/CarLogs/DeleteCarLog" & ID)
+            Case "CarInsurance"
+                Request = HttpWebRequest.Create(BaseUrl & "api/CarInsurances/DeleteCarInsurance" & ID)
+            Case "Group"
+                Request = HttpWebRequest.Create(BaseUrl & "api/Groups/DeleteGroup" & ID)
+            Case Else
+                Console.WriteLine("Error: Invalid table type.")
+                Return Nothing
+        End Select
+
+        ' Write the Json Input to Request body
+        Request.Method = "POST"
+        Request.ContentType = "application/json"
+
+        ' Add Jwt token
+        Request.Headers.Add("Authorization", "Bearer " & JwtToken)
+
+        Try
+            ' Get response
+            Response = Request.GetResponse()
+            Reader = New StreamReader(Response.GetResponseStream)
+            JsonResponse = Reader.ReadToEnd()
+            Console.WriteLine("DEBUG: Response: " & JsonResponse)
+
+        Catch ex As WebException
+
+            If CType(ex.Response, HttpWebResponse).StatusCode = HttpStatusCode.Unauthorized Then
+                ' if error is 401, refresh token and retry
+                If RefreshJwtToken() Then
+
+                    Return RemoveTable(TheTableToRemove, ID)
+
+                End If
+            End If
+            Console.WriteLine("Error: " & ex.Message)
+            Return False
+
+        End Try
+
+        Return True
     End Function
 
     ' Description: Function to fill the CarList of type CCar with data from the API
@@ -358,17 +412,17 @@ Public Class CTableReader
         ' TODO: check if the request is correct
         Select Case TheTableToUpdate
             Case "Car"
-                Request = HttpWebRequest.Create(BaseUrl & "api/Cars/PutCar" & ID)
+                Request = HttpWebRequest.Create(BaseUrl & "api/Cars/PutCar/" & ID)
             Case "GroupMember"
-                Request = HttpWebRequest.Create(BaseUrl & "api/GroupMembers/PutGroupMember" & ID)
+                Request = HttpWebRequest.Create(BaseUrl & "api/GroupMembers/PutGroupMember/" & ID)
             Case "CarIssue"
-                Request = HttpWebRequest.Create(BaseUrl & "api/CarIssues/PutCarIssue" & ID)
+                Request = HttpWebRequest.Create(BaseUrl & "api/CarIssues/PutCarIssue/" & ID)
             Case "CarLog"
-                Request = HttpWebRequest.Create(BaseUrl & "api/CarLogs/PutCarLog" & ID)
+                Request = HttpWebRequest.Create(BaseUrl & "api/CarLogs/PutCarLog/" & ID)
             Case "CarInsurance"
-                Request = HttpWebRequest.Create(BaseUrl & "api/CarInsurances/PutCarInsurance" & ID)
+                Request = HttpWebRequest.Create(BaseUrl & "api/CarInsurances/PutCarInsurance/" & ID)
             Case "Group"
-                Request = HttpWebRequest.Create(BaseUrl & "api/Groups/PutGroup" & ID)
+                Request = HttpWebRequest.Create(BaseUrl & "api/Groups/PutGroup/" & ID)
             Case Else
                 Console.WriteLine("Error: Invalid table type.")
                 Return Nothing
@@ -423,6 +477,7 @@ Public Class CTableReader
             Dim Response As HttpWebResponse
             Dim Reader As StreamReader
             Dim Input As String
+            Dim ResponseString As String
 
             ' JSON input string
             Input = "{""email"":""" & Email & """,""password"":""" & Password & """}"
@@ -448,7 +503,7 @@ Public Class CTableReader
             ' Get the response from server
             Response = Request.GetResponse()
             Reader = New System.IO.StreamReader(Response.GetResponseStream)
-            Dim ResponseString As String = Reader.ReadToEnd()
+            ResponseString = Reader.ReadToEnd()
 
             ' Parse the response
             Dim responseData As Dictionary(Of String, String) = JsonConvert.DeserializeObject(Of Dictionary(Of String, String))(ResponseString)
@@ -575,5 +630,79 @@ Public Class CTableReader
             Console.WriteLine("Error: " & ex.Message)
             Return False
         End Try
+    End Function
+
+    Public Function GetLogsByUserId() As Object _
+        Implements ITableReader.GetLogsByUserId
+
+        Dim Request As HttpWebRequest
+        Dim Response As HttpWebResponse
+        Dim Reader As StreamReader
+        Dim JsonResponse As String
+        Dim List As JArray
+        Dim dt As New DataTable()
+
+        ' HTTP request
+        Request = HttpWebRequest.Create(BaseUrl & "api/CarLogs/GetUserCarLogs")
+        Request.Method = "GET"
+        Request.ContentType = "application/json"
+
+        ' Add Jwt token
+        Request.Headers.Add("Authorization", "Bearer " & JwtToken)
+
+        Try
+            ' Get response
+            Response = Request.GetResponse()
+            Reader = New StreamReader(Response.GetResponseStream)
+            JsonResponse = Reader.ReadToEnd()
+            Console.WriteLine("DEBUG: Response: " & JsonResponse)
+
+        Catch ex As WebException
+
+            If CType(ex.Response, HttpWebResponse).StatusCode = HttpStatusCode.Unauthorized Then
+                ' if error is 401, refresh token and retry
+                If RefreshJwtToken() Then
+
+                    Return GetLogsByUserId()
+
+                End If
+            End If
+            Console.WriteLine("Error: " & ex.Message)
+            Return Nothing
+
+        End Try
+
+        ' Parse JSON
+        List = JArray.Parse(JsonResponse)
+
+        dt.Columns.Add("CarLogID", GetType(String))
+        dt.Columns.Add("CarLogCarID", GetType(String))
+        dt.Columns.Add("CarLogUserEmail", GetType(String))
+        dt.Columns.Add("CarLogStartDate", GetType(DateTime))
+        dt.Columns.Add("CarLogEndDate", GetType(DateTime))
+        dt.Columns.Add("CarLogStartPoint", GetType(String))
+        dt.Columns.Add("CarLogEndPoint", GetType(String))
+        dt.Columns.Add("CarLogDistance", GetType(Double))
+        dt.Columns.Add("CarLogComment", GetType(String))
+
+        Try
+            ' Populate DataTable
+            For Each item In List
+                dt.Rows.Add(item("id"),
+                                    item("carId"),
+                                    item("email"),
+                                    item("startDate"),
+                                    item("endDate"),
+                                    item("startPoint"),
+                                    item("endPoint"),
+                                    item("distance"),
+                                    item("comment"))
+            Next
+        Catch ex As WebException
+            Console.WriteLine("Error: " & ex.Message)
+            Return Nothing
+        End Try
+
+        Return dt
     End Function
 End Class
