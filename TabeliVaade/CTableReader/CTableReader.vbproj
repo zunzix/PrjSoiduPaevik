@@ -108,5 +108,11 @@
     </None>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CEntities\CEntities.vbproj">
+      <Project>{dbd10ac7-20c7-4524-9d36-b387c4c97f8c}</Project>
+      <Name>CEntities</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
