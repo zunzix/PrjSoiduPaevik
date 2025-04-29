@@ -1,12 +1,36 @@
 ﻿Imports System.ComponentModel
 Imports System.Net
 Imports System.Security.Policy
-
+Imports CCar
 Public Class formTableViewer
     Const DEBUG = True
     Private expandedRowIndex As Integer = -1
 
+
     Private Sub formTableViewer_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+        Dim data As New DataTable()
+
+        ' == DELETE LATER ==
+        'data.Columns.Add("CarID", GetType(Integer))
+        data.Columns.Add("GroupID", GetType(Integer))
+        data.Columns.Add("Name", GetType(String))
+        data.Columns.Add("Mileage", GetType(Double))
+        data.Columns.Add("FuelConsumption", GetType(Double))
+        data.Columns.Add("Available", GetType(Boolean))
+        data.Columns.Add("Archived", GetType(Boolean))
+        data.Columns.Add("Critical", GetType(Boolean))
+
+        data.Rows.Add(0, "Porsche 911", 10000, 5.5, True, False, False)
+        data.Rows.Add(0, "Lamborghini Aventador", 876, 9.8, True, True, False)
+        data.Rows.Add(0, "Volkswagen Polo", 2390, 10, True, False, True)
+        data.Rows.Add(0, "Mercedes-Benz EQB SUV", 11980, 12.4, False, True, True)
+        data.Rows.Add(0, "Audi A-6", 0, 5, False, False, True)
+        data.Rows.Add(0, "BMW M3", 0, 8.5, True, False, False)
+        ' == DELETE LATER ==
+
+        ' Add car data to list
+        dgvCarsList.DataSource = data
 
         ' Hides the tabs while the program is running so that the user can't change them manually
         tcTabs.ItemSize = New Size(0, 1)
@@ -21,14 +45,12 @@ Public Class formTableViewer
         pnlLogs.Left = dgvCarsList.Left + 2
         pnlLogs.Width = dgvCarsList.Width - 4
 
-        ' TODO: Bringing in lists and view them on DataGridView
-
-        dgvCarsList.Rows.Add()
 
         ' Change the select color from an eye piercing blue to a more subtle gray
         dgvCarsList.DefaultCellStyle.SelectionBackColor = Color.LightGray
         dgvProblemsList.DefaultCellStyle.SelectionBackColor = Color.LightGray
         dgvLogsList.DefaultCellStyle.SelectionBackColor = Color.LightGray
+
 
     End Sub
 
@@ -319,13 +341,5 @@ Public Class formTableViewer
                 pnlDetails.Visible = True
                 pnlLogs.Visible = False
         End Select
-    End Sub
-
-    Private Sub dgvGroupsList_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvGroupsList.CellClick
-        If e.RowIndex < 0 Then
-            Return
-        End If
-
-        tcTabs.SelectedTab = tpCarsList
     End Sub
 End Class
