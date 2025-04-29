@@ -233,7 +233,6 @@ Public Class formTableViewer
                     txtLoginPassword.Text = QUICK_LOGIN_PASS
                 End If
 
-
                 If (TableReader.LoginRegister(txtLoginEmail.Text, txtLoginPassword.Text, "Login")) Then
                     Console.WriteLine("Login successful")
                     ' TableReader.GetSpecificTables("Car", )
@@ -300,7 +299,8 @@ Public Class formTableViewer
 
             ' "Enter" buttons for adding
             Case "btnAddCarEnter"
-                ' Set tab to Cars List
+
+
                 tab = tpCarsList
                 ' TODO: Add car to the database
             Case "btnAddProblemEnter"
@@ -334,6 +334,7 @@ Public Class formTableViewer
 
                 ' TODO: Add group to database
                 Dim newGroup As New CEntities.Group(txtNewGroupName.Text)
+
                 TableReader.AddTable("Group", newGroup)
 
                 LoadToGroupTab()

@@ -19,7 +19,7 @@ Public Class CTableReader
     ' Base URL for the API 
     Private Const BaseUrl As String = "https://localhost:7231/"
 
-    Public Function AddTable(TheTableToAddTo As String, Table As Object) _
+    Public Function AddTable(TheTableToAddTo As String, Table As Object) As Boolean _
         Implements ITableReader.AddTable
 
         Dim Request As HttpWebRequest
@@ -78,7 +78,7 @@ Public Class CTableReader
                 End If
             End If
             Console.WriteLine("Error: " & ex.Message)
-            Return Nothing
+            Return False
 
         End Try
 
