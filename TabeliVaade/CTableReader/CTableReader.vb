@@ -150,11 +150,12 @@ Public Class CTableReader
         Return dt
     End Function
 
+    ' Description: Function to get a specific table from the API and to return the respective DataTable
+    ' Parameters: TheTableToGet as String, ID as String
+    ' Returns: A DataTable containing the data from the specified table or an error message
+    Public Function GetSpecificTables(TheTableToGet As String, ID As String) As Object _
+        Implements ITableReader.GetSpecificTables
 
-    ' if is car, group, groupmember, carissue, carlog, carinsurance, then get that table
-
-    ' Parameters: which table to get, 
-    Public Function GetSpecificTables(TheTableToGet As String, ID As String) As Object Implements ITableReader.GetSpecificTables
         Dim Request As HttpWebRequest
         Dim Response As HttpWebResponse
         Dim Reader As StreamReader
@@ -341,9 +342,12 @@ Public Class CTableReader
 
     End Function
 
-    ' Put Table
-    Public Function UpdateTable(TheTableToUpdate As String, ID As String, Table As Object) As Object Implements _
-        ITableReader.UpdateTable
+    ' Description: Function to update a table 
+    ' Parameters: TheTableToUpdate as String, ID as String, Table as Object
+    ' Returns: True if update is successful, False otherwise
+    Public Function UpdateTable(TheTableToUpdate As String, ID As String, Table As Object) As Boolean _
+        Implements ITableReader.UpdateTable
+
         Dim Request As HttpWebRequest
         Dim Response As HttpWebResponse
         Dim Reader As StreamReader
@@ -398,7 +402,7 @@ Public Class CTableReader
                 End If
             End If
             Console.WriteLine("Error: " & ex.Message)
-            Return Nothing
+            Return False
 
         End Try
 
@@ -409,6 +413,8 @@ Public Class CTableReader
     ' Description: Function for Loggin a user in
     ' Parameters: Email as String and Password as String
     ' Returns: True if login is successful, False otherwise
+
+    ' TODO: Return if user is admin or not
     Public Function LoginRegister(Email As String, Password As String, Purpose As String) As Boolean _
         Implements ITableReader.LoginRegister
         Try
@@ -464,11 +470,60 @@ Public Class CTableReader
         End Try
     End Function
 
-    ' RefreshToken in the func, 
-    Public Function Logout() As Object Implements ITableReader.Logout
-        Throw New NotImplementedException()
+    ' Description: Function for Logging out a user
+    ' Parameters: None
+    ' Returns: True if logout is successful, False otherwise    
+    Public Function Logout() As Boolean _
+        Implements ITableReader.Logout
+
+        Dim Request As HttpWebRequest
+        Dim Response As HttpWebResponse
+        Dim Reader As StreamReader
+        Dim JsonResponse As String
+        Dim Input As String
+
+        ' JSON input string
+        Input = "{""refreshToken"":""" & RefreshToken & """}"
+
+        ' HHTP request
+        Request = HttpWebRequest.Create(BaseUrl & "api/Account/Logout")
+        Request.Method = "POST"
+
+        ' Set the content type to application/json
+        Request.ContentType = "application/json"
+
+        ' Add Authorization header
+        Request.Headers.Add("Authorization", "Bearer " & JwtToken)
+
+        Request.GetRequestStream.Write(System.Text.Encoding.UTF8.GetBytes(Input), 0, Input.Length)
+
+        ' Get response from server, and see if logout was successful
+        Try
+            Response = Request.GetResponse()
+            Reader = New StreamReader(Response.GetResponseStream)
+            JsonResponse = Reader.ReadToEnd()
+            Console.WriteLine("DEBUG: Response: " & JsonResponse)
+
+        Catch ex As WebException
+            If CType(ex.Response, HttpWebResponse).StatusCode = HttpStatusCode.Unauthorized Then
+                ' if error is 401, refresh token and retry
+                If RefreshJwtToken() Then
+
+                    Return Logout()
+
+                End If
+            End If
+            Console.WriteLine("Error: " & ex.Message)
+            Return False
+        End Try
+
+        Return True
+
     End Function
 
+    ' Description: Function to refresh the JWT token
+    ' Parameters: None
+    ' Returns: True if refresh is successful, False otherwise
     Private Function RefreshJwtToken() As Boolean
         ' TODO: if this function returns false, it should return the user back to login screen
         ' enter jwt and refresh 
