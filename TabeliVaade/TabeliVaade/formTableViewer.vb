@@ -1,12 +1,18 @@
 ﻿Imports System.ComponentModel
 Imports System.Net
 Imports System.Security.Policy
+Imports System.Windows.Forms.VisualStyles
 Imports CTableReader
 
 Public Class formTableViewer
     Const DEBUG = True
+    Private ADMIN = False
     Private expandedRowIndex As Integer = -1
     Private TableReader As New CTableReader.CTableReader()
+
+    ' CHANGE THESE TO YOUR LOG IN INFO SO THAT YOU CAN LOG IN FASTER
+    Const QUICK_LOGIN_USER = "test@test.com"
+    Const QUICK_LOGIN_PASS = "Test123!"
 
     Private Sub formTableViewer_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
@@ -22,12 +28,6 @@ Public Class formTableViewer
         pnlDetails.Width = dgvCarsList.Width - 4
         pnlLogs.Left = dgvCarsList.Left + 2
         pnlLogs.Width = dgvCarsList.Width - 4
-
-        ' TODO: Bringing in lists and view them on DataGridView
-
-        dgvCarsList.Rows.Add()
-        dgvCarsList.Rows.Add()
-        dgvCarsList.Rows.Add()
 
         ' Change the select color from an eye piercing blue to a more subtle gray
         dgvCarsList.DefaultCellStyle.SelectionBackColor = Color.LightGray
@@ -136,7 +136,7 @@ Public Class formTableViewer
         ' TODO: Make it possible to search through the database for insurance
 
         ' Check if the insurance item exists
-        lblInsuranceData.Text = DateAdd(DateInterval.Day, 10, Date.Today).ToString()
+        ' lblInsuranceData.Text = DateAdd(DateInterval.Day, 10, Date.Today).ToString()
 
         ' Update the expanded row to be the current row
         expandedRowIndex = e.RowIndex
@@ -220,10 +220,18 @@ Public Class formTableViewer
 
             Case "btnLoginLogin"
                 ' Set tab to Groups
-                ' TODO: Add tranfer from Groups to Cars page
+
+                ' TEMPORARY QUICK LOGIN
+                If txtLoginEmail.Text = "" And txtLoginPassword.Text = "" Then
+                    txtLoginEmail.Text = QUICK_LOGIN_USER
+                    txtLoginPassword.Text = QUICK_LOGIN_PASS
+                End If
+
+
                 If (TableReader.LoginRegister(txtLoginEmail.Text, txtLoginPassword.Text, "Login")) Then
                     Console.WriteLine("Login successful")
                     ' TableReader.GetSpecificTables("Car", )
+
                     tab = tpGroups
                     LoadToGroupTab()
                 Else
@@ -340,6 +348,22 @@ Public Class formTableViewer
         Dim SelectedID As String = dgvGroupsList.Rows(e.RowIndex).Cells("ID").Value.ToString()
 
         dgvCarsList.DataSource = TableReader.GetSpecificTables("Car", SelectedID)
+
+        Dim carDeleteButton As New DataGridViewButtonColumn()
+        carDeleteButton.Name = "DeleteButton"
+        carDeleteButton.HeaderText = ""
+        carDeleteButton.UseColumnTextForButtonValue = True
+        dgvCarsList.Columns.Add(carDeleteButton)
+
+        ' TODO: Check if user is an admin in this group
+        If True Then
+            ADMIN = False
+            btnAddCar.Visible = ADMIN
+            dgvCarsList.ReadOnly = Not ADMIN
+            dgvProblemsList.ReadOnly = Not ADMIN
+            dgvUserHistoryList.ReadOnly = Not ADMIN
+            dgvLogsList.ReadOnly = Not ADMIN
+        End If
 
         Dim data As New DataTable()
         Dim message As String = "Expiring insurances:" & Environment.NewLine
