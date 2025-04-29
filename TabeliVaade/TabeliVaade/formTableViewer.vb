@@ -13,7 +13,7 @@ Public Class formTableViewer
     Private TableReader As New CTableReader.CTableReader()
 
     ' CHANGE THESE TO YOUR LOG IN INFO SO THAT YOU CAN LOG IN FASTER
-    Const QUICK_LOGIN_USER = "test@gmail.com"
+    Const QUICK_LOGIN_USER = "test@test.com"
     Const QUICK_LOGIN_PASS = "Test123!"
 
     Private Sub formTableViewer_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -90,7 +90,7 @@ Public Class formTableViewer
         ' Style it so that it looks like a "drop down panel"
         pnlDetails.Top = dgvCarsList.Top + rowRect.Bottom
         pnlDetails.Visible = True
-        dgvProblemsList.DataSource = TableReader.GetSpecificTables("CarIssue", dgvCarsList.Rows(e.RowIndex).Cells("CarID").Value)
+        LoadToProblemTable(dgvCarsList.Rows(e.RowIndex).Cells("CarID").Value)
 
         ' Style the logs panel the same way as details panel, but not visible (yet)
         pnlLogs.Top = dgvCarsList.Top + rowRect.Bottom
@@ -135,7 +135,7 @@ Public Class formTableViewer
     ' Return:       NONE
     Private Sub Button_Click(sender As Object, e As EventArgs) _
         Handles btnCarBack.Click, btnLoginLogin.Click, btnAddCarCancel.Click,
-        btnAddCar.Click, btnAddProblemCancel.Click, btnAddProblem.Click,
+        btnAddCar.Click, btnAddProblemCancel.Click, btnAddProblem.Click, btnAddProblemEnter.Click,
         btnAddLog.Click, btnAddLogCancel.Click, btnAddLogEnter.Click,
         btnLogOut.Click, btnLoginRegister.Click, btnRegisterCancel.Click,
         btnRegisterEnter.Click, btnNewGroup.Click, btnCancelNewGroup.Click,
@@ -207,6 +207,8 @@ Public Class formTableViewer
                 tab = tpAddCar
             Case "btnAddMember"
                 tab = tpAddMember
+            Case "btnAddProblem"
+                tab = tpAddProblem
 
             ' "Cancel" buttons for adding
             Case "btnAddCarCancel"
@@ -278,11 +280,19 @@ Public Class formTableViewer
                     tab = tpAddCar
                 End If
 
-                ' TODO: Add car to the database
             Case "btnAddProblemEnter"
-                ' Set tab to Cars List
-                tab = tpCarsList
                 ' TODO: Add problem to the database
+                Dim NewIssue As New CEntities.CarIssue(dgvCarsList.Rows(expandedRowIndex).Cells("CarID").Value, txtProblemDescription.Text, cbCriticality.Checked, False)
+
+                If TableReader.AddTable("CarIssue", NewIssue) Then
+                    ' Set tab to Cars List
+                    tab = tpCarsList
+                Else
+                    tab = tpAddProblem
+                End If
+
+                LoadToProblemTable(dgvCarsList.Rows(expandedRowIndex).Cells("CarID").Value)
+
             Case "btnAddLogEnter"
                 ' Set tab to Cars List
                 tab = tpCarsList
@@ -424,6 +434,12 @@ Public Class formTableViewer
         dgvCarsList.DataSource = TableReader.GetSpecificTables("Car", SelectedID)
         dgvCarsList.Columns(0).Visible = False
         dgvCarsList.Columns(1).Visible = False
+    End Sub
+
+    Private Sub LoadToProblemTable(SelectedID As String)
+        dgvProblemsList.DataSource = TableReader.GetSpecificTables("CarIssue", SelectedID)
+        dgvProblemsList.Columns(0).Visible = False
+        dgvProblemsList.Columns(1).Visible = False
     End Sub
 
     Private Sub btnGetDistance_Click(sender As Object, e As EventArgs) Handles btnGetDistance.Click
