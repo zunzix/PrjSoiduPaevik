@@ -3,6 +3,7 @@ Imports System.Net
 Imports System.Security.Policy
 Imports System.Text.RegularExpressions
 Imports System.Windows.Forms.VisualStyles
+Imports CEntities
 Imports CTableReader
 
 Public Class formTableViewer
@@ -100,7 +101,7 @@ Public Class formTableViewer
         ' TODO: Once removing functionality for the database has been made. Fill it out!
         ' Temporary solution
         If e.ColumnIndex = dgvCarsList.Columns("DeleteButton").Index Then
-            dgvCarsList.Rows.Remove(dgvCarsList.SelectedRows(e.RowIndex))
+            dgvCarsList.Rows.Remove(dgvCarsList.Rows(e.RowIndex))
         End If
     End Sub
 
@@ -124,20 +125,23 @@ Public Class formTableViewer
         ' Style it so that it looks like a "drop down panel"
         pnlDetails.Top = dgvCarsList.Top + rowRect.Bottom
         pnlDetails.Visible = True
+        dgvProblemsList.DataSource = TableReader.GetSpecificTables("CarIssue", dgvCarsList.Rows(e.RowIndex).Cells("CarID").Value)
 
         ' Style the logs panel the same way as details panel, but not visible (yet)
         pnlLogs.Top = dgvCarsList.Top + rowRect.Bottom
 
         ' Assign detailed values to the data fields
-        ' TODO: Make it so that you get the data from the database
-        'lblFuelData.Text = "-1"
-        'lblMilageData.Text = "-1"
+        lblFuelData.Text = dgvCarsList.Rows(e.RowIndex).Cells("CarAvgFuelConsumption").Value & " L/100km"
+        lblMilageData.Text = dgvCarsList.Rows(e.RowIndex).Cells("CarMileage").Value & " km"
 
         ' Find whether the selected car has any ongoing insurances
         ' TODO: Make it possible to search through the database for insurance
 
         ' Check if the insurance item exists
-        ' lblInsuranceData.Text = DateAdd(DateInterval.Day, 10, Date.Today).ToString()
+        Dim insuranceData As New DataTable()
+        insuranceData = TableReader.GetSpecificTables("CarInsurance", dgvCarsList.Rows(e.RowIndex).Cells("CarID").Value.ToString())
+        lblInsuranceData.Text = insuranceData.Rows(0)("CarInsuranceEndDate")
+        lblInsuranceNameData.Text = insuranceData.Rows(0)("CarInsuranceName")
 
         ' Update the expanded row to be the current row
         expandedRowIndex = e.RowIndex
@@ -203,7 +207,8 @@ Public Class formTableViewer
         btnAddLog.Click, btnAddLogCancel.Click, btnAddLogEnter.Click,
         btnLogOut.Click, btnLoginRegister.Click, btnRegisterCancel.Click,
         btnRegisterEnter.Click, btnNewGroup.Click, btnCancelNewGroup.Click,
-        btnEnterNewGroup.Click
+        btnEnterNewGroup.Click, btnDetailsUpdateInsurance.Click,
+        btnUpdateInsuranceCancel.Click, btnUpdateInsuranceEnter.Click
 
         'Get the button that was clicked
         Dim btn As Button = CType(sender, Button)
@@ -262,6 +267,8 @@ Public Class formTableViewer
             Case "btnNewGroup"
                 ' Set tab to New Group
                 tab = tpNewGroup
+            Case "btnDetailsUpdateInsurance"
+                tab = tpUpdateInsurance
 
             ' "Cancel" buttons for adding
             Case "btnAddCarCancel"
@@ -287,6 +294,8 @@ Public Class formTableViewer
                 ' Set tab to Groups
                 tab = tpGroups
                 LoadToGroupTab()
+            Case "btnUpdateInsuranceCancel"
+                tab = tpCarsList
 
             ' "Enter" buttons for adding
             Case "btnAddCarEnter"
@@ -323,6 +332,11 @@ Public Class formTableViewer
                 tab = tpGroups
                 LoadToGroupTab()
                 ' TODO: Add group to database
+                Dim newGroup As New Group(txtNewGroupName.Text)
+                TableReader.AddTable("Group", newGroup)
+            Case "btnUpdateInsuranceEnter"
+                tab = tpCarsList
+                ' TODO: Actually update the insurance
 
             Case Else
                 ' In case something goes wrong, it'll just stay on the same page
@@ -344,9 +358,15 @@ Public Class formTableViewer
             Case "btnLogs"
                 pnlDetails.Visible = False
                 pnlLogs.Visible = True
+                If dgvLogsList.DataSource Is Nothing Then
+                    dgvLogsList.DataSource = TableReader.GetSpecificTables("CarLog", dgvCarsList.Rows(expandedRowIndex).Cells("CarID").Value)
+                End If
             Case "btnProblems"
                 pnlDetails.Visible = True
                 pnlLogs.Visible = False
+                If dgvProblemsList Is Nothing Then
+                    dgvProblemsList.DataSource = TableReader.GetSpecificTables("CarIssue", dgvCarsList.Rows(expandedRowIndex).Cells("CarID").Value)
+                End If
         End Select
     End Sub
 
@@ -371,7 +391,7 @@ Public Class formTableViewer
 
         ' TODO: Check if user is an admin in this group
         If True Then
-            ADMIN = False
+            ADMIN = True
             btnAddCar.Visible = ADMIN
             dgvCarsList.ReadOnly = Not ADMIN
             dgvProblemsList.ReadOnly = Not ADMIN
@@ -412,6 +432,44 @@ Public Class formTableViewer
         dgvGroupsList.DataSource = TableReader.GetGroupTable()
         dgvGroupsList.Columns(0).Visible = False
         dgvGroupsList.Columns(1).AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+    End Sub
+
+    Private Sub btnGetDistance_Click(sender As Object, e As EventArgs) Handles btnGetDistance.Click
+        lblStartData.Text = dtpStatsTimeStart.Value
+        lblEndData.Text = dtpStatsTimeEnd.Value
+        lblCommentData.Text = "___"
+
+        Dim totalDistance As Double = 0
+
+        For Each log In dgvLogsList.Rows
+            If CDate(log.Cells("CarLogStartDate").Value) >= CDate(dtpStatsTimeStart.Value) And CDate(log.Cells("CarLogEndDate").Value) <= CDate(dtpStatsTimeEnd.Value) Then
+                totalDistance = totalDistance + CType(log.Cells("CarLogDistance").Value, Integer)
+            End If
+        Next
+
+        lblDistanceData.Text = totalDistance.ToString() & " km"
+    End Sub
+
+    Private Sub dgvLogsList_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvLogsList.CellContentClick
+        If e.RowIndex < 0 Then
+            Return
+        End If
+
+        lblStartData.Text = dgvLogsList.Rows(e.RowIndex).Cells("CarLogStartDate").Value
+
+        lblEndData.Text = dgvLogsList.Rows(e.RowIndex).Cells("CarLogEndDate").Value
+
+        lblDistanceData.Text = dgvLogsList.Rows(e.RowIndex).Cells("CarLogDistance").Value & " km"
+
+        lblCommentData.Text = dgvLogsList.Rows(e.RowIndex).Cells("CarLogComment").Value
+    End Sub
+
+    Private Sub btnUpdateInsuranceCancel_Click(sender As Object, e As EventArgs) Handles btnUpdateInsuranceCancel.Click
+
+    End Sub
+
+    Private Sub btnUpdateInsuranceEnter_Click(sender As Object, e As EventArgs) Handles btnUpdateInsuranceEnter.Click
+
     End Sub
 
     ' Description:  Function for registering a new user and to check if all inputs are valid

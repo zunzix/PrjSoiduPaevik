@@ -38,11 +38,12 @@ Partial Class formTableViewer
         Me.lblHeader = New System.Windows.Forms.Label()
         Me.tpCarsList = New System.Windows.Forms.TabPage()
         Me.pnlLogs = New System.Windows.Forms.Panel()
+        Me.dtpStatsTimeEnd = New System.Windows.Forms.DateTimePicker()
+        Me.btnGetDistance = New System.Windows.Forms.Button()
+        Me.dtpStatsTimeStart = New System.Windows.Forms.DateTimePicker()
         Me.btnProblems = New System.Windows.Forms.Button()
         Me.btnAddLog = New System.Windows.Forms.Button()
         Me.dgvLogsList = New System.Windows.Forms.DataGridView()
-        Me.trip = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.time = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.gbLogDetails = New System.Windows.Forms.GroupBox()
         Me.lblCommentData = New System.Windows.Forms.Label()
         Me.lblDistanceData = New System.Windows.Forms.Label()
@@ -55,11 +56,11 @@ Partial Class formTableViewer
         Me.pnlDetails = New System.Windows.Forms.Panel()
         Me.btnAddProblem = New System.Windows.Forms.Button()
         Me.dgvProblemsList = New System.Windows.Forms.DataGridView()
-        Me.description = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.isCritical = New System.Windows.Forms.DataGridViewCheckBoxColumn()
-        Me.isResolved = New System.Windows.Forms.DataGridViewCheckBoxColumn()
         Me.btnLogs = New System.Windows.Forms.Button()
         Me.gbCarDetails = New System.Windows.Forms.GroupBox()
+        Me.lblInsuranceNameData = New System.Windows.Forms.Label()
+        Me.lblInsuranceName = New System.Windows.Forms.Label()
+        Me.btnDetailsUpdateInsurance = New System.Windows.Forms.Button()
         Me.lblInsuranceData = New System.Windows.Forms.Label()
         Me.lblMilageData = New System.Windows.Forms.Label()
         Me.lblFuelData = New System.Windows.Forms.Label()
@@ -76,9 +77,6 @@ Partial Class formTableViewer
         Me.gbRideHistory = New System.Windows.Forms.GroupBox()
         Me.cbSortRides = New System.Windows.Forms.ComboBox()
         Me.dgvUserHistoryList = New System.Windows.Forms.DataGridView()
-        Me.userHistoryRide = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.userRidePeriod = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.userRideDistance = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.btnLogOut = New System.Windows.Forms.Button()
         Me.tpLogin = New System.Windows.Forms.TabPage()
         Me.txtLoginPassword = New System.Windows.Forms.TextBox()
@@ -119,10 +117,10 @@ Partial Class formTableViewer
         Me.lblGroupName = New System.Windows.Forms.Label()
         Me.btnCancelNewGroup = New System.Windows.Forms.Button()
         Me.btnEnterNewGroup = New System.Windows.Forms.Button()
-        Me.TextBox1 = New System.Windows.Forms.TextBox()
+        Me.txtNewGroupName = New System.Windows.Forms.TextBox()
         Me.lblCreateGroup = New System.Windows.Forms.Label()
         Me.tpRegister = New System.Windows.Forms.TabPage()
-        Me.Label1 = New System.Windows.Forms.Label()
+        Me.lblCreateAccountTitle = New System.Windows.Forms.Label()
         Me.lblConfirmPassword = New System.Windows.Forms.Label()
         Me.lblRegisterPassword = New System.Windows.Forms.Label()
         Me.lblRegisterEmail = New System.Windows.Forms.Label()
@@ -131,6 +129,14 @@ Partial Class formTableViewer
         Me.tbRegisterEmail = New System.Windows.Forms.TextBox()
         Me.btnRegisterEnter = New System.Windows.Forms.Button()
         Me.btnRegisterCancel = New System.Windows.Forms.Button()
+        Me.tpUpdateInsurance = New System.Windows.Forms.TabPage()
+        Me.lblUpdateName = New System.Windows.Forms.Label()
+        Me.lblUpdateExpiration = New System.Windows.Forms.Label()
+        Me.TextBox1 = New System.Windows.Forms.TextBox()
+        Me.DateTimePicker1 = New System.Windows.Forms.DateTimePicker()
+        Me.btnUpdateInsuranceCancel = New System.Windows.Forms.Button()
+        Me.btnUpdateInsuranceEnter = New System.Windows.Forms.Button()
+        Me.lblUpdateInsuranceTitle = New System.Windows.Forms.Label()
         Me.tpAddCar.SuspendLayout()
         Me.tpCarsList.SuspendLayout()
         Me.pnlLogs.SuspendLayout()
@@ -153,6 +159,7 @@ Partial Class formTableViewer
         Me.gbStart.SuspendLayout()
         Me.tpNewGroup.SuspendLayout()
         Me.tpRegister.SuspendLayout()
+        Me.tpUpdateInsurance.SuspendLayout()
         Me.SuspendLayout()
         '
         'tpAddCar
@@ -333,16 +340,45 @@ Partial Class formTableViewer
         '
         'pnlLogs
         '
+        Me.pnlLogs.Controls.Add(Me.dtpStatsTimeEnd)
+        Me.pnlLogs.Controls.Add(Me.btnGetDistance)
+        Me.pnlLogs.Controls.Add(Me.dtpStatsTimeStart)
         Me.pnlLogs.Controls.Add(Me.btnProblems)
         Me.pnlLogs.Controls.Add(Me.btnAddLog)
         Me.pnlLogs.Controls.Add(Me.dgvLogsList)
         Me.pnlLogs.Controls.Add(Me.gbLogDetails)
-        Me.pnlLogs.Location = New System.Drawing.Point(5, 236)
-        Me.pnlLogs.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.pnlLogs.Location = New System.Drawing.Point(6, 221)
+        Me.pnlLogs.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.pnlLogs.Name = "pnlLogs"
-        Me.pnlLogs.Size = New System.Drawing.Size(583, 95)
+        Me.pnlLogs.Size = New System.Drawing.Size(779, 183)
         Me.pnlLogs.TabIndex = 4
         Me.pnlLogs.Visible = False
+        '
+        'dtpStatsTimeEnd
+        '
+        Me.dtpStatsTimeEnd.Location = New System.Drawing.Point(516, 146)
+        Me.dtpStatsTimeEnd.MaxDate = New Date(2025, 4, 29, 0, 0, 0, 0)
+        Me.dtpStatsTimeEnd.Name = "dtpStatsTimeEnd"
+        Me.dtpStatsTimeEnd.Size = New System.Drawing.Size(171, 22)
+        Me.dtpStatsTimeEnd.TabIndex = 10
+        Me.dtpStatsTimeEnd.Value = New Date(2025, 4, 29, 0, 0, 0, 0)
+        '
+        'btnGetDistance
+        '
+        Me.btnGetDistance.Location = New System.Drawing.Point(691, 132)
+        Me.btnGetDistance.Name = "btnGetDistance"
+        Me.btnGetDistance.Size = New System.Drawing.Size(83, 44)
+        Me.btnGetDistance.TabIndex = 8
+        Me.btnGetDistance.Text = "Get Distance"
+        Me.btnGetDistance.UseVisualStyleBackColor = True
+        '
+        'dtpStatsTimeStart
+        '
+        Me.dtpStatsTimeStart.CustomFormat = ""
+        Me.dtpStatsTimeStart.Location = New System.Drawing.Point(292, 146)
+        Me.dtpStatsTimeStart.Name = "dtpStatsTimeStart"
+        Me.dtpStatsTimeStart.Size = New System.Drawing.Size(171, 22)
+        Me.dtpStatsTimeStart.TabIndex = 9
         '
         'btnProblems
         '
@@ -367,32 +403,15 @@ Partial Class formTableViewer
         'dgvLogsList
         '
         Me.dgvLogsList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dgvLogsList.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.trip, Me.time})
-        Me.dgvLogsList.Location = New System.Drawing.Point(218, 8)
-        Me.dgvLogsList.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.dgvLogsList.Location = New System.Drawing.Point(291, 10)
+        Me.dgvLogsList.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.dgvLogsList.Name = "dgvLogsList"
         Me.dgvLogsList.ReadOnly = True
         Me.dgvLogsList.RowHeadersVisible = False
         Me.dgvLogsList.RowHeadersWidth = 51
         Me.dgvLogsList.RowTemplate.Height = 24
-        Me.dgvLogsList.Size = New System.Drawing.Size(296, 81)
+        Me.dgvLogsList.Size = New System.Drawing.Size(395, 122)
         Me.dgvLogsList.TabIndex = 1
-        '
-        'trip
-        '
-        Me.trip.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.trip.HeaderText = "Trip"
-        Me.trip.MinimumWidth = 6
-        Me.trip.Name = "trip"
-        Me.trip.ReadOnly = True
-        '
-        'time
-        '
-        Me.time.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.time.HeaderText = "Time of trip"
-        Me.time.MinimumWidth = 6
-        Me.time.Name = "time"
-        Me.time.ReadOnly = True
         '
         'gbLogDetails
         '
@@ -407,8 +426,8 @@ Partial Class formTableViewer
         Me.gbLogDetails.Location = New System.Drawing.Point(2, 2)
         Me.gbLogDetails.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.gbLogDetails.Name = "gbLogDetails"
-        Me.gbLogDetails.Padding = New System.Windows.Forms.Padding(2, 2, 2, 2)
-        Me.gbLogDetails.Size = New System.Drawing.Size(211, 87)
+        Me.gbLogDetails.Padding = New System.Windows.Forms.Padding(3, 2, 3, 2)
+        Me.gbLogDetails.Size = New System.Drawing.Size(281, 174)
         Me.gbLogDetails.TabIndex = 0
         Me.gbLogDetails.TabStop = False
         Me.gbLogDetails.Text = "Details"
@@ -417,45 +436,45 @@ Partial Class formTableViewer
         '
         Me.lblCommentData.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblCommentData.AutoSize = True
-        Me.lblCommentData.Location = New System.Drawing.Point(176, 72)
-        Me.lblCommentData.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.lblCommentData.Location = New System.Drawing.Point(127, 89)
         Me.lblCommentData.Name = "lblCommentData"
         Me.lblCommentData.Size = New System.Drawing.Size(25, 13)
         Me.lblCommentData.TabIndex = 7
         Me.lblCommentData.Text = "___"
+        Me.lblCommentData.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'lblDistanceData
         '
         Me.lblDistanceData.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblDistanceData.AutoSize = True
-        Me.lblDistanceData.Location = New System.Drawing.Point(160, 54)
-        Me.lblDistanceData.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.lblDistanceData.Location = New System.Drawing.Point(127, 66)
         Me.lblDistanceData.Name = "lblDistanceData"
-        Me.lblDistanceData.Size = New System.Drawing.Size(42, 13)
+        Me.lblDistanceData.Size = New System.Drawing.Size(28, 16)
         Me.lblDistanceData.TabIndex = 6
-        Me.lblDistanceData.Text = "___ km"
+        Me.lblDistanceData.Text = "___"
+        Me.lblDistanceData.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'lblEndData
         '
         Me.lblEndData.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblEndData.AutoSize = True
-        Me.lblEndData.Location = New System.Drawing.Point(115, 36)
-        Me.lblEndData.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.lblEndData.Location = New System.Drawing.Point(127, 44)
         Me.lblEndData.Name = "lblEndData"
-        Me.lblEndData.Size = New System.Drawing.Size(97, 13)
+        Me.lblEndData.Size = New System.Drawing.Size(28, 16)
         Me.lblEndData.TabIndex = 5
-        Me.lblEndData.Text = "12:00 - 01.01.1970"
+        Me.lblEndData.Text = "___"
+        Me.lblEndData.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'lblStartData
         '
         Me.lblStartData.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblStartData.AutoSize = True
-        Me.lblStartData.Location = New System.Drawing.Point(115, 17)
-        Me.lblStartData.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.lblStartData.Location = New System.Drawing.Point(127, 21)
         Me.lblStartData.Name = "lblStartData"
-        Me.lblStartData.Size = New System.Drawing.Size(97, 13)
+        Me.lblStartData.Size = New System.Drawing.Size(28, 16)
         Me.lblStartData.TabIndex = 4
-        Me.lblStartData.Text = "12:00 - 01.01.1970"
+        Me.lblStartData.Text = "___"
+        Me.lblStartData.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'lblEndTime
         '
@@ -503,10 +522,10 @@ Partial Class formTableViewer
         Me.pnlDetails.Controls.Add(Me.dgvProblemsList)
         Me.pnlDetails.Controls.Add(Me.btnLogs)
         Me.pnlDetails.Controls.Add(Me.gbCarDetails)
-        Me.pnlDetails.Location = New System.Drawing.Point(5, 135)
-        Me.pnlDetails.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.pnlDetails.Location = New System.Drawing.Point(7, 34)
+        Me.pnlDetails.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.pnlDetails.Name = "pnlDetails"
-        Me.pnlDetails.Size = New System.Drawing.Size(583, 95)
+        Me.pnlDetails.Size = New System.Drawing.Size(777, 183)
         Me.pnlDetails.TabIndex = 3
         Me.pnlDetails.Visible = False
         '
@@ -523,44 +542,15 @@ Partial Class formTableViewer
         'dgvProblemsList
         '
         Me.dgvProblemsList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dgvProblemsList.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.description, Me.isCritical, Me.isResolved})
-        Me.dgvProblemsList.Location = New System.Drawing.Point(218, 8)
-        Me.dgvProblemsList.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.dgvProblemsList.Location = New System.Drawing.Point(291, 10)
+        Me.dgvProblemsList.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.dgvProblemsList.Name = "dgvProblemsList"
         Me.dgvProblemsList.ReadOnly = True
         Me.dgvProblemsList.RowHeadersVisible = False
         Me.dgvProblemsList.RowHeadersWidth = 51
         Me.dgvProblemsList.RowTemplate.Height = 24
-        Me.dgvProblemsList.Size = New System.Drawing.Size(296, 81)
+        Me.dgvProblemsList.Size = New System.Drawing.Size(395, 166)
         Me.dgvProblemsList.TabIndex = 6
-        '
-        'description
-        '
-        Me.description.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.description.HeaderText = "Problem description"
-        Me.description.MinimumWidth = 6
-        Me.description.Name = "description"
-        Me.description.ReadOnly = True
-        '
-        'isCritical
-        '
-        Me.isCritical.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader
-        Me.isCritical.HeaderText = "Critical?"
-        Me.isCritical.MinimumWidth = 6
-        Me.isCritical.Name = "isCritical"
-        Me.isCritical.ReadOnly = True
-        Me.isCritical.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.isCritical.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic
-        Me.isCritical.Width = 69
-        '
-        'isResolved
-        '
-        Me.isResolved.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader
-        Me.isResolved.HeaderText = "Resolved?"
-        Me.isResolved.MinimumWidth = 6
-        Me.isResolved.Name = "isResolved"
-        Me.isResolved.ReadOnly = True
-        Me.isResolved.Width = 64
         '
         'btnLogs
         '
@@ -574,6 +564,9 @@ Partial Class formTableViewer
         '
         'gbCarDetails
         '
+        Me.gbCarDetails.Controls.Add(Me.lblInsuranceNameData)
+        Me.gbCarDetails.Controls.Add(Me.lblInsuranceName)
+        Me.gbCarDetails.Controls.Add(Me.btnDetailsUpdateInsurance)
         Me.gbCarDetails.Controls.Add(Me.lblInsuranceData)
         Me.gbCarDetails.Controls.Add(Me.lblMilageData)
         Me.gbCarDetails.Controls.Add(Me.lblFuelData)
@@ -583,44 +576,72 @@ Partial Class formTableViewer
         Me.gbCarDetails.Location = New System.Drawing.Point(2, 2)
         Me.gbCarDetails.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.gbCarDetails.Name = "gbCarDetails"
-        Me.gbCarDetails.Padding = New System.Windows.Forms.Padding(2, 2, 2, 2)
-        Me.gbCarDetails.Size = New System.Drawing.Size(211, 87)
+        Me.gbCarDetails.Padding = New System.Windows.Forms.Padding(3, 2, 3, 2)
+        Me.gbCarDetails.Size = New System.Drawing.Size(281, 174)
         Me.gbCarDetails.TabIndex = 4
         Me.gbCarDetails.TabStop = False
         Me.gbCarDetails.Text = "Details"
+        '
+        'lblInsuranceNameData
+        '
+        Me.lblInsuranceNameData.AutoSize = True
+        Me.lblInsuranceNameData.Location = New System.Drawing.Point(175, 78)
+        Me.lblInsuranceNameData.Name = "lblInsuranceNameData"
+        Me.lblInsuranceNameData.Size = New System.Drawing.Size(28, 16)
+        Me.lblInsuranceNameData.TabIndex = 9
+        Me.lblInsuranceNameData.Text = "___"
+        Me.lblInsuranceNameData.TextAlign = System.Drawing.ContentAlignment.TopRight
+        '
+        'lblInsuranceName
+        '
+        Me.lblInsuranceName.AutoSize = True
+        Me.lblInsuranceName.Location = New System.Drawing.Point(4, 78)
+        Me.lblInsuranceName.Name = "lblInsuranceName"
+        Me.lblInsuranceName.Size = New System.Drawing.Size(68, 16)
+        Me.lblInsuranceName.TabIndex = 8
+        Me.lblInsuranceName.Text = "Insurance:"
+        '
+        'btnDetailsUpdateInsurance
+        '
+        Me.btnDetailsUpdateInsurance.Location = New System.Drawing.Point(67, 136)
+        Me.btnDetailsUpdateInsurance.Name = "btnDetailsUpdateInsurance"
+        Me.btnDetailsUpdateInsurance.Size = New System.Drawing.Size(136, 23)
+        Me.btnDetailsUpdateInsurance.TabIndex = 7
+        Me.btnDetailsUpdateInsurance.Text = "Update insurance"
+        Me.btnDetailsUpdateInsurance.UseVisualStyleBackColor = True
         '
         'lblInsuranceData
         '
         Me.lblInsuranceData.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblInsuranceData.AutoSize = True
-        Me.lblInsuranceData.Location = New System.Drawing.Point(146, 65)
-        Me.lblInsuranceData.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.lblInsuranceData.Location = New System.Drawing.Point(175, 106)
         Me.lblInsuranceData.Name = "lblInsuranceData"
-        Me.lblInsuranceData.Size = New System.Drawing.Size(61, 13)
+        Me.lblInsuranceData.Size = New System.Drawing.Size(28, 16)
         Me.lblInsuranceData.TabIndex = 6
-        Me.lblInsuranceData.Text = "01.01.1970"
+        Me.lblInsuranceData.Text = "___"
+        Me.lblInsuranceData.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'lblMilageData
         '
         Me.lblMilageData.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblMilageData.AutoSize = True
-        Me.lblMilageData.Location = New System.Drawing.Point(160, 42)
-        Me.lblMilageData.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.lblMilageData.Location = New System.Drawing.Point(175, 52)
         Me.lblMilageData.Name = "lblMilageData"
-        Me.lblMilageData.Size = New System.Drawing.Size(42, 13)
+        Me.lblMilageData.Size = New System.Drawing.Size(28, 16)
         Me.lblMilageData.TabIndex = 5
-        Me.lblMilageData.Text = "___ km"
+        Me.lblMilageData.Text = "___"
+        Me.lblMilageData.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'lblFuelData
         '
         Me.lblFuelData.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblFuelData.AutoSize = True
-        Me.lblFuelData.Location = New System.Drawing.Point(136, 20)
-        Me.lblFuelData.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.lblFuelData.Location = New System.Drawing.Point(175, 25)
         Me.lblFuelData.Name = "lblFuelData"
-        Me.lblFuelData.Size = New System.Drawing.Size(71, 13)
+        Me.lblFuelData.Size = New System.Drawing.Size(28, 16)
         Me.lblFuelData.TabIndex = 4
-        Me.lblFuelData.Text = "___ L/100km"
+        Me.lblFuelData.Text = "___"
+        Me.lblFuelData.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'lblMilage
         '
@@ -635,8 +656,7 @@ Partial Class formTableViewer
         'lblInsurance
         '
         Me.lblInsurance.AutoSize = True
-        Me.lblInsurance.Location = New System.Drawing.Point(4, 65)
-        Me.lblInsurance.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.lblInsurance.Location = New System.Drawing.Point(5, 106)
         Me.lblInsurance.Name = "lblInsurance"
         Me.lblInsurance.Size = New System.Drawing.Size(87, 13)
         Me.lblInsurance.TabIndex = 3
@@ -762,9 +782,8 @@ Partial Class formTableViewer
         'dgvUserHistoryList
         '
         Me.dgvUserHistoryList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dgvUserHistoryList.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.userHistoryRide, Me.userRidePeriod, Me.userRideDistance})
-        Me.dgvUserHistoryList.Location = New System.Drawing.Point(4, 44)
-        Me.dgvUserHistoryList.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.dgvUserHistoryList.Location = New System.Drawing.Point(5, 54)
+        Me.dgvUserHistoryList.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.dgvUserHistoryList.Name = "dgvUserHistoryList"
         Me.dgvUserHistoryList.ReadOnly = True
         Me.dgvUserHistoryList.RowHeadersVisible = False
@@ -772,30 +791,6 @@ Partial Class formTableViewer
         Me.dgvUserHistoryList.RowTemplate.Height = 24
         Me.dgvUserHistoryList.Size = New System.Drawing.Size(290, 282)
         Me.dgvUserHistoryList.TabIndex = 1
-        '
-        'userHistoryRide
-        '
-        Me.userHistoryRide.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.userHistoryRide.HeaderText = "Ride"
-        Me.userHistoryRide.MinimumWidth = 6
-        Me.userHistoryRide.Name = "userHistoryRide"
-        Me.userHistoryRide.ReadOnly = True
-        '
-        'userRidePeriod
-        '
-        Me.userRidePeriod.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.userRidePeriod.HeaderText = "Period"
-        Me.userRidePeriod.MinimumWidth = 6
-        Me.userRidePeriod.Name = "userRidePeriod"
-        Me.userRidePeriod.ReadOnly = True
-        '
-        'userRideDistance
-        '
-        Me.userRideDistance.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.userRideDistance.HeaderText = "Distance"
-        Me.userRideDistance.MinimumWidth = 6
-        Me.userRideDistance.Name = "userRideDistance"
-        Me.userRideDistance.ReadOnly = True
         '
         'btnLogOut
         '
@@ -907,8 +902,9 @@ Partial Class formTableViewer
         Me.tcTabs.Controls.Add(Me.tpAddLog)
         Me.tcTabs.Controls.Add(Me.tpNewGroup)
         Me.tcTabs.Controls.Add(Me.tpRegister)
-        Me.tcTabs.Location = New System.Drawing.Point(2, 2)
-        Me.tcTabs.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.tcTabs.Controls.Add(Me.tpUpdateInsurance)
+        Me.tcTabs.Location = New System.Drawing.Point(3, 2)
+        Me.tcTabs.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.tcTabs.Name = "tcTabs"
         Me.tcTabs.SelectedIndex = 0
         Me.tcTabs.Size = New System.Drawing.Size(598, 362)
@@ -1209,7 +1205,7 @@ Partial Class formTableViewer
         Me.tpNewGroup.Controls.Add(Me.lblGroupName)
         Me.tpNewGroup.Controls.Add(Me.btnCancelNewGroup)
         Me.tpNewGroup.Controls.Add(Me.btnEnterNewGroup)
-        Me.tpNewGroup.Controls.Add(Me.TextBox1)
+        Me.tpNewGroup.Controls.Add(Me.txtNewGroupName)
         Me.tpNewGroup.Controls.Add(Me.lblCreateGroup)
         Me.tpNewGroup.Location = New System.Drawing.Point(4, 25)
         Me.tpNewGroup.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
@@ -1250,13 +1246,13 @@ Partial Class formTableViewer
         Me.btnEnterNewGroup.Text = "Enter"
         Me.btnEnterNewGroup.UseVisualStyleBackColor = True
         '
-        'TextBox1
+        'txtNewGroupName
         '
-        Me.TextBox1.Location = New System.Drawing.Point(236, 141)
-        Me.TextBox1.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
-        Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.Size = New System.Drawing.Size(196, 20)
-        Me.TextBox1.TabIndex = 1
+        Me.txtNewGroupName.Location = New System.Drawing.Point(315, 174)
+        Me.txtNewGroupName.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
+        Me.txtNewGroupName.Name = "txtNewGroupName"
+        Me.txtNewGroupName.Size = New System.Drawing.Size(260, 22)
+        Me.txtNewGroupName.TabIndex = 1
         '
         'lblCreateGroup
         '
@@ -1271,7 +1267,7 @@ Partial Class formTableViewer
         '
         'tpRegister
         '
-        Me.tpRegister.Controls.Add(Me.Label1)
+        Me.tpRegister.Controls.Add(Me.lblCreateAccountTitle)
         Me.tpRegister.Controls.Add(Me.lblConfirmPassword)
         Me.tpRegister.Controls.Add(Me.lblRegisterPassword)
         Me.tpRegister.Controls.Add(Me.lblRegisterEmail)
@@ -1288,16 +1284,15 @@ Partial Class formTableViewer
         Me.tpRegister.Text = "Register"
         Me.tpRegister.UseVisualStyleBackColor = True
         '
-        'Label1
+        'lblCreateAccountTitle
         '
-        Me.Label1.AutoSize = True
-        Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.0!)
-        Me.Label1.Location = New System.Drawing.Point(188, 30)
-        Me.Label1.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(193, 24)
-        Me.Label1.TabIndex = 8
-        Me.Label1.Text = "Create a new account"
+        Me.lblCreateAccountTitle.AutoSize = True
+        Me.lblCreateAccountTitle.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.0!)
+        Me.lblCreateAccountTitle.Location = New System.Drawing.Point(251, 37)
+        Me.lblCreateAccountTitle.Name = "lblCreateAccountTitle"
+        Me.lblCreateAccountTitle.Size = New System.Drawing.Size(244, 29)
+        Me.lblCreateAccountTitle.TabIndex = 8
+        Me.lblCreateAccountTitle.Text = "Create a new account"
         '
         'lblConfirmPassword
         '
@@ -1376,6 +1371,84 @@ Partial Class formTableViewer
         Me.btnRegisterCancel.Text = "Cancel"
         Me.btnRegisterCancel.UseVisualStyleBackColor = True
         '
+        'tpUpdateInsurance
+        '
+        Me.tpUpdateInsurance.Controls.Add(Me.lblUpdateInsuranceTitle)
+        Me.tpUpdateInsurance.Controls.Add(Me.btnUpdateInsuranceEnter)
+        Me.tpUpdateInsurance.Controls.Add(Me.btnUpdateInsuranceCancel)
+        Me.tpUpdateInsurance.Controls.Add(Me.DateTimePicker1)
+        Me.tpUpdateInsurance.Controls.Add(Me.TextBox1)
+        Me.tpUpdateInsurance.Controls.Add(Me.lblUpdateExpiration)
+        Me.tpUpdateInsurance.Controls.Add(Me.lblUpdateName)
+        Me.tpUpdateInsurance.Location = New System.Drawing.Point(4, 28)
+        Me.tpUpdateInsurance.Name = "tpUpdateInsurance"
+        Me.tpUpdateInsurance.Size = New System.Drawing.Size(789, 414)
+        Me.tpUpdateInsurance.TabIndex = 12
+        Me.tpUpdateInsurance.Text = "Update insurance"
+        Me.tpUpdateInsurance.UseVisualStyleBackColor = True
+        '
+        'lblUpdateName
+        '
+        Me.lblUpdateName.AutoSize = True
+        Me.lblUpdateName.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.0!)
+        Me.lblUpdateName.Location = New System.Drawing.Point(171, 183)
+        Me.lblUpdateName.Name = "lblUpdateName"
+        Me.lblUpdateName.Size = New System.Drawing.Size(172, 24)
+        Me.lblUpdateName.TabIndex = 0
+        Me.lblUpdateName.Text = "Insurance provider:"
+        '
+        'lblUpdateExpiration
+        '
+        Me.lblUpdateExpiration.AutoSize = True
+        Me.lblUpdateExpiration.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.0!)
+        Me.lblUpdateExpiration.Location = New System.Drawing.Point(171, 245)
+        Me.lblUpdateExpiration.Name = "lblUpdateExpiration"
+        Me.lblUpdateExpiration.Size = New System.Drawing.Size(140, 24)
+        Me.lblUpdateExpiration.TabIndex = 1
+        Me.lblUpdateExpiration.Text = "Expiration date:"
+        '
+        'TextBox1
+        '
+        Me.TextBox1.Location = New System.Drawing.Point(349, 185)
+        Me.TextBox1.Name = "TextBox1"
+        Me.TextBox1.Size = New System.Drawing.Size(240, 22)
+        Me.TextBox1.TabIndex = 2
+        '
+        'DateTimePicker1
+        '
+        Me.DateTimePicker1.Location = New System.Drawing.Point(349, 247)
+        Me.DateTimePicker1.Name = "DateTimePicker1"
+        Me.DateTimePicker1.Size = New System.Drawing.Size(240, 22)
+        Me.DateTimePicker1.TabIndex = 3
+        '
+        'btnUpdateInsuranceCancel
+        '
+        Me.btnUpdateInsuranceCancel.Location = New System.Drawing.Point(175, 330)
+        Me.btnUpdateInsuranceCancel.Name = "btnUpdateInsuranceCancel"
+        Me.btnUpdateInsuranceCancel.Size = New System.Drawing.Size(75, 56)
+        Me.btnUpdateInsuranceCancel.TabIndex = 4
+        Me.btnUpdateInsuranceCancel.Text = "Cancel"
+        Me.btnUpdateInsuranceCancel.UseVisualStyleBackColor = True
+        '
+        'btnUpdateInsuranceEnter
+        '
+        Me.btnUpdateInsuranceEnter.Location = New System.Drawing.Point(514, 330)
+        Me.btnUpdateInsuranceEnter.Name = "btnUpdateInsuranceEnter"
+        Me.btnUpdateInsuranceEnter.Size = New System.Drawing.Size(75, 56)
+        Me.btnUpdateInsuranceEnter.TabIndex = 5
+        Me.btnUpdateInsuranceEnter.Text = "Enter"
+        Me.btnUpdateInsuranceEnter.UseVisualStyleBackColor = True
+        '
+        'lblUpdateInsuranceTitle
+        '
+        Me.lblUpdateInsuranceTitle.AutoSize = True
+        Me.lblUpdateInsuranceTitle.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.0!)
+        Me.lblUpdateInsuranceTitle.Location = New System.Drawing.Point(279, 55)
+        Me.lblUpdateInsuranceTitle.Name = "lblUpdateInsuranceTitle"
+        Me.lblUpdateInsuranceTitle.Size = New System.Drawing.Size(201, 29)
+        Me.lblUpdateInsuranceTitle.TabIndex = 6
+        Me.lblUpdateInsuranceTitle.Text = "Update insurance"
+        '
         'formTableViewer
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1417,6 +1490,8 @@ Partial Class formTableViewer
         Me.tpNewGroup.PerformLayout()
         Me.tpRegister.ResumeLayout(False)
         Me.tpRegister.PerformLayout()
+        Me.tpUpdateInsurance.ResumeLayout(False)
+        Me.tpUpdateInsurance.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -1506,14 +1581,6 @@ Partial Class formTableViewer
     Friend WithEvents cbSortRides As ComboBox
     Friend WithEvents btnNewGroup As Button
     Friend WithEvents gbGroups As GroupBox
-    Friend WithEvents description As DataGridViewTextBoxColumn
-    Friend WithEvents isCritical As DataGridViewCheckBoxColumn
-    Friend WithEvents isResolved As DataGridViewCheckBoxColumn
-    Friend WithEvents trip As DataGridViewTextBoxColumn
-    Friend WithEvents time As DataGridViewTextBoxColumn
-    Friend WithEvents userHistoryRide As DataGridViewTextBoxColumn
-    Friend WithEvents userRidePeriod As DataGridViewTextBoxColumn
-    Friend WithEvents userRideDistance As DataGridViewTextBoxColumn
     Friend WithEvents registrationPlate As DataGridViewTextBoxColumn
     Friend WithEvents carModel As DataGridViewTextBoxColumn
     Friend WithEvents maintenence As DataGridViewCheckBoxColumn
@@ -1521,7 +1588,7 @@ Partial Class formTableViewer
     Friend WithEvents DeleteButton As DataGridViewButtonColumn
     Friend WithEvents tpNewGroup As TabPage
     Friend WithEvents btnEnterNewGroup As Button
-    Friend WithEvents TextBox1 As TextBox
+    Friend WithEvents txtNewGroupName As TextBox
     Friend WithEvents lblCreateGroup As Label
     Friend WithEvents btnCancelNewGroup As Button
     Friend WithEvents lblGroupName As Label
@@ -1534,5 +1601,19 @@ Partial Class formTableViewer
     Friend WithEvents tbRegisterPasswordConfirm As TextBox
     Friend WithEvents tbRegisterPassword As TextBox
     Friend WithEvents tbRegisterEmail As TextBox
-    Friend WithEvents Label1 As Label
+    Friend WithEvents lblCreateAccountTitle As Label
+    Friend WithEvents dtpStatsTimeEnd As DateTimePicker
+    Friend WithEvents btnGetDistance As Button
+    Friend WithEvents dtpStatsTimeStart As DateTimePicker
+    Friend WithEvents btnDetailsUpdateInsurance As Button
+    Friend WithEvents lblInsuranceNameData As Label
+    Friend WithEvents lblInsuranceName As Label
+    Friend WithEvents tpUpdateInsurance As TabPage
+    Friend WithEvents lblUpdateName As Label
+    Friend WithEvents DateTimePicker1 As DateTimePicker
+    Friend WithEvents TextBox1 As TextBox
+    Friend WithEvents lblUpdateExpiration As Label
+    Friend WithEvents lblUpdateInsuranceTitle As Label
+    Friend WithEvents btnUpdateInsuranceEnter As Button
+    Friend WithEvents btnUpdateInsuranceCancel As Button
 End Class
