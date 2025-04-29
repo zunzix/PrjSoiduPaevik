@@ -52,12 +52,16 @@ Public Class CTableReader
         ' Write the Json Input to Request body
 
         Request.Method = "POST"
-        Request.ContentType = "application/json"
+        Request.ContentType = "application/json; charset=utf-8"
 
         ' Add Jwt token
         Request.Headers.Add("Authorization", "Bearer " & JwtToken)
 
-        Request.GetRequestStream.Write(System.Text.Encoding.UTF8.GetBytes(Input), 0, Input.Length)
+        Dim utf8Bytes As Byte() = System.Text.Encoding.UTF8.GetBytes(Input)
+        Request.ContentLength = utf8Bytes.Length
+        Using requestStream = Request.GetRequestStream()
+            requestStream.Write(utf8Bytes, 0, utf8Bytes.Length)
+        End Using
 
         Try
             ' Get response
