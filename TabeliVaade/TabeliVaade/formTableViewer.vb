@@ -341,48 +341,31 @@ Public Class formTableViewer
 
         dgvCarsList.DataSource = TableReader.GetSpecificTables("Car", SelectedID)
 
-        ' TODO: Add cars list to DGV from database
-
         Dim data As New DataTable()
         Dim message As String = "Expiring insurances:" & Environment.NewLine
+        Dim messageLen As Integer = message.Length
 
-        ' == DELETE LATER AND UNCOMMENT GetSpecificTables()==
-        data.Columns.Add("CarInsuranceID", GetType(String))
-        data.Columns.Add("CarInsuranceCarID", GetType(String))
-        data.Columns.Add("CarInsuranceName", GetType(String))
-        data.Columns.Add("CarInsuranceEndDate", GetType(DateTime))
-
-        data.Rows.Add("abcd", 1, "Swed", DateAdd(DateInterval.Day, 7, DateAndTime.Today))
-        data.Rows.Add("efgh", 2, "If", DateAdd(DateInterval.Day, 14, DateAndTime.Today))
-        data.Rows.Add("ijkl", 3, "SEB", DateAdd(DateInterval.Day, 31, DateAndTime.Today))
-        ' == DELETE LATER AND UNCOMMENT GetSpecificTables()==
-
-        ' Go through
+        ' Go through the rows in the DGV
         For Each row In dgvCarsList.Rows
             If Not row.IsNewRow Then
-                ' data = GetSpecificTables("CarInsurance", row.Cells("ID").Value.ToString())
+                data = TableReader.GetSpecificTables("CarInsurance", row.Cells("CarID").Value.ToString())
 
                 If data.Rows.Count > 0 Then
-                    ' Dim endDate As DateTime = data.Rows(0)("CarInsuranceEndDate")
-                    ' == DELETE LATER AND UNCOMMENT ABOVE==
-                    Dim endDate As DateTime = data.Rows(row.Index)("CarInsuranceEndDate")
-                    ' == DELETE LATER AND UNCOMMENT ABOVE==
+                    Dim endDate As DateTime = data.Rows(0)("CarInsuranceEndDate")
 
                     ' Compare endate to 2 weeks from today
                     If endDate <= DateAdd(DateInterval.Day, 14, DateAndTime.Today) Then
-                        ' Add 
-
-                        ' message = message & row.Cells("CarRegistrationPlate") & " - " & row.Cells("CarName") & Environment.Newline
-                        ' == DELETE LATER AND UNCOMMENT ABOVE ==
-                        message = message & data.Rows(row.Index)("CarInsuranceCarID").ToString() & Environment.NewLine
-                        ' == DELETE LATER AND UNCOMMENT ABOVE ==
+                        ' Add Car to message
+                        message = message & row.Cells("CarRegistrationPlate").Value.ToString() & " - " & row.Cells("CarName").Value.ToString() & Environment.NewLine
                     End If
                 End If
             End If
         Next
 
         ' Inform the admin of the expirations
-        MessageBox.Show(message)
+        If message.Length > messageLen Then
+            MessageBox.Show(message)
+        End If
     End Sub
 
     ' Description:  Loads the group list into the DataGridView
