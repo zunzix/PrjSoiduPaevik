@@ -19,7 +19,6 @@ Public Class CTableReader
     Private Const BaseUrl As String = "https://localhost:7231/"
 
     Public Function AddTable() Implements ITableReader.AddTable
-        Throw New NotImplementedException()
     End Function
 
     Public Function RemoveTable() Implements ITableReader.RemoveTable
