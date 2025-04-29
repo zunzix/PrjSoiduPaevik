@@ -1,7 +1,10 @@
-﻿Public Class CarInsurance
-    Private CarID As String
-    Private Name As String
-    Private EndDate As DateTime
+﻿Imports Newtonsoft.Json
+
+<JsonObject(MemberSerialization.OptIn)>
+Public Class CarInsurance
+    <JsonProperty> Private CarID As String
+    <JsonProperty> Private Name As String
+    <JsonProperty> Private EndDate As DateTime
 
     ' Constructor 
     Public Sub New(ByVal carId As String, ByVal name As String, ByVal endDate As DateTime)

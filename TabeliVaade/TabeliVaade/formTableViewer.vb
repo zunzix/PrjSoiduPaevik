@@ -13,7 +13,7 @@ Public Class formTableViewer
     Private TableReader As New CTableReader.CTableReader()
 
     ' CHANGE THESE TO YOUR LOG IN INFO SO THAT YOU CAN LOG IN FASTER
-    Const QUICK_LOGIN_USER = "test@test.com"
+    Const QUICK_LOGIN_USER = "test@gmail.com"
     Const QUICK_LOGIN_PASS = "Test123!"
 
     Private Sub formTableViewer_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -234,7 +234,6 @@ Public Class formTableViewer
                     txtLoginPassword.Text = QUICK_LOGIN_PASS
                 End If
 
-
                 If (TableReader.LoginRegister(txtLoginEmail.Text, txtLoginPassword.Text, "Login")) Then
                     Console.WriteLine("Login successful")
                     ' TableReader.GetSpecificTables("Car", )
@@ -243,6 +242,7 @@ Public Class formTableViewer
                     LoadToGroupTab()
                 Else
                     Console.WriteLine("Login failed")
+                    MessageBox.Show("Login Failed.")
                     tab = tpLogin
                 End If
             Case "btnLoginRegister"
@@ -306,7 +306,8 @@ Public Class formTableViewer
 
             ' "Enter" buttons for adding
             Case "btnAddCarEnter"
-                ' Set tab to Cars List
+
+
                 tab = tpCarsList
                 ' TODO: Add car to the database
             Case "btnAddProblemEnter"
@@ -337,10 +338,14 @@ Public Class formTableViewer
             Case "btnEnterNewGroup"
                 ' Set tab to Groups
                 tab = tpGroups
-                LoadToGroupTab()
+
                 ' TODO: Add group to database
                 Dim newGroup As New CEntities.Group(txtNewGroupName.Text)
+
                 TableReader.AddTable("Group", newGroup)
+
+                LoadToGroupTab()
+
             Case "btnUpdateInsuranceEnter"
                 tab = tpCarsList
                 ' TODO: Actually update the insurance
@@ -385,11 +390,16 @@ Public Class formTableViewer
             Return
         End If
 
-        ' Change tab to Cars list
-        tcTabs.SelectedTab = tpCarsList
-
         ' Get the ID of selected cell
         Dim SelectedID As String = dgvGroupsList.Rows(e.RowIndex).Cells("ID").Value.ToString()
+
+        ' Check if the clicked cell isn't empty
+        If String.IsNullOrEmpty(SelectedID) Then
+            Return
+        End If
+
+        ' Change tab to Cars list
+        tcTabs.SelectedTab = tpCarsList
 
         dgvCarsList.DataSource = TableReader.GetSpecificTables("Car", SelectedID)
 

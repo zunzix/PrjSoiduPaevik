@@ -1,12 +1,15 @@
-﻿Public Class GroupMember
+﻿Imports Newtonsoft.Json
+
+<JsonObject(MemberSerialization.OptIn)>
+Public Class GroupMember
     ' grupp kuhu lisad
-    Private GroupID As String
+    <JsonProperty> Private GroupID As String
 
     ' email,´kasutajast, keda lisad
-    Private Email As String
+    <JsonProperty> Private Email As String
 
     ' kas kasutaja on admin
-    Private IsAdmin As Boolean
+    <JsonProperty> Private IsAdmin As Boolean
 
     ' Constructor
     Public Sub New(ByVal groupId As String, ByVal email As String, ByVal isAdmin As Boolean)

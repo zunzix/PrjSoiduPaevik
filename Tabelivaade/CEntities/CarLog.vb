@@ -1,11 +1,14 @@
-﻿Public Class CarLog
-    Private CarID As String
-    Private StartDate As DateTime
-    Private EndDate As DateTime
-    Private StartPoint As String
-    Private EndPoint As String
-    Private Distance As Double
-    Private Comment As String
+﻿Imports Newtonsoft.Json
+
+<JsonObject(MemberSerialization.OptIn)>
+Public Class CarLog
+    <JsonProperty> Private CarID As String
+    <JsonProperty> Private StartDate As DateTime
+    <JsonProperty> Private EndDate As DateTime
+    <JsonProperty> Private StartPoint As String
+    <JsonProperty> Private EndPoint As String
+    <JsonProperty> Private Distance As Double
+    <JsonProperty> Private Comment As String
 
 
     ' Constructor

@@ -1,8 +1,11 @@
-﻿Public Class CarIssue
-    Private CarID As String
-    Private Issue As String
-    Private IsCritical As Boolean
-    Private IsResolevd As Boolean
+﻿Imports Newtonsoft.Json
+
+<JsonObject(MemberSerialization.OptIn)>
+Public Class CarIssue
+    <JsonProperty> Private CarID As String
+    <JsonProperty> Private Issue As String
+    <JsonProperty> Private IsCritical As Boolean
+    <JsonProperty> Private IsResolevd As Boolean
 
     ' Constructor
     Public Sub New(ByVal carId As String, ByVal issue As String, ByVal isCritical As Boolean, ByVal isResolved As Boolean)

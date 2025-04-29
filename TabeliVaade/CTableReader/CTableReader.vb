@@ -19,7 +19,7 @@ Public Class CTableReader
     ' Base URL for the API 
     Private Const BaseUrl As String = "https://localhost:7231/"
 
-    Public Function AddTable(TheTableToAddTo As String, Table As Object) _
+    Public Function AddTable(TheTableToAddTo As String, Table As Object) As Boolean _
         Implements ITableReader.AddTable
 
         Dim Request As HttpWebRequest
@@ -47,16 +47,17 @@ Public Class CTableReader
         End Select
 
         Input = JsonConvert.SerializeObject(Table)
+        Console.WriteLine("DEBUG: Input: " & Input)
 
         ' Write the Json Input to Request body
 
         Request.Method = "POST"
         Request.ContentType = "application/json"
 
-        Request.GetRequestStream.Write(System.Text.Encoding.UTF8.GetBytes(Input), 0, Input.Length)
-
         ' Add Jwt token
         Request.Headers.Add("Authorization", "Bearer " & JwtToken)
+
+        Request.GetRequestStream.Write(System.Text.Encoding.UTF8.GetBytes(Input), 0, Input.Length)
 
         Try
             ' Get response
@@ -72,11 +73,12 @@ Public Class CTableReader
                 If RefreshJwtToken() Then
 
                     Return AddTable(TheTableToAddTo, Table)
+                    Console.WriteLine("DEBUG: refreshing token and retrying")
 
                 End If
             End If
             Console.WriteLine("Error: " & ex.Message)
-            Return Nothing
+            Return False
 
         End Try
 
