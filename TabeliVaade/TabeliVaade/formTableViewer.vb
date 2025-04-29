@@ -335,7 +335,7 @@ Public Class formTableViewer
 
         ' Change tab to Cars list
         tcTabs.SelectedTab = tpCarsList
-      
+
         ' Get the ID of selected cell
         Dim SelectedID As String = dgvGroupsList.Rows(e.RowIndex).Cells("ID").Value.ToString()
 
