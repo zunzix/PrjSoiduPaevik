@@ -49,6 +49,10 @@ Public Class formTableViewer
         pnlLogs.Width = dgvCarsList.Width - 4
 
 
+        dgvCarsList.Rows.Add()
+        dgvCarsList.Rows.Add()
+        dgvCarsList.Rows.Add()
+
         ' Change the select color from an eye piercing blue to a more subtle gray
         dgvCarsList.DefaultCellStyle.SelectionBackColor = Color.LightGray
         dgvProblemsList.DefaultCellStyle.SelectionBackColor = Color.LightGray
@@ -157,7 +161,7 @@ Public Class formTableViewer
         ' TODO: Make it possible to search through the database for insurance
 
         ' Check if the insurance item exists
-        'lblInsuranceData.Text = "Expired!"
+        lblInsuranceData.Text = DateAdd(DateInterval.Day, 10, Date.Today).ToString()
 
         ' Update the expanded row to be the current row
         expandedRowIndex = e.RowIndex
@@ -354,6 +358,46 @@ Public Class formTableViewer
             Return
         End If
 
+        ' Change tab to Cars list
         tcTabs.SelectedTab = tpCarsList
+
+        ' Get the ID of selected cell
+        Dim SelectedID As String = dgvGroupsList.Rows(e.RowIndex).Cells("ID").Value.ToString()
+
+        dgvCarsList.DataSource = TableReader.GetSpecificTables("Car", SelectedID)
+
+        Dim data As New DataTable()
+        Dim message As String = "Expiring insurances:" & Environment.NewLine
+        Dim messageLen As Integer = message.Length
+
+        ' Go through the rows in the DGV
+        For Each row In dgvCarsList.Rows
+            If Not row.IsNewRow Then
+                data = TableReader.GetSpecificTables("CarInsurance", row.Cells("CarID").Value.ToString())
+
+                If data.Rows.Count > 0 Then
+                    Dim endDate As DateTime = data.Rows(0)("CarInsuranceEndDate")
+
+                    ' Compare endate to 2 weeks from today
+                    If endDate <= DateAdd(DateInterval.Day, 14, DateAndTime.Today) Then
+                        ' Add Car to message
+                        message = message & row.Cells("CarRegistrationPlate").Value.ToString() & " - " & row.Cells("CarName").Value.ToString() & Environment.NewLine
+                    End If
+                End If
+            End If
+        Next
+
+        ' Inform the admin of the expirations
+        If message.Length > messageLen Then
+            MessageBox.Show(message)
+        End If
+    End Sub
+
+    ' Description:  Loads the group list into the DataGridView
+    ' Used when: 'tab = tpGroups' is called
+    Private Sub LoadToGroupTab()
+        dgvGroupsList.DataSource = TableReader.GetGroupTable()
+        dgvGroupsList.Columns(0).Visible = False
+        dgvGroupsList.Columns(1).AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
     End Sub
 End Class
