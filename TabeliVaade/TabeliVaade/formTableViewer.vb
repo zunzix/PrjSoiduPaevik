@@ -26,6 +26,8 @@ Public Class formTableViewer
         ' TODO: Bringing in lists and view them on DataGridView
 
         dgvCarsList.Rows.Add()
+        dgvCarsList.Rows.Add()
+        dgvCarsList.Rows.Add()
 
         ' Change the select color from an eye piercing blue to a more subtle gray
         dgvCarsList.DefaultCellStyle.SelectionBackColor = Color.LightGray
@@ -134,7 +136,7 @@ Public Class formTableViewer
         ' TODO: Make it possible to search through the database for insurance
 
         ' Check if the insurance item exists
-        'lblInsuranceData.Text = "Expired!"
+        lblInsuranceData.Text = DateAdd(DateInterval.Day, 10, Date.Today).ToString()
 
         ' Update the expanded row to be the current row
         expandedRowIndex = e.RowIndex
@@ -331,12 +333,56 @@ Public Class formTableViewer
             Return
         End If
 
+        ' Change tab to Cars list
         tcTabs.SelectedTab = tpCarsList
-
+      
         ' Get the ID of selected cell
         Dim SelectedID As String = dgvGroupsList.Rows(e.RowIndex).Cells("ID").Value.ToString()
 
         dgvCarsList.DataSource = TableReader.GetSpecificTables("Car", SelectedID)
+
+        ' TODO: Add cars list to DGV from database
+
+        Dim data As New DataTable()
+        Dim message As String = "Expiring insurances:" & Environment.NewLine
+
+        ' == DELETE LATER AND UNCOMMENT GetSpecificTables()==
+        data.Columns.Add("CarInsuranceID", GetType(String))
+        data.Columns.Add("CarInsuranceCarID", GetType(String))
+        data.Columns.Add("CarInsuranceName", GetType(String))
+        data.Columns.Add("CarInsuranceEndDate", GetType(DateTime))
+
+        data.Rows.Add("abcd", 1, "Swed", DateAdd(DateInterval.Day, 7, DateAndTime.Today))
+        data.Rows.Add("efgh", 2, "If", DateAdd(DateInterval.Day, 14, DateAndTime.Today))
+        data.Rows.Add("ijkl", 3, "SEB", DateAdd(DateInterval.Day, 31, DateAndTime.Today))
+        ' == DELETE LATER AND UNCOMMENT GetSpecificTables()==
+
+        ' Go through
+        For Each row In dgvCarsList.Rows
+            If Not row.IsNewRow Then
+                ' data = GetSpecificTables("CarInsurance", row.Cells("ID").Value.ToString())
+
+                If data.Rows.Count > 0 Then
+                    ' Dim endDate As DateTime = data.Rows(0)("CarInsuranceEndDate")
+                    ' == DELETE LATER AND UNCOMMENT ABOVE==
+                    Dim endDate As DateTime = data.Rows(row.Index)("CarInsuranceEndDate")
+                    ' == DELETE LATER AND UNCOMMENT ABOVE==
+
+                    ' Compare endate to 2 weeks from today
+                    If endDate <= DateAdd(DateInterval.Day, 14, DateAndTime.Today) Then
+                        ' Add 
+
+                        ' message = message & row.Cells("CarRegistrationPlate") & " - " & row.Cells("CarName") & Environment.Newline
+                        ' == DELETE LATER AND UNCOMMENT ABOVE ==
+                        message = message & data.Rows(row.Index)("CarInsuranceCarID").ToString() & Environment.NewLine
+                        ' == DELETE LATER AND UNCOMMENT ABOVE ==
+                    End If
+                End If
+            End If
+        Next
+
+        ' Inform the admin of the expirations
+        MessageBox.Show(message)
     End Sub
 
     ' Description:  Loads the group list into the DataGridView
