@@ -70,11 +70,6 @@ Partial Class formTableViewer
         Me.btnCarBack = New System.Windows.Forms.Button()
         Me.btnAddCar = New System.Windows.Forms.Button()
         Me.dgvCarsList = New System.Windows.Forms.DataGridView()
-        Me.registrationPlate = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.carModel = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.maintenence = New System.Windows.Forms.DataGridViewCheckBoxColumn()
-        Me.isAvailable = New System.Windows.Forms.DataGridViewCheckBoxColumn()
-        Me.DeleteButton = New System.Windows.Forms.DataGridViewButtonColumn()
         Me.tpGroups = New System.Windows.Forms.TabPage()
         Me.btnNewGroup = New System.Windows.Forms.Button()
         Me.gbGroups = New System.Windows.Forms.GroupBox()
@@ -137,6 +132,11 @@ Partial Class formTableViewer
         Me.tbRegisterEmail = New System.Windows.Forms.TextBox()
         Me.btnRegisterEnter = New System.Windows.Forms.Button()
         Me.btnRegisterCancel = New System.Windows.Forms.Button()
+        Me.registrationPlate = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.carModel = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.maintenence = New System.Windows.Forms.DataGridViewCheckBoxColumn()
+        Me.isAvailable = New System.Windows.Forms.DataGridViewCheckBoxColumn()
+        Me.DeleteButton = New System.Windows.Forms.DataGridViewButtonColumn()
         Me.tpAddCar.SuspendLayout()
         Me.tpCarsList.SuspendLayout()
         Me.pnlLogs.SuspendLayout()
@@ -326,10 +326,10 @@ Partial Class formTableViewer
         'cbCarsSort
         '
         Me.cbCarsSort.FormattingEnabled = True
-        Me.cbCarsSort.Items.AddRange(New Object() {"A -> Z", "Z -> A", "Distance: Ascending", "Distance: Decending", "Available", "Unavailable", "Archived", "Unarchived"})
-        Me.cbCarsSort.Location = New System.Drawing.Point(643, 9)
+        Me.cbCarsSort.Items.AddRange(New Object() {"A -> Z", "Z -> A", "Distance: Ascending", "Distance: Descending", "Available", "Unavailable", "Archived", "Unarchived"})
+        Me.cbCarsSort.Location = New System.Drawing.Point(575, 9)
         Me.cbCarsSort.Name = "cbCarsSort"
-        Me.cbCarsSort.Size = New System.Drawing.Size(136, 28)
+        Me.cbCarsSort.Size = New System.Drawing.Size(204, 28)
         Me.cbCarsSort.TabIndex = 5
         Me.cbCarsSort.Text = "Sort"
         '
@@ -659,52 +659,6 @@ Partial Class formTableViewer
         Me.dgvCarsList.RowTemplate.Height = 24
         Me.dgvCarsList.Size = New System.Drawing.Size(874, 469)
         Me.dgvCarsList.TabIndex = 0
-        '
-        'registrationPlate
-        '
-        Me.registrationPlate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader
-        Me.registrationPlate.HeaderText = "Registration plate"
-        Me.registrationPlate.MinimumWidth = 6
-        Me.registrationPlate.Name = "registrationPlate"
-        Me.registrationPlate.ReadOnly = True
-        Me.registrationPlate.Width = 170
-        '
-        'carModel
-        '
-        Me.carModel.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.carModel.HeaderText = "Car Model"
-        Me.carModel.MinimumWidth = 6
-        Me.carModel.Name = "carModel"
-        Me.carModel.ReadOnly = True
-        '
-        'maintenence
-        '
-        Me.maintenence.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader
-        Me.maintenence.HeaderText = "Maintenence"
-        Me.maintenence.MinimumWidth = 6
-        Me.maintenence.Name = "maintenence"
-        Me.maintenence.ReadOnly = True
-        Me.maintenence.Width = 107
-        '
-        'isAvailable
-        '
-        Me.isAvailable.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader
-        Me.isAvailable.HeaderText = "Availability"
-        Me.isAvailable.MinimumWidth = 6
-        Me.isAvailable.Name = "isAvailable"
-        Me.isAvailable.ReadOnly = True
-        Me.isAvailable.Width = 87
-        '
-        'DeleteButton
-        '
-        Me.DeleteButton.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None
-        Me.DeleteButton.HeaderText = ""
-        Me.DeleteButton.MinimumWidth = 6
-        Me.DeleteButton.Name = "DeleteButton"
-        Me.DeleteButton.ReadOnly = True
-        Me.DeleteButton.Text = "Delete"
-        Me.DeleteButton.UseColumnTextForButtonValue = True
-        Me.DeleteButton.Width = 50
         '
         'tpGroups
         '
@@ -1333,6 +1287,54 @@ Partial Class formTableViewer
         Me.btnRegisterCancel.Text = "Cancel"
         Me.btnRegisterCancel.UseVisualStyleBackColor = True
         '
+        'registrationPlate
+        '
+        Me.registrationPlate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader
+        Me.registrationPlate.HeaderText = "Registration plate"
+        Me.registrationPlate.MinimumWidth = 6
+        Me.registrationPlate.Name = "registrationPlate"
+        Me.registrationPlate.ReadOnly = True
+        Me.registrationPlate.Width = 170
+        '
+        'carModel
+        '
+        Me.carModel.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.carModel.HeaderText = "Car Model"
+        Me.carModel.MinimumWidth = 6
+        Me.carModel.Name = "carModel"
+        Me.carModel.ReadOnly = True
+        '
+        'maintenence
+        '
+        Me.maintenence.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader
+        Me.maintenence.HeaderText = "Maintenence"
+        Me.maintenence.MinimumWidth = 6
+        Me.maintenence.Name = "maintenence"
+        Me.maintenence.ReadOnly = True
+        Me.maintenence.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic
+        Me.maintenence.Width = 137
+        '
+        'isAvailable
+        '
+        Me.isAvailable.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader
+        Me.isAvailable.HeaderText = "Availability"
+        Me.isAvailable.MinimumWidth = 6
+        Me.isAvailable.Name = "isAvailable"
+        Me.isAvailable.ReadOnly = True
+        Me.isAvailable.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic
+        Me.isAvailable.Width = 117
+        '
+        'DeleteButton
+        '
+        Me.DeleteButton.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None
+        Me.DeleteButton.HeaderText = ""
+        Me.DeleteButton.MinimumWidth = 6
+        Me.DeleteButton.Name = "DeleteButton"
+        Me.DeleteButton.ReadOnly = True
+        Me.DeleteButton.Text = "Delete"
+        Me.DeleteButton.UseColumnTextForButtonValue = True
+        Me.DeleteButton.Width = 50
+        '
         'formTableViewer
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 20.0!)
@@ -1470,11 +1472,6 @@ Partial Class formTableViewer
     Friend WithEvents userHistoryRide As DataGridViewTextBoxColumn
     Friend WithEvents userRidePeriod As DataGridViewTextBoxColumn
     Friend WithEvents userRideDistance As DataGridViewTextBoxColumn
-    Friend WithEvents registrationPlate As DataGridViewTextBoxColumn
-    Friend WithEvents carModel As DataGridViewTextBoxColumn
-    Friend WithEvents maintenence As DataGridViewCheckBoxColumn
-    Friend WithEvents isAvailable As DataGridViewCheckBoxColumn
-    Friend WithEvents DeleteButton As DataGridViewButtonColumn
     Friend WithEvents tpNewGroup As TabPage
     Friend WithEvents btnEnterNewGroup As Button
     Friend WithEvents TextBox1 As TextBox
@@ -1492,4 +1489,9 @@ Partial Class formTableViewer
     Friend WithEvents tbRegisterEmail As TextBox
     Friend WithEvents Label1 As Label
     Friend WithEvents cbCarsSort As ComboBox
+    Friend WithEvents registrationPlate As DataGridViewTextBoxColumn
+    Friend WithEvents carModel As DataGridViewTextBoxColumn
+    Friend WithEvents maintenence As DataGridViewCheckBoxColumn
+    Friend WithEvents isAvailable As DataGridViewCheckBoxColumn
+    Friend WithEvents DeleteButton As DataGridViewButtonColumn
 End Class

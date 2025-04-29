@@ -14,27 +14,6 @@ Public Class formTableViewer
 
         Dim data As New DataTable()
 
-        ' == DELETE LATER ==
-        'data.Columns.Add("CarID", GetType(Integer))
-        data.Columns.Add("GroupID", GetType(Integer))
-        data.Columns.Add("Name", GetType(String))
-        data.Columns.Add("Mileage", GetType(Double))
-        data.Columns.Add("FuelConsumption", GetType(Double))
-        data.Columns.Add("Available", GetType(Boolean))
-        data.Columns.Add("Archived", GetType(Boolean))
-        data.Columns.Add("Critical", GetType(Boolean))
-
-        data.Rows.Add(0, "Porsche 911", 10000, 5.5, True, False, False)
-        data.Rows.Add(0, "Lamborghini Aventador", 876, 9.8, True, True, False)
-        data.Rows.Add(0, "Volkswagen Polo", 2390, 10, True, False, True)
-        data.Rows.Add(0, "Mercedes-Benz EQB SUV", 11980, 12.4, False, True, True)
-        data.Rows.Add(0, "Audi A-6", 0, 5, False, False, True)
-        data.Rows.Add(0, "BMW M3", 0, 8.5, True, False, False)
-        ' == DELETE LATER ==
-
-        ' Add car data to list
-        dgvCarsList.DataSource = data
-
         ' Hides the tabs while the program is running so that the user can't change them manually
         tcTabs.ItemSize = New Size(0, 1)
         tcTabs.SizeMode = TabSizeMode.Fixed
@@ -398,40 +377,67 @@ Public Class formTableViewer
     End Sub
 
     Private Sub cbCarsSort_TabIndexChanged(sender As Object, e As EventArgs) _
-        Handles cbCarsSort.TabIndexChanged
+        Handles cbCarsSort.SelectionChangeCommitted
         If cbCarsSort.SelectedIndex = -1 Then
-            Return
+            MsgBox("Fail")
         End If
 
         ' Sort the DataGridView based on the selected sorting option index 4-7
-        Select Case cbCarsSort.SelectedIndex
+        Select Case cbCarsSort.SelectedItem.ToString()
             ''commented out becaus sorting is already implemented from datagridviewdda
-            'Case "Distance: Ascending"
-            '    dgvCarsList.Sort(dgvCarsList.Columns("CarMileage"), ListSortDirection.Ascending)
+            Case "Distance: Ascending"
+                dgvCarsList.Sort(dgvCarsList.Columns("CarMileage"), ListSortDirection.Ascending)
 
-            'Case "Distance: Descending"
-            '    dgvCarsList.Sort(dgvCarsList.Columns("CarMileage"), ListSortDirection.Descending)
+            Case "Distance: Descending"
+                dgvCarsList.Sort(dgvCarsList.Columns("CarMileage"), ListSortDirection.Descending)
 
-            'Case "A -> Z"
-            '    dgvCarsList.Sort(dgvCarsList.Columns("CarName"), ListSortDirection.Ascending)
+            Case "A -> Z"
+                dgvCarsList.Sort(dgvCarsList.Columns("CarName"), ListSortDirection.Ascending)
 
-            'Case "Z -> A"
-            '    dgvCarsList.Sort(dgvCarsList.Columns("CarName"), ListSortDirection.Descending)
-
-            Case 4
-                dgvCarsList.Sort(dgvCarsList.Columns("CarAvailable"), ListSortDirection.Ascending)
-
-            Case 5
-                dgvCarsList.Sort(dgvCarsList.Columns("CarAvailable"), ListSortDirection.Descending)
-
-            Case 6
-                dgvCarsList.Sort(dgvCarsList.Columns("CarArchived"), ListSortDirection.Ascending)
-
-            Case 7
-                dgvCarsList.Sort(dgvCarsList.Columns("CarArchived"), ListSortDirection.Descending)
+            Case "Z -> A"
+                dgvCarsList.Sort(dgvCarsList.Columns("CarName"), ListSortDirection.Descending)
+            Case "Available"
+                dgvCarsList.DataSource = FilterBooleanField("CarIsAvailable", dgvCarsList, True)
+            Case "Unavailable"
+                dgvCarsList.DataSource = FilterBooleanField("CarIsAvailable", dgvCarsList, False)
+            Case "Archived"
+                dgvCarsList.DataSource = FilterBooleanField("CarIsArchived", dgvCarsList, True)
+            Case "Unarchived"
+                dgvCarsList.DataSource = FilterBooleanField("CarIsArchived", dgvCarsList, False)
             Case Else
-                ' Refresh the DataGridView to reflect the changes
-                dgvCarsList.Refresh()
+                MsgBox("Sorting failed")
+                Return
         End Select
     End Sub
+    Private Function FilterBooleanField(ByVal fieldName As String, ByVal table As DataGridView, ByRef ascending As Boolean) As DataTable
+        If table.DataSource Is Nothing OrElse Not TypeOf table.DataSource Is DataTable Then
+            MessageBox.Show("Invalid DataSource.")
+            Return Nothing
+        End If
+
+        Dim originalTable As DataTable = CType(table.DataSource, DataTable)
+        Dim temp1 As DataTable = originalTable.Clone()
+        Dim temp2 As DataTable = originalTable.Clone()
+
+        ' Iterate through rows and separate them based on the field value
+        For Each row As DataGridViewRow In table.Rows
+            If Not row.IsNewRow Then
+                Dim CellValue As Object = row.Cells(fieldName).Value
+                If CellValue.Equals(True) Then
+                    temp1.ImportRow(CType(row.DataBoundItem, DataRowView).Row)
+                ElseIf CellValue.Equals(False) Then
+                    temp2.ImportRow(CType(row.DataBoundItem, DataRowView).Row)
+                End If
+            End If
+        Next
+
+        ' Combine temp1 and temp2 based on the ascending flag
+        If ascending Then
+            temp1.Merge(temp2)
+            Return temp1
+        Else
+            temp2.Merge(temp1)
+            Return temp2
+        End If
+    End Function
 End Class
