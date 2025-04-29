@@ -487,5 +487,4 @@ Public Class formTableViewer
             Return False
         End If
     End Function
-
 End Class
