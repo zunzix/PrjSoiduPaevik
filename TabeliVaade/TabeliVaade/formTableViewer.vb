@@ -24,6 +24,8 @@ Public Class formTableViewer
         ' TODO: Bringing in lists and view them on DataGridView
 
         dgvCarsList.Rows.Add()
+        dgvCarsList.Rows.Add()
+        dgvCarsList.Rows.Add()
 
         ' Change the select color from an eye piercing blue to a more subtle gray
         dgvCarsList.DefaultCellStyle.SelectionBackColor = Color.LightGray
@@ -327,13 +329,15 @@ Public Class formTableViewer
             Return
         End If
 
+        ' Change tab to Cars list
         tcTabs.SelectedTab = tpCarsList
 
-        ' TODO: Check whether any cars have soon to be expired insurance
-        Dim data As New DataTable()
-        Dim message As String = "Expiring insurances: "
+        ' TODO: Add cars list to DGV from database
 
-        ' == DELETE LATER ==
+        Dim data As New DataTable()
+        Dim message As String = "Expiring insurances:" & Environment.NewLine
+
+        ' == DELETE LATER AND UNCOMMENT GetSpecificTables()==
         data.Columns.Add("CarInsuranceID", GetType(String))
         data.Columns.Add("CarInsuranceCarID", GetType(String))
         data.Columns.Add("CarInsuranceName", GetType(String))
@@ -341,28 +345,34 @@ Public Class formTableViewer
 
         data.Rows.Add("abcd", 1, "Swed", DateAdd(DateInterval.Day, 7, DateAndTime.Today))
         data.Rows.Add("efgh", 2, "If", DateAdd(DateInterval.Day, 14, DateAndTime.Today))
-        data.Rows.Add("ijkl", 3, "SEB", DateAdd(DateInterval.Year, 1, DateAndTime.Today))
-        ' == DELETE LATER ==
+        data.Rows.Add("ijkl", 3, "SEB", DateAdd(DateInterval.Day, 31, DateAndTime.Today))
+        ' == DELETE LATER AND UNCOMMENT GetSpecificTables()==
 
+        ' Go through
         For Each row In dgvCarsList.Rows
             If Not row.IsNewRow Then
-
-                ' Get the insurance info
-
-                ' TODO: Uncomment correct function and delete temporary code when merged with main
                 ' data = GetSpecificTables("CarInsurance", row.Cells("ID").Value.ToString())
 
                 If data.Rows.Count > 0 Then
-                    Dim endDate As DateTime = data.Rows(0)("CarInsuranceEndDate")
-                    Dim comparisonDate As DateTime = DateTime.Now
+                    ' Dim endDate As DateTime = data.Rows(0)("CarInsuranceEndDate")
+                    ' == DELETE LATER AND UNCOMMENT ABOVE==
+                    Dim endDate As DateTime = data.Rows(row.Index)("CarInsuranceEndDate")
+                    ' == DELETE LATER AND UNCOMMENT ABOVE==
 
-                    If DateDiff(DateInterval.Day, endDate, DateAndTime.Today, FirstDayOfWeek.Monday) <= 14 Then
+                    ' Compare endate to 2 weeks from today
+                    If endDate <= DateAdd(DateInterval.Day, 14, DateAndTime.Today) Then
+                        ' Add 
 
+                        ' message = message & row.Cells("CarRegistrationPlate") & " - " & row.Cells("CarName") & Environment.Newline
+                        ' == DELETE LATER AND UNCOMMENT ABOVE ==
+                        message = message & data.Rows(row.Index)("CarInsuranceCarID").ToString() & Environment.NewLine
+                        ' == DELETE LATER AND UNCOMMENT ABOVE ==
                     End If
                 End If
             End If
         Next
 
-        MessageBox.Show($"Insurance of carID {data.Rows(0)("CarInsuranceCarID")} is expiring!")
+        ' Inform the admin of the expirations
+        MessageBox.Show(message)
     End Sub
 End Class
