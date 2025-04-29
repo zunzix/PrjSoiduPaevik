@@ -181,6 +181,98 @@ Public Class CTableReader
 
                 Return dt
 
+            Case "GroupMember"
+
+                dt.Columns.Add("GroupMemberID", GetType(String))
+                dt.Columns.Add("GroupMemberGroupID", GetType(String))
+                dt.Columns.Add("GroupMemberEmail", GetType(String))
+                dt.Columns.Add("GroupMemberIsAdmin", GetType(Boolean))
+                Try
+                    ' Populate DataTable
+                    For Each item In List
+                        dt.Rows.Add(item("id"),
+                                    item("groupId"),
+                                    item("email"),
+                                    item("isAdmin"))
+                    Next
+                Catch ex As WebException
+                    Console.WriteLine("Error: " & ex.Message)
+                    Return Nothing
+                End Try
+
+                Return dt
+            Case "CarIssue"
+                dt.Columns.Add("CarIssueID", GetType(String))
+                dt.Columns.Add("CarIssueCarID", GetType(String))
+                dt.Columns.Add("CarIssueDescription", GetType(String))
+                dt.Columns.Add("CarIssueIsCritical", GetType(Boolean))
+                dt.Columns.Add("CarIssueIsResolved", GetType(Boolean))
+                Try
+                    ' Populate DataTable
+                    For Each item In List
+                        dt.Rows.Add(item("id"),
+                                    item("carId"),
+                                    item("issue"),
+                                    item("isCritical"),
+                                    item("isResolved"))
+                    Next
+                Catch ex As WebException
+                    Console.WriteLine("Error: " & ex.Message)
+                    Return Nothing
+                End Try
+                Return dt
+
+            Case "CarLog"
+                dt.Columns.Add("CarLogID", GetType(String))
+                dt.Columns.Add("CarLogCarID", GetType(String))
+                dt.Columns.Add("CarLogUserEmail", GetType(String))
+                dt.Columns.Add("CarLogStartDate", GetType(DateTime))
+                dt.Columns.Add("CarLogEndDate", GetType(DateTime))
+                dt.Columns.Add("CarLogStartPoint", GetType(String))
+                dt.Columns.Add("CarLogEndPoint", GetType(String))
+                dt.Columns.Add("CarLogDistance", GetType(Double))
+                dt.Columns.Add("CarLogComment", GetType(String))
+
+                Try
+                    ' Populate DataTable
+                    For Each item In List
+                        dt.Rows.Add(item("id"),
+                                    item("carId"),
+                                    item("email"),
+                                    item("startDate"),
+                                    item("endDate"),
+                                    item("startPoint"),
+                                    item("endPoint"),
+                                    item("distance"),
+                                    item("comment"))
+                    Next
+                Catch ex As WebException
+                    Console.WriteLine("Error: " & ex.Message)
+                    Return Nothing
+                End Try
+
+                Return dt
+
+            Case "CarInsurance"
+                dt.Columns.Add("CarInsuranceID", GetType(String))
+                dt.Columns.Add("CarInsuranceCarID", GetType(String))
+                dt.Columns.Add("CarInsuranceName", GetType(String))
+                dt.Columns.Add("CarInsuranceEndDate", GetType(DateTime))
+                Try
+                    ' Populate DataTable
+                    For Each item In List
+                        dt.Rows.Add(item("id"),
+                                    item("carId"),
+                                    item("name"),
+                                    item("endDate"))
+                    Next
+                Catch ex As WebException
+                    Console.WriteLine("Error: " & ex.Message)
+                    Return Nothing
+                End Try
+
+                Return dt
+
             Case Else
                 Console.WriteLine("Error: No table")
                 Return Nothing
