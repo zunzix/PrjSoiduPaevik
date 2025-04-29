@@ -14,7 +14,7 @@ Public Class formTableViewer
     Private TableReader As New CTableReader.CTableReader()
 
     ' CHANGE THESE TO YOUR LOG IN INFO SO THAT YOU CAN LOG IN FASTER
-    Const QUICK_LOGIN_USER = "test@test.com"
+    Const QUICK_LOGIN_USER = "test@gmail.com"
     Const QUICK_LOGIN_PASS = "Test123!"
 
     Private Sub formTableViewer_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -66,8 +66,21 @@ Public Class formTableViewer
 
         ' TODO: Once removing functionality for the database has been made. Fill it out!
         ' Temporary solution
+
         If e.ColumnIndex = dgvCarsList.Columns("DeleteButton").Index Then
-            dgvCarsList.Rows.Remove(dgvCarsList.Rows(e.RowIndex))
+
+            Dim SelectedID As String = dgvCarsList.Rows(e.RowIndex).Cells("CarID").Value
+
+            ' Confirm with the user before deleting the car
+            Dim result As DialogResult = MessageBox.Show("Are you sure you want to delete this car?", "Confirm Deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Warning)
+
+            If result = DialogResult.Yes Then
+                If TableReader.RemoveTable("Car", SelectedID) Then
+                    dgvCarsList.Rows.Remove(dgvCarsList.Rows(e.RowIndex))
+                Else
+                    MessageBox.Show("Car not removed")
+                End If
+            End If
         End If
     End Sub
 
@@ -157,6 +170,7 @@ Public Class formTableViewer
     Private Sub ChangeTab(ByVal btn As Button)
         Dim tab As TabPage
 
+        EmptyCarTable()
         Select Case btn.Name
 
             Case "btnLoginLogin"
@@ -418,12 +432,6 @@ Public Class formTableViewer
 
         LoadToCarTable(SelectedID)
 
-        Dim carDeleteButton As New DataGridViewButtonColumn()
-        carDeleteButton.Name = "DeleteButton"
-        carDeleteButton.HeaderText = ""
-        carDeleteButton.UseColumnTextForButtonValue = True
-        dgvCarsList.Columns.Add(carDeleteButton)
-
         ' TODO: Check if user is an admin in this group
         If True Then
             ADMIN = True
@@ -482,9 +490,25 @@ Public Class formTableViewer
     End Sub
 
     Private Sub LoadToCarTable(SelectedID As String)
+        ' Car list
         dgvCarsList.DataSource = TableReader.GetSpecificTables("Car", SelectedID)
         dgvCarsList.Columns(0).Visible = False
         dgvCarsList.Columns(1).Visible = False
+
+        ' Delete button to car list
+
+        Dim carDeleteButton As New DataGridViewButtonColumn()
+        carDeleteButton.Name = "DeleteButton"
+        carDeleteButton.Text = "Delete"
+        carDeleteButton.HeaderText = ""
+        carDeleteButton.UseColumnTextForButtonValue = True
+        dgvCarsList.Columns.Add(carDeleteButton)
+    End Sub
+
+    Private Sub EmptyCarTable()
+        dgvCarsList.DataSource = Nothing
+        dgvCarsList.Columns.Clear()
+        dgvCarsList.Rows.Clear()
     End Sub
 
     Private Sub LoadToProblemTable(SelectedID As String)
@@ -578,4 +602,5 @@ Public Class formTableViewer
             Return False
         End If
     End Function
+
 End Class
