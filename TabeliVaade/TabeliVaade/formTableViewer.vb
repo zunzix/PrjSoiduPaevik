@@ -421,7 +421,7 @@ Public Class formTableViewer
 
         ' Check if passwords match
         If Password = ConfirmPassword Then
-            ' check is password is atleast 8 long, 1 upper and 1 special character
+            ' check is password is atleast 6 long, 1 upper and 1 special character and 1 number
         Else
             MessageBox.Show("Passwords do not match.")
             Return False
