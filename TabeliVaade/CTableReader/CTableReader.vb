@@ -165,14 +165,14 @@ Public Class CTableReader
                     ' Populate DataTable
                     For Each item In List
                         dt.Rows.Add(item("id"),
-                                    item("groupID"),
+                                    item("groupId"),
                                     item("name"),
                                     item("registrationPlate"),
                                     item("mileage"),
-                                    item("avgFuelConsumption"),
+                                    item("avgFuelCons"),
                                     item("isAvailable"),
                                     item("isArchived"),
-                                    item("isInCriticalState"))
+                                    item("isCritical"))
                     Next
                 Catch ex As WebException
                     Console.WriteLine("Error: " & ex.Message)

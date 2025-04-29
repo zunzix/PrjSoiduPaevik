@@ -336,7 +336,7 @@ Public Class formTableViewer
         ' Get the ID of selected cell
         Dim SelectedID As String = dgvGroupsList.Rows(e.RowIndex).Cells("ID").Value.ToString()
 
-        TableReader.GetSpecificTables("Car", selectedID)
+        dgvCarsList.DataSource = TableReader.GetSpecificTables("Car", SelectedID)
     End Sub
 
     ' Description:  Loads the group list into the DataGridView
