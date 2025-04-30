@@ -14,7 +14,7 @@ Public Class formTableViewer
     Private TableReader As New CTableReader.CTableReader()
 
     ' CHANGE THESE TO YOUR LOG IN INFO SO THAT YOU CAN LOG IN FASTER
-    Const QUICK_LOGIN_USER = "test@gmail.com"
+    Const QUICK_LOGIN_USER = "test@test.com"
     Const QUICK_LOGIN_PASS = "Test123!"
 
     Private Sub formTableViewer_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -379,13 +379,23 @@ Public Class formTableViewer
                 ' TODO: Actually update the insurance
                 Dim NewInsurance As New CEntities.CarInsurance(dgvCarsList.Rows(expandedRowIndex).Cells("CarID").Value, txtUpdateInsuranceName.Text, dtpInsuranceExpiration.Value)
 
-                If TableReader.UpdateTable("CarInsurance", TableReader.GetSpecificTables("CarIssues", dgvCarsList.Rows(expandedRowIndex).Cells("CarID").Value), NewInsurance) Then
-                    tab = tpLogin
+                Dim insuranceData As New DataTable()
+                insuranceData = TableReader.GetSpecificTables("CarInsurance", dgvCarsList.Rows(expandedRowIndex).Cells("CarID").Value)
+                If insuranceData Is Nothing OrElse insuranceData.Rows.Count = 0 Then
+                    If TableReader.AddTable("CarInsurance", NewInsurance) Then
+                        tab = tpCarsList
+                    Else
+                        tab = tpUpdateInsurance
+                    End If
                 Else
-                    tab = tpUpdateInsurance
+                    If TableReader.UpdateTable("CarInsurance", TableReader.GetSpecificTables("CarIssues", dgvCarsList.Rows(expandedRowIndex).Cells("CarID").Value), NewInsurance) Then
+                        tab = tpCarsList
+                    Else
+                        tab = tpUpdateInsurance
+                    End If
                 End If
 
-                LoadToInsuranceField(TableReader.GetSpecificTables("CarInsurance", dgvCarsList.Rows(expandedRowIndex).Cells("CarID").Value.ToString()))
+                LoadToInsuranceField(TableReader.GetSpecificTables("CarInsurance", dgvCarsList.Rows(expandedRowIndex).Cells("CarID").Value))
 
 
             Case "btnAddMemberEnter"
