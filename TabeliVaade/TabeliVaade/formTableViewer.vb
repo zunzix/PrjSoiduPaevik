@@ -37,6 +37,13 @@ Public Class formTableViewer
         dgvProblemsList.DefaultCellStyle.SelectionBackColor = Color.LightGray
         dgvLogsList.DefaultCellStyle.SelectionBackColor = Color.LightGray
 
+        ' settings to remove default empty row
+        dgvCarsList.AllowUserToAddRows = False
+        dgvProblemsList.AllowUserToAddRows = False
+        dgvLogsList.AllowUserToAddRows = False
+        dgvGroupsList.AllowUserToAddRows = False
+        dgvUserHistoryList.AllowUserToAddRows = False
+
     End Sub
 
     ' Description:  Clears the flieds when adding a new car
