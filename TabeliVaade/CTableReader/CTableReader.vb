@@ -437,14 +437,16 @@ Public Class CTableReader
 
         Input = JsonConvert.SerializeObject(Table)
 
-        ' Write the Json Input to Request body
-        Request.GetRequestStream.Write(System.Text.Encoding.UTF8.GetBytes(Input), 0, Input.Length)
+
 
         Request.Method = "PUT"
         Request.ContentType = "application/json"
 
         ' Add Jwt token
         Request.Headers.Add("Authorization", "Bearer " & JwtToken)
+
+        ' Write the Json Input to Request body
+        Request.GetRequestStream.Write(System.Text.Encoding.UTF8.GetBytes(Input), 0, Input.Length)
 
         Try
             ' Get response

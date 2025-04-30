@@ -395,7 +395,7 @@ Public Class formTableViewer
                     End If
                 End If
 
-                LoadToInsuranceField(TableReader.GetSpecificTables("CarInsurance", dgvCarsList.Rows(expandedRowIndex).Cells("CarID").Value))
+                LoadToInsuranceField(dgvCarsList.Rows(expandedRowIndex).Cells("CarID").Value)
 
 
             Case "btnAddMemberEnter"
