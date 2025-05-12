@@ -139,7 +139,7 @@ namespace WebApp.ApiControllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCarIssue(Guid id)
         {
-            var carIssue = await _uow.CarIssueRepository.FindAsync(id);
+            var carIssue = await _uow.CarIssueRepository.FindAsync(id, User.GetUserId());
             if (carIssue == null)
             {
                 return NotFound();

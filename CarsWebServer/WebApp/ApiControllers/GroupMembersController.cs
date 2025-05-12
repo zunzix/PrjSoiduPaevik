@@ -121,7 +121,7 @@ namespace WebApp.ApiControllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteGroupMember(Guid id)
         {
-            var groupMember = await _uow.GroupMemberRepository.FindAsync(id);
+            var groupMember = await _uow.GroupMemberRepository.FindAsync(id, User.GetUserId());
             if (groupMember == null)
             {
                 return NotFound();

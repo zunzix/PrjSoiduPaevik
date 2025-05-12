@@ -109,7 +109,7 @@ namespace WebApp.ApiControllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteGroup(Guid id)
         {
-            var entity = await _uow.GroupRepository.FindAsync(id);
+            var entity = await _uow.GroupRepository.FindAsync(id, User.GetUserId());
             if (entity == null)
             {
                 return NotFound();
