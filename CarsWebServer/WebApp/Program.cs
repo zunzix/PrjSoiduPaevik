@@ -129,6 +129,9 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+// Migrate db
+SetupAppData(app, app.Environment, app.Configuration);
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

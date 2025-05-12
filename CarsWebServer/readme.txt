@@ -33,7 +33,5 @@ dotnet aspnet-codegenerator controller -name CarIssuesController -m App.Domain.C
 dotnet aspnet-codegenerator controller -name CarInsurancesController -m App.Domain.CarInsurance -dc AppDbContext -outDir ApiControllers -api --useAsyncActions -f
 
 
-
-Postgre convert to UTC in create
-carLog.EndDate = DateTime.SpecifyKind(carLog.EndDate, DateTimeKind.Utc);
-carLog.StartDate = DateTime.SpecifyKind(carLog.StartDate, DateTimeKind.Utc);
+docker build -t webapp .
+docker run --name webapp_docker --rm -it -p 8888:8080 webapp
