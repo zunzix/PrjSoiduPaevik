@@ -44,6 +44,10 @@ Public Class formTableViewer
         dgvGroupsList.AllowUserToAddRows = False
         dgvUserHistoryList.AllowUserToAddRows = False
 
+        ' Force garbage collection
+        GC.Collect()
+        GC.WaitForPendingFinalizers()
+
     End Sub
 
     ' Description:  Clears the flieds when adding a new car
@@ -118,8 +122,8 @@ Public Class formTableViewer
         LoadToLogTable(dgvCarsList.Rows(e.RowIndex).Cells("CarID").Value)
 
         ' Assign detailed values to the data fields
-        lblFuelData.Text = dgvCarsList.Rows(e.RowIndex).Cells("CarAvgFuelConsumption").Value & " L/100km"
-        lblMilageData.Text = dgvCarsList.Rows(e.RowIndex).Cells("CarMileage").Value & " km"
+        lblFuelData.Text = dgvCarsList.Rows(e.RowIndex).Cells("Average Fuel Consumption").Value & " L/100km"
+        lblMilageData.Text = dgvCarsList.Rows(e.RowIndex).Cells("Mileage").Value & " km"
 
         ' Find whether the selected car has any ongoing insurances
         ' TODO: Make it possible to search through the database for insurance
@@ -132,8 +136,8 @@ Public Class formTableViewer
             lblInsuranceData.Text = ""
             lblInsuranceNameData.Text = ""
         Else
-            lblInsuranceData.Text = insuranceData.Rows(0)("CarInsuranceEndDate")
-            lblInsuranceNameData.Text = insuranceData.Rows(0)("CarInsuranceName")
+            lblInsuranceData.Text = insuranceData.Rows(0)("Insurance End Date")
+            lblInsuranceNameData.Text = insuranceData.Rows(0)("Insurance Name")
         End If
 
 
@@ -490,12 +494,12 @@ Public Class formTableViewer
                 data = TableReader.GetSpecificTables("CarInsurance", row.Cells("CarID").Value.ToString())
 
                 If data.Rows.Count > 0 Then
-                    Dim endDate As DateTime = data.Rows(0)("CarInsuranceEndDate")
+                    Dim endDate As DateTime = data.Rows(0)("Insurance End Date")
 
                     ' Compare endate to 2 weeks from today
                     If endDate <= DateAdd(DateInterval.Day, 14, DateAndTime.Today) Then
                         ' Add Car to message
-                        message = message & row.Cells("CarRegistrationPlate").Value.ToString() & " - " & row.Cells("CarName").Value.ToString() & Environment.NewLine
+                        message = message & row.Cells("Registration Plate").Value.ToString() & " - " & row.Cells("Car Model").Value.ToString() & Environment.NewLine
                     End If
                 End If
             End If
@@ -532,6 +536,7 @@ Public Class formTableViewer
 
     Private Sub LoadToCarTable(SelectedID As String)
         EmptyCarTable()
+        dgvCarsList.ClearSelection()
         ' Car list
         dgvCarsList.DataSource = TableReader.GetSpecificTables("Car", SelectedID)
         dgvCarsList.Columns(0).Visible = False
@@ -564,10 +569,10 @@ Public Class formTableViewer
         dgvLogsList.Columns("CarLogID").Visible = False
         dgvLogsList.Columns("CarLogCarID").Visible = False
         dgvLogsList.Columns("CarLogUserEmail").Visible = False
-        dgvLogsList.Columns("CarLogStartDate").Visible = False
-        dgvLogsList.Columns("CarLogEndDate").Visible = False
-        dgvLogsList.Columns("CarLogDistance").Visible = False
-        dgvLogsList.Columns("CarLogComment").Visible = False
+        dgvLogsList.Columns("Start Date").Visible = False
+        dgvLogsList.Columns("End Date").Visible = False
+        dgvLogsList.Columns("Distance").Visible = False
+        dgvLogsList.Columns("Comment").Visible = False
     End Sub
 
     'Private Sub LoadToInsuranceField(SelectedID As String)
@@ -591,8 +596,8 @@ Public Class formTableViewer
         Dim totalDistance As Double = 0
 
         For Each log In dgvLogsList.Rows
-            If CDate(log.Cells("CarLogStartDate").Value) >= CDate(dtpStatsTimeStart.Value) And CDate(log.Cells("CarLogEndDate").Value) <= CDate(dtpStatsTimeEnd.Value) Then
-                totalDistance = totalDistance + CType(log.Cells("CarLogDistance").Value, Integer)
+            If CDate(log.Cells("Start Date").Value) >= CDate(dtpStatsTimeStart.Value) And CDate(log.Cells("End Date").Value) <= CDate(dtpStatsTimeEnd.Value) Then
+                totalDistance = totalDistance + CType(log.Cells("Distance").Value, Integer)
             End If
         Next
 
@@ -604,13 +609,13 @@ Public Class formTableViewer
             Return
         End If
 
-        lblStartData.Text = dgvLogsList.Rows(e.RowIndex).Cells("CarLogStartDate").Value
+        lblStartData.Text = dgvLogsList.Rows(e.RowIndex).Cells("Start Date").Value
 
-        lblEndData.Text = dgvLogsList.Rows(e.RowIndex).Cells("CarLogEndDate").Value
+        lblEndData.Text = dgvLogsList.Rows(e.RowIndex).Cells("End Date").Value
 
-        lblDistanceData.Text = dgvLogsList.Rows(e.RowIndex).Cells("CarLogDistance").Value & " km"
+        lblDistanceData.Text = dgvLogsList.Rows(e.RowIndex).Cells("Distance").Value & " km"
 
-        lblCommentData.Text = dgvLogsList.Rows(e.RowIndex).Cells("CarLogComment").Value
+        lblCommentData.Text = dgvLogsList.Rows(e.RowIndex).Cells("Comment").Value
     End Sub
 
     ' Description:  Function for registering a new user and to check if all inputs are valid

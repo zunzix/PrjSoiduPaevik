@@ -275,13 +275,13 @@ Public Class CTableReader
 
                 dt.Columns.Add("CarID", GetType(String))
                 dt.Columns.Add("CarGroupID", GetType(String))
-                dt.Columns.Add("CarName", GetType(String))
-                dt.Columns.Add("CarRegistrationPlate", GetType(String))
-                dt.Columns.Add("CarMileage", GetType(Integer))
-                dt.Columns.Add("CarAvgFuelConsumption", GetType(Double))
-                dt.Columns.Add("CarIsAvailable", GetType(Boolean))
-                dt.Columns.Add("CarIsArchived", GetType(Boolean))
-                dt.Columns.Add("CarIsInCriticalState", GetType(Boolean))
+                dt.Columns.Add("Car Model", GetType(String))
+                dt.Columns.Add("Registration Plate", GetType(String))
+                dt.Columns.Add("Mileage", GetType(Integer))
+                dt.Columns.Add("Average Fuel Consumption", GetType(Double))
+                dt.Columns.Add("Available", GetType(Boolean))
+                dt.Columns.Add("Archived", GetType(Boolean))
+                dt.Columns.Add("Critical State", GetType(Boolean))
 
                 Try
                     ' Populate DataTable
@@ -326,9 +326,9 @@ Public Class CTableReader
             Case "CarIssue"
                 dt.Columns.Add("CarIssueID", GetType(String))
                 dt.Columns.Add("CarIssueCarID", GetType(String))
-                dt.Columns.Add("CarIssueDescription", GetType(String))
-                dt.Columns.Add("CarIssueIsCritical", GetType(Boolean))
-                dt.Columns.Add("CarIssueIsResolved", GetType(Boolean))
+                dt.Columns.Add("Description", GetType(String))
+                dt.Columns.Add("Critical", GetType(Boolean))
+                dt.Columns.Add("Resolved", GetType(Boolean))
                 Try
                     ' Populate DataTable
                     For Each item In List
@@ -348,12 +348,12 @@ Public Class CTableReader
                 dt.Columns.Add("CarLogID", GetType(String))
                 dt.Columns.Add("CarLogCarID", GetType(String))
                 dt.Columns.Add("CarLogUserEmail", GetType(String))
-                dt.Columns.Add("CarLogStartDate", GetType(DateTime))
-                dt.Columns.Add("CarLogEndDate", GetType(DateTime))
-                dt.Columns.Add("CarLogStartPoint", GetType(String))
-                dt.Columns.Add("CarLogEndPoint", GetType(String))
-                dt.Columns.Add("CarLogDistance", GetType(Double))
-                dt.Columns.Add("CarLogComment", GetType(String))
+                dt.Columns.Add("Start Date", GetType(DateTime))
+                dt.Columns.Add("End Date", GetType(DateTime))
+                dt.Columns.Add("Starting Point", GetType(String))
+                dt.Columns.Add("End Point", GetType(String))
+                dt.Columns.Add("Distance", GetType(Double))
+                dt.Columns.Add("Comment", GetType(String))
 
                 Try
                     ' Populate DataTable
@@ -378,8 +378,8 @@ Public Class CTableReader
             Case "CarInsurance"
                 dt.Columns.Add("CarInsuranceID", GetType(String))
                 dt.Columns.Add("CarInsuranceCarID", GetType(String))
-                dt.Columns.Add("CarInsuranceName", GetType(String))
-                dt.Columns.Add("CarInsuranceEndDate", GetType(DateTime))
+                dt.Columns.Add("Insurance Name", GetType(String))
+                dt.Columns.Add("Insurance End Date", GetType(DateTime))
                 Try
                     ' Populate DataTable
                     For Each item In List
