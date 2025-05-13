@@ -575,19 +575,6 @@ Public Class formTableViewer
         dgvLogsList.Columns("Comment").Visible = False
     End Sub
 
-    'Private Sub LoadToInsuranceField(SelectedID As String)
-    '    Dim insuranceData As New DataTable()
-    '    insuranceData = TableReader.GetSpecificTables("CarInsurance", SelectedID)
-    '    If insuranceData Is Nothing OrElse insuranceData.Rows.Count = 0 Then
-    '        ' Handle the case where insuranceData is Nothing or has no rows
-    '        lblInsuranceData.Text = ""
-    '        lblInsuranceNameData.Text = ""
-    '    Else
-    '        lblInsuranceData.Text = insuranceData.Rows(0)("CarInsuranceEndDate")
-    '        lblInsuranceNameData.Text = insuranceData.Rows(0)("CarInsuranceName")
-    '    End If
-    'End Sub
-
     Private Sub btnGetDistance_Click(sender As Object, e As EventArgs) Handles btnGetDistance.Click
         lblStartData.Text = dtpStatsTimeStart.Value
         lblEndData.Text = dtpStatsTimeEnd.Value
@@ -651,7 +638,7 @@ Public Class formTableViewer
     End Function
 
     Private Sub cbCarsSort_TabIndexChanged(sender As Object, e As EventArgs) _
-    Handles cbCarsSort.SelectionChangeCommitted
+        Handles cbCarsSort.SelectionChangeCommitted
         If cbCarsSort.SelectedIndex = -1 Then
             MsgBox("Fail")
         End If
