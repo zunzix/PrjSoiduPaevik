@@ -621,4 +621,13 @@ Public Class formTableViewer
         End If
     End Function
 
+    Private Sub cbRegisterShowPassword_CheckedChanged(sender As Object, e As EventArgs) Handles cbRegisterShowPassword.CheckedChanged
+        If cbRegisterShowPassword.Checked Then
+            tbRegisterPassword.UseSystemPasswordChar = False
+            tbRegisterPasswordConfirm.UseSystemPasswordChar = False
+        Else
+            tbRegisterPassword.UseSystemPasswordChar = True
+            tbRegisterPasswordConfirm.UseSystemPasswordChar = True
+        End If
+    End Sub
 End Class
