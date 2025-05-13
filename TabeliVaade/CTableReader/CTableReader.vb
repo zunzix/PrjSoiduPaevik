@@ -17,7 +17,7 @@ Public Class CTableReader
     Private RefreshToken As String
 
     ' Base URL for the API 
-    Private Const BaseUrl As String = "https://localhost:7231/"
+    Private Const BaseUrl As String = "https://mustik.ee:85/"
 
     Public Function AddTable(TheTableToAddTo As String, Table As Object) As Boolean _
         Implements ITableReader.AddTable
