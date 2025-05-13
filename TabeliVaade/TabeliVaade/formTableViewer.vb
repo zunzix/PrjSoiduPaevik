@@ -382,25 +382,34 @@ Public Class formTableViewer
                 Dim SelectedCarID As String = dgvCarsList.Rows(expandedRowIndex).Cells("CarID").Value
                 Dim insuranceData As New CEntities.CarInsurance(SelectedCarID, txtUpdateInsuranceName.Text, dtpInsuranceExpiration.Value)
 
+                ' To load back to carsList
+                Dim CarGroupID As String = dgvCarsList.Rows(expandedRowIndex).Cells("CarGroupID").Value
+
                 ' Check if insurance for the selected car exists
                 Dim insuranceCheck As DataTable = TableReader.GetSpecificTables("CarInsurance", SelectedCarID)
+
 
                 ' If it doesn't exist, add it
 
                 If insuranceCheck.Rows.Count = 0 Then
                     ' Add new insurance
-                    TableReader.AddTable("CarInsurance", insuranceData)
-                    LoadToCarTable(TableReader.GetSpecificTables("Car", ))
-                    Exit Select
+                    If TableReader.AddTable("CarInsurance", insuranceData) Then
+                        tab = tpCarsList
+                        LoadToCarTable(CarGroupID)
+                    Else
+                        tab = tpUpdateInsurance
+                    End If
+
                 Else
                     ' Update existing insurance
-                    TableReader.UpdateTable("CarInsurance", insuranceCheck.Rows(0)("CarInsuranceID"), insuranceData)
-                    LoadToCarTable(dgvCarsList.Rows(expandedRowIndex).Cells("CarGroupID").Value)
-                    Exit Select
+                    If TableReader.UpdateTable("CarInsurance", insuranceCheck.Rows(0)("CarInsuranceID"), insuranceData) Then
+                        tab = tpCarsList
+                        LoadToCarTable(CarGroupID)
+                    Else
+                        tab = tpUpdateInsurance
+                    End If
+
                 End If
-
-                tab = tpUpdateInsurance
-
 
 
             Case "btnAddMemberEnter"

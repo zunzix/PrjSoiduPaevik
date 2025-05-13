@@ -413,6 +413,7 @@ Public Class CTableReader
         Dim Response As HttpWebResponse
         Dim Reader As StreamReader
         Dim JsonResponse As String
+        Dim TableWithID As JObject
         Dim Input As String
 
         ' TODO: check if the request is correct
@@ -436,7 +437,9 @@ Public Class CTableReader
         End Select
 
         ' Add ID to body as "id": "the ID.value"
-        Input = JsonConvert.SerializeObject(Table)
+        TableWithID = JObject.FromObject(Table)
+        TableWithID("id") = ID
+        Input = JsonConvert.SerializeObject(TableWithID)
 
         Console.WriteLine("DEBUG: Input: " & Input)
 
