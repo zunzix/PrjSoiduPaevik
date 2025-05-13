@@ -377,16 +377,30 @@ Public Class formTableViewer
 
             Case "btnUpdateInsuranceEnter"
                 ' TODO: Actually update the insurance
-                Dim NewInsurance As New CEntities.CarInsurance(dgvCarsList.Rows(expandedRowIndex).Cells("CarID").Value, txtUpdateInsuranceName.Text, dtpInsuranceExpiration.Value)
-                Dim InsuranceId As String = TableReader.GetSpecificTables("CarInsurance", dgvCarsList.Rows(expandedRowIndex).Cells("CarID").Value).Rows(0)("CarInsuranceID").ToString()
 
-                If TableReader.UpdateTable("CarInsurance", dgvCarsList.Rows(expandedRowIndex).Cells("CarID").Value, NewInsurance, InsuranceId) Then
-                    tab = tpLogin
+                ' Get insurance data
+                Dim SelectedCarID As String = dgvCarsList.Rows(expandedRowIndex).Cells("CarID").Value
+                Dim insuranceData As New CEntities.CarInsurance(SelectedCarID, txtUpdateInsuranceName.Text, dtpInsuranceExpiration.Value)
+
+                ' Check if insurance for the selected car exists
+                Dim insuranceCheck As DataTable = TableReader.GetSpecificTables("CarInsurance", SelectedCarID)
+
+                ' If it doesn't exist, add it
+
+                If insuranceCheck.Rows.Count = 0 Then
+                    ' Add new insurance
+                    TableReader.AddTable("CarInsurance", insuranceData)
+                    LoadToCarTable(TableReader.GetSpecificTables("Car", ))
+                    Exit Select
                 Else
-                    tab = tpUpdateInsurance
+                    ' Update existing insurance
+                    TableReader.UpdateTable("CarInsurance", insuranceCheck.Rows(0)("CarInsuranceID"), insuranceData)
+                    LoadToCarTable(dgvCarsList.Rows(expandedRowIndex).Cells("CarGroupID").Value)
+                    Exit Select
                 End If
 
-                ' LoadToInsuranceField(TableReader.GetSpecificTables("CarInsurance", dgvCarsList.Rows(expandedRowIndex).Cells("CarID").Value))
+                tab = tpUpdateInsurance
+
 
 
             Case "btnAddMemberEnter"

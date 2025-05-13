@@ -406,7 +406,7 @@ Public Class CTableReader
     ' Description: Function to update a table 
     ' Parameters: TheTableToUpdate as String, ID as String, Table as Object
     ' Returns: True if update is successful, False otherwise
-    Public Function UpdateTable(TheTableToUpdate As String, ID As String, Table As Object, SelfID As String) As Boolean _
+    Public Function UpdateTable(TheTableToUpdate As String, ID As String, Table As Object) As Boolean _
         Implements ITableReader.UpdateTable
 
         Dim Request As HttpWebRequest
@@ -435,10 +435,8 @@ Public Class CTableReader
                 Return Nothing
         End Select
 
-        ' Give Table SelfID
-        Dim TableWithSelfID As JObject = JObject.FromObject(Table)
-        TableWithSelfID("id") = SelfID
-        Input = JsonConvert.SerializeObject(TableWithSelfID)
+        ' Add ID to body as "id": "the ID.value"
+        Input = JsonConvert.SerializeObject(Table)
 
         Console.WriteLine("DEBUG: Input: " & Input)
 
@@ -464,7 +462,7 @@ Public Class CTableReader
                 ' if error is 401, refresh token and retry
                 If RefreshJwtToken() Then
 
-                    Return UpdateTable(TheTableToUpdate, ID, Table, SelfID)
+                    Return UpdateTable(TheTableToUpdate, ID, Table)
 
                 End If
             End If
