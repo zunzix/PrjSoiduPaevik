@@ -656,10 +656,10 @@ Public Class formTableViewer
                 dgvCarsList.Sort(dgvCarsList.Columns("Mileage"), ListSortDirection.Descending)
 
             Case "A -> Z"
-                dgvCarsList.Sort(dgvCarsList.Columns("Car Model"), ListSortDirection.Ascending)
+                dgvCarsList.Sort(dgvCarsList.Columns("Car Model"), ListSortDirection.Descending)
 
             Case "Z -> A"
-                dgvCarsList.Sort(dgvCarsList.Columns("Car Model"), ListSortDirection.Descending)
+                dgvCarsList.Sort(dgvCarsList.Columns("Car Model"), ListSortDirection.Ascending)
             Case "Available"
                 dgvCarsList.DataSource = FilterBooleanField("Available", dgvCarsList, True)
             Case "Unavailable"
@@ -668,6 +668,10 @@ Public Class formTableViewer
                 dgvCarsList.DataSource = FilterBooleanField("Archived", dgvCarsList, True)
             Case "Unarchived"
                 dgvCarsList.DataSource = FilterBooleanField("Archived", dgvCarsList, False)
+            Case "Critical"
+                dgvCarsList.DataSource = FilterBooleanField("Critical State", dgvCarsList, True)
+            Case "Non-critical"
+                dgvCarsList.DataSource = FilterBooleanField("Critical State", dgvCarsList, False)
             Case Else
                 MsgBox("Sorting failed")
                 Return
