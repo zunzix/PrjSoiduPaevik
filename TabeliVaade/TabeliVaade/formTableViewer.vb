@@ -14,7 +14,7 @@ Public Class formTableViewer
     Private TableReader As New CTableReader.CTableReader()
 
     ' CHANGE THESE TO YOUR LOG IN INFO SO THAT YOU CAN LOG IN FASTER
-    Const QUICK_LOGIN_USER = "test@test.com"
+    Const QUICK_LOGIN_USER = "test@gmail.com"
     Const QUICK_LOGIN_PASS = "Test123!"
 
     Private Sub formTableViewer_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -43,6 +43,10 @@ Public Class formTableViewer
         dgvLogsList.AllowUserToAddRows = False
         dgvGroupsList.AllowUserToAddRows = False
         dgvUserHistoryList.AllowUserToAddRows = False
+
+        ' Force garbage collection
+        GC.Collect()
+        GC.WaitForPendingFinalizers()
 
     End Sub
 
@@ -118,8 +122,8 @@ Public Class formTableViewer
         LoadToLogTable(dgvCarsList.Rows(e.RowIndex).Cells("CarID").Value)
 
         ' Assign detailed values to the data fields
-        lblFuelData.Text = dgvCarsList.Rows(e.RowIndex).Cells("CarAvgFuelConsumption").Value & " L/100km"
-        lblMilageData.Text = dgvCarsList.Rows(e.RowIndex).Cells("CarMileage").Value & " km"
+        lblFuelData.Text = dgvCarsList.Rows(e.RowIndex).Cells("Average Fuel Consumption").Value & " L/100km"
+        lblMilageData.Text = dgvCarsList.Rows(e.RowIndex).Cells("Mileage").Value & " km"
 
         ' Find whether the selected car has any ongoing insurances
         ' TODO: Make it possible to search through the database for insurance
@@ -132,8 +136,8 @@ Public Class formTableViewer
             lblInsuranceData.Text = ""
             lblInsuranceNameData.Text = ""
         Else
-            lblInsuranceData.Text = insuranceData.Rows(0)("CarInsuranceEndDate")
-            lblInsuranceNameData.Text = insuranceData.Rows(0)("CarInsuranceName")
+            lblInsuranceData.Text = insuranceData.Rows(0)("Insurance End Date")
+            lblInsuranceNameData.Text = insuranceData.Rows(0)("Insurance Name")
         End If
 
 
@@ -377,25 +381,39 @@ Public Class formTableViewer
 
             Case "btnUpdateInsuranceEnter"
                 ' TODO: Actually update the insurance
-                Dim NewInsurance As New CEntities.CarInsurance(dgvCarsList.Rows(expandedRowIndex).Cells("CarID").Value, txtUpdateInsuranceName.Text, dtpInsuranceExpiration.Value)
 
-                Dim insuranceData As New DataTable()
-                insuranceData = TableReader.GetSpecificTables("CarInsurance", dgvCarsList.Rows(expandedRowIndex).Cells("CarID").Value)
-                If insuranceData Is Nothing OrElse insuranceData.Rows.Count = 0 Then
-                    If TableReader.AddTable("CarInsurance", NewInsurance) Then
+                ' Get insurance data
+                Dim SelectedCarID As String = dgvCarsList.Rows(expandedRowIndex).Cells("CarID").Value
+                Dim insuranceData As New CEntities.CarInsurance(SelectedCarID, txtUpdateInsuranceName.Text, dtpInsuranceExpiration.Value)
+
+                ' To load back to carsList
+                Dim CarGroupID As String = dgvCarsList.Rows(expandedRowIndex).Cells("CarGroupID").Value
+
+                ' Check if insurance for the selected car exists
+                Dim insuranceCheck As DataTable = TableReader.GetSpecificTables("CarInsurance", SelectedCarID)
+
+
+                ' If it doesn't exist, add it
+
+                If insuranceCheck.Rows.Count = 0 Then
+                    ' Add new insurance
+                    If TableReader.AddTable("CarInsurance", insuranceData) Then
                         tab = tpCarsList
+                        LoadToCarTable(CarGroupID)
                     Else
                         tab = tpUpdateInsurance
                     End If
+
                 Else
-                    If TableReader.UpdateTable("CarInsurance", TableReader.GetSpecificTables("CarIssues", dgvCarsList.Rows(expandedRowIndex).Cells("CarID").Value), NewInsurance) Then
+                    ' Update existing insurance
+                    If TableReader.UpdateTable("CarInsurance", insuranceCheck.Rows(0)("CarInsuranceID"), insuranceData) Then
                         tab = tpCarsList
+                        LoadToCarTable(CarGroupID)
                     Else
                         tab = tpUpdateInsurance
                     End If
-                End If
 
-                LoadToInsuranceField(dgvCarsList.Rows(expandedRowIndex).Cells("CarID").Value)
+                End If
 
 
             Case "btnAddMemberEnter"
@@ -476,12 +494,12 @@ Public Class formTableViewer
                 data = TableReader.GetSpecificTables("CarInsurance", row.Cells("CarID").Value.ToString())
 
                 If data.Rows.Count > 0 Then
-                    Dim endDate As DateTime = data.Rows(0)("CarInsuranceEndDate")
+                    Dim endDate As DateTime = data.Rows(0)("Insurance End Date")
 
                     ' Compare endate to 2 weeks from today
                     If endDate <= DateAdd(DateInterval.Day, 14, DateAndTime.Today) Then
                         ' Add Car to message
-                        message = message & row.Cells("CarRegistrationPlate").Value.ToString() & " - " & row.Cells("CarName").Value.ToString() & Environment.NewLine
+                        message = message & row.Cells("Registration Plate").Value.ToString() & " - " & row.Cells("Car Model").Value.ToString() & Environment.NewLine
                     End If
                 End If
             End If
@@ -518,6 +536,7 @@ Public Class formTableViewer
 
     Private Sub LoadToCarTable(SelectedID As String)
         EmptyCarTable()
+        dgvCarsList.ClearSelection()
         ' Car list
         dgvCarsList.DataSource = TableReader.GetSpecificTables("Car", SelectedID)
         dgvCarsList.Columns(0).Visible = False
@@ -550,24 +569,24 @@ Public Class formTableViewer
         dgvLogsList.Columns("CarLogID").Visible = False
         dgvLogsList.Columns("CarLogCarID").Visible = False
         dgvLogsList.Columns("CarLogUserEmail").Visible = False
-        dgvLogsList.Columns("CarLogStartDate").Visible = False
-        dgvLogsList.Columns("CarLogEndDate").Visible = False
-        dgvLogsList.Columns("CarLogDistance").Visible = False
-        dgvLogsList.Columns("CarLogComment").Visible = False
+        dgvLogsList.Columns("Start Date").Visible = False
+        dgvLogsList.Columns("End Date").Visible = False
+        dgvLogsList.Columns("Distance").Visible = False
+        dgvLogsList.Columns("Comment").Visible = False
     End Sub
 
-    Private Sub LoadToInsuranceField(SelectedID As String)
-        Dim insuranceData As New DataTable()
-        insuranceData = TableReader.GetSpecificTables("CarInsurance", SelectedID)
-        If insuranceData Is Nothing OrElse insuranceData.Rows.Count = 0 Then
-            ' Handle the case where insuranceData is Nothing or has no rows
-            lblInsuranceData.Text = ""
-            lblInsuranceNameData.Text = ""
-        Else
-            lblInsuranceData.Text = insuranceData.Rows(0)("CarInsuranceEndDate")
-            lblInsuranceNameData.Text = insuranceData.Rows(0)("CarInsuranceName")
-        End If
-    End Sub
+    'Private Sub LoadToInsuranceField(SelectedID As String)
+    '    Dim insuranceData As New DataTable()
+    '    insuranceData = TableReader.GetSpecificTables("CarInsurance", SelectedID)
+    '    If insuranceData Is Nothing OrElse insuranceData.Rows.Count = 0 Then
+    '        ' Handle the case where insuranceData is Nothing or has no rows
+    '        lblInsuranceData.Text = ""
+    '        lblInsuranceNameData.Text = ""
+    '    Else
+    '        lblInsuranceData.Text = insuranceData.Rows(0)("CarInsuranceEndDate")
+    '        lblInsuranceNameData.Text = insuranceData.Rows(0)("CarInsuranceName")
+    '    End If
+    'End Sub
 
     Private Sub btnGetDistance_Click(sender As Object, e As EventArgs) Handles btnGetDistance.Click
         lblStartData.Text = dtpStatsTimeStart.Value
@@ -577,8 +596,8 @@ Public Class formTableViewer
         Dim totalDistance As Double = 0
 
         For Each log In dgvLogsList.Rows
-            If CDate(log.Cells("CarLogStartDate").Value) >= CDate(dtpStatsTimeStart.Value) And CDate(log.Cells("CarLogEndDate").Value) <= CDate(dtpStatsTimeEnd.Value) Then
-                totalDistance = totalDistance + CType(log.Cells("CarLogDistance").Value, Integer)
+            If CDate(log.Cells("Start Date").Value) >= CDate(dtpStatsTimeStart.Value) And CDate(log.Cells("End Date").Value) <= CDate(dtpStatsTimeEnd.Value) Then
+                totalDistance = totalDistance + CType(log.Cells("Distance").Value, Integer)
             End If
         Next
 
@@ -590,13 +609,13 @@ Public Class formTableViewer
             Return
         End If
 
-        lblStartData.Text = dgvLogsList.Rows(e.RowIndex).Cells("CarLogStartDate").Value
+        lblStartData.Text = dgvLogsList.Rows(e.RowIndex).Cells("Start Date").Value
 
-        lblEndData.Text = dgvLogsList.Rows(e.RowIndex).Cells("CarLogEndDate").Value
+        lblEndData.Text = dgvLogsList.Rows(e.RowIndex).Cells("End Date").Value
 
-        lblDistanceData.Text = dgvLogsList.Rows(e.RowIndex).Cells("CarLogDistance").Value & " km"
+        lblDistanceData.Text = dgvLogsList.Rows(e.RowIndex).Cells("Distance").Value & " km"
 
-        lblCommentData.Text = dgvLogsList.Rows(e.RowIndex).Cells("CarLogComment").Value
+        lblCommentData.Text = dgvLogsList.Rows(e.RowIndex).Cells("Comment").Value
     End Sub
 
     ' Description:  Function for registering a new user and to check if all inputs are valid
@@ -641,24 +660,24 @@ Public Class formTableViewer
         Select Case cbCarsSort.SelectedItem.ToString()
             ''commented out becaus sorting is already implemented from datagridviewdda
             Case "Distance: Ascending"
-                dgvCarsList.Sort(dgvCarsList.Columns("CarMileage"), ListSortDirection.Ascending)
+                dgvCarsList.Sort(dgvCarsList.Columns("Mileage"), ListSortDirection.Ascending)
 
             Case "Distance: Descending"
-                dgvCarsList.Sort(dgvCarsList.Columns("CarMileage"), ListSortDirection.Descending)
+                dgvCarsList.Sort(dgvCarsList.Columns("Mileage"), ListSortDirection.Descending)
 
             Case "A -> Z"
-                dgvCarsList.Sort(dgvCarsList.Columns("CarName"), ListSortDirection.Ascending)
+                dgvCarsList.Sort(dgvCarsList.Columns("Car Model"), ListSortDirection.Ascending)
 
             Case "Z -> A"
-                dgvCarsList.Sort(dgvCarsList.Columns("CarName"), ListSortDirection.Descending)
+                dgvCarsList.Sort(dgvCarsList.Columns("Car Model"), ListSortDirection.Descending)
             Case "Available"
-                dgvCarsList.DataSource = FilterBooleanField("CarIsAvailable", dgvCarsList, True)
+                dgvCarsList.DataSource = FilterBooleanField("Available", dgvCarsList, True)
             Case "Unavailable"
-                dgvCarsList.DataSource = FilterBooleanField("CarIsAvailable", dgvCarsList, False)
+                dgvCarsList.DataSource = FilterBooleanField("Available", dgvCarsList, False)
             Case "Archived"
-                dgvCarsList.DataSource = FilterBooleanField("CarIsArchived", dgvCarsList, True)
+                dgvCarsList.DataSource = FilterBooleanField("Archived", dgvCarsList, True)
             Case "Unarchived"
-                dgvCarsList.DataSource = FilterBooleanField("CarIsArchived", dgvCarsList, False)
+                dgvCarsList.DataSource = FilterBooleanField("Archived", dgvCarsList, False)
             Case Else
                 MsgBox("Sorting failed")
                 Return
@@ -695,4 +714,14 @@ Public Class formTableViewer
             Return temp2
         End If
     End Function
+
+    Private Sub cbRegisterShowPassword_CheckedChanged(sender As Object, e As EventArgs) Handles cbRegisterShowPassword.CheckedChanged
+        If cbRegisterShowPassword.Checked Then
+            tbRegisterPassword.UseSystemPasswordChar = False
+            tbRegisterPasswordConfirm.UseSystemPasswordChar = False
+        Else
+            tbRegisterPassword.UseSystemPasswordChar = True
+            tbRegisterPasswordConfirm.UseSystemPasswordChar = True
+        End If
+    End Sub
 End Class
