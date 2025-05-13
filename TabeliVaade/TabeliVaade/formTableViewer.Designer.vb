@@ -388,11 +388,10 @@ Partial Class formTableViewer
         'dtpStatsTimeEnd
         '
         Me.dtpStatsTimeEnd.Location = New System.Drawing.Point(386, 157)
-        Me.dtpStatsTimeEnd.MaxDate = New Date(2025, 4, 29, 0, 0, 0, 0)
         Me.dtpStatsTimeEnd.Name = "dtpStatsTimeEnd"
         Me.dtpStatsTimeEnd.Size = New System.Drawing.Size(128, 20)
         Me.dtpStatsTimeEnd.TabIndex = 10
-        Me.dtpStatsTimeEnd.Value = New Date(2025, 4, 29, 0, 0, 0, 0)
+        Me.dtpStatsTimeEnd.Value = New Date(2025, 5, 13, 22, 59, 9, 0)
         '
         'btnGetDistance
         '
