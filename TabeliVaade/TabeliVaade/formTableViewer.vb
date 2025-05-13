@@ -14,7 +14,7 @@ Public Class formTableViewer
     Private TableReader As New CTableReader.CTableReader()
 
     ' CHANGE THESE TO YOUR LOG IN INFO SO THAT YOU CAN LOG IN FASTER
-    Const QUICK_LOGIN_USER = "test@test.com"
+    Const QUICK_LOGIN_USER = "test@gmail.com"
     Const QUICK_LOGIN_PASS = "Test123!"
 
     Private Sub formTableViewer_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -660,24 +660,24 @@ Public Class formTableViewer
         Select Case cbCarsSort.SelectedItem.ToString()
             ''commented out becaus sorting is already implemented from datagridviewdda
             Case "Distance: Ascending"
-                dgvCarsList.Sort(dgvCarsList.Columns("CarMileage"), ListSortDirection.Ascending)
+                dgvCarsList.Sort(dgvCarsList.Columns("Mileage"), ListSortDirection.Ascending)
 
             Case "Distance: Descending"
-                dgvCarsList.Sort(dgvCarsList.Columns("CarMileage"), ListSortDirection.Descending)
+                dgvCarsList.Sort(dgvCarsList.Columns("Mileage"), ListSortDirection.Descending)
 
             Case "A -> Z"
-                dgvCarsList.Sort(dgvCarsList.Columns("CarName"), ListSortDirection.Ascending)
+                dgvCarsList.Sort(dgvCarsList.Columns("Car Model"), ListSortDirection.Ascending)
 
             Case "Z -> A"
-                dgvCarsList.Sort(dgvCarsList.Columns("CarName"), ListSortDirection.Descending)
+                dgvCarsList.Sort(dgvCarsList.Columns("Car Model"), ListSortDirection.Descending)
             Case "Available"
-                dgvCarsList.DataSource = FilterBooleanField("CarIsAvailable", dgvCarsList, True)
+                dgvCarsList.DataSource = FilterBooleanField("Available", dgvCarsList, True)
             Case "Unavailable"
-                dgvCarsList.DataSource = FilterBooleanField("CarIsAvailable", dgvCarsList, False)
+                dgvCarsList.DataSource = FilterBooleanField("Available", dgvCarsList, False)
             Case "Archived"
-                dgvCarsList.DataSource = FilterBooleanField("CarIsArchived", dgvCarsList, True)
+                dgvCarsList.DataSource = FilterBooleanField("Archived", dgvCarsList, True)
             Case "Unarchived"
-                dgvCarsList.DataSource = FilterBooleanField("CarIsArchived", dgvCarsList, False)
+                dgvCarsList.DataSource = FilterBooleanField("Archived", dgvCarsList, False)
             Case Else
                 MsgBox("Sorting failed")
                 Return
