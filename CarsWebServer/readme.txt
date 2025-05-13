@@ -1,5 +1,7 @@
 # Car Journal
 
+Used code from Andres Akaver Web Application with C# lecture slides as a code base:
+https://courses.taltech.akaver.com/web-applications-with-csharp/lectures/http        seen 13.05.2025
 
 dotnet ef migrations add --project App.DAL.EF --startup-project WebApp --context AppDbContext InitialCreate
 

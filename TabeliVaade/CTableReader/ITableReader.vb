@@ -10,51 +10,44 @@
     ' Ids are all Guid. refresh token is guid (can be held as a string). jwt token is string.
     ' Some things may be wrong still, gl :)
 
-
-    ' todo add getTables parameters
+    ' todo add getTable parameters
     ' what table(group,car,groupmember,carissue,carlog,carinsurance)
     ' returns user specific table list / error message
-    Function GetTables()
+    Function GetGroupTable()
 
     ' todo add getSpecificTables parameters
     ' what table(car,groupmember,carissue,carlog,carinsurance), table id
     ' returns specific group/car table list / error message
     ' note : add 2 different private functions for group/car
-    Function GetSpecificTables()
-
-    ' todo add getSpecificTable parameters
-    ' what table(group,car,groupmember,carissue,carlog,carinsurance), table id
-    ' returns specific table / error message
-    ' note : can be used to refresh one given table
-    Function GetSpecificTable()
+    Function GetSpecificTables(TheTableToGet As String, ID As String)
 
     ' todo add addTable parameters
     ' what table(group,car,groupmember,carissue,carlog,carinsurance), new table file(list)
     ' returns success/error message 
-    Function AddTable()
+    ' Table is a singular field 
+    Function AddTable(TheTableToAddTo As String, Table As Object) As Boolean
 
     ' todo add removeTable parameters
     ' what table(group,car,groupmember,carissue,carlog,carinsurance), table id
     ' returns success/error message
-    Function RemoveTable()
+    Function RemoveTable(TheTableToRemove As String, ID As String) As Boolean
 
     ' todo add updateTable parameters
     ' what table(group,car,groupmember,carissue,carlog,carinsurance), table id, new table file(list)
     '  returns success/error message 
-    Function UpdateTable()
-
-    ' todo add register parameter
-    ' user file(email, password)
-    ' returns jwt token and refresh token (in single list)/error message
-    Function Register()
+    Function UpdateTable(TheTableToUpdate As String, ID As String, Table As Object) As Boolean
 
     ' todo add login parameter
     ' user file(email, password)
     ' returns jwt token and refresh token (in single list)/error message
-    Function Login()
+    Function LoginRegister(Email As String, Password As String, Purpose As String) As Boolean
+
+    ' uses JWT
+    ' retuns all car logs by current user
+    Function GetLogsByUserId()
 
     ' todo add logout paramater
     ' refresh token 
     ' returns success (and redirects to login screen)/error message
-    Function Logout()
+    Function Logout() As Boolean
 End Interface
