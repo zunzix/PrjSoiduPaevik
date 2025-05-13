@@ -35,8 +35,6 @@ Partial Class formTableViewer
         Me.lblName = New System.Windows.Forms.Label()
         Me.lblMileage = New System.Windows.Forms.Label()
         Me.lblAvgFuel = New System.Windows.Forms.Label()
-        Me.lblReady = New System.Windows.Forms.Label()
-        Me.lblArchive = New System.Windows.Forms.Label()
         Me.lblHeader = New System.Windows.Forms.Label()
         Me.tpCarsList = New System.Windows.Forms.TabPage()
         Me.cbCarsSort = New System.Windows.Forms.ComboBox()
@@ -96,7 +94,6 @@ Partial Class formTableViewer
         Me.btnAddProblemCancel = New System.Windows.Forms.Button()
         Me.cbCriticality = New System.Windows.Forms.CheckBox()
         Me.txtProblemDescription = New System.Windows.Forms.TextBox()
-        Me.lblCriticality = New System.Windows.Forms.Label()
         Me.lblIssueDescription = New System.Windows.Forms.Label()
         Me.lblProblemReportTitle = New System.Windows.Forms.Label()
         Me.tpAddLog = New System.Windows.Forms.TabPage()
@@ -124,6 +121,7 @@ Partial Class formTableViewer
         Me.txtNewGroupName = New System.Windows.Forms.TextBox()
         Me.lblCreateGroup = New System.Windows.Forms.Label()
         Me.tpRegister = New System.Windows.Forms.TabPage()
+        Me.cbRegisterShowPassword = New System.Windows.Forms.CheckBox()
         Me.lblCreateAccountTitle = New System.Windows.Forms.Label()
         Me.lblConfirmPassword = New System.Windows.Forms.Label()
         Me.lblRegisterPassword = New System.Windows.Forms.Label()
@@ -148,7 +146,6 @@ Partial Class formTableViewer
         Me.btnAddMemberEnter = New System.Windows.Forms.Button()
         Me.btnAddMemberCancel = New System.Windows.Forms.Button()
         Me.cbIsAdmin = New System.Windows.Forms.CheckBox()
-        Me.cbRegisterShowPassword = New System.Windows.Forms.CheckBox()
         Me.tpAddCar.SuspendLayout()
         Me.tpCarsList.SuspendLayout()
         Me.pnlLogs.SuspendLayout()
@@ -189,8 +186,6 @@ Partial Class formTableViewer
         Me.tpAddCar.Controls.Add(Me.lblName)
         Me.tpAddCar.Controls.Add(Me.lblMileage)
         Me.tpAddCar.Controls.Add(Me.lblAvgFuel)
-        Me.tpAddCar.Controls.Add(Me.lblReady)
-        Me.tpAddCar.Controls.Add(Me.lblArchive)
         Me.tpAddCar.Controls.Add(Me.lblHeader)
         Me.tpAddCar.Location = New System.Drawing.Point(4, 25)
         Me.tpAddCar.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
@@ -243,7 +238,7 @@ Partial Class formTableViewer
         'cboxAddCarIsArchived
         '
         Me.cboxAddCarIsArchived.AutoSize = True
-        Me.cboxAddCarIsArchived.Location = New System.Drawing.Point(326, 246)
+        Me.cboxAddCarIsArchived.Location = New System.Drawing.Point(372, 209)
         Me.cboxAddCarIsArchived.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
         Me.cboxAddCarIsArchived.Name = "cboxAddCarIsArchived"
         Me.cboxAddCarIsArchived.Size = New System.Drawing.Size(80, 17)
@@ -254,12 +249,14 @@ Partial Class formTableViewer
         'cboxAddCarIsAvailable
         '
         Me.cboxAddCarIsAvailable.AutoSize = True
-        Me.cboxAddCarIsAvailable.Location = New System.Drawing.Point(237, 209)
+        Me.cboxAddCarIsAvailable.Checked = True
+        Me.cboxAddCarIsAvailable.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.cboxAddCarIsAvailable.Location = New System.Drawing.Point(271, 209)
         Me.cboxAddCarIsAvailable.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
         Me.cboxAddCarIsAvailable.Name = "cboxAddCarIsAvailable"
-        Me.cboxAddCarIsAvailable.Size = New System.Drawing.Size(81, 17)
+        Me.cboxAddCarIsAvailable.Size = New System.Drawing.Size(97, 17)
         Me.cboxAddCarIsAvailable.TabIndex = 9
-        Me.cboxAddCarIsAvailable.Text = "Car is ready"
+        Me.cboxAddCarIsAvailable.Text = "Car is available"
         Me.cboxAddCarIsAvailable.UseVisualStyleBackColor = True
         '
         'txtAddCarMileage
@@ -322,28 +319,6 @@ Partial Class formTableViewer
         Me.lblAvgFuel.TabIndex = 3
         Me.lblAvgFuel.Text = "Car average fuel consumtion [l/km]"
         '
-        'lblReady
-        '
-        Me.lblReady.AutoSize = True
-        Me.lblReady.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblReady.Location = New System.Drawing.Point(35, 207)
-        Me.lblReady.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
-        Me.lblReady.Name = "lblReady"
-        Me.lblReady.Size = New System.Drawing.Size(200, 18)
-        Me.lblReady.TabIndex = 2
-        Me.lblReady.Text = "Is the car ready to drive now?"
-        '
-        'lblArchive
-        '
-        Me.lblArchive.AutoSize = True
-        Me.lblArchive.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblArchive.Location = New System.Drawing.Point(35, 242)
-        Me.lblArchive.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
-        Me.lblArchive.Name = "lblArchive"
-        Me.lblArchive.Size = New System.Drawing.Size(289, 18)
-        Me.lblArchive.TabIndex = 1
-        Me.lblArchive.Text = "Should the car be added to the archive list?"
-        '
         'lblHeader
         '
         Me.lblHeader.AutoSize = True
@@ -378,7 +353,7 @@ Partial Class formTableViewer
         Me.cbCarsSort.FormattingEnabled = True
         Me.cbCarsSort.Items.AddRange(New Object() {"A -> Z", "Z -> A", "Distance: Ascending", "Distance: Descending", "Available", "Unavailable", "Archived", "Unarchived"})
         Me.cbCarsSort.Location = New System.Drawing.Point(364, 6)
-        Me.cbCarsSort.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.cbCarsSort.Margin = New System.Windows.Forms.Padding(2)
         Me.cbCarsSort.Name = "cbCarsSort"
         Me.cbCarsSort.Size = New System.Drawing.Size(137, 21)
         Me.cbCarsSort.TabIndex = 6
@@ -480,7 +455,7 @@ Partial Class formTableViewer
         Me.gbLogDetails.Controls.Add(Me.lblTotalDistance)
         Me.gbLogDetails.Controls.Add(Me.lblStartTime)
         Me.gbLogDetails.Location = New System.Drawing.Point(1, 1)
-        Me.gbLogDetails.Margin = New System.Windows.Forms.Padding(1, 1, 1, 1)
+        Me.gbLogDetails.Margin = New System.Windows.Forms.Padding(1)
         Me.gbLogDetails.Name = "gbLogDetails"
         Me.gbLogDetails.Padding = New System.Windows.Forms.Padding(3, 1, 3, 1)
         Me.gbLogDetails.Size = New System.Drawing.Size(191, 174)
@@ -630,7 +605,7 @@ Partial Class formTableViewer
         Me.gbCarDetails.Controls.Add(Me.lblInsurance)
         Me.gbCarDetails.Controls.Add(Me.lblFuel)
         Me.gbCarDetails.Location = New System.Drawing.Point(1, 1)
-        Me.gbCarDetails.Margin = New System.Windows.Forms.Padding(1, 1, 1, 1)
+        Me.gbCarDetails.Margin = New System.Windows.Forms.Padding(1)
         Me.gbCarDetails.Name = "gbCarDetails"
         Me.gbCarDetails.Padding = New System.Windows.Forms.Padding(3, 1, 3, 1)
         Me.gbCarDetails.Size = New System.Drawing.Size(194, 174)
@@ -973,7 +948,6 @@ Partial Class formTableViewer
         Me.tpAddProblem.Controls.Add(Me.btnAddProblemCancel)
         Me.tpAddProblem.Controls.Add(Me.cbCriticality)
         Me.tpAddProblem.Controls.Add(Me.txtProblemDescription)
-        Me.tpAddProblem.Controls.Add(Me.lblCriticality)
         Me.tpAddProblem.Controls.Add(Me.lblIssueDescription)
         Me.tpAddProblem.Controls.Add(Me.lblProblemReportTitle)
         Me.tpAddProblem.Location = New System.Drawing.Point(4, 25)
@@ -986,7 +960,7 @@ Partial Class formTableViewer
         '
         'btnAddProblemEnter
         '
-        Me.btnAddProblemEnter.Location = New System.Drawing.Point(304, 226)
+        Me.btnAddProblemEnter.Location = New System.Drawing.Point(304, 236)
         Me.btnAddProblemEnter.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
         Me.btnAddProblemEnter.Name = "btnAddProblemEnter"
         Me.btnAddProblemEnter.Size = New System.Drawing.Size(81, 45)
@@ -996,7 +970,7 @@ Partial Class formTableViewer
         '
         'btnAddProblemCancel
         '
-        Me.btnAddProblemCancel.Location = New System.Drawing.Point(201, 226)
+        Me.btnAddProblemCancel.Location = New System.Drawing.Point(201, 236)
         Me.btnAddProblemCancel.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
         Me.btnAddProblemCancel.Name = "btnAddProblemCancel"
         Me.btnAddProblemCancel.Size = New System.Drawing.Size(81, 44)
@@ -1007,39 +981,28 @@ Partial Class formTableViewer
         'cbCriticality
         '
         Me.cbCriticality.AutoSize = True
-        Me.cbCriticality.Location = New System.Drawing.Point(328, 196)
+        Me.cbCriticality.Location = New System.Drawing.Point(201, 203)
         Me.cbCriticality.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
         Me.cbCriticality.Name = "cbCriticality"
-        Me.cbCriticality.Size = New System.Drawing.Size(63, 17)
+        Me.cbCriticality.Size = New System.Drawing.Size(97, 17)
         Me.cbCriticality.TabIndex = 4
-        Me.cbCriticality.Text = "Critical?"
+        Me.cbCriticality.Text = "Critical problem"
         Me.cbCriticality.UseVisualStyleBackColor = True
         '
         'txtProblemDescription
         '
-        Me.txtProblemDescription.Location = New System.Drawing.Point(201, 131)
+        Me.txtProblemDescription.Location = New System.Drawing.Point(179, 111)
         Me.txtProblemDescription.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
         Me.txtProblemDescription.Multiline = True
         Me.txtProblemDescription.Name = "txtProblemDescription"
-        Me.txtProblemDescription.Size = New System.Drawing.Size(185, 60)
+        Me.txtProblemDescription.Size = New System.Drawing.Size(225, 80)
         Me.txtProblemDescription.TabIndex = 3
-        '
-        'lblCriticality
-        '
-        Me.lblCriticality.AutoSize = True
-        Me.lblCriticality.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.0!)
-        Me.lblCriticality.Location = New System.Drawing.Point(198, 194)
-        Me.lblCriticality.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
-        Me.lblCriticality.Name = "lblCriticality"
-        Me.lblCriticality.Size = New System.Drawing.Size(135, 18)
-        Me.lblCriticality.TabIndex = 2
-        Me.lblCriticality.Text = "Is it a critical issue?"
         '
         'lblIssueDescription
         '
         Me.lblIssueDescription.AutoSize = True
         Me.lblIssueDescription.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.0!)
-        Me.lblIssueDescription.Location = New System.Drawing.Point(227, 109)
+        Me.lblIssueDescription.Location = New System.Drawing.Point(224, 82)
         Me.lblIssueDescription.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.lblIssueDescription.Name = "lblIssueDescription"
         Me.lblIssueDescription.Size = New System.Drawing.Size(130, 18)
@@ -1050,7 +1013,7 @@ Partial Class formTableViewer
         '
         Me.lblProblemReportTitle.AutoSize = True
         Me.lblProblemReportTitle.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.0!)
-        Me.lblProblemReportTitle.Location = New System.Drawing.Point(214, 58)
+        Me.lblProblemReportTitle.Location = New System.Drawing.Point(209, 36)
         Me.lblProblemReportTitle.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.lblProblemReportTitle.Name = "lblProblemReportTitle"
         Me.lblProblemReportTitle.Size = New System.Drawing.Size(156, 24)
@@ -1340,6 +1303,16 @@ Partial Class formTableViewer
         Me.tpRegister.Text = "Register"
         Me.tpRegister.UseVisualStyleBackColor = True
         '
+        'cbRegisterShowPassword
+        '
+        Me.cbRegisterShowPassword.AutoSize = True
+        Me.cbRegisterShowPassword.Location = New System.Drawing.Point(463, 202)
+        Me.cbRegisterShowPassword.Name = "cbRegisterShowPassword"
+        Me.cbRegisterShowPassword.Size = New System.Drawing.Size(101, 17)
+        Me.cbRegisterShowPassword.TabIndex = 9
+        Me.cbRegisterShowPassword.Text = "Show password"
+        Me.cbRegisterShowPassword.UseVisualStyleBackColor = True
+        '
         'lblCreateAccountTitle
         '
         Me.lblCreateAccountTitle.AutoSize = True
@@ -1414,17 +1387,17 @@ Partial Class formTableViewer
         Me.btnRegisterEnter.Location = New System.Drawing.Point(339, 265)
         Me.btnRegisterEnter.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
         Me.btnRegisterEnter.Name = "btnRegisterEnter"
-        Me.btnRegisterEnter.Size = New System.Drawing.Size(56, 19)
+        Me.btnRegisterEnter.Size = New System.Drawing.Size(75, 41)
         Me.btnRegisterEnter.TabIndex = 1
         Me.btnRegisterEnter.Text = "Enter"
         Me.btnRegisterEnter.UseVisualStyleBackColor = True
         '
         'btnRegisterCancel
         '
-        Me.btnRegisterCancel.Location = New System.Drawing.Point(171, 265)
+        Me.btnRegisterCancel.Location = New System.Drawing.Point(178, 265)
         Me.btnRegisterCancel.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
         Me.btnRegisterCancel.Name = "btnRegisterCancel"
-        Me.btnRegisterCancel.Size = New System.Drawing.Size(56, 19)
+        Me.btnRegisterCancel.Size = New System.Drawing.Size(75, 41)
         Me.btnRegisterCancel.TabIndex = 0
         Me.btnRegisterCancel.Text = "Cancel"
         Me.btnRegisterCancel.UseVisualStyleBackColor = True
@@ -1579,20 +1552,10 @@ Partial Class formTableViewer
         Me.cbIsAdmin.Location = New System.Drawing.Point(227, 169)
         Me.cbIsAdmin.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
         Me.cbIsAdmin.Name = "cbIsAdmin"
-        Me.cbIsAdmin.Size = New System.Drawing.Size(61, 17)
+        Me.cbIsAdmin.Size = New System.Drawing.Size(89, 17)
         Me.cbIsAdmin.TabIndex = 0
-        Me.cbIsAdmin.Text = "Admin?"
+        Me.cbIsAdmin.Text = "User is admin"
         Me.cbIsAdmin.UseVisualStyleBackColor = True
-        '
-        'cbRegisterShowPassword
-        '
-        Me.cbRegisterShowPassword.AutoSize = True
-        Me.cbRegisterShowPassword.Location = New System.Drawing.Point(463, 202)
-        Me.cbRegisterShowPassword.Name = "cbRegisterShowPassword"
-        Me.cbRegisterShowPassword.Size = New System.Drawing.Size(101, 17)
-        Me.cbRegisterShowPassword.TabIndex = 9
-        Me.cbRegisterShowPassword.Text = "Show password"
-        Me.cbRegisterShowPassword.UseVisualStyleBackColor = True
         '
         'formTableViewer
         '
@@ -1600,7 +1563,7 @@ Partial Class formTableViewer
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(600, 365)
         Me.Controls.Add(Me.tcTabs)
-        Me.Margin = New System.Windows.Forms.Padding(1, 1, 1, 1)
+        Me.Margin = New System.Windows.Forms.Padding(1)
         Me.Name = "formTableViewer"
         Me.Text = "Car Logbook"
         Me.tpAddCar.ResumeLayout(False)
@@ -1654,8 +1617,6 @@ Partial Class formTableViewer
     Friend WithEvents lblName As Label
     Friend WithEvents lblMileage As Label
     Friend WithEvents lblAvgFuel As Label
-    Friend WithEvents lblReady As Label
-    Friend WithEvents lblArchive As Label
     Friend WithEvents lblHeader As Label
     Friend WithEvents tpCarsList As TabPage
     Friend WithEvents pnlDetails As Panel
@@ -1699,7 +1660,6 @@ Partial Class formTableViewer
     Friend WithEvents lblProblemReportTitle As Label
     Friend WithEvents tpAddLog As TabPage
     Friend WithEvents lblIssueDescription As Label
-    Friend WithEvents lblCriticality As Label
     Friend WithEvents cbCriticality As CheckBox
     Friend WithEvents txtProblemDescription As TextBox
     Friend WithEvents btnAddProblemEnter As Button
