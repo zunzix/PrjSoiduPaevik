@@ -76,8 +76,6 @@ namespace WebApp.ApiControllers
             return carInsurance;
         }
         
-        // todo : add check for if edit is done in the same group
-
         // PUT: api/CarInsurances/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
