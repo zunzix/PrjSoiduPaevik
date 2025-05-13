@@ -101,7 +101,7 @@ namespace WebApp.ApiControllers
                 return Forbid();
             }
             
-            carInsurance.Id = Guid.NewGuid();
+            
             _uow.CarInsuranceRepository.Update(carInsurance);
             await _uow.SaveChangesAsync();
 
@@ -127,6 +127,7 @@ namespace WebApp.ApiControllers
                 return Forbid();
             }
             
+            carInsurance.Id = Guid.NewGuid();
             _uow.CarInsuranceRepository.Add(carInsurance);
             await _uow.SaveChangesAsync();
 
