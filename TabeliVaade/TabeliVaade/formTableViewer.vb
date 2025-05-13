@@ -14,7 +14,7 @@ Public Class formTableViewer
     Private TableReader As New CTableReader.CTableReader()
 
     ' CHANGE THESE TO YOUR LOG IN INFO SO THAT YOU CAN LOG IN FASTER
-    Const QUICK_LOGIN_USER = "test@gmail.com"
+    Const QUICK_LOGIN_USER = "test@test.com"
     Const QUICK_LOGIN_PASS = "Test123!"
 
     Private Sub formTableViewer_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -647,6 +647,71 @@ Public Class formTableViewer
         Else
             MessageBox.Show("Account registration failed.")
             Return False
+        End If
+    End Function
+
+    Private Sub cbCarsSort_TabIndexChanged(sender As Object, e As EventArgs) _
+    Handles cbCarsSort.SelectionChangeCommitted
+        If cbCarsSort.SelectedIndex = -1 Then
+            MsgBox("Fail")
+        End If
+
+        ' Sort the DataGridView based on the selected sorting option index 4-7
+        Select Case cbCarsSort.SelectedItem.ToString()
+            ''commented out becaus sorting is already implemented from datagridviewdda
+            Case "Distance: Ascending"
+                dgvCarsList.Sort(dgvCarsList.Columns("CarMileage"), ListSortDirection.Ascending)
+
+            Case "Distance: Descending"
+                dgvCarsList.Sort(dgvCarsList.Columns("CarMileage"), ListSortDirection.Descending)
+
+            Case "A -> Z"
+                dgvCarsList.Sort(dgvCarsList.Columns("CarName"), ListSortDirection.Ascending)
+
+            Case "Z -> A"
+                dgvCarsList.Sort(dgvCarsList.Columns("CarName"), ListSortDirection.Descending)
+            Case "Available"
+                dgvCarsList.DataSource = FilterBooleanField("CarIsAvailable", dgvCarsList, True)
+            Case "Unavailable"
+                dgvCarsList.DataSource = FilterBooleanField("CarIsAvailable", dgvCarsList, False)
+            Case "Archived"
+                dgvCarsList.DataSource = FilterBooleanField("CarIsArchived", dgvCarsList, True)
+            Case "Unarchived"
+                dgvCarsList.DataSource = FilterBooleanField("CarIsArchived", dgvCarsList, False)
+            Case Else
+                MsgBox("Sorting failed")
+                Return
+        End Select
+    End Sub
+    Private Function FilterBooleanField(ByVal fieldName As String, ByVal table As DataGridView, ByRef ascending As Boolean) As DataTable
+        If table.DataSource Is Nothing OrElse Not TypeOf table.DataSource Is DataTable Then
+            MessageBox.Show("Invalid DataSource.")
+            Return Nothing
+        End If
+
+        Dim originalTable As DataTable = CType(table.DataSource, DataTable)
+        Dim temp1 As DataTable = originalTable.Clone()
+        Dim temp2 As DataTable = originalTable.Clone()
+
+        ' Iterate through rows and separate them based on the field value
+        For Each row As DataGridViewRow In table.Rows
+            If Not row.IsNewRow Then
+                Dim CellValue As Object = row.Cells(fieldName).Value
+                If CellValue.Equals(True) Then
+                    temp1.ImportRow(CType(row.DataBoundItem, DataRowView).Row)
+                ElseIf CellValue.Equals(False) Then
+                    temp2.ImportRow(CType(row.DataBoundItem, DataRowView).Row)
+                End If
+            End If
+        Next
+
+        ' Combine temp1 and temp2 based on the ascending flag
+        If ascending Then
+            temp1.Merge(temp2)
+            Return temp1
+        Else
+            temp2.Merge(temp1)
+            Return temp2
         End If
     End Function
 

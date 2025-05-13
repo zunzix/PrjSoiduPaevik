@@ -170,7 +170,7 @@ namespace WebApp.ApiControllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCarLog(Guid id)
         {
-            var carLog = await _uow.CarLogRepository.FindAsync(id);
+            var carLog = await _uow.CarLogRepository.FindAsync(id, User.GetUserId());
             if (carLog == null)
             {
                 return NotFound();

@@ -1,5 +1,7 @@
 # Car Journal
 
+Used code from Andres Akaver Web Application with C# lecture slides as a code base:
+https://courses.taltech.akaver.com/web-applications-with-csharp/lectures/http        seen 13.05.2025
 
 dotnet ef migrations add --project App.DAL.EF --startup-project WebApp --context AppDbContext InitialCreate
 
@@ -33,7 +35,5 @@ dotnet aspnet-codegenerator controller -name CarIssuesController -m App.Domain.C
 dotnet aspnet-codegenerator controller -name CarInsurancesController -m App.Domain.CarInsurance -dc AppDbContext -outDir ApiControllers -api --useAsyncActions -f
 
 
-
-Postgre convert to UTC in create
-carLog.EndDate = DateTime.SpecifyKind(carLog.EndDate, DateTimeKind.Utc);
-carLog.StartDate = DateTime.SpecifyKind(carLog.StartDate, DateTimeKind.Utc);
+docker build -t webapp .
+docker run --name webapp_docker --rm -it -p 8888:8080 webapp
