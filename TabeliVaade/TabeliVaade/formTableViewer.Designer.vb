@@ -77,7 +77,6 @@ Partial Class formTableViewer
         Me.gbGroups = New System.Windows.Forms.GroupBox()
         Me.dgvGroupsList = New System.Windows.Forms.DataGridView()
         Me.gbRideHistory = New System.Windows.Forms.GroupBox()
-        Me.cbSortRides = New System.Windows.Forms.ComboBox()
         Me.dgvUserHistoryList = New System.Windows.Forms.DataGridView()
         Me.btnLogOut = New System.Windows.Forms.Button()
         Me.tpLogin = New System.Windows.Forms.TabPage()
@@ -787,7 +786,6 @@ Partial Class formTableViewer
         '
         'gbRideHistory
         '
-        Me.gbRideHistory.Controls.Add(Me.cbSortRides)
         Me.gbRideHistory.Controls.Add(Me.dgvUserHistoryList)
         Me.gbRideHistory.Location = New System.Drawing.Point(290, 5)
         Me.gbRideHistory.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
@@ -797,17 +795,6 @@ Partial Class formTableViewer
         Me.gbRideHistory.TabIndex = 3
         Me.gbRideHistory.TabStop = False
         Me.gbRideHistory.Text = "Ride history"
-        '
-        'cbSortRides
-        '
-        Me.cbSortRides.FormattingEnabled = True
-        Me.cbSortRides.Items.AddRange(New Object() {"A -> Z", "Z -> A", "Newest -> Oldest", "Oldest -> Newest", "Distance: Ascending", "Distance: Decending"})
-        Me.cbSortRides.Location = New System.Drawing.Point(204, 20)
-        Me.cbSortRides.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
-        Me.cbSortRides.Name = "cbSortRides"
-        Me.cbSortRides.Size = New System.Drawing.Size(92, 21)
-        Me.cbSortRides.TabIndex = 2
-        Me.cbSortRides.Text = "Sort"
         '
         'dgvUserHistoryList
         '
@@ -1684,7 +1671,6 @@ Partial Class formTableViewer
     Friend WithEvents btnLogOut As Button
     Friend WithEvents dgvUserHistoryList As DataGridView
     Friend WithEvents gbRideHistory As GroupBox
-    Friend WithEvents cbSortRides As ComboBox
     Friend WithEvents btnNewGroup As Button
     Friend WithEvents gbGroups As GroupBox
     Friend WithEvents registrationPlate As DataGridViewTextBoxColumn
