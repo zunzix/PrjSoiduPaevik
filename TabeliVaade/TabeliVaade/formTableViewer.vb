@@ -313,7 +313,7 @@ Public Class formTableViewer
                     Return
                 End If
 
-                Dim NewCar As New CEntities.Car(GroupID, RegistrationPlate, Name, Mileage, AvgFuelCons, IsAvailable, IsArchived, IsCritical)
+                Dim NewCar As New CEntities.Car(GroupID, Name, RegistrationPlate, Mileage, AvgFuelCons, IsAvailable, IsArchived, IsCritical)
 
                 'TODO: check if inputs are valid
                 If TableReader.AddTable("Car", NewCar) Then

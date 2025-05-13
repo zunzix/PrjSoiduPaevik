@@ -77,7 +77,6 @@ Partial Class formTableViewer
         Me.gbGroups = New System.Windows.Forms.GroupBox()
         Me.dgvGroupsList = New System.Windows.Forms.DataGridView()
         Me.gbRideHistory = New System.Windows.Forms.GroupBox()
-        Me.cbSortRides = New System.Windows.Forms.ComboBox()
         Me.dgvUserHistoryList = New System.Windows.Forms.DataGridView()
         Me.btnLogOut = New System.Windows.Forms.Button()
         Me.tpLogin = New System.Windows.Forms.TabPage()
@@ -792,7 +791,6 @@ Partial Class formTableViewer
         '
         'gbRideHistory
         '
-        Me.gbRideHistory.Controls.Add(Me.cbSortRides)
         Me.gbRideHistory.Controls.Add(Me.dgvUserHistoryList)
         Me.gbRideHistory.Location = New System.Drawing.Point(435, 8)
         Me.gbRideHistory.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
@@ -1680,7 +1678,6 @@ Partial Class formTableViewer
     Friend WithEvents btnLogOut As Button
     Friend WithEvents dgvUserHistoryList As DataGridView
     Friend WithEvents gbRideHistory As GroupBox
-    Friend WithEvents cbSortRides As ComboBox
     Friend WithEvents btnNewGroup As Button
     Friend WithEvents gbGroups As GroupBox
     Friend WithEvents registrationPlate As DataGridViewTextBoxColumn
