@@ -550,6 +550,9 @@ Public Class formTableViewer
         carDeleteButton.HeaderText = ""
         carDeleteButton.UseColumnTextForButtonValue = True
         dgvCarsList.Columns.Add(carDeleteButton)
+
+        ' Automatically resize to headers to fit all text
+        dgvCarsList.AutoResizeColumnHeadersHeight()
     End Sub
 
     Private Sub EmptyCarTable()
