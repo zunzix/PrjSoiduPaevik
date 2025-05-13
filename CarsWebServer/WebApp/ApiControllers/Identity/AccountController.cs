@@ -143,7 +143,7 @@ public class AccountController : ControllerBase
         }
         else
         {
-            //TODO: inMemory delete for testing
+           
         }
         
         
@@ -171,7 +171,7 @@ public class AccountController : ControllerBase
         return Ok(responseData);
     }
     
-    // todo : RefreshTokenData and Logout broken
+    
     [HttpPost]
     public async Task<ActionResult<JWTResponse>> RefreshTokenData(
         [FromBody]

@@ -186,10 +186,10 @@ Partial Class formTableViewer
         Me.tpAddCar.Controls.Add(Me.lblMileage)
         Me.tpAddCar.Controls.Add(Me.lblAvgFuel)
         Me.tpAddCar.Controls.Add(Me.lblHeader)
-        Me.tpAddCar.Location = New System.Drawing.Point(4, 25)
-        Me.tpAddCar.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.tpAddCar.Location = New System.Drawing.Point(4, 32)
+        Me.tpAddCar.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.tpAddCar.Name = "tpAddCar"
-        Me.tpAddCar.Size = New System.Drawing.Size(590, 334)
+        Me.tpAddCar.Size = New System.Drawing.Size(889, 522)
         Me.tpAddCar.TabIndex = 7
         Me.tpAddCar.Text = "Add Car"
         Me.tpAddCar.UseVisualStyleBackColor = True
@@ -197,28 +197,30 @@ Partial Class formTableViewer
         'txtAddCarRegistrationPlate
         '
         Me.txtAddCarRegistrationPlate.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.txtAddCarRegistrationPlate.Location = New System.Drawing.Point(271, 55)
+        Me.txtAddCarRegistrationPlate.Location = New System.Drawing.Point(406, 85)
+        Me.txtAddCarRegistrationPlate.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.txtAddCarRegistrationPlate.Name = "txtAddCarRegistrationPlate"
-        Me.txtAddCarRegistrationPlate.Size = New System.Drawing.Size(297, 20)
+        Me.txtAddCarRegistrationPlate.Size = New System.Drawing.Size(444, 26)
         Me.txtAddCarRegistrationPlate.TabIndex = 14
         '
         'Label1
         '
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(30, 53)
+        Me.Label1.Location = New System.Drawing.Point(45, 82)
+        Me.Label1.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(124, 18)
+        Me.Label1.Size = New System.Drawing.Size(203, 29)
         Me.Label1.TabIndex = 13
         Me.Label1.Text = "Registration Plate"
         '
         'btnAddCarEnter
         '
         Me.btnAddCarEnter.BackColor = System.Drawing.SystemColors.ActiveCaption
-        Me.btnAddCarEnter.Location = New System.Drawing.Point(325, 282)
-        Me.btnAddCarEnter.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.btnAddCarEnter.Location = New System.Drawing.Point(488, 434)
+        Me.btnAddCarEnter.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.btnAddCarEnter.Name = "btnAddCarEnter"
-        Me.btnAddCarEnter.Size = New System.Drawing.Size(244, 43)
+        Me.btnAddCarEnter.Size = New System.Drawing.Size(366, 66)
         Me.btnAddCarEnter.TabIndex = 12
         Me.btnAddCarEnter.Text = "Enter"
         Me.btnAddCarEnter.UseVisualStyleBackColor = False
@@ -226,10 +228,10 @@ Partial Class formTableViewer
         'btnAddCarCancel
         '
         Me.btnAddCarCancel.BackColor = System.Drawing.SystemColors.ActiveBorder
-        Me.btnAddCarCancel.Location = New System.Drawing.Point(53, 282)
-        Me.btnAddCarCancel.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.btnAddCarCancel.Location = New System.Drawing.Point(80, 434)
+        Me.btnAddCarCancel.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.btnAddCarCancel.Name = "btnAddCarCancel"
-        Me.btnAddCarCancel.Size = New System.Drawing.Size(244, 43)
+        Me.btnAddCarCancel.Size = New System.Drawing.Size(366, 66)
         Me.btnAddCarCancel.TabIndex = 11
         Me.btnAddCarCancel.Text = "Cancel"
         Me.btnAddCarCancel.UseVisualStyleBackColor = False
@@ -237,10 +239,10 @@ Partial Class formTableViewer
         'cboxAddCarIsArchived
         '
         Me.cboxAddCarIsArchived.AutoSize = True
-        Me.cboxAddCarIsArchived.Location = New System.Drawing.Point(372, 209)
-        Me.cboxAddCarIsArchived.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.cboxAddCarIsArchived.Location = New System.Drawing.Point(558, 322)
+        Me.cboxAddCarIsArchived.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.cboxAddCarIsArchived.Name = "cboxAddCarIsArchived"
-        Me.cboxAddCarIsArchived.Size = New System.Drawing.Size(80, 17)
+        Me.cboxAddCarIsArchived.Size = New System.Drawing.Size(113, 24)
         Me.cboxAddCarIsArchived.TabIndex = 10
         Me.cboxAddCarIsArchived.Text = "Archive car"
         Me.cboxAddCarIsArchived.UseVisualStyleBackColor = True
@@ -250,10 +252,10 @@ Partial Class formTableViewer
         Me.cboxAddCarIsAvailable.AutoSize = True
         Me.cboxAddCarIsAvailable.Checked = True
         Me.cboxAddCarIsAvailable.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.cboxAddCarIsAvailable.Location = New System.Drawing.Point(271, 209)
-        Me.cboxAddCarIsAvailable.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.cboxAddCarIsAvailable.Location = New System.Drawing.Point(406, 322)
+        Me.cboxAddCarIsAvailable.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.cboxAddCarIsAvailable.Name = "cboxAddCarIsAvailable"
-        Me.cboxAddCarIsAvailable.Size = New System.Drawing.Size(97, 17)
+        Me.cboxAddCarIsAvailable.Size = New System.Drawing.Size(140, 24)
         Me.cboxAddCarIsAvailable.TabIndex = 9
         Me.cboxAddCarIsAvailable.Text = "Car is available"
         Me.cboxAddCarIsAvailable.UseVisualStyleBackColor = True
@@ -261,38 +263,37 @@ Partial Class formTableViewer
         'txtAddCarMileage
         '
         Me.txtAddCarMileage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.txtAddCarMileage.Location = New System.Drawing.Point(271, 125)
-        Me.txtAddCarMileage.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.txtAddCarMileage.Location = New System.Drawing.Point(406, 192)
+        Me.txtAddCarMileage.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.txtAddCarMileage.Name = "txtAddCarMileage"
-        Me.txtAddCarMileage.Size = New System.Drawing.Size(298, 20)
+        Me.txtAddCarMileage.Size = New System.Drawing.Size(446, 26)
         Me.txtAddCarMileage.TabIndex = 8
         '
         'txtAddCarAvgFuel
         '
         Me.txtAddCarAvgFuel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.txtAddCarAvgFuel.Location = New System.Drawing.Point(271, 170)
-        Me.txtAddCarAvgFuel.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.txtAddCarAvgFuel.Location = New System.Drawing.Point(406, 262)
+        Me.txtAddCarAvgFuel.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.txtAddCarAvgFuel.Name = "txtAddCarAvgFuel"
-        Me.txtAddCarAvgFuel.Size = New System.Drawing.Size(298, 20)
+        Me.txtAddCarAvgFuel.Size = New System.Drawing.Size(446, 26)
         Me.txtAddCarAvgFuel.TabIndex = 7
         '
         'txtAddCarName
         '
         Me.txtAddCarName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.txtAddCarName.Location = New System.Drawing.Point(271, 85)
-        Me.txtAddCarName.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.txtAddCarName.Location = New System.Drawing.Point(406, 131)
+        Me.txtAddCarName.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.txtAddCarName.Name = "txtAddCarName"
-        Me.txtAddCarName.Size = New System.Drawing.Size(297, 20)
+        Me.txtAddCarName.Size = New System.Drawing.Size(444, 26)
         Me.txtAddCarName.TabIndex = 6
         '
         'lblName
         '
         Me.lblName.AutoSize = True
         Me.lblName.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblName.Location = New System.Drawing.Point(35, 83)
-        Me.lblName.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.lblName.Location = New System.Drawing.Point(52, 128)
         Me.lblName.Name = "lblName"
-        Me.lblName.Size = New System.Drawing.Size(73, 18)
+        Me.lblName.Size = New System.Drawing.Size(108, 26)
         Me.lblName.TabIndex = 5
         Me.lblName.Text = "Car name"
         '
@@ -300,10 +301,9 @@ Partial Class formTableViewer
         '
         Me.lblMileage.AutoSize = True
         Me.lblMileage.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblMileage.Location = New System.Drawing.Point(34, 123)
-        Me.lblMileage.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.lblMileage.Location = New System.Drawing.Point(51, 189)
         Me.lblMileage.Name = "lblMileage"
-        Me.lblMileage.Size = New System.Drawing.Size(120, 18)
+        Me.lblMileage.Size = New System.Drawing.Size(178, 26)
         Me.lblMileage.TabIndex = 4
         Me.lblMileage.Text = "Car mileage [km]"
         '
@@ -311,10 +311,9 @@ Partial Class formTableViewer
         '
         Me.lblAvgFuel.AutoSize = True
         Me.lblAvgFuel.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblAvgFuel.Location = New System.Drawing.Point(34, 170)
-        Me.lblAvgFuel.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.lblAvgFuel.Location = New System.Drawing.Point(51, 262)
         Me.lblAvgFuel.Name = "lblAvgFuel"
-        Me.lblAvgFuel.Size = New System.Drawing.Size(237, 18)
+        Me.lblAvgFuel.Size = New System.Drawing.Size(349, 26)
         Me.lblAvgFuel.TabIndex = 3
         Me.lblAvgFuel.Text = "Car average fuel consumtion [l/km]"
         '
@@ -322,10 +321,9 @@ Partial Class formTableViewer
         '
         Me.lblHeader.AutoSize = True
         Me.lblHeader.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblHeader.Location = New System.Drawing.Point(226, 13)
-        Me.lblHeader.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.lblHeader.Location = New System.Drawing.Point(339, 20)
         Me.lblHeader.Name = "lblHeader"
-        Me.lblHeader.Size = New System.Drawing.Size(137, 24)
+        Me.lblHeader.Size = New System.Drawing.Size(208, 32)
         Me.lblHeader.TabIndex = 0
         Me.lblHeader.Text = "Add a car to list"
         '
@@ -338,11 +336,11 @@ Partial Class formTableViewer
         Me.tpCarsList.Controls.Add(Me.btnCarBack)
         Me.tpCarsList.Controls.Add(Me.btnAddCar)
         Me.tpCarsList.Controls.Add(Me.dgvCarsList)
-        Me.tpCarsList.Location = New System.Drawing.Point(4, 25)
-        Me.tpCarsList.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.tpCarsList.Location = New System.Drawing.Point(4, 32)
+        Me.tpCarsList.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.tpCarsList.Name = "tpCarsList"
-        Me.tpCarsList.Padding = New System.Windows.Forms.Padding(2, 1, 2, 1)
-        Me.tpCarsList.Size = New System.Drawing.Size(590, 334)
+        Me.tpCarsList.Padding = New System.Windows.Forms.Padding(3, 2, 3, 2)
+        Me.tpCarsList.Size = New System.Drawing.Size(889, 522)
         Me.tpCarsList.TabIndex = 0
         Me.tpCarsList.Text = "Cars"
         Me.tpCarsList.UseVisualStyleBackColor = True
@@ -350,20 +348,19 @@ Partial Class formTableViewer
         'cbCarsSort
         '
         Me.cbCarsSort.FormattingEnabled = True
-        Me.cbCarsSort.Items.AddRange(New Object() {"A -> Z", "Z -> A", "Distance: Ascending", "Distance: Descending", "Available", "Unavailable", "Archived", "Unarchived"})
-        Me.cbCarsSort.Location = New System.Drawing.Point(364, 6)
-        Me.cbCarsSort.Margin = New System.Windows.Forms.Padding(2)
+        Me.cbCarsSort.Items.AddRange(New Object() {"A -> Z", "Z -> A", "Distance: Ascending", "Distance: Descending", "Available", "Unavailable", "Archived", "Unarchived", "Critical"})
+        Me.cbCarsSort.Location = New System.Drawing.Point(546, 9)
         Me.cbCarsSort.Name = "cbCarsSort"
-        Me.cbCarsSort.Size = New System.Drawing.Size(137, 21)
+        Me.cbCarsSort.Size = New System.Drawing.Size(204, 28)
         Me.cbCarsSort.TabIndex = 6
         Me.cbCarsSort.Text = "Sort"
         '
         'btnAddMember
         '
-        Me.btnAddMember.Location = New System.Drawing.Point(237, 5)
-        Me.btnAddMember.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.btnAddMember.Location = New System.Drawing.Point(356, 8)
+        Me.btnAddMember.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.btnAddMember.Name = "btnAddMember"
-        Me.btnAddMember.Size = New System.Drawing.Size(90, 19)
+        Me.btnAddMember.Size = New System.Drawing.Size(135, 29)
         Me.btnAddMember.TabIndex = 5
         Me.btnAddMember.Text = "Add member"
         Me.btnAddMember.UseVisualStyleBackColor = True
@@ -377,26 +374,28 @@ Partial Class formTableViewer
         Me.pnlLogs.Controls.Add(Me.btnAddLog)
         Me.pnlLogs.Controls.Add(Me.dgvLogsList)
         Me.pnlLogs.Controls.Add(Me.gbLogDetails)
-        Me.pnlLogs.Location = New System.Drawing.Point(3, 52)
-        Me.pnlLogs.Margin = New System.Windows.Forms.Padding(3, 1, 3, 1)
+        Me.pnlLogs.Location = New System.Drawing.Point(4, 80)
+        Me.pnlLogs.Margin = New System.Windows.Forms.Padding(4, 2, 4, 2)
         Me.pnlLogs.Name = "pnlLogs"
-        Me.pnlLogs.Size = New System.Drawing.Size(583, 183)
+        Me.pnlLogs.Size = New System.Drawing.Size(874, 282)
         Me.pnlLogs.TabIndex = 4
         Me.pnlLogs.Visible = False
         '
         'dtpStatsTimeEnd
         '
-        Me.dtpStatsTimeEnd.Location = New System.Drawing.Point(386, 157)
+        Me.dtpStatsTimeEnd.Location = New System.Drawing.Point(579, 242)
+        Me.dtpStatsTimeEnd.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.dtpStatsTimeEnd.Name = "dtpStatsTimeEnd"
-        Me.dtpStatsTimeEnd.Size = New System.Drawing.Size(128, 20)
+        Me.dtpStatsTimeEnd.Size = New System.Drawing.Size(190, 26)
         Me.dtpStatsTimeEnd.TabIndex = 10
         Me.dtpStatsTimeEnd.Value = New Date(2025, 5, 13, 22, 59, 9, 0)
         '
         'btnGetDistance
         '
-        Me.btnGetDistance.Location = New System.Drawing.Point(518, 135)
+        Me.btnGetDistance.Location = New System.Drawing.Point(777, 208)
+        Me.btnGetDistance.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.btnGetDistance.Name = "btnGetDistance"
-        Me.btnGetDistance.Size = New System.Drawing.Size(62, 44)
+        Me.btnGetDistance.Size = New System.Drawing.Size(93, 68)
         Me.btnGetDistance.TabIndex = 8
         Me.btnGetDistance.Text = "Get Distance"
         Me.btnGetDistance.UseVisualStyleBackColor = True
@@ -404,27 +403,28 @@ Partial Class formTableViewer
         'dtpStatsTimeStart
         '
         Me.dtpStatsTimeStart.CustomFormat = ""
-        Me.dtpStatsTimeStart.Location = New System.Drawing.Point(199, 157)
+        Me.dtpStatsTimeStart.Location = New System.Drawing.Point(298, 242)
+        Me.dtpStatsTimeStart.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.dtpStatsTimeStart.Name = "dtpStatsTimeStart"
-        Me.dtpStatsTimeStart.Size = New System.Drawing.Size(143, 20)
+        Me.dtpStatsTimeStart.Size = New System.Drawing.Size(212, 26)
         Me.dtpStatsTimeStart.TabIndex = 9
         '
         'btnProblems
         '
-        Me.btnProblems.Location = New System.Drawing.Point(518, 53)
-        Me.btnProblems.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.btnProblems.Location = New System.Drawing.Point(777, 82)
+        Me.btnProblems.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.btnProblems.Name = "btnProblems"
-        Me.btnProblems.Size = New System.Drawing.Size(62, 38)
+        Me.btnProblems.Size = New System.Drawing.Size(93, 58)
         Me.btnProblems.TabIndex = 3
         Me.btnProblems.Text = "Problems"
         Me.btnProblems.UseVisualStyleBackColor = True
         '
         'btnAddLog
         '
-        Me.btnAddLog.Location = New System.Drawing.Point(518, 8)
-        Me.btnAddLog.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.btnAddLog.Location = New System.Drawing.Point(777, 12)
+        Me.btnAddLog.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.btnAddLog.Name = "btnAddLog"
-        Me.btnAddLog.Size = New System.Drawing.Size(62, 38)
+        Me.btnAddLog.Size = New System.Drawing.Size(93, 58)
         Me.btnAddLog.TabIndex = 2
         Me.btnAddLog.Text = "Add Log"
         Me.btnAddLog.UseVisualStyleBackColor = True
@@ -432,14 +432,14 @@ Partial Class formTableViewer
         'dgvLogsList
         '
         Me.dgvLogsList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dgvLogsList.Location = New System.Drawing.Point(199, 8)
-        Me.dgvLogsList.Margin = New System.Windows.Forms.Padding(3, 1, 3, 1)
+        Me.dgvLogsList.Location = New System.Drawing.Point(298, 12)
+        Me.dgvLogsList.Margin = New System.Windows.Forms.Padding(4, 2, 4, 2)
         Me.dgvLogsList.Name = "dgvLogsList"
         Me.dgvLogsList.ReadOnly = True
         Me.dgvLogsList.RowHeadersVisible = False
         Me.dgvLogsList.RowHeadersWidth = 51
         Me.dgvLogsList.RowTemplate.Height = 24
-        Me.dgvLogsList.Size = New System.Drawing.Size(314, 130)
+        Me.dgvLogsList.Size = New System.Drawing.Size(471, 200)
         Me.dgvLogsList.TabIndex = 1
         '
         'gbLogDetails
@@ -452,11 +452,11 @@ Partial Class formTableViewer
         Me.gbLogDetails.Controls.Add(Me.lblLogComment)
         Me.gbLogDetails.Controls.Add(Me.lblTotalDistance)
         Me.gbLogDetails.Controls.Add(Me.lblStartTime)
-        Me.gbLogDetails.Location = New System.Drawing.Point(1, 1)
-        Me.gbLogDetails.Margin = New System.Windows.Forms.Padding(1)
+        Me.gbLogDetails.Location = New System.Drawing.Point(2, 2)
+        Me.gbLogDetails.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.gbLogDetails.Name = "gbLogDetails"
-        Me.gbLogDetails.Padding = New System.Windows.Forms.Padding(3, 1, 3, 1)
-        Me.gbLogDetails.Size = New System.Drawing.Size(191, 174)
+        Me.gbLogDetails.Padding = New System.Windows.Forms.Padding(4, 2, 4, 2)
+        Me.gbLogDetails.Size = New System.Drawing.Size(286, 268)
         Me.gbLogDetails.TabIndex = 0
         Me.gbLogDetails.TabStop = False
         Me.gbLogDetails.Text = "Details"
@@ -465,9 +465,10 @@ Partial Class formTableViewer
         '
         Me.lblCommentData.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblCommentData.AutoSize = True
-        Me.lblCommentData.Location = New System.Drawing.Point(84, 85)
+        Me.lblCommentData.Location = New System.Drawing.Point(126, 131)
+        Me.lblCommentData.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblCommentData.Name = "lblCommentData"
-        Me.lblCommentData.Size = New System.Drawing.Size(25, 13)
+        Me.lblCommentData.Size = New System.Drawing.Size(36, 20)
         Me.lblCommentData.TabIndex = 7
         Me.lblCommentData.Text = "___"
         Me.lblCommentData.TextAlign = System.Drawing.ContentAlignment.TopRight
@@ -476,9 +477,10 @@ Partial Class formTableViewer
         '
         Me.lblDistanceData.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblDistanceData.AutoSize = True
-        Me.lblDistanceData.Location = New System.Drawing.Point(84, 62)
+        Me.lblDistanceData.Location = New System.Drawing.Point(126, 95)
+        Me.lblDistanceData.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblDistanceData.Name = "lblDistanceData"
-        Me.lblDistanceData.Size = New System.Drawing.Size(25, 13)
+        Me.lblDistanceData.Size = New System.Drawing.Size(36, 20)
         Me.lblDistanceData.TabIndex = 6
         Me.lblDistanceData.Text = "___"
         Me.lblDistanceData.TextAlign = System.Drawing.ContentAlignment.TopRight
@@ -487,9 +489,10 @@ Partial Class formTableViewer
         '
         Me.lblEndData.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblEndData.AutoSize = True
-        Me.lblEndData.Location = New System.Drawing.Point(84, 40)
+        Me.lblEndData.Location = New System.Drawing.Point(126, 62)
+        Me.lblEndData.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblEndData.Name = "lblEndData"
-        Me.lblEndData.Size = New System.Drawing.Size(25, 13)
+        Me.lblEndData.Size = New System.Drawing.Size(36, 20)
         Me.lblEndData.TabIndex = 5
         Me.lblEndData.Text = "___"
         Me.lblEndData.TextAlign = System.Drawing.ContentAlignment.TopRight
@@ -498,9 +501,10 @@ Partial Class formTableViewer
         '
         Me.lblStartData.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblStartData.AutoSize = True
-        Me.lblStartData.Location = New System.Drawing.Point(84, 17)
+        Me.lblStartData.Location = New System.Drawing.Point(126, 26)
+        Me.lblStartData.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblStartData.Name = "lblStartData"
-        Me.lblStartData.Size = New System.Drawing.Size(25, 13)
+        Me.lblStartData.Size = New System.Drawing.Size(36, 20)
         Me.lblStartData.TabIndex = 4
         Me.lblStartData.Text = "___"
         Me.lblStartData.TextAlign = System.Drawing.ContentAlignment.TopRight
@@ -508,40 +512,36 @@ Partial Class formTableViewer
         'lblEndTime
         '
         Me.lblEndTime.AutoSize = True
-        Me.lblEndTime.Location = New System.Drawing.Point(4, 40)
-        Me.lblEndTime.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.lblEndTime.Location = New System.Drawing.Point(6, 62)
         Me.lblEndTime.Name = "lblEndTime"
-        Me.lblEndTime.Size = New System.Drawing.Size(29, 13)
+        Me.lblEndTime.Size = New System.Drawing.Size(42, 20)
         Me.lblEndTime.TabIndex = 3
         Me.lblEndTime.Text = "End:"
         '
         'lblLogComment
         '
         Me.lblLogComment.AutoSize = True
-        Me.lblLogComment.Location = New System.Drawing.Point(5, 85)
-        Me.lblLogComment.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.lblLogComment.Location = New System.Drawing.Point(8, 131)
         Me.lblLogComment.Name = "lblLogComment"
-        Me.lblLogComment.Size = New System.Drawing.Size(54, 13)
+        Me.lblLogComment.Size = New System.Drawing.Size(82, 20)
         Me.lblLogComment.TabIndex = 2
         Me.lblLogComment.Text = "Comment:"
         '
         'lblTotalDistance
         '
         Me.lblTotalDistance.AutoSize = True
-        Me.lblTotalDistance.Location = New System.Drawing.Point(4, 62)
-        Me.lblTotalDistance.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.lblTotalDistance.Location = New System.Drawing.Point(6, 95)
         Me.lblTotalDistance.Name = "lblTotalDistance"
-        Me.lblTotalDistance.Size = New System.Drawing.Size(77, 13)
+        Me.lblTotalDistance.Size = New System.Drawing.Size(112, 20)
         Me.lblTotalDistance.TabIndex = 1
         Me.lblTotalDistance.Text = "Total distance:"
         '
         'lblStartTime
         '
         Me.lblStartTime.AutoSize = True
-        Me.lblStartTime.Location = New System.Drawing.Point(4, 17)
-        Me.lblStartTime.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.lblStartTime.Location = New System.Drawing.Point(6, 26)
         Me.lblStartTime.Name = "lblStartTime"
-        Me.lblStartTime.Size = New System.Drawing.Size(32, 13)
+        Me.lblStartTime.Size = New System.Drawing.Size(48, 20)
         Me.lblStartTime.TabIndex = 0
         Me.lblStartTime.Text = "Start:"
         '
@@ -551,19 +551,19 @@ Partial Class formTableViewer
         Me.pnlDetails.Controls.Add(Me.dgvProblemsList)
         Me.pnlDetails.Controls.Add(Me.btnLogs)
         Me.pnlDetails.Controls.Add(Me.gbCarDetails)
-        Me.pnlDetails.Location = New System.Drawing.Point(3, 238)
-        Me.pnlDetails.Margin = New System.Windows.Forms.Padding(3, 1, 3, 1)
+        Me.pnlDetails.Location = New System.Drawing.Point(4, 366)
+        Me.pnlDetails.Margin = New System.Windows.Forms.Padding(4, 2, 4, 2)
         Me.pnlDetails.Name = "pnlDetails"
-        Me.pnlDetails.Size = New System.Drawing.Size(583, 183)
+        Me.pnlDetails.Size = New System.Drawing.Size(874, 282)
         Me.pnlDetails.TabIndex = 3
         Me.pnlDetails.Visible = False
         '
         'btnAddProblem
         '
-        Me.btnAddProblem.Location = New System.Drawing.Point(518, 8)
-        Me.btnAddProblem.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.btnAddProblem.Location = New System.Drawing.Point(777, 12)
+        Me.btnAddProblem.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.btnAddProblem.Name = "btnAddProblem"
-        Me.btnAddProblem.Size = New System.Drawing.Size(62, 38)
+        Me.btnAddProblem.Size = New System.Drawing.Size(93, 58)
         Me.btnAddProblem.TabIndex = 7
         Me.btnAddProblem.Text = "Add Problem"
         Me.btnAddProblem.UseVisualStyleBackColor = True
@@ -571,22 +571,22 @@ Partial Class formTableViewer
         'dgvProblemsList
         '
         Me.dgvProblemsList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dgvProblemsList.Location = New System.Drawing.Point(202, 10)
-        Me.dgvProblemsList.Margin = New System.Windows.Forms.Padding(3, 1, 3, 1)
+        Me.dgvProblemsList.Location = New System.Drawing.Point(303, 15)
+        Me.dgvProblemsList.Margin = New System.Windows.Forms.Padding(4, 2, 4, 2)
         Me.dgvProblemsList.Name = "dgvProblemsList"
         Me.dgvProblemsList.ReadOnly = True
         Me.dgvProblemsList.RowHeadersVisible = False
         Me.dgvProblemsList.RowHeadersWidth = 51
         Me.dgvProblemsList.RowTemplate.Height = 24
-        Me.dgvProblemsList.Size = New System.Drawing.Size(311, 166)
+        Me.dgvProblemsList.Size = New System.Drawing.Size(466, 255)
         Me.dgvProblemsList.TabIndex = 6
         '
         'btnLogs
         '
-        Me.btnLogs.Location = New System.Drawing.Point(518, 53)
-        Me.btnLogs.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.btnLogs.Location = New System.Drawing.Point(777, 82)
+        Me.btnLogs.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.btnLogs.Name = "btnLogs"
-        Me.btnLogs.Size = New System.Drawing.Size(62, 38)
+        Me.btnLogs.Size = New System.Drawing.Size(93, 58)
         Me.btnLogs.TabIndex = 5
         Me.btnLogs.Text = "Logs"
         Me.btnLogs.UseVisualStyleBackColor = True
@@ -602,11 +602,11 @@ Partial Class formTableViewer
         Me.gbCarDetails.Controls.Add(Me.lblMilage)
         Me.gbCarDetails.Controls.Add(Me.lblInsurance)
         Me.gbCarDetails.Controls.Add(Me.lblFuel)
-        Me.gbCarDetails.Location = New System.Drawing.Point(1, 1)
-        Me.gbCarDetails.Margin = New System.Windows.Forms.Padding(1)
+        Me.gbCarDetails.Location = New System.Drawing.Point(2, 2)
+        Me.gbCarDetails.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.gbCarDetails.Name = "gbCarDetails"
-        Me.gbCarDetails.Padding = New System.Windows.Forms.Padding(3, 1, 3, 1)
-        Me.gbCarDetails.Size = New System.Drawing.Size(194, 174)
+        Me.gbCarDetails.Padding = New System.Windows.Forms.Padding(4, 2, 4, 2)
+        Me.gbCarDetails.Size = New System.Drawing.Size(291, 268)
         Me.gbCarDetails.TabIndex = 4
         Me.gbCarDetails.TabStop = False
         Me.gbCarDetails.Text = "Details"
@@ -614,9 +614,10 @@ Partial Class formTableViewer
         'lblInsuranceNameData
         '
         Me.lblInsuranceNameData.AutoSize = True
-        Me.lblInsuranceNameData.Location = New System.Drawing.Point(130, 64)
+        Me.lblInsuranceNameData.Location = New System.Drawing.Point(195, 98)
+        Me.lblInsuranceNameData.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblInsuranceNameData.Name = "lblInsuranceNameData"
-        Me.lblInsuranceNameData.Size = New System.Drawing.Size(25, 13)
+        Me.lblInsuranceNameData.Size = New System.Drawing.Size(36, 20)
         Me.lblInsuranceNameData.TabIndex = 9
         Me.lblInsuranceNameData.Text = "___"
         Me.lblInsuranceNameData.TextAlign = System.Drawing.ContentAlignment.TopRight
@@ -624,17 +625,19 @@ Partial Class formTableViewer
         'lblInsuranceName
         '
         Me.lblInsuranceName.AutoSize = True
-        Me.lblInsuranceName.Location = New System.Drawing.Point(4, 64)
+        Me.lblInsuranceName.Location = New System.Drawing.Point(6, 98)
+        Me.lblInsuranceName.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblInsuranceName.Name = "lblInsuranceName"
-        Me.lblInsuranceName.Size = New System.Drawing.Size(57, 13)
+        Me.lblInsuranceName.Size = New System.Drawing.Size(84, 20)
         Me.lblInsuranceName.TabIndex = 8
         Me.lblInsuranceName.Text = "Insurance:"
         '
         'btnDetailsUpdateInsurance
         '
-        Me.btnDetailsUpdateInsurance.Location = New System.Drawing.Point(6, 116)
+        Me.btnDetailsUpdateInsurance.Location = New System.Drawing.Point(9, 178)
+        Me.btnDetailsUpdateInsurance.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.btnDetailsUpdateInsurance.Name = "btnDetailsUpdateInsurance"
-        Me.btnDetailsUpdateInsurance.Size = New System.Drawing.Size(182, 23)
+        Me.btnDetailsUpdateInsurance.Size = New System.Drawing.Size(273, 35)
         Me.btnDetailsUpdateInsurance.TabIndex = 7
         Me.btnDetailsUpdateInsurance.Text = "Update insurance"
         Me.btnDetailsUpdateInsurance.UseVisualStyleBackColor = True
@@ -643,9 +646,10 @@ Partial Class formTableViewer
         '
         Me.lblInsuranceData.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblInsuranceData.AutoSize = True
-        Me.lblInsuranceData.Location = New System.Drawing.Point(130, 91)
+        Me.lblInsuranceData.Location = New System.Drawing.Point(195, 140)
+        Me.lblInsuranceData.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblInsuranceData.Name = "lblInsuranceData"
-        Me.lblInsuranceData.Size = New System.Drawing.Size(25, 13)
+        Me.lblInsuranceData.Size = New System.Drawing.Size(36, 20)
         Me.lblInsuranceData.TabIndex = 6
         Me.lblInsuranceData.Text = "___"
         Me.lblInsuranceData.TextAlign = System.Drawing.ContentAlignment.TopRight
@@ -654,9 +658,10 @@ Partial Class formTableViewer
         '
         Me.lblMilageData.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblMilageData.AutoSize = True
-        Me.lblMilageData.Location = New System.Drawing.Point(130, 42)
+        Me.lblMilageData.Location = New System.Drawing.Point(195, 65)
+        Me.lblMilageData.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblMilageData.Name = "lblMilageData"
-        Me.lblMilageData.Size = New System.Drawing.Size(25, 13)
+        Me.lblMilageData.Size = New System.Drawing.Size(36, 20)
         Me.lblMilageData.TabIndex = 5
         Me.lblMilageData.Text = "___"
         Me.lblMilageData.TextAlign = System.Drawing.ContentAlignment.TopRight
@@ -665,9 +670,10 @@ Partial Class formTableViewer
         '
         Me.lblFuelData.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblFuelData.AutoSize = True
-        Me.lblFuelData.Location = New System.Drawing.Point(130, 20)
+        Me.lblFuelData.Location = New System.Drawing.Point(195, 31)
+        Me.lblFuelData.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblFuelData.Name = "lblFuelData"
-        Me.lblFuelData.Size = New System.Drawing.Size(71, 13)
+        Me.lblFuelData.Size = New System.Drawing.Size(101, 20)
         Me.lblFuelData.TabIndex = 4
         Me.lblFuelData.Text = "___ L/100km"
         Me.lblFuelData.TextAlign = System.Drawing.ContentAlignment.TopRight
@@ -675,48 +681,47 @@ Partial Class formTableViewer
         'lblMilage
         '
         Me.lblMilage.AutoSize = True
-        Me.lblMilage.Location = New System.Drawing.Point(4, 42)
-        Me.lblMilage.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.lblMilage.Location = New System.Drawing.Point(6, 65)
         Me.lblMilage.Name = "lblMilage"
-        Me.lblMilage.Size = New System.Drawing.Size(44, 13)
+        Me.lblMilage.Size = New System.Drawing.Size(63, 20)
         Me.lblMilage.TabIndex = 1
         Me.lblMilage.Text = "Milage: "
         '
         'lblInsurance
         '
         Me.lblInsurance.AutoSize = True
-        Me.lblInsurance.Location = New System.Drawing.Point(5, 91)
+        Me.lblInsurance.Location = New System.Drawing.Point(8, 140)
+        Me.lblInsurance.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblInsurance.Name = "lblInsurance"
-        Me.lblInsurance.Size = New System.Drawing.Size(87, 13)
+        Me.lblInsurance.Size = New System.Drawing.Size(128, 20)
         Me.lblInsurance.TabIndex = 3
         Me.lblInsurance.Text = "Insurance expiry:"
         '
         'lblFuel
         '
         Me.lblFuel.AutoSize = True
-        Me.lblFuel.Location = New System.Drawing.Point(4, 20)
-        Me.lblFuel.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.lblFuel.Location = New System.Drawing.Point(6, 31)
         Me.lblFuel.Name = "lblFuel"
-        Me.lblFuel.Size = New System.Drawing.Size(133, 13)
+        Me.lblFuel.Size = New System.Drawing.Size(197, 20)
         Me.lblFuel.TabIndex = 0
         Me.lblFuel.Text = "Average fuel consumption:"
         '
         'btnCarBack
         '
-        Me.btnCarBack.Location = New System.Drawing.Point(5, 5)
-        Me.btnCarBack.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.btnCarBack.Location = New System.Drawing.Point(8, 8)
+        Me.btnCarBack.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.btnCarBack.Name = "btnCarBack"
-        Me.btnCarBack.Size = New System.Drawing.Size(56, 19)
+        Me.btnCarBack.Size = New System.Drawing.Size(84, 29)
         Me.btnCarBack.TabIndex = 2
         Me.btnCarBack.Text = "Back"
         Me.btnCarBack.UseVisualStyleBackColor = True
         '
         'btnAddCar
         '
-        Me.btnAddCar.Location = New System.Drawing.Point(530, 5)
-        Me.btnAddCar.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.btnAddCar.Location = New System.Drawing.Point(795, 8)
+        Me.btnAddCar.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.btnAddCar.Name = "btnAddCar"
-        Me.btnAddCar.Size = New System.Drawing.Size(56, 19)
+        Me.btnAddCar.Size = New System.Drawing.Size(84, 29)
         Me.btnAddCar.TabIndex = 1
         Me.btnAddCar.Text = "Add car"
         Me.btnAddCar.UseVisualStyleBackColor = True
@@ -725,14 +730,14 @@ Partial Class formTableViewer
         '
         Me.dgvCarsList.ColumnHeadersHeight = 29
         Me.dgvCarsList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing
-        Me.dgvCarsList.Location = New System.Drawing.Point(4, 27)
-        Me.dgvCarsList.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.dgvCarsList.Location = New System.Drawing.Point(6, 42)
+        Me.dgvCarsList.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.dgvCarsList.Name = "dgvCarsList"
         Me.dgvCarsList.ReadOnly = True
         Me.dgvCarsList.RowHeadersVisible = False
         Me.dgvCarsList.RowHeadersWidth = 51
         Me.dgvCarsList.RowTemplate.Height = 24
-        Me.dgvCarsList.Size = New System.Drawing.Size(583, 305)
+        Me.dgvCarsList.Size = New System.Drawing.Size(874, 469)
         Me.dgvCarsList.TabIndex = 0
         '
         'tpGroups
@@ -741,20 +746,20 @@ Partial Class formTableViewer
         Me.tpGroups.Controls.Add(Me.gbGroups)
         Me.tpGroups.Controls.Add(Me.gbRideHistory)
         Me.tpGroups.Controls.Add(Me.btnLogOut)
-        Me.tpGroups.Location = New System.Drawing.Point(4, 25)
-        Me.tpGroups.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.tpGroups.Location = New System.Drawing.Point(4, 32)
+        Me.tpGroups.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.tpGroups.Name = "tpGroups"
-        Me.tpGroups.Size = New System.Drawing.Size(590, 334)
+        Me.tpGroups.Size = New System.Drawing.Size(889, 522)
         Me.tpGroups.TabIndex = 6
         Me.tpGroups.Text = "Groups"
         Me.tpGroups.UseVisualStyleBackColor = True
         '
         'btnNewGroup
         '
-        Me.btnNewGroup.Location = New System.Drawing.Point(217, 5)
-        Me.btnNewGroup.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.btnNewGroup.Location = New System.Drawing.Point(326, 8)
+        Me.btnNewGroup.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.btnNewGroup.Name = "btnNewGroup"
-        Me.btnNewGroup.Size = New System.Drawing.Size(64, 19)
+        Me.btnNewGroup.Size = New System.Drawing.Size(96, 29)
         Me.btnNewGroup.TabIndex = 5
         Me.btnNewGroup.Text = "New group"
         Me.btnNewGroup.UseVisualStyleBackColor = True
@@ -762,11 +767,11 @@ Partial Class formTableViewer
         'gbGroups
         '
         Me.gbGroups.Controls.Add(Me.dgvGroupsList)
-        Me.gbGroups.Location = New System.Drawing.Point(4, 27)
-        Me.gbGroups.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.gbGroups.Location = New System.Drawing.Point(6, 42)
+        Me.gbGroups.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.gbGroups.Name = "gbGroups"
-        Me.gbGroups.Padding = New System.Windows.Forms.Padding(2, 1, 2, 1)
-        Me.gbGroups.Size = New System.Drawing.Size(281, 302)
+        Me.gbGroups.Padding = New System.Windows.Forms.Padding(3, 2, 3, 2)
+        Me.gbGroups.Size = New System.Drawing.Size(422, 465)
         Me.gbGroups.TabIndex = 4
         Me.gbGroups.TabStop = False
         Me.gbGroups.Text = "Groups"
@@ -774,47 +779,58 @@ Partial Class formTableViewer
         'dgvGroupsList
         '
         Me.dgvGroupsList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dgvGroupsList.Location = New System.Drawing.Point(4, 20)
-        Me.dgvGroupsList.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.dgvGroupsList.Location = New System.Drawing.Point(6, 31)
+        Me.dgvGroupsList.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.dgvGroupsList.Name = "dgvGroupsList"
         Me.dgvGroupsList.ReadOnly = True
         Me.dgvGroupsList.RowHeadersVisible = False
         Me.dgvGroupsList.RowHeadersWidth = 51
         Me.dgvGroupsList.RowTemplate.Height = 24
-        Me.dgvGroupsList.Size = New System.Drawing.Size(272, 282)
+        Me.dgvGroupsList.Size = New System.Drawing.Size(408, 434)
         Me.dgvGroupsList.TabIndex = 0
         '
         'gbRideHistory
         '
         Me.gbRideHistory.Controls.Add(Me.dgvUserHistoryList)
-        Me.gbRideHistory.Location = New System.Drawing.Point(290, 5)
-        Me.gbRideHistory.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.gbRideHistory.Location = New System.Drawing.Point(435, 8)
+        Me.gbRideHistory.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.gbRideHistory.Name = "gbRideHistory"
-        Me.gbRideHistory.Padding = New System.Windows.Forms.Padding(2, 1, 2, 1)
-        Me.gbRideHistory.Size = New System.Drawing.Size(299, 328)
+        Me.gbRideHistory.Padding = New System.Windows.Forms.Padding(3, 2, 3, 2)
+        Me.gbRideHistory.Size = New System.Drawing.Size(448, 505)
         Me.gbRideHistory.TabIndex = 3
         Me.gbRideHistory.TabStop = False
         Me.gbRideHistory.Text = "Ride history"
         '
+        'cbSortRides
+        '
+        Me.cbSortRides.FormattingEnabled = True
+        Me.cbSortRides.Items.AddRange(New Object() {"A -> Z", "Z -> A", "Newest -> Oldest", "Oldest -> Newest", "Distance: Ascending", "Distance: Decending"})
+        Me.cbSortRides.Location = New System.Drawing.Point(306, 31)
+        Me.cbSortRides.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
+        Me.cbSortRides.Name = "cbSortRides"
+        Me.cbSortRides.Size = New System.Drawing.Size(136, 28)
+        Me.cbSortRides.TabIndex = 2
+        Me.cbSortRides.Text = "Sort"
+        '
         'dgvUserHistoryList
         '
         Me.dgvUserHistoryList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dgvUserHistoryList.Location = New System.Drawing.Point(5, 43)
-        Me.dgvUserHistoryList.Margin = New System.Windows.Forms.Padding(3, 1, 3, 1)
+        Me.dgvUserHistoryList.Location = New System.Drawing.Point(8, 66)
+        Me.dgvUserHistoryList.Margin = New System.Windows.Forms.Padding(4, 2, 4, 2)
         Me.dgvUserHistoryList.Name = "dgvUserHistoryList"
         Me.dgvUserHistoryList.ReadOnly = True
         Me.dgvUserHistoryList.RowHeadersVisible = False
         Me.dgvUserHistoryList.RowHeadersWidth = 51
         Me.dgvUserHistoryList.RowTemplate.Height = 24
-        Me.dgvUserHistoryList.Size = New System.Drawing.Size(290, 282)
+        Me.dgvUserHistoryList.Size = New System.Drawing.Size(435, 434)
         Me.dgvUserHistoryList.TabIndex = 1
         '
         'btnLogOut
         '
-        Me.btnLogOut.Location = New System.Drawing.Point(5, 5)
-        Me.btnLogOut.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.btnLogOut.Location = New System.Drawing.Point(8, 8)
+        Me.btnLogOut.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.btnLogOut.Name = "btnLogOut"
-        Me.btnLogOut.Size = New System.Drawing.Size(56, 19)
+        Me.btnLogOut.Size = New System.Drawing.Size(84, 29)
         Me.btnLogOut.TabIndex = 2
         Me.btnLogOut.Text = "Log out"
         Me.btnLogOut.UseVisualStyleBackColor = True
@@ -828,39 +844,38 @@ Partial Class formTableViewer
         Me.tpLogin.Controls.Add(Me.btnLoginRegister)
         Me.tpLogin.Controls.Add(Me.btnLoginLogin)
         Me.tpLogin.Controls.Add(Me.lblLoginTitle)
-        Me.tpLogin.Location = New System.Drawing.Point(4, 25)
-        Me.tpLogin.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.tpLogin.Location = New System.Drawing.Point(4, 32)
+        Me.tpLogin.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.tpLogin.Name = "tpLogin"
-        Me.tpLogin.Size = New System.Drawing.Size(590, 334)
+        Me.tpLogin.Size = New System.Drawing.Size(889, 522)
         Me.tpLogin.TabIndex = 5
         Me.tpLogin.Text = "Login"
         Me.tpLogin.UseVisualStyleBackColor = True
         '
         'txtLoginPassword
         '
-        Me.txtLoginPassword.Location = New System.Drawing.Point(216, 153)
-        Me.txtLoginPassword.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.txtLoginPassword.Location = New System.Drawing.Point(324, 235)
+        Me.txtLoginPassword.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.txtLoginPassword.Name = "txtLoginPassword"
-        Me.txtLoginPassword.Size = New System.Drawing.Size(166, 20)
+        Me.txtLoginPassword.Size = New System.Drawing.Size(247, 26)
         Me.txtLoginPassword.TabIndex = 18
         Me.txtLoginPassword.UseSystemPasswordChar = True
         '
         'txtLoginEmail
         '
-        Me.txtLoginEmail.Location = New System.Drawing.Point(216, 108)
-        Me.txtLoginEmail.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.txtLoginEmail.Location = New System.Drawing.Point(324, 166)
+        Me.txtLoginEmail.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.txtLoginEmail.Name = "txtLoginEmail"
-        Me.txtLoginEmail.Size = New System.Drawing.Size(166, 20)
+        Me.txtLoginEmail.Size = New System.Drawing.Size(247, 26)
         Me.txtLoginEmail.TabIndex = 17
         '
         'lblLoginPassword
         '
         Me.lblLoginPassword.AutoSize = True
         Me.lblLoginPassword.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblLoginPassword.Location = New System.Drawing.Point(146, 153)
-        Me.lblLoginPassword.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.lblLoginPassword.Location = New System.Drawing.Point(219, 235)
         Me.lblLoginPassword.Name = "lblLoginPassword"
-        Me.lblLoginPassword.Size = New System.Drawing.Size(73, 17)
+        Me.lblLoginPassword.Size = New System.Drawing.Size(112, 25)
         Me.lblLoginPassword.TabIndex = 16
         Me.lblLoginPassword.Text = "Password:"
         '
@@ -868,20 +883,19 @@ Partial Class formTableViewer
         '
         Me.lblLoginEmail.AutoSize = True
         Me.lblLoginEmail.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblLoginEmail.Location = New System.Drawing.Point(170, 108)
-        Me.lblLoginEmail.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.lblLoginEmail.Location = New System.Drawing.Point(255, 166)
         Me.lblLoginEmail.Name = "lblLoginEmail"
-        Me.lblLoginEmail.Size = New System.Drawing.Size(46, 17)
+        Me.lblLoginEmail.Size = New System.Drawing.Size(71, 25)
         Me.lblLoginEmail.TabIndex = 15
         Me.lblLoginEmail.Text = "Email:"
         '
         'btnLoginRegister
         '
         Me.btnLoginRegister.BackColor = System.Drawing.SystemColors.ActiveBorder
-        Me.btnLoginRegister.Location = New System.Drawing.Point(216, 267)
-        Me.btnLoginRegister.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.btnLoginRegister.Location = New System.Drawing.Point(324, 411)
+        Me.btnLoginRegister.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.btnLoginRegister.Name = "btnLoginRegister"
-        Me.btnLoginRegister.Size = New System.Drawing.Size(165, 43)
+        Me.btnLoginRegister.Size = New System.Drawing.Size(248, 66)
         Me.btnLoginRegister.TabIndex = 14
         Me.btnLoginRegister.Text = "Register"
         Me.btnLoginRegister.UseVisualStyleBackColor = False
@@ -889,10 +903,10 @@ Partial Class formTableViewer
         'btnLoginLogin
         '
         Me.btnLoginLogin.BackColor = System.Drawing.SystemColors.ActiveCaption
-        Me.btnLoginLogin.Location = New System.Drawing.Point(216, 212)
-        Me.btnLoginLogin.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.btnLoginLogin.Location = New System.Drawing.Point(324, 326)
+        Me.btnLoginLogin.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.btnLoginLogin.Name = "btnLoginLogin"
-        Me.btnLoginLogin.Size = New System.Drawing.Size(165, 43)
+        Me.btnLoginLogin.Size = New System.Drawing.Size(248, 66)
         Me.btnLoginLogin.TabIndex = 13
         Me.btnLoginLogin.Text = "Login"
         Me.btnLoginLogin.UseVisualStyleBackColor = False
@@ -901,10 +915,9 @@ Partial Class formTableViewer
         '
         Me.lblLoginTitle.AutoSize = True
         Me.lblLoginTitle.Font = New System.Drawing.Font("Microsoft Sans Serif", 22.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblLoginTitle.Location = New System.Drawing.Point(211, 30)
-        Me.lblLoginTitle.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.lblLoginTitle.Location = New System.Drawing.Point(316, 46)
         Me.lblLoginTitle.Name = "lblLoginTitle"
-        Me.lblLoginTitle.Size = New System.Drawing.Size(182, 36)
+        Me.lblLoginTitle.Size = New System.Drawing.Size(273, 52)
         Me.lblLoginTitle.TabIndex = 0
         Me.lblLoginTitle.Text = "CarLogBook"
         '
@@ -921,11 +934,11 @@ Partial Class formTableViewer
         Me.tcTabs.Controls.Add(Me.tpRegister)
         Me.tcTabs.Controls.Add(Me.tpUpdateInsurance)
         Me.tcTabs.Controls.Add(Me.tpAddMember)
-        Me.tcTabs.Location = New System.Drawing.Point(2, 1)
-        Me.tcTabs.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.tcTabs.Location = New System.Drawing.Point(3, 2)
+        Me.tcTabs.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.tcTabs.Name = "tcTabs"
         Me.tcTabs.SelectedIndex = 0
-        Me.tcTabs.Size = New System.Drawing.Size(598, 363)
+        Me.tcTabs.Size = New System.Drawing.Size(897, 558)
         Me.tcTabs.TabIndex = 0
         '
         'tpAddProblem
@@ -936,30 +949,30 @@ Partial Class formTableViewer
         Me.tpAddProblem.Controls.Add(Me.txtProblemDescription)
         Me.tpAddProblem.Controls.Add(Me.lblIssueDescription)
         Me.tpAddProblem.Controls.Add(Me.lblProblemReportTitle)
-        Me.tpAddProblem.Location = New System.Drawing.Point(4, 25)
-        Me.tpAddProblem.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.tpAddProblem.Location = New System.Drawing.Point(4, 32)
+        Me.tpAddProblem.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.tpAddProblem.Name = "tpAddProblem"
-        Me.tpAddProblem.Size = New System.Drawing.Size(590, 334)
+        Me.tpAddProblem.Size = New System.Drawing.Size(889, 522)
         Me.tpAddProblem.TabIndex = 8
         Me.tpAddProblem.Text = "Add Problem"
         Me.tpAddProblem.UseVisualStyleBackColor = True
         '
         'btnAddProblemEnter
         '
-        Me.btnAddProblemEnter.Location = New System.Drawing.Point(304, 236)
-        Me.btnAddProblemEnter.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.btnAddProblemEnter.Location = New System.Drawing.Point(456, 363)
+        Me.btnAddProblemEnter.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.btnAddProblemEnter.Name = "btnAddProblemEnter"
-        Me.btnAddProblemEnter.Size = New System.Drawing.Size(81, 45)
+        Me.btnAddProblemEnter.Size = New System.Drawing.Size(122, 69)
         Me.btnAddProblemEnter.TabIndex = 6
         Me.btnAddProblemEnter.Text = "Enter"
         Me.btnAddProblemEnter.UseVisualStyleBackColor = True
         '
         'btnAddProblemCancel
         '
-        Me.btnAddProblemCancel.Location = New System.Drawing.Point(201, 236)
-        Me.btnAddProblemCancel.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.btnAddProblemCancel.Location = New System.Drawing.Point(302, 363)
+        Me.btnAddProblemCancel.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.btnAddProblemCancel.Name = "btnAddProblemCancel"
-        Me.btnAddProblemCancel.Size = New System.Drawing.Size(81, 44)
+        Me.btnAddProblemCancel.Size = New System.Drawing.Size(122, 68)
         Me.btnAddProblemCancel.TabIndex = 5
         Me.btnAddProblemCancel.Text = "Cancel"
         Me.btnAddProblemCancel.UseVisualStyleBackColor = True
@@ -967,31 +980,30 @@ Partial Class formTableViewer
         'cbCriticality
         '
         Me.cbCriticality.AutoSize = True
-        Me.cbCriticality.Location = New System.Drawing.Point(201, 203)
-        Me.cbCriticality.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.cbCriticality.Location = New System.Drawing.Point(302, 312)
+        Me.cbCriticality.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.cbCriticality.Name = "cbCriticality"
-        Me.cbCriticality.Size = New System.Drawing.Size(97, 17)
+        Me.cbCriticality.Size = New System.Drawing.Size(143, 24)
         Me.cbCriticality.TabIndex = 4
         Me.cbCriticality.Text = "Critical problem"
         Me.cbCriticality.UseVisualStyleBackColor = True
         '
         'txtProblemDescription
         '
-        Me.txtProblemDescription.Location = New System.Drawing.Point(179, 111)
-        Me.txtProblemDescription.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.txtProblemDescription.Location = New System.Drawing.Point(268, 171)
+        Me.txtProblemDescription.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.txtProblemDescription.Multiline = True
         Me.txtProblemDescription.Name = "txtProblemDescription"
-        Me.txtProblemDescription.Size = New System.Drawing.Size(225, 80)
+        Me.txtProblemDescription.Size = New System.Drawing.Size(336, 121)
         Me.txtProblemDescription.TabIndex = 3
         '
         'lblIssueDescription
         '
         Me.lblIssueDescription.AutoSize = True
         Me.lblIssueDescription.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.0!)
-        Me.lblIssueDescription.Location = New System.Drawing.Point(224, 82)
-        Me.lblIssueDescription.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.lblIssueDescription.Location = New System.Drawing.Point(336, 126)
         Me.lblIssueDescription.Name = "lblIssueDescription"
-        Me.lblIssueDescription.Size = New System.Drawing.Size(130, 18)
+        Me.lblIssueDescription.Size = New System.Drawing.Size(191, 26)
         Me.lblIssueDescription.TabIndex = 1
         Me.lblIssueDescription.Text = "Describe the issue"
         '
@@ -999,10 +1011,9 @@ Partial Class formTableViewer
         '
         Me.lblProblemReportTitle.AutoSize = True
         Me.lblProblemReportTitle.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.0!)
-        Me.lblProblemReportTitle.Location = New System.Drawing.Point(209, 36)
-        Me.lblProblemReportTitle.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.lblProblemReportTitle.Location = New System.Drawing.Point(314, 55)
         Me.lblProblemReportTitle.Name = "lblProblemReportTitle"
-        Me.lblProblemReportTitle.Size = New System.Drawing.Size(156, 24)
+        Me.lblProblemReportTitle.Size = New System.Drawing.Size(232, 32)
         Me.lblProblemReportTitle.TabIndex = 0
         Me.lblProblemReportTitle.Text = "Report a problem"
         '
@@ -1017,30 +1028,30 @@ Partial Class formTableViewer
         Me.tpAddLog.Controls.Add(Me.lblLogCommentAdd)
         Me.tpAddLog.Controls.Add(Me.lblDistanceAdd)
         Me.tpAddLog.Controls.Add(Me.lblAddLogTitle)
-        Me.tpAddLog.Location = New System.Drawing.Point(4, 25)
-        Me.tpAddLog.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.tpAddLog.Location = New System.Drawing.Point(4, 32)
+        Me.tpAddLog.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.tpAddLog.Name = "tpAddLog"
-        Me.tpAddLog.Size = New System.Drawing.Size(590, 334)
+        Me.tpAddLog.Size = New System.Drawing.Size(889, 522)
         Me.tpAddLog.TabIndex = 9
         Me.tpAddLog.Text = "Add Log"
         Me.tpAddLog.UseVisualStyleBackColor = True
         '
         'btnAddLogEnter
         '
-        Me.btnAddLogEnter.Location = New System.Drawing.Point(452, 277)
-        Me.btnAddLogEnter.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.btnAddLogEnter.Location = New System.Drawing.Point(678, 426)
+        Me.btnAddLogEnter.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.btnAddLogEnter.Name = "btnAddLogEnter"
-        Me.btnAddLogEnter.Size = New System.Drawing.Size(99, 38)
+        Me.btnAddLogEnter.Size = New System.Drawing.Size(148, 58)
         Me.btnAddLogEnter.TabIndex = 18
         Me.btnAddLogEnter.Text = "Enter"
         Me.btnAddLogEnter.UseVisualStyleBackColor = True
         '
         'btnAddLogCancel
         '
-        Me.btnAddLogCancel.Location = New System.Drawing.Point(295, 277)
-        Me.btnAddLogCancel.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.btnAddLogCancel.Location = New System.Drawing.Point(442, 426)
+        Me.btnAddLogCancel.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.btnAddLogCancel.Name = "btnAddLogCancel"
-        Me.btnAddLogCancel.Size = New System.Drawing.Size(99, 36)
+        Me.btnAddLogCancel.Size = New System.Drawing.Size(148, 55)
         Me.btnAddLogCancel.TabIndex = 17
         Me.btnAddLogCancel.Text = "Cancel"
         Me.btnAddLogCancel.UseVisualStyleBackColor = True
@@ -1052,11 +1063,11 @@ Partial Class formTableViewer
         Me.gbEnd.Controls.Add(Me.dtpEndDate)
         Me.gbEnd.Controls.Add(Me.lblEndDateAdd)
         Me.gbEnd.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.0!)
-        Me.gbEnd.Location = New System.Drawing.Point(287, 35)
-        Me.gbEnd.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.gbEnd.Location = New System.Drawing.Point(430, 54)
+        Me.gbEnd.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.gbEnd.Name = "gbEnd"
-        Me.gbEnd.Padding = New System.Windows.Forms.Padding(2, 1, 2, 1)
-        Me.gbEnd.Size = New System.Drawing.Size(263, 162)
+        Me.gbEnd.Padding = New System.Windows.Forms.Padding(3, 2, 3, 2)
+        Me.gbEnd.Size = New System.Drawing.Size(394, 249)
         Me.gbEnd.TabIndex = 16
         Me.gbEnd.TabStop = False
         Me.gbEnd.Text = "End"
@@ -1065,37 +1076,35 @@ Partial Class formTableViewer
         '
         Me.lblEndAdd.AutoSize = True
         Me.lblEndAdd.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.0!)
-        Me.lblEndAdd.Location = New System.Drawing.Point(4, 31)
-        Me.lblEndAdd.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.lblEndAdd.Location = New System.Drawing.Point(6, 48)
         Me.lblEndAdd.Name = "lblEndAdd"
-        Me.lblEndAdd.Size = New System.Drawing.Size(65, 18)
+        Me.lblEndAdd.Size = New System.Drawing.Size(94, 26)
         Me.lblEndAdd.TabIndex = 2
         Me.lblEndAdd.Text = "Location"
         '
         'txtLocationEnd
         '
-        Me.txtLocationEnd.Location = New System.Drawing.Point(70, 31)
-        Me.txtLocationEnd.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.txtLocationEnd.Location = New System.Drawing.Point(105, 48)
+        Me.txtLocationEnd.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.txtLocationEnd.Name = "txtLocationEnd"
-        Me.txtLocationEnd.Size = New System.Drawing.Size(190, 24)
+        Me.txtLocationEnd.Size = New System.Drawing.Size(283, 32)
         Me.txtLocationEnd.TabIndex = 8
         '
         'dtpEndDate
         '
-        Me.dtpEndDate.Location = New System.Drawing.Point(8, 105)
-        Me.dtpEndDate.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.dtpEndDate.Location = New System.Drawing.Point(12, 162)
+        Me.dtpEndDate.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.dtpEndDate.Name = "dtpEndDate"
-        Me.dtpEndDate.Size = New System.Drawing.Size(252, 24)
+        Me.dtpEndDate.Size = New System.Drawing.Size(376, 32)
         Me.dtpEndDate.TabIndex = 14
         '
         'lblEndDateAdd
         '
         Me.lblEndDateAdd.AutoSize = True
         Me.lblEndDateAdd.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.0!)
-        Me.lblEndDateAdd.Location = New System.Drawing.Point(4, 73)
-        Me.lblEndDateAdd.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.lblEndDateAdd.Location = New System.Drawing.Point(6, 112)
         Me.lblEndDateAdd.Name = "lblEndDateAdd"
-        Me.lblEndDateAdd.Size = New System.Drawing.Size(99, 18)
+        Me.lblEndDateAdd.Size = New System.Drawing.Size(148, 26)
         Me.lblEndDateAdd.TabIndex = 5
         Me.lblEndDateAdd.Text = "Date and time"
         '
@@ -1106,11 +1115,11 @@ Partial Class formTableViewer
         Me.gbStart.Controls.Add(Me.dtpStartDate)
         Me.gbStart.Controls.Add(Me.txtLocationStart)
         Me.gbStart.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.0!)
-        Me.gbStart.Location = New System.Drawing.Point(4, 35)
-        Me.gbStart.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.gbStart.Location = New System.Drawing.Point(6, 54)
+        Me.gbStart.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.gbStart.Name = "gbStart"
-        Me.gbStart.Padding = New System.Windows.Forms.Padding(2, 1, 2, 1)
-        Me.gbStart.Size = New System.Drawing.Size(265, 155)
+        Me.gbStart.Padding = New System.Windows.Forms.Padding(3, 2, 3, 2)
+        Me.gbStart.Size = New System.Drawing.Size(398, 238)
         Me.gbStart.TabIndex = 15
         Me.gbStart.TabStop = False
         Me.gbStart.Text = "Start"
@@ -1119,10 +1128,9 @@ Partial Class formTableViewer
         '
         Me.lblStartDateAdd.AutoSize = True
         Me.lblStartDateAdd.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.0!)
-        Me.lblStartDateAdd.Location = New System.Drawing.Point(4, 73)
-        Me.lblStartDateAdd.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.lblStartDateAdd.Location = New System.Drawing.Point(6, 112)
         Me.lblStartDateAdd.Name = "lblStartDateAdd"
-        Me.lblStartDateAdd.Size = New System.Drawing.Size(99, 18)
+        Me.lblStartDateAdd.Size = New System.Drawing.Size(148, 26)
         Me.lblStartDateAdd.TabIndex = 4
         Me.lblStartDateAdd.Text = "Date and time"
         '
@@ -1130,55 +1138,53 @@ Partial Class formTableViewer
         '
         Me.lblAddStart.AutoSize = True
         Me.lblAddStart.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.0!)
-        Me.lblAddStart.Location = New System.Drawing.Point(4, 31)
-        Me.lblAddStart.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.lblAddStart.Location = New System.Drawing.Point(6, 48)
         Me.lblAddStart.Name = "lblAddStart"
-        Me.lblAddStart.Size = New System.Drawing.Size(65, 18)
+        Me.lblAddStart.Size = New System.Drawing.Size(94, 26)
         Me.lblAddStart.TabIndex = 1
         Me.lblAddStart.Text = "Location"
         '
         'dtpStartDate
         '
-        Me.dtpStartDate.Location = New System.Drawing.Point(4, 105)
-        Me.dtpStartDate.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.dtpStartDate.Location = New System.Drawing.Point(6, 162)
+        Me.dtpStartDate.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.dtpStartDate.Name = "dtpStartDate"
-        Me.dtpStartDate.Size = New System.Drawing.Size(257, 24)
+        Me.dtpStartDate.Size = New System.Drawing.Size(384, 32)
         Me.dtpStartDate.TabIndex = 13
         Me.dtpStartDate.Value = New Date(2025, 4, 24, 0, 0, 0, 0)
         '
         'txtLocationStart
         '
-        Me.txtLocationStart.Location = New System.Drawing.Point(70, 27)
-        Me.txtLocationStart.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.txtLocationStart.Location = New System.Drawing.Point(105, 42)
+        Me.txtLocationStart.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.txtLocationStart.Name = "txtLocationStart"
-        Me.txtLocationStart.Size = New System.Drawing.Size(192, 24)
+        Me.txtLocationStart.Size = New System.Drawing.Size(286, 32)
         Me.txtLocationStart.TabIndex = 7
         '
         'txtLogComment
         '
-        Me.txtLogComment.Location = New System.Drawing.Point(108, 260)
-        Me.txtLogComment.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.txtLogComment.Location = New System.Drawing.Point(162, 400)
+        Me.txtLogComment.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.txtLogComment.Multiline = True
         Me.txtLogComment.Name = "txtLogComment"
-        Me.txtLogComment.Size = New System.Drawing.Size(162, 55)
+        Me.txtLogComment.Size = New System.Drawing.Size(241, 82)
         Me.txtLogComment.TabIndex = 12
         '
         'txtTotalDistance
         '
-        Me.txtTotalDistance.Location = New System.Drawing.Point(108, 208)
-        Me.txtTotalDistance.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.txtTotalDistance.Location = New System.Drawing.Point(162, 320)
+        Me.txtTotalDistance.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.txtTotalDistance.Name = "txtTotalDistance"
-        Me.txtTotalDistance.Size = New System.Drawing.Size(158, 20)
+        Me.txtTotalDistance.Size = New System.Drawing.Size(235, 26)
         Me.txtTotalDistance.TabIndex = 11
         '
         'lblLogCommentAdd
         '
         Me.lblLogCommentAdd.AutoSize = True
         Me.lblLogCommentAdd.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.0!)
-        Me.lblLogCommentAdd.Location = New System.Drawing.Point(9, 277)
-        Me.lblLogCommentAdd.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.lblLogCommentAdd.Location = New System.Drawing.Point(14, 426)
         Me.lblLogCommentAdd.Name = "lblLogCommentAdd"
-        Me.lblLogCommentAdd.Size = New System.Drawing.Size(82, 18)
+        Me.lblLogCommentAdd.Size = New System.Drawing.Size(119, 26)
         Me.lblLogCommentAdd.TabIndex = 6
         Me.lblLogCommentAdd.Text = "Comments"
         '
@@ -1186,10 +1192,9 @@ Partial Class formTableViewer
         '
         Me.lblDistanceAdd.AutoSize = True
         Me.lblDistanceAdd.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.0!)
-        Me.lblDistanceAdd.Location = New System.Drawing.Point(9, 207)
-        Me.lblDistanceAdd.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.lblDistanceAdd.Location = New System.Drawing.Point(14, 318)
         Me.lblDistanceAdd.Name = "lblDistanceAdd"
-        Me.lblDistanceAdd.Size = New System.Drawing.Size(100, 18)
+        Me.lblDistanceAdd.Size = New System.Drawing.Size(146, 26)
         Me.lblDistanceAdd.TabIndex = 3
         Me.lblDistanceAdd.Text = "Total distance"
         '
@@ -1197,10 +1202,9 @@ Partial Class formTableViewer
         '
         Me.lblAddLogTitle.AutoSize = True
         Me.lblAddLogTitle.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.0!)
-        Me.lblAddLogTitle.Location = New System.Drawing.Point(199, 9)
-        Me.lblAddLogTitle.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.lblAddLogTitle.Location = New System.Drawing.Point(298, 14)
         Me.lblAddLogTitle.Name = "lblAddLogTitle"
-        Me.lblAddLogTitle.Size = New System.Drawing.Size(131, 24)
+        Me.lblAddLogTitle.Size = New System.Drawing.Size(198, 32)
         Me.lblAddLogTitle.TabIndex = 0
         Me.lblAddLogTitle.Text = "Register a ride"
         '
@@ -1211,10 +1215,10 @@ Partial Class formTableViewer
         Me.tpNewGroup.Controls.Add(Me.btnEnterNewGroup)
         Me.tpNewGroup.Controls.Add(Me.txtNewGroupName)
         Me.tpNewGroup.Controls.Add(Me.lblCreateGroup)
-        Me.tpNewGroup.Location = New System.Drawing.Point(4, 25)
-        Me.tpNewGroup.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.tpNewGroup.Location = New System.Drawing.Point(4, 32)
+        Me.tpNewGroup.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.tpNewGroup.Name = "tpNewGroup"
-        Me.tpNewGroup.Size = New System.Drawing.Size(590, 334)
+        Me.tpNewGroup.Size = New System.Drawing.Size(889, 522)
         Me.tpNewGroup.TabIndex = 10
         Me.tpNewGroup.Text = "New Group"
         Me.tpNewGroup.UseVisualStyleBackColor = True
@@ -1223,49 +1227,47 @@ Partial Class formTableViewer
         '
         Me.lblGroupName.AutoSize = True
         Me.lblGroupName.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.0!)
-        Me.lblGroupName.Location = New System.Drawing.Point(134, 139)
-        Me.lblGroupName.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.lblGroupName.Location = New System.Drawing.Point(201, 214)
         Me.lblGroupName.Name = "lblGroupName"
-        Me.lblGroupName.Size = New System.Drawing.Size(91, 18)
+        Me.lblGroupName.Size = New System.Drawing.Size(133, 26)
         Me.lblGroupName.TabIndex = 4
         Me.lblGroupName.Text = "Group name"
         '
         'btnCancelNewGroup
         '
-        Me.btnCancelNewGroup.Location = New System.Drawing.Point(136, 259)
-        Me.btnCancelNewGroup.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.btnCancelNewGroup.Location = New System.Drawing.Point(204, 398)
+        Me.btnCancelNewGroup.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.btnCancelNewGroup.Name = "btnCancelNewGroup"
-        Me.btnCancelNewGroup.Size = New System.Drawing.Size(86, 40)
+        Me.btnCancelNewGroup.Size = New System.Drawing.Size(129, 62)
         Me.btnCancelNewGroup.TabIndex = 3
         Me.btnCancelNewGroup.Text = "Cancel"
         Me.btnCancelNewGroup.UseVisualStyleBackColor = True
         '
         'btnEnterNewGroup
         '
-        Me.btnEnterNewGroup.Location = New System.Drawing.Point(338, 259)
-        Me.btnEnterNewGroup.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.btnEnterNewGroup.Location = New System.Drawing.Point(507, 398)
+        Me.btnEnterNewGroup.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.btnEnterNewGroup.Name = "btnEnterNewGroup"
-        Me.btnEnterNewGroup.Size = New System.Drawing.Size(86, 40)
+        Me.btnEnterNewGroup.Size = New System.Drawing.Size(129, 62)
         Me.btnEnterNewGroup.TabIndex = 2
         Me.btnEnterNewGroup.Text = "Enter"
         Me.btnEnterNewGroup.UseVisualStyleBackColor = True
         '
         'txtNewGroupName
         '
-        Me.txtNewGroupName.Location = New System.Drawing.Point(261, 140)
-        Me.txtNewGroupName.Margin = New System.Windows.Forms.Padding(3, 1, 3, 1)
+        Me.txtNewGroupName.Location = New System.Drawing.Point(392, 215)
+        Me.txtNewGroupName.Margin = New System.Windows.Forms.Padding(4, 2, 4, 2)
         Me.txtNewGroupName.Name = "txtNewGroupName"
-        Me.txtNewGroupName.Size = New System.Drawing.Size(260, 20)
+        Me.txtNewGroupName.Size = New System.Drawing.Size(388, 26)
         Me.txtNewGroupName.TabIndex = 1
         '
         'lblCreateGroup
         '
         Me.lblCreateGroup.AutoSize = True
         Me.lblCreateGroup.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.0!)
-        Me.lblCreateGroup.Location = New System.Drawing.Point(205, 12)
-        Me.lblCreateGroup.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.lblCreateGroup.Location = New System.Drawing.Point(308, 18)
         Me.lblCreateGroup.Name = "lblCreateGroup"
-        Me.lblCreateGroup.Size = New System.Drawing.Size(161, 24)
+        Me.lblCreateGroup.Size = New System.Drawing.Size(238, 32)
         Me.lblCreateGroup.TabIndex = 0
         Me.lblCreateGroup.Text = "Create new group"
         '
@@ -1281,10 +1283,10 @@ Partial Class formTableViewer
         Me.tpRegister.Controls.Add(Me.tbRegisterEmail)
         Me.tpRegister.Controls.Add(Me.btnRegisterEnter)
         Me.tpRegister.Controls.Add(Me.btnRegisterCancel)
-        Me.tpRegister.Location = New System.Drawing.Point(4, 25)
-        Me.tpRegister.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.tpRegister.Location = New System.Drawing.Point(4, 32)
+        Me.tpRegister.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.tpRegister.Name = "tpRegister"
-        Me.tpRegister.Size = New System.Drawing.Size(590, 334)
+        Me.tpRegister.Size = New System.Drawing.Size(889, 522)
         Me.tpRegister.TabIndex = 11
         Me.tpRegister.Text = "Register"
         Me.tpRegister.UseVisualStyleBackColor = True
@@ -1292,9 +1294,10 @@ Partial Class formTableViewer
         'cbRegisterShowPassword
         '
         Me.cbRegisterShowPassword.AutoSize = True
-        Me.cbRegisterShowPassword.Location = New System.Drawing.Point(463, 202)
+        Me.cbRegisterShowPassword.Location = New System.Drawing.Point(694, 311)
+        Me.cbRegisterShowPassword.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.cbRegisterShowPassword.Name = "cbRegisterShowPassword"
-        Me.cbRegisterShowPassword.Size = New System.Drawing.Size(101, 17)
+        Me.cbRegisterShowPassword.Size = New System.Drawing.Size(147, 24)
         Me.cbRegisterShowPassword.TabIndex = 9
         Me.cbRegisterShowPassword.Text = "Show password"
         Me.cbRegisterShowPassword.UseVisualStyleBackColor = True
@@ -1303,9 +1306,10 @@ Partial Class formTableViewer
         '
         Me.lblCreateAccountTitle.AutoSize = True
         Me.lblCreateAccountTitle.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.0!)
-        Me.lblCreateAccountTitle.Location = New System.Drawing.Point(202, 40)
+        Me.lblCreateAccountTitle.Location = New System.Drawing.Point(303, 62)
+        Me.lblCreateAccountTitle.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblCreateAccountTitle.Name = "lblCreateAccountTitle"
-        Me.lblCreateAccountTitle.Size = New System.Drawing.Size(193, 24)
+        Me.lblCreateAccountTitle.Size = New System.Drawing.Size(288, 32)
         Me.lblCreateAccountTitle.TabIndex = 8
         Me.lblCreateAccountTitle.Text = "Create a new account"
         '
@@ -1313,10 +1317,9 @@ Partial Class formTableViewer
         '
         Me.lblConfirmPassword.AutoSize = True
         Me.lblConfirmPassword.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.0!)
-        Me.lblConfirmPassword.Location = New System.Drawing.Point(148, 198)
-        Me.lblConfirmPassword.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.lblConfirmPassword.Location = New System.Drawing.Point(222, 305)
         Me.lblConfirmPassword.Name = "lblConfirmPassword"
-        Me.lblConfirmPassword.Size = New System.Drawing.Size(134, 18)
+        Me.lblConfirmPassword.Size = New System.Drawing.Size(194, 26)
         Me.lblConfirmPassword.TabIndex = 7
         Me.lblConfirmPassword.Text = "Confirm password:"
         '
@@ -1324,10 +1327,9 @@ Partial Class formTableViewer
         '
         Me.lblRegisterPassword.AutoSize = True
         Me.lblRegisterPassword.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.0!)
-        Me.lblRegisterPassword.Location = New System.Drawing.Point(148, 153)
-        Me.lblRegisterPassword.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.lblRegisterPassword.Location = New System.Drawing.Point(222, 235)
         Me.lblRegisterPassword.Name = "lblRegisterPassword"
-        Me.lblRegisterPassword.Size = New System.Drawing.Size(79, 18)
+        Me.lblRegisterPassword.Size = New System.Drawing.Size(114, 26)
         Me.lblRegisterPassword.TabIndex = 6
         Me.lblRegisterPassword.Text = "Password:"
         '
@@ -1335,55 +1337,54 @@ Partial Class formTableViewer
         '
         Me.lblRegisterEmail.AutoSize = True
         Me.lblRegisterEmail.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.0!)
-        Me.lblRegisterEmail.Location = New System.Drawing.Point(148, 101)
-        Me.lblRegisterEmail.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.lblRegisterEmail.Location = New System.Drawing.Point(222, 155)
         Me.lblRegisterEmail.Name = "lblRegisterEmail"
-        Me.lblRegisterEmail.Size = New System.Drawing.Size(49, 18)
+        Me.lblRegisterEmail.Size = New System.Drawing.Size(74, 26)
         Me.lblRegisterEmail.TabIndex = 5
         Me.lblRegisterEmail.Text = "Email:"
         '
         'tbRegisterPasswordConfirm
         '
-        Me.tbRegisterPasswordConfirm.Location = New System.Drawing.Point(300, 200)
-        Me.tbRegisterPasswordConfirm.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.tbRegisterPasswordConfirm.Location = New System.Drawing.Point(450, 308)
+        Me.tbRegisterPasswordConfirm.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.tbRegisterPasswordConfirm.Name = "tbRegisterPasswordConfirm"
-        Me.tbRegisterPasswordConfirm.Size = New System.Drawing.Size(143, 20)
+        Me.tbRegisterPasswordConfirm.Size = New System.Drawing.Size(212, 26)
         Me.tbRegisterPasswordConfirm.TabIndex = 4
         Me.tbRegisterPasswordConfirm.UseSystemPasswordChar = True
         '
         'tbRegisterPassword
         '
-        Me.tbRegisterPassword.Location = New System.Drawing.Point(300, 155)
-        Me.tbRegisterPassword.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.tbRegisterPassword.Location = New System.Drawing.Point(450, 238)
+        Me.tbRegisterPassword.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.tbRegisterPassword.Name = "tbRegisterPassword"
-        Me.tbRegisterPassword.Size = New System.Drawing.Size(143, 20)
+        Me.tbRegisterPassword.Size = New System.Drawing.Size(212, 26)
         Me.tbRegisterPassword.TabIndex = 3
         Me.tbRegisterPassword.UseSystemPasswordChar = True
         '
         'tbRegisterEmail
         '
-        Me.tbRegisterEmail.Location = New System.Drawing.Point(300, 103)
-        Me.tbRegisterEmail.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.tbRegisterEmail.Location = New System.Drawing.Point(450, 158)
+        Me.tbRegisterEmail.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.tbRegisterEmail.Name = "tbRegisterEmail"
-        Me.tbRegisterEmail.Size = New System.Drawing.Size(143, 20)
+        Me.tbRegisterEmail.Size = New System.Drawing.Size(212, 26)
         Me.tbRegisterEmail.TabIndex = 2
         '
         'btnRegisterEnter
         '
-        Me.btnRegisterEnter.Location = New System.Drawing.Point(339, 265)
-        Me.btnRegisterEnter.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.btnRegisterEnter.Location = New System.Drawing.Point(508, 408)
+        Me.btnRegisterEnter.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.btnRegisterEnter.Name = "btnRegisterEnter"
-        Me.btnRegisterEnter.Size = New System.Drawing.Size(75, 41)
+        Me.btnRegisterEnter.Size = New System.Drawing.Size(112, 63)
         Me.btnRegisterEnter.TabIndex = 1
         Me.btnRegisterEnter.Text = "Enter"
         Me.btnRegisterEnter.UseVisualStyleBackColor = True
         '
         'btnRegisterCancel
         '
-        Me.btnRegisterCancel.Location = New System.Drawing.Point(178, 265)
-        Me.btnRegisterCancel.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.btnRegisterCancel.Location = New System.Drawing.Point(267, 408)
+        Me.btnRegisterCancel.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.btnRegisterCancel.Name = "btnRegisterCancel"
-        Me.btnRegisterCancel.Size = New System.Drawing.Size(75, 41)
+        Me.btnRegisterCancel.Size = New System.Drawing.Size(112, 63)
         Me.btnRegisterCancel.TabIndex = 0
         Me.btnRegisterCancel.Text = "Cancel"
         Me.btnRegisterCancel.UseVisualStyleBackColor = True
@@ -1397,9 +1398,10 @@ Partial Class formTableViewer
         Me.tpUpdateInsurance.Controls.Add(Me.txtUpdateInsuranceName)
         Me.tpUpdateInsurance.Controls.Add(Me.lblUpdateExpiration)
         Me.tpUpdateInsurance.Controls.Add(Me.lblUpdateName)
-        Me.tpUpdateInsurance.Location = New System.Drawing.Point(4, 25)
+        Me.tpUpdateInsurance.Location = New System.Drawing.Point(4, 32)
+        Me.tpUpdateInsurance.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.tpUpdateInsurance.Name = "tpUpdateInsurance"
-        Me.tpUpdateInsurance.Size = New System.Drawing.Size(590, 334)
+        Me.tpUpdateInsurance.Size = New System.Drawing.Size(889, 522)
         Me.tpUpdateInsurance.TabIndex = 12
         Me.tpUpdateInsurance.Text = "Update insurance"
         Me.tpUpdateInsurance.UseVisualStyleBackColor = True
@@ -1408,51 +1410,57 @@ Partial Class formTableViewer
         '
         Me.lblUpdateInsuranceTitle.AutoSize = True
         Me.lblUpdateInsuranceTitle.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.0!)
-        Me.lblUpdateInsuranceTitle.Location = New System.Drawing.Point(206, 20)
+        Me.lblUpdateInsuranceTitle.Location = New System.Drawing.Point(309, 31)
+        Me.lblUpdateInsuranceTitle.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblUpdateInsuranceTitle.Name = "lblUpdateInsuranceTitle"
-        Me.lblUpdateInsuranceTitle.Size = New System.Drawing.Size(158, 24)
+        Me.lblUpdateInsuranceTitle.Size = New System.Drawing.Size(237, 32)
         Me.lblUpdateInsuranceTitle.TabIndex = 6
         Me.lblUpdateInsuranceTitle.Text = "Update insurance"
         '
         'btnUpdateInsuranceEnter
         '
-        Me.btnUpdateInsuranceEnter.Location = New System.Drawing.Point(425, 255)
+        Me.btnUpdateInsuranceEnter.Location = New System.Drawing.Point(638, 392)
+        Me.btnUpdateInsuranceEnter.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.btnUpdateInsuranceEnter.Name = "btnUpdateInsuranceEnter"
-        Me.btnUpdateInsuranceEnter.Size = New System.Drawing.Size(75, 56)
+        Me.btnUpdateInsuranceEnter.Size = New System.Drawing.Size(112, 86)
         Me.btnUpdateInsuranceEnter.TabIndex = 5
         Me.btnUpdateInsuranceEnter.Text = "Enter"
         Me.btnUpdateInsuranceEnter.UseVisualStyleBackColor = True
         '
         'btnUpdateInsuranceCancel
         '
-        Me.btnUpdateInsuranceCancel.Location = New System.Drawing.Point(85, 255)
+        Me.btnUpdateInsuranceCancel.Location = New System.Drawing.Point(128, 392)
+        Me.btnUpdateInsuranceCancel.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.btnUpdateInsuranceCancel.Name = "btnUpdateInsuranceCancel"
-        Me.btnUpdateInsuranceCancel.Size = New System.Drawing.Size(75, 56)
+        Me.btnUpdateInsuranceCancel.Size = New System.Drawing.Size(112, 86)
         Me.btnUpdateInsuranceCancel.TabIndex = 4
         Me.btnUpdateInsuranceCancel.Text = "Cancel"
         Me.btnUpdateInsuranceCancel.UseVisualStyleBackColor = True
         '
         'dtpInsuranceExpiration
         '
-        Me.dtpInsuranceExpiration.Location = New System.Drawing.Point(259, 172)
+        Me.dtpInsuranceExpiration.Location = New System.Drawing.Point(388, 265)
+        Me.dtpInsuranceExpiration.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.dtpInsuranceExpiration.Name = "dtpInsuranceExpiration"
-        Me.dtpInsuranceExpiration.Size = New System.Drawing.Size(240, 20)
+        Me.dtpInsuranceExpiration.Size = New System.Drawing.Size(358, 26)
         Me.dtpInsuranceExpiration.TabIndex = 3
         '
         'txtUpdateInsuranceName
         '
-        Me.txtUpdateInsuranceName.Location = New System.Drawing.Point(259, 110)
+        Me.txtUpdateInsuranceName.Location = New System.Drawing.Point(388, 169)
+        Me.txtUpdateInsuranceName.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.txtUpdateInsuranceName.Name = "txtUpdateInsuranceName"
-        Me.txtUpdateInsuranceName.Size = New System.Drawing.Size(240, 20)
+        Me.txtUpdateInsuranceName.Size = New System.Drawing.Size(358, 26)
         Me.txtUpdateInsuranceName.TabIndex = 2
         '
         'lblUpdateExpiration
         '
         Me.lblUpdateExpiration.AutoSize = True
         Me.lblUpdateExpiration.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.0!)
-        Me.lblUpdateExpiration.Location = New System.Drawing.Point(82, 170)
+        Me.lblUpdateExpiration.Location = New System.Drawing.Point(123, 262)
+        Me.lblUpdateExpiration.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblUpdateExpiration.Name = "lblUpdateExpiration"
-        Me.lblUpdateExpiration.Size = New System.Drawing.Size(109, 18)
+        Me.lblUpdateExpiration.Size = New System.Drawing.Size(163, 26)
         Me.lblUpdateExpiration.TabIndex = 1
         Me.lblUpdateExpiration.Text = "Expiration date:"
         '
@@ -1460,9 +1468,10 @@ Partial Class formTableViewer
         '
         Me.lblUpdateName.AutoSize = True
         Me.lblUpdateName.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.0!)
-        Me.lblUpdateName.Location = New System.Drawing.Point(82, 108)
+        Me.lblUpdateName.Location = New System.Drawing.Point(123, 166)
+        Me.lblUpdateName.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblUpdateName.Name = "lblUpdateName"
-        Me.lblUpdateName.Size = New System.Drawing.Size(133, 18)
+        Me.lblUpdateName.Size = New System.Drawing.Size(197, 26)
         Me.lblUpdateName.TabIndex = 0
         Me.lblUpdateName.Text = "Insurance provider:"
         '
@@ -1474,30 +1483,29 @@ Partial Class formTableViewer
         Me.tpAddMember.Controls.Add(Me.btnAddMemberEnter)
         Me.tpAddMember.Controls.Add(Me.btnAddMemberCancel)
         Me.tpAddMember.Controls.Add(Me.cbIsAdmin)
-        Me.tpAddMember.Location = New System.Drawing.Point(4, 25)
-        Me.tpAddMember.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.tpAddMember.Location = New System.Drawing.Point(4, 32)
+        Me.tpAddMember.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.tpAddMember.Name = "tpAddMember"
-        Me.tpAddMember.Size = New System.Drawing.Size(590, 334)
+        Me.tpAddMember.Size = New System.Drawing.Size(889, 522)
         Me.tpAddMember.TabIndex = 13
         Me.tpAddMember.Text = "Add member"
         Me.tpAddMember.UseVisualStyleBackColor = True
         '
         'txtMemberEmail
         '
-        Me.txtMemberEmail.Location = New System.Drawing.Point(227, 140)
-        Me.txtMemberEmail.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.txtMemberEmail.Location = New System.Drawing.Point(340, 215)
+        Me.txtMemberEmail.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.txtMemberEmail.Name = "txtMemberEmail"
-        Me.txtMemberEmail.Size = New System.Drawing.Size(160, 20)
+        Me.txtMemberEmail.Size = New System.Drawing.Size(238, 26)
         Me.txtMemberEmail.TabIndex = 5
         '
         'lblAddMemberTitle
         '
         Me.lblAddMemberTitle.AutoSize = True
         Me.lblAddMemberTitle.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.0!)
-        Me.lblAddMemberTitle.Location = New System.Drawing.Point(189, 61)
-        Me.lblAddMemberTitle.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.lblAddMemberTitle.Location = New System.Drawing.Point(284, 94)
         Me.lblAddMemberTitle.Name = "lblAddMemberTitle"
-        Me.lblAddMemberTitle.Size = New System.Drawing.Size(196, 24)
+        Me.lblAddMemberTitle.Size = New System.Drawing.Size(286, 32)
         Me.lblAddMemberTitle.TabIndex = 4
         Me.lblAddMemberTitle.Text = "Add member to group"
         '
@@ -1505,29 +1513,28 @@ Partial Class formTableViewer
         '
         Me.lblMemberEmail.AutoSize = True
         Me.lblMemberEmail.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.0!)
-        Me.lblMemberEmail.Location = New System.Drawing.Point(164, 138)
-        Me.lblMemberEmail.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.lblMemberEmail.Location = New System.Drawing.Point(246, 212)
         Me.lblMemberEmail.Name = "lblMemberEmail"
-        Me.lblMemberEmail.Size = New System.Drawing.Size(49, 18)
+        Me.lblMemberEmail.Size = New System.Drawing.Size(74, 26)
         Me.lblMemberEmail.TabIndex = 3
         Me.lblMemberEmail.Text = "Email:"
         '
         'btnAddMemberEnter
         '
-        Me.btnAddMemberEnter.Location = New System.Drawing.Point(330, 237)
-        Me.btnAddMemberEnter.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.btnAddMemberEnter.Location = New System.Drawing.Point(495, 365)
+        Me.btnAddMemberEnter.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.btnAddMemberEnter.Name = "btnAddMemberEnter"
-        Me.btnAddMemberEnter.Size = New System.Drawing.Size(56, 49)
+        Me.btnAddMemberEnter.Size = New System.Drawing.Size(84, 75)
         Me.btnAddMemberEnter.TabIndex = 2
         Me.btnAddMemberEnter.Text = "Enter"
         Me.btnAddMemberEnter.UseVisualStyleBackColor = True
         '
         'btnAddMemberCancel
         '
-        Me.btnAddMemberCancel.Location = New System.Drawing.Point(166, 237)
-        Me.btnAddMemberCancel.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.btnAddMemberCancel.Location = New System.Drawing.Point(249, 365)
+        Me.btnAddMemberCancel.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.btnAddMemberCancel.Name = "btnAddMemberCancel"
-        Me.btnAddMemberCancel.Size = New System.Drawing.Size(56, 49)
+        Me.btnAddMemberCancel.Size = New System.Drawing.Size(84, 75)
         Me.btnAddMemberCancel.TabIndex = 1
         Me.btnAddMemberCancel.Text = "Cancel"
         Me.btnAddMemberCancel.UseVisualStyleBackColor = True
@@ -1535,21 +1542,21 @@ Partial Class formTableViewer
         'cbIsAdmin
         '
         Me.cbIsAdmin.AutoSize = True
-        Me.cbIsAdmin.Location = New System.Drawing.Point(227, 169)
-        Me.cbIsAdmin.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.cbIsAdmin.Location = New System.Drawing.Point(340, 260)
+        Me.cbIsAdmin.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.cbIsAdmin.Name = "cbIsAdmin"
-        Me.cbIsAdmin.Size = New System.Drawing.Size(89, 17)
+        Me.cbIsAdmin.Size = New System.Drawing.Size(131, 24)
         Me.cbIsAdmin.TabIndex = 0
         Me.cbIsAdmin.Text = "User is admin"
         Me.cbIsAdmin.UseVisualStyleBackColor = True
         '
         'formTableViewer
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 20.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(600, 365)
+        Me.ClientSize = New System.Drawing.Size(900, 562)
         Me.Controls.Add(Me.tcTabs)
-        Me.Margin = New System.Windows.Forms.Padding(1)
+        Me.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.Name = "formTableViewer"
         Me.Text = "Car Logbook"
         Me.tpAddCar.ResumeLayout(False)
