@@ -378,14 +378,15 @@ Public Class formTableViewer
             Case "btnUpdateInsuranceEnter"
                 ' TODO: Actually update the insurance
                 Dim NewInsurance As New CEntities.CarInsurance(dgvCarsList.Rows(expandedRowIndex).Cells("CarID").Value, txtUpdateInsuranceName.Text, dtpInsuranceExpiration.Value)
+                Dim InsuranceId As String = TableReader.GetSpecificTables("CarInsurance", dgvCarsList.Rows(expandedRowIndex).Cells("CarID").Value).Rows(0)("CarInsuranceID").ToString()
 
-                If TableReader.UpdateTable("CarInsurance", TableReader.GetSpecificTables("CarIssues", dgvCarsList.Rows(expandedRowIndex).Cells("CarID").Value), NewInsurance) Then
+                If TableReader.UpdateTable("CarInsurance", dgvCarsList.Rows(expandedRowIndex).Cells("CarID").Value, NewInsurance, InsuranceId) Then
                     tab = tpLogin
                 Else
                     tab = tpUpdateInsurance
                 End If
 
-                LoadToInsuranceField(TableReader.GetSpecificTables("CarInsurance", dgvCarsList.Rows(expandedRowIndex).Cells("CarID").Value.ToString()))
+                ' LoadToInsuranceField(TableReader.GetSpecificTables("CarInsurance", dgvCarsList.Rows(expandedRowIndex).Cells("CarID").Value))
 
 
             Case "btnAddMemberEnter"
@@ -546,18 +547,18 @@ Public Class formTableViewer
         dgvLogsList.Columns("CarLogComment").Visible = False
     End Sub
 
-    Private Sub LoadToInsuranceField(SelectedID As String)
-        Dim insuranceData As New DataTable()
-        insuranceData = TableReader.GetSpecificTables("CarInsurance", SelectedID)
-        If insuranceData Is Nothing OrElse insuranceData.Rows.Count = 0 Then
-            ' Handle the case where insuranceData is Nothing or has no rows
-            lblInsuranceData.Text = ""
-            lblInsuranceNameData.Text = ""
-        Else
-            lblInsuranceData.Text = insuranceData.Rows(0)("CarInsuranceEndDate")
-            lblInsuranceNameData.Text = insuranceData.Rows(0)("CarInsuranceName")
-        End If
-    End Sub
+    'Private Sub LoadToInsuranceField(SelectedID As String)
+    '    Dim insuranceData As New DataTable()
+    '    insuranceData = TableReader.GetSpecificTables("CarInsurance", SelectedID)
+    '    If insuranceData Is Nothing OrElse insuranceData.Rows.Count = 0 Then
+    '        ' Handle the case where insuranceData is Nothing or has no rows
+    '        lblInsuranceData.Text = ""
+    '        lblInsuranceNameData.Text = ""
+    '    Else
+    '        lblInsuranceData.Text = insuranceData.Rows(0)("CarInsuranceEndDate")
+    '        lblInsuranceNameData.Text = insuranceData.Rows(0)("CarInsuranceName")
+    '    End If
+    'End Sub
 
     Private Sub btnGetDistance_Click(sender As Object, e As EventArgs) Handles btnGetDistance.Click
         lblStartData.Text = dtpStatsTimeStart.Value
