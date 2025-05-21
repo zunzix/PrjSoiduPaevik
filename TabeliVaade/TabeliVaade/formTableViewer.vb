@@ -175,6 +175,49 @@ Public Class formTableViewer
         ChangeTab(btn)
     End Sub
 
+    Private Function ValidRegistration(ByVal input As String) As Boolean
+        Dim valid As Boolean = True
+        If input.Length = 6 Then
+            Dim numbers = input.Substring(0, input.Length / 2)
+            Dim text = input.Substring(3, input.Length / 2)
+            Dim charCount As Integer = 0
+            If IsNumeric(numbers) Then
+                For Each c As Char In text
+                    If Char.IsLetter(c) And Char.IsUpper(c) Then
+                        charCount = charCount + 1
+                    End If
+                Next
+                If Not charCount = 3 Then
+                    valid = False
+                End If
+            Else
+                valid = False
+            End If
+        Else
+            valid = False
+        End If
+
+        dgvCarsList.DataSource = TableReader.GetSpecificTables("Car", dgvGroupsList.Rows(dgvGroupsList.CurrentRow.Index).Cells("ID").Value.ToString())
+
+        For Each row As DataGridViewRow In dgvCarsList.Rows
+            If Not row.IsNewRow Then
+                Dim cellValue As String = row.Cells(4).Value
+                If cellValue IsNot Nothing AndAlso cellValue.Contains(input) Then
+                    valid = False
+                    Exit For
+                End If
+            End If
+        Next
+
+        If valid Then
+                Return True
+            Else
+                Return False
+            End If
+    End Function
+
+
+
     ' Description:  Big Select case, where tab selection happens
     ' Parameters:   btn - variable of the button that was clicked
     ' Return:       NONE
@@ -292,7 +335,7 @@ Public Class formTableViewer
 
                 Dim GroupID As String = dgvGroupsList.Rows(dgvGroupsList.CurrentRow.Index).Cells("ID").Value.ToString()
                 Dim Name As String = txtAddCarName.Text
-                Dim RegistrationPlate As String = txtAddCarRegistrationPlate.Text
+                Dim RegistrationPlate As String '= txtAddCarRegistrationPlate.Text
                 Dim Mileage As Double
                 Dim AvgFuelCons As Double
                 Dim IsAvailable As Boolean = cboxAddCarIsAvailable.Checked
@@ -310,6 +353,17 @@ Public Class formTableViewer
                     ' Proceed with valid Mileage
                 Else
                     MessageBox.Show("Please enter a valid numeric value for AvgFuelCons.")
+                    Return
+                End If
+                Console.WriteLine("Reg Len: " & txtAddCarRegistrationPlate.Text.Length)
+                If ValidRegistration(txtAddCarRegistrationPlate.Text) Then
+                    'Reg plate is valid
+                    RegistrationPlate = txtAddCarRegistrationPlate.Text
+                Else
+                    MessageBox.Show("Registration plate must be 6 characters long" & vbCrLf &
+                                    "first 3 characters must be numbers" & vbCrLf &
+                                    "Last 3 characters must be alphabetical" & vbCrLf &
+                                    "Example: 123ABC")
                     Return
                 End If
 
