@@ -1,4 +1,4 @@
-﻿Imports System.IO
+Imports System.IO
 Imports System.Net
 Imports System.Text
 Imports Newtonsoft.Json
@@ -17,7 +17,7 @@ Public Class CTableReader
     Private RefreshToken As String
 
     ' Base URL for the API 
-    Private Const BaseUrl As String = "https://mustik.ee:85/"
+    Private Const BaseUrl As String = "https://mustik.ee:85/api/v1.0/"
 
     Public Function AddTable(TheTableToAddTo As String, Table As Object) As Boolean _
         Implements ITableReader.AddTable
@@ -30,17 +30,17 @@ Public Class CTableReader
 
         Select Case TheTableToAddTo
             Case "Car"
-                Request = HttpWebRequest.Create(BaseUrl & "api/Cars/PostCar")
+                Request = HttpWebRequest.Create(BaseUrl & "Cars/PostCar")
             Case "GroupMember"
-                Request = HttpWebRequest.Create(BaseUrl & "api/GroupMembers/PostGroupMember")
+                Request = HttpWebRequest.Create(BaseUrl & "GroupMembers/PostGroupMember")
             Case "CarIssue"
-                Request = HttpWebRequest.Create(BaseUrl & "api/CarIssues/PostCarIssue")
+                Request = HttpWebRequest.Create(BaseUrl & "CarIssues/PostCarIssue")
             Case "CarLog"
-                Request = HttpWebRequest.Create(BaseUrl & "api/CarLogs/PostCarLog")
+                Request = HttpWebRequest.Create(BaseUrl & "CarLogs/PostCarLog")
             Case "CarInsurance"
-                Request = HttpWebRequest.Create(BaseUrl & "api/CarInsurances/PostCarInsurance")
+                Request = HttpWebRequest.Create(BaseUrl & "CarInsurances/PostCarInsurance")
             Case "Group"
-                Request = HttpWebRequest.Create(BaseUrl & "api/Groups/PostGroup")
+                Request = HttpWebRequest.Create(BaseUrl & "Groups/PostGroup")
             Case Else
                 Console.WriteLine("Error: Invalid table type.")
                 Return Nothing
@@ -99,17 +99,17 @@ Public Class CTableReader
 
         Select Case TheTableToRemove
             Case "Car"
-                Request = HttpWebRequest.Create(BaseUrl & "api/Cars/DeleteCar/" & ID)
+                Request = HttpWebRequest.Create(BaseUrl & "Cars/DeleteCar/" & ID)
             Case "GroupMember"
-                Request = HttpWebRequest.Create(BaseUrl & "api/GroupMembers/DeleteGroupMember/" & ID)
+                Request = HttpWebRequest.Create(BaseUrl & "GroupMembers/DeleteGroupMember/" & ID)
             Case "CarIssue"
-                Request = HttpWebRequest.Create(BaseUrl & "api/CarIssues/DeleteCarIssue" & ID)
+                Request = HttpWebRequest.Create(BaseUrl & "CarIssues/DeleteCarIssue" & ID)
             Case "CarLog"
-                Request = HttpWebRequest.Create(BaseUrl & "api/CarLogs/DeleteCarLog" & ID)
+                Request = HttpWebRequest.Create(BaseUrl & "CarLogs/DeleteCarLog" & ID)
             Case "CarInsurance"
-                Request = HttpWebRequest.Create(BaseUrl & "api/CarInsurances/DeleteCarInsurance" & ID)
+                Request = HttpWebRequest.Create(BaseUrl & "CarInsurances/DeleteCarInsurance" & ID)
             Case "Group"
-                Request = HttpWebRequest.Create(BaseUrl & "api/Groups/DeleteGroup" & ID)
+                Request = HttpWebRequest.Create(BaseUrl & "Groups/DeleteGroup" & ID)
             Case Else
                 Console.WriteLine("Error: Invalid table type.")
                 Return Nothing
@@ -163,7 +163,7 @@ Public Class CTableReader
         Dim dt As New DataTable()
 
         ' HTTP request
-        Request = HttpWebRequest.Create(BaseUrl & "api/Groups/GetGroups")
+        Request = HttpWebRequest.Create(BaseUrl & "Groups/GetGroups")
         Request.Method = "GET"
         Request.ContentType = "application/json"
 
@@ -227,15 +227,15 @@ Public Class CTableReader
 
         Select Case TheTableToGet
             Case "Car"
-                Request = HttpWebRequest.Create(BaseUrl & "api/Cars/GetGroupCars/" & ID)
+                Request = HttpWebRequest.Create(BaseUrl & "Cars/GetGroupCars/" & ID)
             Case "GroupMember"
-                Request = HttpWebRequest.Create(BaseUrl & "api/GroupMembers/GetGroupGroupMember/" & ID)
+                Request = HttpWebRequest.Create(BaseUrl & "GroupMembers/GetGroupGroupMember/" & ID)
             Case "CarIssue"
-                Request = HttpWebRequest.Create(BaseUrl & "api/CarIssues/GetCarCarIssues/" & ID)
+                Request = HttpWebRequest.Create(BaseUrl & "CarIssues/GetCarCarIssues/" & ID)
             Case "CarLog"
-                Request = HttpWebRequest.Create(BaseUrl & "api/CarLogs/GetCarCarLogs/" & ID)
+                Request = HttpWebRequest.Create(BaseUrl & "CarLogs/GetCarCarLogs/" & ID)
             Case "CarInsurance"
-                Request = HttpWebRequest.Create(BaseUrl & "api/CarInsurances/GetCarCarInsurances/" & ID)
+                Request = HttpWebRequest.Create(BaseUrl & "CarInsurances/GetCarCarInsurances/" & ID)
             Case Else
                 Console.WriteLine("Error: Invalid table type.")
                 Return Nothing
@@ -419,18 +419,18 @@ Public Class CTableReader
         ' TODO: check if the request is correct
         Select Case TheTableToUpdate
             Case "Car"
-                Request = HttpWebRequest.Create(BaseUrl & "api/Cars/PutCar/" & ID)
+                Request = HttpWebRequest.Create(BaseUrl & "Cars/PutCar/" & ID)
                 ' TODO: when adding a car the body needs to also include cars id
             Case "GroupMember"
-                Request = HttpWebRequest.Create(BaseUrl & "api/GroupMembers/PutGroupMember/" & ID)
+                Request = HttpWebRequest.Create(BaseUrl & "GroupMembers/PutGroupMember/" & ID)
             Case "CarIssue"
-                Request = HttpWebRequest.Create(BaseUrl & "api/CarIssues/PutCarIssue/" & ID)
+                Request = HttpWebRequest.Create(BaseUrl & "CarIssues/PutCarIssue/" & ID)
             Case "CarLog"
-                Request = HttpWebRequest.Create(BaseUrl & "api/CarLogs/PutCarLog/" & ID)
+                Request = HttpWebRequest.Create(BaseUrl & "CarLogs/PutCarLog/" & ID)
             Case "CarInsurance"
-                Request = HttpWebRequest.Create(BaseUrl & "api/CarInsurances/PutCarInsurance/" & ID)
+                Request = HttpWebRequest.Create(BaseUrl & "CarInsurances/PutCarInsurance/" & ID)
             Case "Group"
-                Request = HttpWebRequest.Create(BaseUrl & "api/Groups/PutGroup/" & ID)
+                Request = HttpWebRequest.Create(BaseUrl & "Groups/PutGroup/" & ID)
             Case Else
                 Console.WriteLine("Error: Invalid table type.")
                 Return Nothing
@@ -498,9 +498,9 @@ Public Class CTableReader
 
             ' HHTP request
             If (Purpose Is "Login") Then
-                Request = HttpWebRequest.Create(BaseUrl & "api/Account/Login")
+                Request = HttpWebRequest.Create(BaseUrl & "Account/Login")
             ElseIf (Purpose Is "Register") Then
-                Request = HttpWebRequest.Create(BaseUrl & "api/Account/Register")
+                Request = HttpWebRequest.Create(BaseUrl & "Account/Register")
             Else
                 Console.WriteLine("Error: Invalid purpose. Use 'Login' or 'Register'.")
                 Return False
@@ -556,7 +556,7 @@ Public Class CTableReader
         Input = "{""refreshToken"":""" & RefreshToken & """}"
 
         ' HHTP request
-        Request = HttpWebRequest.Create(BaseUrl & "api/Account/Logout")
+        Request = HttpWebRequest.Create(BaseUrl & "Account/Logout")
         Request.Method = "POST"
 
         ' Set the content type to application/json
@@ -608,7 +608,7 @@ Public Class CTableReader
             Input = "{""jwt"":""" & JwtToken & """,""refreshToken"":""" & RefreshToken & """}"
 
             ' HHTP request
-            Request = HttpWebRequest.Create(BaseUrl & "api/Account/RefreshTokenData")
+            Request = HttpWebRequest.Create(BaseUrl & "Account/RefreshTokenData")
             Request.Method = "POST"
 
             ' Set the content type to application/json
@@ -657,7 +657,7 @@ Public Class CTableReader
         Dim dt As New DataTable()
 
         ' HTTP request
-        Request = HttpWebRequest.Create(BaseUrl & "api/CarLogs/GetUserCarLogs")
+        Request = HttpWebRequest.Create(BaseUrl & "CarLogs/GetUserCarLogs")
         Request.Method = "GET"
         Request.ContentType = "application/json"
 
